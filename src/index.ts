@@ -6,13 +6,7 @@ import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Document, DocumentListParams, DocumentListResponse, Documents } from './resources/documents';
-import {
-  Ingest,
-  IngestAddParams,
-  IngestAddResponse,
-  IngestFileParams,
-  IngestFileResponse,
-} from './resources/ingest';
+import { Ingest } from './resources/ingest';
 import { Query, QueryRetrieveParams, QueryRetrieveResponse } from './resources/query';
 
 export interface ClientOptions {
@@ -174,13 +168,7 @@ Hyperspell.Documents = Documents;
 export declare namespace Hyperspell {
   export type RequestOptions = Core.RequestOptions;
 
-  export {
-    Ingest as Ingest,
-    type IngestAddResponse as IngestAddResponse,
-    type IngestFileResponse as IngestFileResponse,
-    type IngestAddParams as IngestAddParams,
-    type IngestFileParams as IngestFileParams,
-  };
+  export { Ingest as Ingest };
 
   export {
     Query as Query,

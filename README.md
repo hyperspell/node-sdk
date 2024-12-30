@@ -28,9 +28,7 @@ import Hyperspell from 'hyperspell';
 const client = new Hyperspell();
 
 async function main() {
-  const response = await client.ingest.add();
-
-  console.log(response.document_id);
+  const query = await client.query.retrieve({ query: 'query' });
 }
 
 main();
@@ -47,7 +45,8 @@ import Hyperspell from 'hyperspell';
 const client = new Hyperspell();
 
 async function main() {
-  const response: Hyperspell.IngestAddResponse = await client.ingest.add();
+  const params: Hyperspell.QueryRetrieveParams = { query: 'query' };
+  const query: unknown = await client.query.retrieve(params);
 }
 
 main();
@@ -64,7 +63,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.ingest.add().catch(async (err) => {
+  const query = await client.query.retrieve({ query: 'query' }).catch(async (err) => {
     if (err instanceof Hyperspell.APIError) {
       console.log(err.status); // 400
       console.log(err.name); // BadRequestError
@@ -107,7 +106,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.ingest.add({
+await client.query.retrieve({ query: 'query' }, {
   maxRetries: 5,
 });
 ```
@@ -124,7 +123,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.ingest.add({
+await client.query.retrieve({ query: 'query' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -145,13 +144,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.ingest.add().asResponse();
+const response = await client.query.retrieve({ query: 'query' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.ingest.add().withResponse();
+const { data: query, response: raw } = await client.query.retrieve({ query: 'query' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.document_id);
+console.log(query);
 ```
 
 ### Making custom/undocumented requests
@@ -255,9 +254,12 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.ingest.add({
-  httpAgent: new http.Agent({ keepAlive: false }),
-});
+await client.query.retrieve(
+  { query: 'query' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic versioning
