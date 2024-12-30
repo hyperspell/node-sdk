@@ -5,14 +5,15 @@ import * as Core from '../core';
 
 export class Documents extends APIResource {
   /**
-   * Get a document by ID.
+   * Retrieves a document by ID.
    */
   retrieve(documentId: string, options?: Core.RequestOptions): Core.APIPromise<Document> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 
   /**
-   * List all documents in the index.
+   * This endpoint allows you to paginate through all documents in the index. You can
+   * filter the documents by title, date, metadata, etc.
    */
   list(body: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<DocumentListResponse> {
     return this._client.post('/documents/list', { body, ...options });

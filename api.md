@@ -1,15 +1,5 @@
 # Ingest
 
-Types:
-
-- <code><a href="./src/resources/ingest.ts">IngestAddResponse</a></code>
-- <code><a href="./src/resources/ingest.ts">IngestFileResponse</a></code>
-
-Methods:
-
-- <code title="post /ingest">client.ingest.<a href="./src/resources/ingest.ts">add</a>({ ...params }) -> IngestAddResponse</code>
-- <code title="post /ingest_file">client.ingest.<a href="./src/resources/ingest.ts">file</a>({ ...params }) -> unknown</code>
-
 # Query
 
 Types:
