@@ -27,8 +27,8 @@ describe('resource documents', () => {
     ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
-  test('list', async () => {
-    const responsePromise = client.documents.list({});
+  test('list: only required params', async () => {
+    const responsePromise = client.documents.list({ collections: ['string'] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -36,5 +36,21 @@ describe('resource documents', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: required and optional params', async () => {
+    const response = await client.documents.list({
+      collections: ['string'],
+      filter: {
+        chunk_type: ['text'],
+        collections: ['string'],
+        document_type: ['chat'],
+        end_date: '2019-12-27T18:11:19.117Z',
+        provider: ['slack'],
+        start_date: '2019-12-27T18:11:19.117Z',
+      },
+      limit: 0,
+      page: 2,
+    });
   });
 });
