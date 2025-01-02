@@ -47,6 +47,11 @@ export namespace QueryRetrieveParams {
     chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
 
     /**
+     * Only query documents in these collections.
+     */
+    collections?: Array<string>;
+
+    /**
      * Only query documents of these types.
      */
     document_type?: Array<'chat' | 'email' | 'generic' | 'transcript' | 'legal'>;
@@ -57,16 +62,6 @@ export namespace QueryRetrieveParams {
     end_date?: string | null;
 
     /**
-     * Only query documents in this namespace.
-     */
-    namespace?: string | null;
-
-    /**
-     * Only query documents this organization has access to.
-     */
-    org_id?: string | null;
-
-    /**
      * Only query documents from these providers.
      */
     provider?: Array<'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api'>;
@@ -75,11 +70,6 @@ export namespace QueryRetrieveParams {
      * Only query documents on or after this date.
      */
     start_date?: string | null;
-
-    /**
-     * Only query documents that this user has access to.
-     */
-    user_id?: string | null;
   }
 }
 

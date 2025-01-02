@@ -21,40 +21,41 @@ export class Documents extends APIResource {
 }
 
 export interface Document {
-  id: string;
+  collection: string;
 
-  chunk_count: number;
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id: string;
 
-  ingested_at: string;
+  created_at?: string | null;
 
-  chunk_ids?: Array<string> | null;
+  ingested_at?: string | null;
 
-  chunks?: Array<Document.Chunk>;
+  metadata?: unknown;
 
-  date?: string | null;
+  sections?: Array<Document.Section>;
 
-  metadata?: Record<string, string>;
-
-  org_id?: string | null;
+  service?: 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api';
 
   title?: string | null;
 
-  url?: string | null;
-
-  user_id?: string | null;
-
-  visibility?: 'user' | 'org' | 'app' | 'system';
+  type?: 'chat' | 'email' | 'generic' | 'transcript' | 'legal';
 }
 
 export namespace Document {
-  export interface Chunk {
-    score: number;
-
-    text: string;
+  export interface Section {
+    content: string;
 
     type: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
 
-    metadata?: Record<string, string>;
+    children_ids?: Array<string>;
+
+    document_id?: string | null;
+
+    metadata?: unknown;
+
+    parent_id?: string | null;
   }
 }
 
@@ -69,6 +70,11 @@ export interface DocumentListResponse {
 }
 
 export interface DocumentListParams {
+  /**
+   * The collections to filter documents by.
+   */
+  collections: Array<string>;
+
   /**
    * Filter the query results.
    */
@@ -96,6 +102,11 @@ export namespace DocumentListParams {
     chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
 
     /**
+     * Only query documents in these collections.
+     */
+    collections?: Array<string>;
+
+    /**
      * Only query documents of these types.
      */
     document_type?: Array<'chat' | 'email' | 'generic' | 'transcript' | 'legal'>;
@@ -106,16 +117,6 @@ export namespace DocumentListParams {
     end_date?: string | null;
 
     /**
-     * Only query documents in this namespace.
-     */
-    namespace?: string | null;
-
-    /**
-     * Only query documents this organization has access to.
-     */
-    org_id?: string | null;
-
-    /**
      * Only query documents from these providers.
      */
     provider?: Array<'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api'>;
@@ -124,11 +125,6 @@ export namespace DocumentListParams {
      * Only query documents on or after this date.
      */
     start_date?: string | null;
-
-    /**
-     * Only query documents that this user has access to.
-     */
-    user_id?: string | null;
   }
 }
 
