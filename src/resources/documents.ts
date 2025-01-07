@@ -7,7 +7,7 @@ export class Documents extends APIResource {
   /**
    * Retrieves a document by ID.
    */
-  retrieve(documentId: string, options?: Core.RequestOptions): Core.APIPromise<Document> {
+  retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 
@@ -21,12 +21,14 @@ export class Documents extends APIResource {
 }
 
 export interface Document {
-  collection: string;
+  collection_id: number;
 
   /**
    * Along with service, uniquely identifies the source document
    */
-  resource_id: string;
+  resource_id: number;
+
+  id?: number | null;
 
   created_at?: string | null;
 
@@ -49,13 +51,13 @@ export namespace Document {
 
     type: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
 
-    children_ids?: Array<string>;
+    children_ids?: Array<number>;
 
-    document_id?: string | null;
+    document_id?: number | null;
 
     metadata?: unknown;
 
-    parent_id?: string | null;
+    parent_id?: number | null;
   }
 }
 
@@ -73,7 +75,7 @@ export interface DocumentListParams {
   /**
    * The collections to filter documents by.
    */
-  collections: Array<string>;
+  collections: Array<number>;
 
   /**
    * Filter the query results.
@@ -104,7 +106,7 @@ export namespace DocumentListParams {
     /**
      * Only query documents in these collections.
      */
-    collections?: Array<string>;
+    collections?: Array<number>;
 
     /**
      * Only query documents of these types.

@@ -25,7 +25,7 @@ describe('resource query', () => {
       query: 'query',
       filter: {
         chunk_type: ['text'],
-        collections: ['string'],
+        collections: [0],
         document_type: ['chat'],
         end_date: '2019-12-27T18:11:19.117Z',
         provider: ['slack'],

@@ -49,7 +49,7 @@ export namespace QueryRetrieveParams {
     /**
      * Only query documents in these collections.
      */
-    collections?: Array<string>;
+    collections?: Array<number>;
 
     /**
      * Only query documents of these types.
