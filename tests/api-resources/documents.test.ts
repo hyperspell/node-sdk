@@ -10,7 +10,7 @@ const client = new Hyperspell({
 
 describe('resource documents', () => {
   test('retrieve', async () => {
-    const responsePromise = client.documents.retrieve('document_id');
+    const responsePromise = client.documents.retrieve(0);
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,13 +22,13 @@ describe('resource documents', () => {
 
   test('retrieve: request options instead of params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.documents.retrieve('document_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Hyperspell.NotFoundError);
+    await expect(client.documents.retrieve(0, { path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Hyperspell.NotFoundError,
+    );
   });
 
   test('list: only required params', async () => {
-    const responsePromise = client.documents.list({ collections: ['string'] });
+    const responsePromise = client.documents.list({ collections: [0] });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -40,10 +40,10 @@ describe('resource documents', () => {
 
   test('list: required and optional params', async () => {
     const response = await client.documents.list({
-      collections: ['string'],
+      collections: [0],
       filter: {
         chunk_type: ['text'],
-        collections: ['string'],
+        collections: [0],
         document_type: ['chat'],
         end_date: '2019-12-27T18:11:19.117Z',
         provider: ['slack'],
