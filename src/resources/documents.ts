@@ -49,11 +49,11 @@ export namespace Document {
   export interface Section {
     content: string;
 
+    document_id: number;
+
     type: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
 
     children_ids?: Array<number>;
-
-    document_id?: number | null;
 
     metadata?: unknown;
 
