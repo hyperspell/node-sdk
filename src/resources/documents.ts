@@ -26,7 +26,7 @@ export interface Document {
   /**
    * Along with service, uniquely identifies the source document
    */
-  resource_id: number;
+  resource_id: string;
 
   id?: number | null;
 
@@ -40,6 +40,8 @@ export interface Document {
 
   service?: 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api';
 
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
   title?: string | null;
 
   type?: 'chat' | 'email' | 'generic' | 'transcript' | 'legal';
@@ -51,13 +53,18 @@ export namespace Document {
 
     document_id: number;
 
-    type: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
+    id?: number | null;
 
-    children_ids?: Array<number>;
+    embedding_e5_large?: Array<number> | null;
+
+    fts?: Array<number> | null;
 
     metadata?: unknown;
 
-    parent_id?: number | null;
+    /**
+     * Type of the section
+     */
+    type?: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
   }
 }
 
@@ -102,11 +109,6 @@ export namespace DocumentListParams {
      * Only query chunks of these types.
      */
     chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
-
-    /**
-     * Only query documents in these collections.
-     */
-    collections?: Array<number>;
 
     /**
      * Only query documents of these types.
