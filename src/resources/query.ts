@@ -21,9 +21,9 @@ export interface QueryRetrieveParams {
   query: string;
 
   /**
-   * Filter the query results.
+   * Only query documents in these collections.
    */
-  filter?: QueryRetrieveParams.Filter;
+  collections?: Array<string>;
 
   /**
    * Maximum number of results to return.
@@ -34,43 +34,6 @@ export interface QueryRetrieveParams {
    * Type of query to run.
    */
   query_type?: 'auto' | 'semantic' | 'keyword';
-}
-
-export namespace QueryRetrieveParams {
-  /**
-   * Filter the query results.
-   */
-  export interface Filter {
-    /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
-
-    /**
-     * Only query documents in these collections.
-     */
-    collections?: Array<number>;
-
-    /**
-     * Only query documents of these types.
-     */
-    document_type?: Array<'chat' | 'email' | 'generic' | 'transcript' | 'legal'>;
-
-    /**
-     * Only query documents before this date.
-     */
-    end_date?: string | null;
-
-    /**
-     * Only query documents from these providers.
-     */
-    provider?: Array<'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api'>;
-
-    /**
-     * Only query documents on or after this date.
-     */
-    start_date?: string | null;
-  }
 }
 
 export declare namespace Query {

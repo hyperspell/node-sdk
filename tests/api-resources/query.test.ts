@@ -23,14 +23,7 @@ describe('resource query', () => {
   test('retrieve: required and optional params', async () => {
     const response = await client.query.retrieve({
       query: 'query',
-      filter: {
-        chunk_type: ['text'],
-        collections: [0],
-        document_type: ['chat'],
-        end_date: '2019-12-27T18:11:19.117Z',
-        provider: ['slack'],
-        start_date: '2019-12-27T18:11:19.117Z',
-      },
+      collections: ['string'],
       max_results: 0,
       query_type: 'auto',
     });
