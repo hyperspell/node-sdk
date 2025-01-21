@@ -38,13 +38,22 @@ export interface Document {
 
   sections?: Array<Document.Section>;
 
-  service?: 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api';
+  source?:
+    | 'generic'
+    | 'generic_chat'
+    | 'generic_email'
+    | 'generic_transcript'
+    | 'generic_legal'
+    | 'website'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
   title?: string | null;
-
-  type?: 'chat' | 'email' | 'generic' | 'transcript' | 'legal';
 }
 
 export namespace Document {
@@ -111,19 +120,26 @@ export namespace DocumentListParams {
     chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
 
     /**
-     * Only query documents of these types.
-     */
-    document_type?: Array<'chat' | 'email' | 'generic' | 'transcript' | 'legal'>;
-
-    /**
      * Only query documents before this date.
      */
     end_date?: string | null;
 
     /**
-     * Only query documents from these providers.
+     * Only query documents of these types.
      */
-    provider?: Array<'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'api'>;
+    source?: Array<
+      | 'generic'
+      | 'generic_chat'
+      | 'generic_email'
+      | 'generic_transcript'
+      | 'generic_legal'
+      | 'website'
+      | 'slack'
+      | 's3'
+      | 'gmail'
+      | 'notion'
+      | 'google_docs'
+    >;
 
     /**
      * Only query documents on or after this date.
