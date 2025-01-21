@@ -43,9 +43,8 @@ describe('resource documents', () => {
       collections: [0],
       filter: {
         chunk_type: ['text'],
-        document_type: ['chat'],
         end_date: '2019-12-27T18:11:19.117Z',
-        provider: ['slack'],
+        source: ['generic'],
         start_date: '2019-12-27T18:11:19.117Z',
       },
       limit: 0,

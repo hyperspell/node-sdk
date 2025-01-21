@@ -24,6 +24,12 @@ describe('resource query', () => {
     const response = await client.query.retrieve({
       query: 'query',
       collections: ['string'],
+      filter: {
+        chunk_type: ['text'],
+        end_date: '2019-12-27T18:11:19.117Z',
+        source: ['generic'],
+        start_date: '2019-12-27T18:11:19.117Z',
+      },
       max_results: 0,
       query_type: 'auto',
     });
