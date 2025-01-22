@@ -10,15 +10,6 @@ export class Documents extends APIResource {
   retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
-
-  /**
-   * This endpoint allows you to paginate through all documents in the index. You can
-   * filter the documents by title, date, metadata, etc.
-   */
-  list(params: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<DocumentListResponse> {
-    const { collection, cursor, size } = params;
-    return this._client.post('/documents/list', { query: { collection, cursor, size }, ...options });
-  }
 }
 
 export interface Document {
@@ -80,57 +71,6 @@ export namespace Document {
   }
 }
 
-export interface DocumentListResponse {
-  items: Array<DocumentListResponse.Item>;
-
-  next_cursor: string | null;
-}
-
-export namespace DocumentListResponse {
-  export interface Item {
-    id: number | null;
-
-    created_at: string | null;
-
-    ingested_at: string | null;
-
-    metadata: unknown;
-
-    resource_id: string;
-
-    sections_count: number | null;
-
-    title: string | null;
-
-    source?:
-      | 'generic'
-      | 'generic_chat'
-      | 'generic_email'
-      | 'generic_transcript'
-      | 'generic_legal'
-      | 'website'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs';
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-  }
-}
-
-export interface DocumentListParams {
-  collection: string;
-
-  cursor?: string | null;
-
-  size?: number;
-}
-
 export declare namespace Documents {
-  export {
-    type Document as Document,
-    type DocumentListResponse as DocumentListResponse,
-    type DocumentListParams as DocumentListParams,
-  };
+  export { type Document as Document };
 }
