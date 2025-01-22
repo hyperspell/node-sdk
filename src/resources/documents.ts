@@ -15,8 +15,9 @@ export class Documents extends APIResource {
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
    */
-  list(body: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<DocumentListResponse> {
-    return this._client.post('/documents/list', { body, ...options });
+  list(params: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<DocumentListResponse> {
+    const { collection, cursor, size } = params;
+    return this._client.post('/documents/list', { query: { collection, cursor, size }, ...options });
   }
 }
 
@@ -37,6 +38,8 @@ export interface Document {
   metadata?: unknown;
 
   sections?: Array<Document.Section>;
+
+  sections_count?: number | null;
 
   source?:
     | 'generic'
@@ -78,56 +81,28 @@ export namespace Document {
 }
 
 export interface DocumentListResponse {
-  count: number;
+  items: Array<DocumentListResponse.Item>;
 
-  documents: Array<Document>;
-
-  has_more: boolean;
-
-  page: number;
+  next_cursor: string | null;
 }
 
-export interface DocumentListParams {
-  /**
-   * The collections to filter documents by.
-   */
-  collections: Array<number>;
+export namespace DocumentListResponse {
+  export interface Item {
+    id: number | null;
 
-  /**
-   * Filter the query results.
-   */
-  filter?: DocumentListParams.Filter;
+    created_at: string | null;
 
-  /**
-   * Number of documents to return per page.
-   */
-  limit?: number;
+    ingested_at: string | null;
 
-  /**
-   * Page number to return.
-   */
-  page?: number;
-}
+    metadata: unknown;
 
-export namespace DocumentListParams {
-  /**
-   * Filter the query results.
-   */
-  export interface Filter {
-    /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
+    resource_id: string;
 
-    /**
-     * Only query documents before this date.
-     */
-    end_date?: string | null;
+    sections_count: number | null;
 
-    /**
-     * Only query documents of these types.
-     */
-    source?: Array<
+    title: string | null;
+
+    source?:
       | 'generic'
       | 'generic_chat'
       | 'generic_email'
@@ -138,14 +113,18 @@ export namespace DocumentListParams {
       | 's3'
       | 'gmail'
       | 'notion'
-      | 'google_docs'
-    >;
+      | 'google_docs';
 
-    /**
-     * Only query documents on or after this date.
-     */
-    start_date?: string | null;
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
   }
+}
+
+export interface DocumentListParams {
+  collection: string;
+
+  cursor?: string | null;
+
+  size?: number;
 }
 
 export declare namespace Documents {
