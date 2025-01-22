@@ -26,19 +26,4 @@ describe('resource documents', () => {
       Hyperspell.NotFoundError,
     );
   });
-
-  test('list: only required params', async () => {
-    const responsePromise = client.documents.list({ collection: 'collection' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: required and optional params', async () => {
-    const response = await client.documents.list({ collection: 'collection', cursor: 'cursor', size: 0 });
-  });
 });
