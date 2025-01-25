@@ -47,11 +47,6 @@ export namespace QueryRetrieveParams {
    */
   export interface Filter {
     /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
-
-    /**
      * Only query documents before this date.
      */
     end_date?: string | null;
@@ -61,11 +56,15 @@ export namespace QueryRetrieveParams {
      */
     source?: Array<
       | 'generic'
-      | 'generic_chat'
-      | 'generic_email'
-      | 'generic_transcript'
-      | 'generic_legal'
+      | 'markdown'
+      | 'chat'
+      | 'email'
+      | 'transcript'
+      | 'legal'
       | 'website'
+      | 'image'
+      | 'pdf'
+      | 'audio'
       | 'slack'
       | 's3'
       | 'gmail'
