@@ -25,7 +25,6 @@ describe('resource query', () => {
       query: 'query',
       collections: ['string'],
       filter: {
-        chunk_type: ['text'],
         end_date: '2019-12-27T18:11:19.117Z',
         source: ['generic'],
         start_date: '2019-12-27T18:11:19.117Z',
