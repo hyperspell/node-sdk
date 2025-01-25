@@ -15,11 +15,6 @@ export class Documents extends APIResource {
 export interface Document {
   collection_id: number;
 
-  /**
-   * Along with service, uniquely identifies the source document
-   */
-  resource_id: string;
-
   id?: number | null;
 
   created_at?: string | null;
@@ -28,17 +23,26 @@ export interface Document {
 
   metadata?: unknown;
 
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
+
   sections?: Array<Document.Section>;
 
   sections_count?: number | null;
 
   source?:
     | 'generic'
-    | 'generic_chat'
-    | 'generic_email'
-    | 'generic_transcript'
-    | 'generic_legal'
+    | 'markdown'
+    | 'chat'
+    | 'email'
+    | 'transcript'
+    | 'legal'
     | 'website'
+    | 'image'
+    | 'pdf'
+    | 'audio'
     | 'slack'
     | 's3'
     | 'gmail'
@@ -52,22 +56,53 @@ export interface Document {
 
 export namespace Document {
   export interface Section {
-    content: string;
-
     document_id: number;
 
     id?: number | null;
+
+    elements?: Array<Section.Element>;
 
     embedding_e5_large?: Array<number> | null;
 
     fts?: Array<number> | null;
 
     metadata?: unknown;
+  }
 
-    /**
-     * Type of the section
-     */
-    type?: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
+  export namespace Section {
+    export interface Element {
+      text: string;
+
+      type: 'text' | 'markdown' | 'image' | 'table' | 'title';
+
+      id?: string;
+
+      metadata?: Element.Metadata;
+
+      summary?: string | null;
+    }
+
+    export namespace Element {
+      export interface Metadata {
+        author?: string | null;
+
+        /**
+         * The id of the element that this element is continued from if it had to be split
+         * during chunking
+         */
+        continued_from?: string | null;
+
+        filename?: string | null;
+
+        languages?: Array<string>;
+
+        links?: Array<string>;
+
+        page_number?: number | null;
+
+        title_level?: number | null;
+      }
+    }
   }
 }
 
