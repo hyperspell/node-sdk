@@ -26,6 +26,8 @@ const client = new Hyperspell();
 
 async function main() {
   const query = await client.query.retrieve({ query: 'query' });
+
+  console.log(query.documents);
 }
 
 main();
@@ -43,7 +45,7 @@ const client = new Hyperspell();
 
 async function main() {
   const params: Hyperspell.QueryRetrieveParams = { query: 'query' };
-  const query: unknown = await client.query.retrieve(params);
+  const query: Hyperspell.QueryRetrieveResponse = await client.query.retrieve(params);
 }
 
 main();
@@ -147,7 +149,7 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: query, response: raw } = await client.query.retrieve({ query: 'query' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(query);
+console.log(query.documents);
 ```
 
 ### Making custom/undocumented requests

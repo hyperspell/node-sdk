@@ -8,7 +8,7 @@ Types:
 
 Methods:
 
-- <code title="post /query">client.query.<a href="./src/resources/query.ts">retrieve</a>({ ...params }) -> unknown</code>
+- <code title="post /query">client.query.<a href="./src/resources/query.ts">retrieve</a>({ ...params }) -> QueryRetrieveResponse</code>
 
 # Documents
 
