@@ -67,6 +67,8 @@ export namespace Document {
     fts?: Array<number> | null;
 
     metadata?: unknown;
+
+    text?: string;
   }
 
   export namespace Section {
