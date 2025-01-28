@@ -29,6 +29,7 @@ describe('resource query', () => {
         source: ['generic'],
         start_date: '2019-12-27T18:11:19.117Z',
       },
+      include_elements: true,
       max_results: 0,
       query_type: 'auto',
     });
