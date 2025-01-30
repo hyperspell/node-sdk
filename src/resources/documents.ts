@@ -64,9 +64,11 @@ export namespace Document {
 
     embedding_e5_large?: Array<number> | null;
 
-    fts?: Array<number> | null;
+    embedding_ts?: string | null;
 
     metadata?: unknown;
+
+    scores?: Section.Scores;
 
     text?: string;
   }
@@ -75,7 +77,7 @@ export namespace Document {
     export interface Element {
       text: string;
 
-      type: 'text' | 'markdown' | 'image' | 'table' | 'title';
+      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
 
       id?: string;
 
@@ -104,6 +106,23 @@ export namespace Document {
 
         title_level?: number | null;
       }
+    }
+
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
+
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
+
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number;
     }
   }
 }
