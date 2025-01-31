@@ -124,7 +124,7 @@ export namespace QueryRetrieveResponse {
         /**
          * The final weighted score of the section
          */
-        weighted?: number;
+        weighted?: number | null;
       }
     }
   }
