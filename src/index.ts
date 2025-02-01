@@ -5,7 +5,7 @@ import * as Core from './core';
 import * as Errors from './error';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Document, Documents } from './resources/documents';
+import { DocumentRetrieveResponse, Documents } from './resources/documents';
 import { Ingest } from './resources/ingest';
 import { Query, QueryRetrieveParams, QueryRetrieveResponse } from './resources/query';
 
@@ -176,7 +176,7 @@ export declare namespace Hyperspell {
     type QueryRetrieveParams as QueryRetrieveParams,
   };
 
-  export { Documents as Documents, type Document as Document };
+  export { Documents as Documents, type DocumentRetrieveResponse as DocumentRetrieveResponse };
 }
 
 export { toFile, fileFromPath } from './uploads';

@@ -34,7 +34,7 @@ export namespace QueryRetrieveResponse {
 
     title: string | null;
 
-    sections?: Array<Document.Section>;
+    sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
 
     source?:
       | 'generic'
@@ -57,25 +57,44 @@ export namespace QueryRetrieveResponse {
   }
 
   export namespace Document {
-    export interface Section {
-      document_id: number;
-
+    export interface SectionResult {
       id?: number | null;
 
-      elements?: Array<Section.Element>;
-
-      embedding_e5_large?: Array<number> | null;
-
-      embedding_ts?: string | null;
-
-      metadata?: unknown;
-
-      scores?: Section.Scores;
+      scores?: SectionResult.Scores;
 
       text?: string;
     }
 
-    export namespace Section {
+    export namespace SectionResult {
+      export interface Scores {
+        /**
+         * How relevant the section is based on full text search
+         */
+        full_text_search?: number | null;
+
+        /**
+         * How relevant the section is based on vector search
+         */
+        semantic_search?: number | null;
+
+        /**
+         * The final weighted score of the section
+         */
+        weighted?: number | null;
+      }
+    }
+
+    export interface SectionResultWithElements {
+      id?: number | null;
+
+      elements?: Array<SectionResultWithElements.Element>;
+
+      scores?: SectionResultWithElements.Scores;
+
+      text?: string;
+    }
+
+    export namespace SectionResultWithElements {
       export interface Element {
         text: string;
 
