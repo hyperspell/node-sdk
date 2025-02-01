@@ -7,12 +7,147 @@ export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
    */
-  retrieve(body: QueryRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
+  retrieve(body: QueryRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<QueryRetrieveResponse> {
     return this._client.post('/query', { body, ...options });
   }
 }
 
-export type QueryRetrieveResponse = unknown;
+export interface QueryRetrieveResponse {
+  documents: Array<QueryRetrieveResponse.Document>;
+
+  total_sections: number;
+}
+
+export namespace QueryRetrieveResponse {
+  export interface Document {
+    id: number | null;
+
+    collection: string;
+
+    created_at: string | null;
+
+    ingested_at: string | null;
+
+    metadata: unknown;
+
+    resource_id: string;
+
+    title: string | null;
+
+    sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
+
+    source?:
+      | 'generic'
+      | 'markdown'
+      | 'chat'
+      | 'email'
+      | 'transcript'
+      | 'legal'
+      | 'website'
+      | 'image'
+      | 'pdf'
+      | 'audio'
+      | 'slack'
+      | 's3'
+      | 'gmail'
+      | 'notion'
+      | 'google_docs';
+
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
+  }
+
+  export namespace Document {
+    export interface SectionResult {
+      id?: number | null;
+
+      scores?: SectionResult.Scores;
+
+      text?: string;
+    }
+
+    export namespace SectionResult {
+      export interface Scores {
+        /**
+         * How relevant the section is based on full text search
+         */
+        full_text_search?: number | null;
+
+        /**
+         * How relevant the section is based on vector search
+         */
+        semantic_search?: number | null;
+
+        /**
+         * The final weighted score of the section
+         */
+        weighted?: number | null;
+      }
+    }
+
+    export interface SectionResultWithElements {
+      id?: number | null;
+
+      elements?: Array<SectionResultWithElements.Element>;
+
+      scores?: SectionResultWithElements.Scores;
+
+      text?: string;
+    }
+
+    export namespace SectionResultWithElements {
+      export interface Element {
+        text: string;
+
+        type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
+
+        id?: string;
+
+        metadata?: Element.Metadata;
+
+        summary?: string | null;
+      }
+
+      export namespace Element {
+        export interface Metadata {
+          author?: string | null;
+
+          /**
+           * The id of the element that this element is continued from if it had to be split
+           * during chunking
+           */
+          continued_from?: string | null;
+
+          filename?: string | null;
+
+          languages?: Array<string>;
+
+          links?: Array<string>;
+
+          page_number?: number | null;
+
+          title_level?: number | null;
+        }
+      }
+
+      export interface Scores {
+        /**
+         * How relevant the section is based on full text search
+         */
+        full_text_search?: number | null;
+
+        /**
+         * How relevant the section is based on vector search
+         */
+        semantic_search?: number | null;
+
+        /**
+         * The final weighted score of the section
+         */
+        weighted?: number | null;
+      }
+    }
+  }
+}
 
 export interface QueryRetrieveParams {
   /**
@@ -31,6 +166,11 @@ export interface QueryRetrieveParams {
   filter?: QueryRetrieveParams.Filter;
 
   /**
+   * Include the elements of a section in the results.
+   */
+  include_elements?: boolean;
+
+  /**
    * Maximum number of results to return.
    */
   max_results?: number;
@@ -47,11 +187,6 @@ export namespace QueryRetrieveParams {
    */
   export interface Filter {
     /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
-
-    /**
      * Only query documents before this date.
      */
     end_date?: string | null;
@@ -61,11 +196,15 @@ export namespace QueryRetrieveParams {
      */
     source?: Array<
       | 'generic'
-      | 'generic_chat'
-      | 'generic_email'
-      | 'generic_transcript'
-      | 'generic_legal'
+      | 'markdown'
+      | 'chat'
+      | 'email'
+      | 'transcript'
+      | 'legal'
       | 'website'
+      | 'image'
+      | 'pdf'
+      | 'audio'
       | 'slack'
       | 's3'
       | 'gmail'

@@ -5,46 +5,43 @@ import * as Core from '../core';
 
 export class Documents extends APIResource {
   /**
-   * Retrieves a document by ID.
+   * Retrieves a document by ID, including its collection name and sections.
    */
-  retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
+  retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<DocumentRetrieveResponse> {
     return this._client.get(`/documents/get/${documentId}`, options);
-  }
-
-  /**
-   * This endpoint allows you to paginate through all documents in the index. You can
-   * filter the documents by title, date, metadata, etc.
-   */
-  list(body: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<DocumentListResponse> {
-    return this._client.post('/documents/list', { body, ...options });
   }
 }
 
-export interface Document {
-  collection_id: number;
+export interface DocumentRetrieveResponse {
+  id: number | null;
 
-  /**
-   * Along with service, uniquely identifies the source document
-   */
+  collection: string;
+
+  created_at: string | null;
+
+  ingested_at: string | null;
+
+  metadata: unknown;
+
   resource_id: string;
 
-  id?: number | null;
+  title: string | null;
 
-  created_at?: string | null;
-
-  ingested_at?: string | null;
-
-  metadata?: unknown;
-
-  sections?: Array<Document.Section>;
+  sections?: Array<
+    DocumentRetrieveResponse.SectionResult | DocumentRetrieveResponse.SectionResultWithElements
+  >;
 
   source?:
     | 'generic'
-    | 'generic_chat'
-    | 'generic_email'
-    | 'generic_transcript'
-    | 'generic_legal'
+    | 'markdown'
+    | 'chat'
+    | 'email'
+    | 'transcript'
+    | 'legal'
     | 'website'
+    | 'image'
+    | 'pdf'
+    | 'audio'
     | 'slack'
     | 's3'
     | 'gmail'
@@ -52,106 +49,100 @@ export interface Document {
     | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
 }
 
-export namespace Document {
-  export interface Section {
-    content: string;
-
-    document_id: number;
-
+export namespace DocumentRetrieveResponse {
+  export interface SectionResult {
     id?: number | null;
 
-    embedding_e5_large?: Array<number> | null;
+    scores?: SectionResult.Scores;
 
-    fts?: Array<number> | null;
-
-    metadata?: unknown;
-
-    /**
-     * Type of the section
-     */
-    type?: 'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message';
+    text?: string;
   }
-}
 
-export interface DocumentListResponse {
-  count: number;
+  export namespace SectionResult {
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
 
-  documents: Array<Document>;
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
 
-  has_more: boolean;
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number | null;
+    }
+  }
 
-  page: number;
-}
+  export interface SectionResultWithElements {
+    id?: number | null;
 
-export interface DocumentListParams {
-  /**
-   * The collections to filter documents by.
-   */
-  collections: Array<number>;
+    elements?: Array<SectionResultWithElements.Element>;
 
-  /**
-   * Filter the query results.
-   */
-  filter?: DocumentListParams.Filter;
+    scores?: SectionResultWithElements.Scores;
 
-  /**
-   * Number of documents to return per page.
-   */
-  limit?: number;
+    text?: string;
+  }
 
-  /**
-   * Page number to return.
-   */
-  page?: number;
-}
+  export namespace SectionResultWithElements {
+    export interface Element {
+      text: string;
 
-export namespace DocumentListParams {
-  /**
-   * Filter the query results.
-   */
-  export interface Filter {
-    /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
+      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
 
-    /**
-     * Only query documents before this date.
-     */
-    end_date?: string | null;
+      id?: string;
 
-    /**
-     * Only query documents of these types.
-     */
-    source?: Array<
-      | 'generic'
-      | 'generic_chat'
-      | 'generic_email'
-      | 'generic_transcript'
-      | 'generic_legal'
-      | 'website'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs'
-    >;
+      metadata?: Element.Metadata;
 
-    /**
-     * Only query documents on or after this date.
-     */
-    start_date?: string | null;
+      summary?: string | null;
+    }
+
+    export namespace Element {
+      export interface Metadata {
+        author?: string | null;
+
+        /**
+         * The id of the element that this element is continued from if it had to be split
+         * during chunking
+         */
+        continued_from?: string | null;
+
+        filename?: string | null;
+
+        languages?: Array<string>;
+
+        links?: Array<string>;
+
+        page_number?: number | null;
+
+        title_level?: number | null;
+      }
+    }
+
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
+
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
+
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number | null;
+    }
   }
 }
 
 export declare namespace Documents {
-  export {
-    type Document as Document,
-    type DocumentListResponse as DocumentListResponse,
-    type DocumentListParams as DocumentListParams,
-  };
+  export { type DocumentRetrieveResponse as DocumentRetrieveResponse };
 }
