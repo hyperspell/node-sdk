@@ -5,32 +5,31 @@ import * as Core from '../core';
 
 export class Documents extends APIResource {
   /**
-   * Retrieves a document by ID.
+   * Retrieves a document by ID, including its collection name and sections.
    */
-  retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
+  retrieve(documentId: number, options?: Core.RequestOptions): Core.APIPromise<DocumentRetrieveResponse> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 }
 
-export interface Document {
-  collection_id: number;
+export interface DocumentRetrieveResponse {
+  id: number | null;
 
-  id?: number | null;
+  collection: string;
 
-  created_at?: string | null;
+  created_at: string | null;
 
-  ingested_at?: string | null;
+  ingested_at: string | null;
 
-  metadata?: unknown;
+  metadata: unknown;
 
-  /**
-   * Along with service, uniquely identifies the source document
-   */
-  resource_id?: string;
+  resource_id: string;
 
-  sections?: Array<Document.Section>;
+  title: string | null;
 
-  sections_count?: number | null;
+  sections?: Array<
+    DocumentRetrieveResponse.SectionResult | DocumentRetrieveResponse.SectionResultWithElements
+  >;
 
   source?:
     | 'generic'
@@ -50,30 +49,47 @@ export interface Document {
     | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
 }
 
-export namespace Document {
-  export interface Section {
-    document_id: number;
-
+export namespace DocumentRetrieveResponse {
+  export interface SectionResult {
     id?: number | null;
 
-    elements?: Array<Section.Element>;
-
-    embedding_e5_large?: Array<number> | null;
-
-    embedding_ts?: string | null;
-
-    metadata?: unknown;
-
-    scores?: Section.Scores;
+    scores?: SectionResult.Scores;
 
     text?: string;
   }
 
-  export namespace Section {
+  export namespace SectionResult {
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
+
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
+
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number | null;
+    }
+  }
+
+  export interface SectionResultWithElements {
+    id?: number | null;
+
+    elements?: Array<SectionResultWithElements.Element>;
+
+    scores?: SectionResultWithElements.Scores;
+
+    text?: string;
+  }
+
+  export namespace SectionResultWithElements {
     export interface Element {
       text: string;
 
@@ -128,5 +144,5 @@ export namespace Document {
 }
 
 export declare namespace Documents {
-  export { type Document as Document };
+  export { type DocumentRetrieveResponse as DocumentRetrieveResponse };
 }
