@@ -55,19 +55,20 @@ export class Documents extends APIResource {
 export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
 export interface Document {
-  id: number | null;
-
   collection: string;
 
-  created_at: string | null;
+  id?: number | null;
 
-  ingested_at: string | null;
+  created_at?: string | null;
 
-  metadata: unknown;
+  ingested_at?: string | null;
 
-  resource_id: string;
+  metadata?: Record<string, unknown>;
 
-  title: string | null;
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
 
   sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
 
@@ -89,6 +90,8 @@ export interface Document {
     | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
 }
 
 export namespace Document {
@@ -186,23 +189,30 @@ export namespace Document {
 export interface DocumentStatus {
   id: number;
 
+  collection: string;
+
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export interface DocumentListResponse {
-  id: number | null;
+  id?: number | null;
 
-  created_at: string | null;
+  collection?: string;
 
-  ingested_at: string | null;
+  created_at?: string | null;
 
-  metadata: unknown;
+  ingested_at?: string | null;
 
-  resource_id: string;
+  metadata?: Record<string, unknown>;
 
-  sections_count: number | null;
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
 
-  title: string | null;
+  sections?: Array<DocumentListResponse.Section>;
+
+  sections_count?: number | null;
 
   source?:
     | 'generic'
@@ -222,6 +232,81 @@ export interface DocumentListResponse {
     | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
+}
+
+export namespace DocumentListResponse {
+  export interface Section {
+    document_id: number;
+
+    id?: number | null;
+
+    elements?: Array<Section.Element>;
+
+    embedding_e5_large?: Array<number> | null;
+
+    embedding_ts?: string | null;
+
+    metadata?: Record<string, unknown>;
+
+    scores?: Section.Scores;
+
+    text?: string;
+  }
+
+  export namespace Section {
+    export interface Element {
+      text: string;
+
+      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
+
+      id?: string;
+
+      metadata?: Element.Metadata;
+
+      summary?: string | null;
+    }
+
+    export namespace Element {
+      export interface Metadata {
+        author?: string | null;
+
+        /**
+         * The id of the element that this element is continued from if it had to be split
+         * during chunking
+         */
+        continued_from?: string | null;
+
+        filename?: string | null;
+
+        languages?: Array<string>;
+
+        links?: Array<string>;
+
+        page_number?: number | null;
+
+        title_level?: number | null;
+      }
+    }
+
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
+
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
+
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number | null;
+    }
+  }
 }
 
 export interface DocumentListParams extends CursorPageParams {

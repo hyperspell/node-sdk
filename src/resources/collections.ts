@@ -56,13 +56,15 @@ export interface Collection {
 }
 
 export interface CollectionListResponse {
-  created_at: string;
-
-  documents_count: number | null;
-
   name: string;
 
-  owner: string | null;
+  id?: number | null;
+
+  created_at?: string;
+
+  documents_count?: number | null;
+
+  owner?: string | null;
 }
 
 export interface CollectionCreateParams {
