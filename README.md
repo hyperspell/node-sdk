@@ -27,9 +27,9 @@ const client = new Hyperspell({
 });
 
 async function main() {
-  const response = await client.documents.add({ collection: 'collection', text: 'text' });
+  const documentStatus = await client.documents.add({ collection: 'collection', text: 'text' });
 
-  console.log(response.id);
+  console.log(documentStatus.id);
 }
 
 main();
@@ -49,7 +49,7 @@ const client = new Hyperspell({
 
 async function main() {
   const params: Hyperspell.DocumentAddParams = { collection: 'collection', text: 'text' };
-  const response: Hyperspell.DocumentAddResponse = await client.documents.add(params);
+  const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
 }
 
 main();
@@ -66,7 +66,7 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const response = await client.documents
+  const documentStatus = await client.documents
     .add({ collection: 'collection', text: 'text' })
     .catch(async (err) => {
       if (err instanceof Hyperspell.APIError) {
@@ -184,11 +184,11 @@ const response = await client.documents.add({ collection: 'collection', text: 't
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.documents
+const { data: documentStatus, response: raw } = await client.documents
   .add({ collection: 'collection', text: 'text' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.id);
+console.log(documentStatus.id);
 ```
 
 ### Making custom/undocumented requests

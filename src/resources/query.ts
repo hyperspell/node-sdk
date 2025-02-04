@@ -2,6 +2,7 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as DocumentsAPI from './documents';
 
 export class Query extends APIResource {
   /**
@@ -13,140 +14,9 @@ export class Query extends APIResource {
 }
 
 export interface QuerySearchResponse {
-  documents: Array<QuerySearchResponse.Document>;
+  documents: Array<DocumentsAPI.Document>;
 
   total_sections: number;
-}
-
-export namespace QuerySearchResponse {
-  export interface Document {
-    id: number | null;
-
-    collection: string;
-
-    created_at: string | null;
-
-    ingested_at: string | null;
-
-    metadata: unknown;
-
-    resource_id: string;
-
-    title: string | null;
-
-    sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
-
-    source?:
-      | 'generic'
-      | 'markdown'
-      | 'chat'
-      | 'email'
-      | 'transcript'
-      | 'legal'
-      | 'website'
-      | 'image'
-      | 'pdf'
-      | 'audio'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs';
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-  }
-
-  export namespace Document {
-    export interface SectionResult {
-      id?: number | null;
-
-      scores?: SectionResult.Scores;
-
-      text?: string;
-    }
-
-    export namespace SectionResult {
-      export interface Scores {
-        /**
-         * How relevant the section is based on full text search
-         */
-        full_text_search?: number | null;
-
-        /**
-         * How relevant the section is based on vector search
-         */
-        semantic_search?: number | null;
-
-        /**
-         * The final weighted score of the section
-         */
-        weighted?: number | null;
-      }
-    }
-
-    export interface SectionResultWithElements {
-      id?: number | null;
-
-      elements?: Array<SectionResultWithElements.Element>;
-
-      scores?: SectionResultWithElements.Scores;
-
-      text?: string;
-    }
-
-    export namespace SectionResultWithElements {
-      export interface Element {
-        text: string;
-
-        type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
-
-        id?: string;
-
-        metadata?: Element.Metadata;
-
-        summary?: string | null;
-      }
-
-      export namespace Element {
-        export interface Metadata {
-          author?: string | null;
-
-          /**
-           * The id of the element that this element is continued from if it had to be split
-           * during chunking
-           */
-          continued_from?: string | null;
-
-          filename?: string | null;
-
-          languages?: Array<string>;
-
-          links?: Array<string>;
-
-          page_number?: number | null;
-
-          title_level?: number | null;
-        }
-      }
-
-      export interface Scores {
-        /**
-         * How relevant the section is based on full text search
-         */
-        full_text_search?: number | null;
-
-        /**
-         * How relevant the section is based on vector search
-         */
-        semantic_search?: number | null;
-
-        /**
-         * The final weighted score of the section
-         */
-        weighted?: number | null;
-      }
-    }
-  }
 }
 
 export interface QuerySearchParams {

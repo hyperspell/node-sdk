@@ -1,23 +1,20 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-export { Auth, type AuthUserTokenResponse, type AuthUserTokenParams } from './auth';
+export { Auth, type Token, type AuthUserTokenParams } from './auth';
 export {
   CollectionListResponsesCursorPage,
   Collections,
-  type CollectionCreateResponse,
+  type Collection,
   type CollectionListResponse,
-  type CollectionGetResponse,
   type CollectionCreateParams,
   type CollectionListParams,
 } from './collections';
 export {
   DocumentListResponsesCursorPage,
   Documents,
+  type Document,
+  type DocumentStatus,
   type DocumentListResponse,
-  type DocumentAddResponse,
-  type DocumentAddURLResponse,
-  type DocumentGetResponse,
-  type DocumentUploadResponse,
   type DocumentListParams,
   type DocumentAddParams,
   type DocumentAddURLParams,
