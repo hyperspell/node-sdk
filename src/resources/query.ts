@@ -2,19 +2,24 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as DocumentsAPI from './documents';
 
 export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
    */
-  retrieve(body: QueryRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
+  search(body: QuerySearchParams, options?: Core.RequestOptions): Core.APIPromise<QuerySearchResponse> {
     return this._client.post('/query', { body, ...options });
   }
 }
 
-export type QueryRetrieveResponse = unknown;
+export interface QuerySearchResponse {
+  documents: Array<DocumentsAPI.Document>;
 
-export interface QueryRetrieveParams {
+  total_sections: number;
+}
+
+export interface QuerySearchParams {
   /**
    * Query to run.
    */
@@ -28,7 +33,12 @@ export interface QueryRetrieveParams {
   /**
    * Filter the query results.
    */
-  filter?: QueryRetrieveParams.Filter;
+  filter?: QuerySearchParams.Filter;
+
+  /**
+   * Include the elements of a section in the results.
+   */
+  include_elements?: boolean;
 
   /**
    * Maximum number of results to return.
@@ -41,16 +51,11 @@ export interface QueryRetrieveParams {
   query_type?: 'auto' | 'semantic' | 'keyword';
 }
 
-export namespace QueryRetrieveParams {
+export namespace QuerySearchParams {
   /**
    * Filter the query results.
    */
   export interface Filter {
-    /**
-     * Only query chunks of these types.
-     */
-    chunk_type?: Array<'text' | 'markdown' | 'table' | 'image' | 'messages' | 'message'>;
-
     /**
      * Only query documents before this date.
      */
@@ -61,11 +66,15 @@ export namespace QueryRetrieveParams {
      */
     source?: Array<
       | 'generic'
-      | 'generic_chat'
-      | 'generic_email'
-      | 'generic_transcript'
-      | 'generic_legal'
+      | 'markdown'
+      | 'chat'
+      | 'email'
+      | 'transcript'
+      | 'legal'
       | 'website'
+      | 'image'
+      | 'pdf'
+      | 'audio'
       | 'slack'
       | 's3'
       | 'gmail'
@@ -81,8 +90,5 @@ export namespace QueryRetrieveParams {
 }
 
 export declare namespace Query {
-  export {
-    type QueryRetrieveResponse as QueryRetrieveResponse,
-    type QueryRetrieveParams as QueryRetrieveParams,
-  };
+  export { type QuerySearchResponse as QuerySearchResponse, type QuerySearchParams as QuerySearchParams };
 }
