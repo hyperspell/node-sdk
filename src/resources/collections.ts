@@ -3,6 +3,7 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Collections extends APIResource {
   /**
@@ -16,16 +17,24 @@ export class Collections extends APIResource {
   /**
    * Lists all collections the user has access to.
    */
-  list(query?: CollectionListParams, options?: Core.RequestOptions): Core.APIPromise<unknown>;
-  list(options?: Core.RequestOptions): Core.APIPromise<unknown>;
+  list(
+    query?: CollectionListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CollectionListResponsesCursorPage, CollectionListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<CollectionListResponsesCursorPage, CollectionListResponse>;
   list(
     query: CollectionListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.APIPromise<unknown> {
+  ): Core.PagePromise<CollectionListResponsesCursorPage, CollectionListResponse> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.get('/collections/list', { query, ...options });
+    return this._client.getAPIList('/collections/list', CollectionListResponsesCursorPage, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -36,6 +45,8 @@ export class Collections extends APIResource {
   }
 }
 
+export class CollectionListResponsesCursorPage extends CursorPage<CollectionListResponse> {}
+
 export interface Collection {
   created_at: string;
 
@@ -44,7 +55,17 @@ export interface Collection {
   owner: string | null;
 }
 
-export type CollectionListResponse = unknown;
+export interface CollectionListResponse {
+  name: string;
+
+  id?: number | null;
+
+  created_at?: string;
+
+  documents_count?: number | null;
+
+  owner?: string | null;
+}
 
 export interface CollectionCreateParams {
   /**
@@ -59,16 +80,15 @@ export interface CollectionCreateParams {
   owner?: string | null;
 }
 
-export interface CollectionListParams {
-  cursor?: string | null;
+export interface CollectionListParams extends CursorPageParams {}
 
-  size?: number;
-}
+Collections.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
 
 export declare namespace Collections {
   export {
     type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
+    CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
     type CollectionCreateParams as CollectionCreateParams,
     type CollectionListParams as CollectionListParams,
   };
