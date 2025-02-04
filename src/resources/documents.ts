@@ -21,7 +21,7 @@ export class Documents extends APIResource {
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
    */
-  add(body: DocumentAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentAddResponse> {
+  add(body: DocumentAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/add', { body, ...options });
   }
 
@@ -30,14 +30,14 @@ export class Documents extends APIResource {
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
    */
-  addURL(body: DocumentAddURLParams, options?: Core.RequestOptions): Core.APIPromise<DocumentAddURLResponse> {
+  addURL(body: DocumentAddURLParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/scrape', { body, ...options });
   }
 
   /**
    * Retrieves a document by ID, including its collection name and sections.
    */
-  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<DocumentGetResponse> {
+  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 
@@ -47,61 +47,14 @@ export class Documents extends APIResource {
    * querying once the processing is complete. You can use the `document_id` to query
    * the document later, and check the status of the document.
    */
-  upload(body: DocumentUploadParams, options?: Core.RequestOptions): Core.APIPromise<DocumentUploadResponse> {
+  upload(body: DocumentUploadParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/upload', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
 
 export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
-export interface DocumentListResponse {
-  id: number | null;
-
-  created_at: string | null;
-
-  ingested_at: string | null;
-
-  metadata: unknown;
-
-  resource_id: string;
-
-  sections_count: number | null;
-
-  title: string | null;
-
-  source?:
-    | 'generic'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface DocumentAddResponse {
-  id: number;
-
-  status: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface DocumentAddURLResponse {
-  id: number;
-
-  status: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface DocumentGetResponse {
+export interface Document {
   id: number | null;
 
   collection: string;
@@ -116,7 +69,7 @@ export interface DocumentGetResponse {
 
   title: string | null;
 
-  sections?: Array<DocumentGetResponse.SectionResult | DocumentGetResponse.SectionResultWithElements>;
+  sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
 
   source?:
     | 'generic'
@@ -138,7 +91,7 @@ export interface DocumentGetResponse {
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export namespace DocumentGetResponse {
+export namespace Document {
   export interface SectionResult {
     id?: number | null;
 
@@ -230,10 +183,45 @@ export namespace DocumentGetResponse {
   }
 }
 
-export interface DocumentUploadResponse {
+export interface DocumentStatus {
   id: number;
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
+}
+
+export interface DocumentListResponse {
+  id: number | null;
+
+  created_at: string | null;
+
+  ingested_at: string | null;
+
+  metadata: unknown;
+
+  resource_id: string;
+
+  sections_count: number | null;
+
+  title: string | null;
+
+  source?:
+    | 'generic'
+    | 'markdown'
+    | 'chat'
+    | 'email'
+    | 'transcript'
+    | 'legal'
+    | 'website'
+    | 'image'
+    | 'pdf'
+    | 'audio'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs';
+
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export interface DocumentListParams extends CursorPageParams {
@@ -311,11 +299,9 @@ Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 
 export declare namespace Documents {
   export {
+    type Document as Document,
+    type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    type DocumentAddResponse as DocumentAddResponse,
-    type DocumentAddURLResponse as DocumentAddURLResponse,
-    type DocumentGetResponse as DocumentGetResponse,
-    type DocumentUploadResponse as DocumentUploadResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
