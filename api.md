@@ -4,6 +4,7 @@ Types:
 
 - <code><a href="./src/resources/documents.ts">Document</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentStatus</a></code>
+- <code><a href="./src/resources/documents.ts">Scores</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentListResponse</a></code>
 
 Methods:
