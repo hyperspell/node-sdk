@@ -7,27 +7,24 @@ import * as Pagination from './pagination';
 import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Auth, AuthUserTokenParams, AuthUserTokenResponse } from './resources/auth';
+import { Auth, AuthUserTokenParams, Token } from './resources/auth';
 import {
+  Collection,
   CollectionCreateParams,
-  CollectionCreateResponse,
-  CollectionGetResponse,
   CollectionListParams,
   CollectionListResponse,
   CollectionListResponsesCursorPage,
   Collections,
 } from './resources/collections';
 import {
+  Document,
   DocumentAddParams,
-  DocumentAddResponse,
   DocumentAddURLParams,
-  DocumentAddURLResponse,
-  DocumentGetResponse,
   DocumentListParams,
   DocumentListResponse,
   DocumentListResponsesCursorPage,
+  DocumentStatus,
   DocumentUploadParams,
-  DocumentUploadResponse,
   Documents,
 } from './resources/documents';
 import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
@@ -210,11 +207,9 @@ export declare namespace Hyperspell {
 
   export {
     Documents as Documents,
+    type Document as Document,
+    type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    type DocumentAddResponse as DocumentAddResponse,
-    type DocumentAddURLResponse as DocumentAddURLResponse,
-    type DocumentGetResponse as DocumentGetResponse,
-    type DocumentUploadResponse as DocumentUploadResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
@@ -224,9 +219,8 @@ export declare namespace Hyperspell {
 
   export {
     Collections as Collections,
-    type CollectionCreateResponse as CollectionCreateResponse,
+    type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
-    type CollectionGetResponse as CollectionGetResponse,
     CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
     type CollectionCreateParams as CollectionCreateParams,
     type CollectionListParams as CollectionListParams,
@@ -238,11 +232,7 @@ export declare namespace Hyperspell {
     type QuerySearchParams as QuerySearchParams,
   };
 
-  export {
-    Auth as Auth,
-    type AuthUserTokenResponse as AuthUserTokenResponse,
-    type AuthUserTokenParams as AuthUserTokenParams,
-  };
+  export { Auth as Auth, type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
 }
 
 export { toFile, fileFromPath } from './uploads';
