@@ -7,18 +7,18 @@ export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
    */
-  retrieve(body: QueryRetrieveParams, options?: Core.RequestOptions): Core.APIPromise<QueryRetrieveResponse> {
+  search(body: QuerySearchParams, options?: Core.RequestOptions): Core.APIPromise<QuerySearchResponse> {
     return this._client.post('/query', { body, ...options });
   }
 }
 
-export interface QueryRetrieveResponse {
-  documents: Array<QueryRetrieveResponse.Document>;
+export interface QuerySearchResponse {
+  documents: Array<QuerySearchResponse.Document>;
 
   total_sections: number;
 }
 
-export namespace QueryRetrieveResponse {
+export namespace QuerySearchResponse {
   export interface Document {
     id: number | null;
 
@@ -149,7 +149,7 @@ export namespace QueryRetrieveResponse {
   }
 }
 
-export interface QueryRetrieveParams {
+export interface QuerySearchParams {
   /**
    * Query to run.
    */
@@ -163,7 +163,7 @@ export interface QueryRetrieveParams {
   /**
    * Filter the query results.
    */
-  filter?: QueryRetrieveParams.Filter;
+  filter?: QuerySearchParams.Filter;
 
   /**
    * Include the elements of a section in the results.
@@ -181,7 +181,7 @@ export interface QueryRetrieveParams {
   query_type?: 'auto' | 'semantic' | 'keyword';
 }
 
-export namespace QueryRetrieveParams {
+export namespace QuerySearchParams {
   /**
    * Filter the query results.
    */
@@ -220,8 +220,5 @@ export namespace QueryRetrieveParams {
 }
 
 export declare namespace Query {
-  export {
-    type QueryRetrieveResponse as QueryRetrieveResponse,
-    type QueryRetrieveParams as QueryRetrieveParams,
-  };
+  export { type QuerySearchResponse as QuerySearchResponse, type QuerySearchParams as QuerySearchParams };
 }

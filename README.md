@@ -4,7 +4,7 @@
 
 This library provides convenient access to the Hyperspell REST API from server-side TypeScript or JavaScript.
 
-The REST API documentation can be found on [hyperspell.com](https://hyperspell.com/). The full API of this library can be found in [api.md](api.md).
+The REST API documentation can be found on [docs.hyperspell.com](https://docs.hyperspell.com/). The full API of this library can be found in [api.md](api.md).
 
 It is generated with [Stainless](https://www.stainlessapi.com/).
 
@@ -22,12 +22,14 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Hyperspell from 'hyperspell';
 
-const client = new Hyperspell();
+const client = new Hyperspell({
+  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
+});
 
 async function main() {
-  const query = await client.query.retrieve({ query: 'query' });
+  const response = await client.documents.add({ collection: 'collection', text: 'text' });
 
-  console.log(query.documents);
+  console.log(response.id);
 }
 
 main();
@@ -41,11 +43,13 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Hyperspell from 'hyperspell';
 
-const client = new Hyperspell();
+const client = new Hyperspell({
+  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
+});
 
 async function main() {
-  const params: Hyperspell.QueryRetrieveParams = { query: 'query' };
-  const query: Hyperspell.QueryRetrieveResponse = await client.query.retrieve(params);
+  const params: Hyperspell.DocumentAddParams = { collection: 'collection', text: 'text' };
+  const response: Hyperspell.DocumentAddResponse = await client.documents.add(params);
 }
 
 main();
@@ -62,15 +66,17 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const query = await client.query.retrieve({ query: 'query' }).catch(async (err) => {
-    if (err instanceof Hyperspell.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
+  const response = await client.documents
+    .add({ collection: 'collection', text: 'text' })
+    .catch(async (err) => {
+      if (err instanceof Hyperspell.APIError) {
+        console.log(err.status); // 400
+        console.log(err.name); // BadRequestError
+        console.log(err.headers); // {server: 'nginx', ...}
+      } else {
+        throw err;
+      }
+    });
 }
 
 main();
@@ -105,7 +111,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.query.retrieve({ query: 'query' }, {
+await client.documents.add({ collection: 'collection', text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -122,7 +128,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.query.retrieve({ query: 'query' }, {
+await client.documents.add({ collection: 'collection', text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -130,6 +136,37 @@ await client.query.retrieve({ query: 'query' }, {
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the Hyperspell API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllDocuments(params) {
+  const allDocuments = [];
+  // Automatically fetches more pages as needed.
+  for await (const documentListResponse of client.documents.list({ collection: 'REPLACE_ME' })) {
+    allDocuments.push(documentListResponse);
+  }
+  return allDocuments;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.documents.list({ collection: 'REPLACE_ME' });
+for (const documentListResponse of page.items) {
+  console.log(documentListResponse);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -143,13 +180,15 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.query.retrieve({ query: 'query' }).asResponse();
+const response = await client.documents.add({ collection: 'collection', text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: query, response: raw } = await client.query.retrieve({ query: 'query' }).withResponse();
+const { data: response, response: raw } = await client.documents
+  .add({ collection: 'collection', text: 'text' })
+  .withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(query.documents);
+console.log(response.id);
 ```
 
 ### Making custom/undocumented requests
@@ -253,8 +292,8 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.query.retrieve(
-  { query: 'query' },
+await client.documents.add(
+  { collection: 'collection', text: 'text' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },

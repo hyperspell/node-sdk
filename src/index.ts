@@ -3,17 +3,40 @@
 import { type Agent } from './_shims/index';
 import * as Core from './core';
 import * as Errors from './error';
+import * as Pagination from './pagination';
+import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { DocumentRetrieveResponse, Documents } from './resources/documents';
-import { Ingest } from './resources/ingest';
-import { Query, QueryRetrieveParams, QueryRetrieveResponse } from './resources/query';
+import { Auth, AuthUserTokenParams, AuthUserTokenResponse } from './resources/auth';
+import {
+  CollectionCreateParams,
+  CollectionCreateResponse,
+  CollectionGetResponse,
+  CollectionListParams,
+  CollectionListResponse,
+  CollectionListResponsesCursorPage,
+  Collections,
+} from './resources/collections';
+import {
+  DocumentAddParams,
+  DocumentAddResponse,
+  DocumentAddURLParams,
+  DocumentAddURLResponse,
+  DocumentGetResponse,
+  DocumentListParams,
+  DocumentListResponse,
+  DocumentListResponsesCursorPage,
+  DocumentUploadParams,
+  DocumentUploadResponse,
+  Documents,
+} from './resources/documents';
+import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
 
 export interface ClientOptions {
   /**
-   * The token used for bearer authentication
+   * API key used for authentication with the Hyperspell API
    */
-  bearerToken?: string | undefined;
+  apiKey?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -76,15 +99,15 @@ export interface ClientOptions {
  * API Client for interfacing with the Hyperspell API.
  */
 export class Hyperspell extends Core.APIClient {
-  bearerToken: string;
+  apiKey: string | null;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Hyperspell API.
    *
-   * @param {string | undefined} [opts.bearerToken=process.env['BEARER_TOKEN'] ?? undefined]
-   * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://localhost:8080/test-api] - Override the default base URL for the API.
+   * @param {string | null | undefined} [opts.apiKey=process.env['HYPERSPELL_API_KEY'] ?? null]
+   * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://api.hyperspell.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
    * @param {Core.Fetch} [opts.fetch] - Specify a custom `fetch` function implementation.
@@ -94,19 +117,13 @@ export class Hyperspell extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('HYPERSPELL_BASE_URL'),
-    bearerToken = Core.readEnv('BEARER_TOKEN'),
+    apiKey = Core.readEnv('HYPERSPELL_API_KEY') ?? null,
     ...opts
   }: ClientOptions = {}) {
-    if (bearerToken === undefined) {
-      throw new Errors.HyperspellError(
-        "The BEARER_TOKEN environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an bearerToken option, like new Hyperspell({ bearerToken: 'My Bearer Token' }).",
-      );
-    }
-
     const options: ClientOptions = {
-      bearerToken,
+      apiKey,
       ...opts,
-      baseURL: baseURL || `https://localhost:8080/test-api`,
+      baseURL: baseURL || `https://api.hyperspell.com`,
     };
 
     super({
@@ -119,12 +136,13 @@ export class Hyperspell extends Core.APIClient {
 
     this._options = options;
 
-    this.bearerToken = bearerToken;
+    this.apiKey = apiKey;
   }
 
-  ingest: API.Ingest = new API.Ingest(this);
-  query: API.Query = new API.Query(this);
   documents: API.Documents = new API.Documents(this);
+  collections: API.Collections = new API.Collections(this);
+  query: API.Query = new API.Query(this);
+  auth: API.Auth = new API.Auth(this);
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -137,8 +155,24 @@ export class Hyperspell extends Core.APIClient {
     };
   }
 
+  protected override validateHeaders(headers: Core.Headers, customHeaders: Core.Headers) {
+    if (this.apiKey && headers['authorization']) {
+      return;
+    }
+    if (customHeaders['authorization'] === null) {
+      return;
+    }
+
+    throw new Error(
+      'Could not resolve authentication method. Expected the apiKey to be set. Or for the "Authorization" headers to be explicitly omitted',
+    );
+  }
+
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    return { Authorization: `Bearer ${this.bearerToken}` };
+    if (this.apiKey == null) {
+      return {};
+    }
+    return { Authorization: `Bearer ${this.apiKey}` };
   }
 
   static Hyperspell = this;
@@ -162,21 +196,53 @@ export class Hyperspell extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
-Hyperspell.Ingest = Ingest;
-Hyperspell.Query = Query;
 Hyperspell.Documents = Documents;
+Hyperspell.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
+Hyperspell.Collections = Collections;
+Hyperspell.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
+Hyperspell.Query = Query;
+Hyperspell.Auth = Auth;
 export declare namespace Hyperspell {
   export type RequestOptions = Core.RequestOptions;
 
-  export { Ingest as Ingest };
+  export import CursorPage = Pagination.CursorPage;
+  export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export {
+    Documents as Documents,
+    type DocumentListResponse as DocumentListResponse,
+    type DocumentAddResponse as DocumentAddResponse,
+    type DocumentAddURLResponse as DocumentAddURLResponse,
+    type DocumentGetResponse as DocumentGetResponse,
+    type DocumentUploadResponse as DocumentUploadResponse,
+    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
+    type DocumentListParams as DocumentListParams,
+    type DocumentAddParams as DocumentAddParams,
+    type DocumentAddURLParams as DocumentAddURLParams,
+    type DocumentUploadParams as DocumentUploadParams,
+  };
+
+  export {
+    Collections as Collections,
+    type CollectionCreateResponse as CollectionCreateResponse,
+    type CollectionListResponse as CollectionListResponse,
+    type CollectionGetResponse as CollectionGetResponse,
+    CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
+    type CollectionCreateParams as CollectionCreateParams,
+    type CollectionListParams as CollectionListParams,
+  };
 
   export {
     Query as Query,
-    type QueryRetrieveResponse as QueryRetrieveResponse,
-    type QueryRetrieveParams as QueryRetrieveParams,
+    type QuerySearchResponse as QuerySearchResponse,
+    type QuerySearchParams as QuerySearchParams,
   };
 
-  export { Documents as Documents, type DocumentRetrieveResponse as DocumentRetrieveResponse };
+  export {
+    Auth as Auth,
+    type AuthUserTokenResponse as AuthUserTokenResponse,
+    type AuthUserTokenParams as AuthUserTokenParams,
+  };
 }
 
 export { toFile, fileFromPath } from './uploads';
