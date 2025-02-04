@@ -2,18 +2,14 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Documents extends APIResource {
   /**
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
    */
-  list(
-    query: DocumentListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse> {
-    return this._client.getAPIList('/documents/list', DocumentListResponsesCursorPage, { query, ...options });
+  list(query: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
+    return this._client.get('/documents/list', { query, ...options });
   }
 
   /**
@@ -52,22 +48,21 @@ export class Documents extends APIResource {
   }
 }
 
-export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
-
 export interface Document {
-  id: number | null;
-
   collection: string;
 
-  created_at: string | null;
+  id?: number | null;
 
-  ingested_at: string | null;
+  created_at?: string | null;
 
-  metadata: unknown;
+  ingested_at?: string | null;
 
-  resource_id: string;
+  metadata?: Record<string, unknown>;
 
-  title: string | null;
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
 
   sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
 
@@ -89,6 +84,8 @@ export interface Document {
     | 'google_docs';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
 }
 
 export namespace Document {
@@ -186,46 +183,19 @@ export namespace Document {
 export interface DocumentStatus {
   id: number;
 
+  collection: string;
+
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export interface DocumentListResponse {
-  id: number | null;
+export type DocumentListResponse = unknown;
 
-  created_at: string | null;
-
-  ingested_at: string | null;
-
-  metadata: unknown;
-
-  resource_id: string;
-
-  sections_count: number | null;
-
-  title: string | null;
-
-  source?:
-    | 'generic'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface DocumentListParams extends CursorPageParams {
+export interface DocumentListParams {
   collection: string;
+
+  cursor?: string | null;
+
+  size?: number;
 }
 
 export interface DocumentAddParams {
@@ -295,14 +265,11 @@ export interface DocumentUploadParams {
   file: Core.Uploadable;
 }
 
-Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
-
 export declare namespace Documents {
   export {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
     type DocumentAddURLParams as DocumentAddURLParams,

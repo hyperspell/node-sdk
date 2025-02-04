@@ -2,7 +2,6 @@
 
 export { Auth, type Token, type AuthUserTokenParams } from './auth';
 export {
-  CollectionListResponsesCursorPage,
   Collections,
   type Collection,
   type CollectionListResponse,
@@ -10,7 +9,6 @@ export {
   type CollectionListParams,
 } from './collections';
 export {
-  DocumentListResponsesCursorPage,
   Documents,
   type Document,
   type DocumentStatus,
