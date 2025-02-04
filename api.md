@@ -8,7 +8,7 @@ Types:
 
 Methods:
 
-- <code title="get /documents/list">client.documents.<a href="./src/resources/documents.ts">list</a>({ ...params }) -> DocumentListResponsesCursorPage</code>
+- <code title="get /documents/list">client.documents.<a href="./src/resources/documents.ts">list</a>({ ...params }) -> unknown</code>
 - <code title="post /documents/add">client.documents.<a href="./src/resources/documents.ts">add</a>({ ...params }) -> DocumentStatus</code>
 - <code title="post /documents/scrape">client.documents.<a href="./src/resources/documents.ts">addURL</a>({ ...params }) -> DocumentStatus</code>
 - <code title="get /documents/get/{document_id}">client.documents.<a href="./src/resources/documents.ts">get</a>(documentId) -> Document</code>
@@ -24,7 +24,7 @@ Types:
 Methods:
 
 - <code title="post /collections/add">client.collections.<a href="./src/resources/collections.ts">create</a>({ ...params }) -> Collection</code>
-- <code title="get /collections/list">client.collections.<a href="./src/resources/collections.ts">list</a>({ ...params }) -> CollectionListResponsesCursorPage</code>
+- <code title="get /collections/list">client.collections.<a href="./src/resources/collections.ts">list</a>({ ...params }) -> unknown</code>
 - <code title="get /collections/get/{name}">client.collections.<a href="./src/resources/collections.ts">get</a>(name) -> Collection</code>
 
 # Query

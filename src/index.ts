@@ -13,7 +13,6 @@ import {
   CollectionCreateParams,
   CollectionListParams,
   CollectionListResponse,
-  CollectionListResponsesCursorPage,
   Collections,
 } from './resources/collections';
 import {
@@ -22,7 +21,6 @@ import {
   DocumentAddURLParams,
   DocumentListParams,
   DocumentListResponse,
-  DocumentListResponsesCursorPage,
   DocumentStatus,
   DocumentUploadParams,
   Documents,
@@ -194,9 +192,7 @@ export class Hyperspell extends Core.APIClient {
 }
 
 Hyperspell.Documents = Documents;
-Hyperspell.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 Hyperspell.Collections = Collections;
-Hyperspell.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
 Hyperspell.Query = Query;
 Hyperspell.Auth = Auth;
 export declare namespace Hyperspell {
@@ -210,7 +206,6 @@ export declare namespace Hyperspell {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
     type DocumentAddURLParams as DocumentAddURLParams,
@@ -221,7 +216,6 @@ export declare namespace Hyperspell {
     Collections as Collections,
     type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
-    CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
     type CollectionCreateParams as CollectionCreateParams,
     type CollectionListParams as CollectionListParams,
   };
