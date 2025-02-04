@@ -2,14 +2,18 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Documents extends APIResource {
   /**
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
    */
-  list(query: DocumentListParams, options?: Core.RequestOptions): Core.APIPromise<unknown> {
-    return this._client.get('/documents/list', { query, ...options });
+  list(
+    query: DocumentListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse> {
+    return this._client.getAPIList('/documents/list', DocumentListResponsesCursorPage, { query, ...options });
   }
 
   /**
@@ -47,6 +51,8 @@ export class Documents extends APIResource {
     return this._client.post('/documents/upload', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
+
+export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
 export interface Document {
   collection: string;
@@ -188,14 +194,123 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export type DocumentListResponse = unknown;
+export interface DocumentListResponse {
+  id?: number | null;
 
-export interface DocumentListParams {
+  collection?: string;
+
+  created_at?: string | null;
+
+  ingested_at?: string | null;
+
+  metadata?: Record<string, unknown>;
+
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
+
+  sections?: Array<DocumentListResponse.Section>;
+
+  sections_count?: number | null;
+
+  source?:
+    | 'generic'
+    | 'markdown'
+    | 'chat'
+    | 'email'
+    | 'transcript'
+    | 'legal'
+    | 'website'
+    | 'image'
+    | 'pdf'
+    | 'audio'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs';
+
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
+}
+
+export namespace DocumentListResponse {
+  export interface Section {
+    document_id: number;
+
+    id?: number | null;
+
+    elements?: Array<Section.Element>;
+
+    embedding_e5_large?: Array<number> | null;
+
+    embedding_ts?: string | null;
+
+    metadata?: Record<string, unknown>;
+
+    scores?: Section.Scores;
+
+    text?: string;
+  }
+
+  export namespace Section {
+    export interface Element {
+      text: string;
+
+      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
+
+      id?: string;
+
+      metadata?: Element.Metadata;
+
+      summary?: string | null;
+    }
+
+    export namespace Element {
+      export interface Metadata {
+        author?: string | null;
+
+        /**
+         * The id of the element that this element is continued from if it had to be split
+         * during chunking
+         */
+        continued_from?: string | null;
+
+        filename?: string | null;
+
+        languages?: Array<string>;
+
+        links?: Array<string>;
+
+        page_number?: number | null;
+
+        title_level?: number | null;
+      }
+    }
+
+    export interface Scores {
+      /**
+       * How relevant the section is based on full text search
+       */
+      full_text_search?: number | null;
+
+      /**
+       * How relevant the section is based on vector search
+       */
+      semantic_search?: number | null;
+
+      /**
+       * The final weighted score of the section
+       */
+      weighted?: number | null;
+    }
+  }
+}
+
+export interface DocumentListParams extends CursorPageParams {
   collection: string;
-
-  cursor?: string | null;
-
-  size?: number;
 }
 
 export interface DocumentAddParams {
@@ -265,11 +380,14 @@ export interface DocumentUploadParams {
   file: Core.Uploadable;
 }
 
+Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
+
 export declare namespace Documents {
   export {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
+    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
     type DocumentAddURLParams as DocumentAddURLParams,
