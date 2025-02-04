@@ -137,37 +137,6 @@ On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
 
-## Auto-pagination
-
-List methods in the Hyperspell API are paginated.
-You can use the `for await … of` syntax to iterate through items across all pages:
-
-```ts
-async function fetchAllDocuments(params) {
-  const allDocuments = [];
-  // Automatically fetches more pages as needed.
-  for await (const documentListResponse of client.documents.list({ collection: 'REPLACE_ME' })) {
-    allDocuments.push(documentListResponse);
-  }
-  return allDocuments;
-}
-```
-
-Alternatively, you can request a single page at a time:
-
-```ts
-let page = await client.documents.list({ collection: 'REPLACE_ME' });
-for (const documentListResponse of page.items) {
-  console.log(documentListResponse);
-}
-
-// Convenience methods are provided for manually paginating:
-while (page.hasNextPage()) {
-  page = await page.getNextPage();
-  // ...
-}
-```
-
 ## Advanced Usage
 
 ### Accessing raw Response data (e.g., headers)
