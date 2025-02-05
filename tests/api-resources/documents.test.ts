@@ -46,7 +46,7 @@ describe('resource documents', () => {
   });
 
   test('addURL: only required params', async () => {
-    const responsePromise = client.documents.addURL({ collection: 'collection' });
+    const responsePromise = client.documents.addURL({ collection: 'collection', url: 'url' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
