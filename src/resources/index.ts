@@ -14,6 +14,7 @@ export {
   Documents,
   type Document,
   type DocumentStatus,
+  type Scores,
   type DocumentListResponse,
   type DocumentListParams,
   type DocumentAddParams,

@@ -21,14 +21,14 @@ export interface QuerySearchResponse {
 
 export interface QuerySearchParams {
   /**
+   * Only query documents in these collections.
+   */
+  collections: string | Array<string>;
+
+  /**
    * Query to run.
    */
   query: string;
-
-  /**
-   * Only query documents in these collections.
-   */
-  collections?: Array<string>;
 
   /**
    * Filter the query results.
