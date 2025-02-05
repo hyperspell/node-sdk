@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0 (2025-02-05)
+
+Full Changelog: [v0.5.3...v0.6.0](https://github.com/hyperspell/node-sdk/compare/v0.5.3...v0.6.0)
+
+### Features
+
+* **api:** api update ([#23](https://github.com/hyperspell/node-sdk/issues/23)) ([c9aaf54](https://github.com/hyperspell/node-sdk/commit/c9aaf54d0505676b9cc6a75af87a9994cca2f5b3))
+* **api:** api update ([#24](https://github.com/hyperspell/node-sdk/issues/24)) ([5326693](https://github.com/hyperspell/node-sdk/commit/53266933ad271b9f2f00b7c7e3607eb91f65b7f4))
+* **api:** update via SDK Studio ([#20](https://github.com/hyperspell/node-sdk/issues/20)) ([4a2c34a](https://github.com/hyperspell/node-sdk/commit/4a2c34a97b3e2131ac1c0f6f392d54962bc50f62))
+* **client:** send `X-Stainless-Timeout` header ([#22](https://github.com/hyperspell/node-sdk/issues/22)) ([4ad8147](https://github.com/hyperspell/node-sdk/commit/4ad814769ef6503eb9b5a51c14d1ea3f74c736c5))
+
 ## 0.5.3 (2025-02-04)
 
 Full Changelog: [v0.1.0-alpha.2...v0.5.3](https://github.com/hyperspell/node-sdk/compare/v0.1.0-alpha.2...v0.5.3)
