@@ -333,10 +333,9 @@ export interface DocumentAddURLParams {
   collection: string;
 
   /**
-   * Source URL of the document. If text is not provided and URL is publicly
-   * accessible, Hyperspell will retrieve the document from this URL.
+   * Source URL of the document.
    */
-  url?: string | null;
+  url: string;
 }
 
 export interface DocumentUploadParams {
