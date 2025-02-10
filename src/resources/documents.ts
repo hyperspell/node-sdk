@@ -62,6 +62,8 @@ export interface Document {
 
   created_at?: string | null;
 
+  events?: Array<Document.Event>;
+
   ingested_at?: string | null;
 
   metadata?: Record<string, unknown>;
@@ -96,6 +98,14 @@ export interface Document {
 }
 
 export namespace Document {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
   export interface SectionResult {
     id?: number | null;
 
@@ -183,6 +193,8 @@ export interface DocumentListResponse {
 
   created_at?: string | null;
 
+  events?: Array<DocumentListResponse.Event>;
+
   ingested_at?: string | null;
 
   metadata?: Record<string, unknown>;
@@ -219,6 +231,14 @@ export interface DocumentListResponse {
 }
 
 export namespace DocumentListResponse {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
   export interface Section {
     document_id: number;
 
