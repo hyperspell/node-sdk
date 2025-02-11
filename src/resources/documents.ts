@@ -2,6 +2,7 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as DocumentsAPI from './documents';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Documents extends APIResource {
@@ -61,6 +62,8 @@ export interface Document {
 
   created_at?: string | null;
 
+  events?: Array<Document.Event>;
+
   ingested_at?: string | null;
 
   metadata?: Record<string, unknown>;
@@ -95,31 +98,20 @@ export interface Document {
 }
 
 export namespace Document {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
   export interface SectionResult {
     id?: number | null;
 
-    scores?: SectionResult.Scores;
+    scores?: DocumentsAPI.Scores;
 
     text?: string;
-  }
-
-  export namespace SectionResult {
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
-    }
   }
 
   export interface SectionResultWithElements {
@@ -127,7 +119,7 @@ export namespace Document {
 
     elements?: Array<SectionResultWithElements.Element>;
 
-    scores?: SectionResultWithElements.Scores;
+    scores?: DocumentsAPI.Scores;
 
     text?: string;
   }
@@ -166,23 +158,6 @@ export namespace Document {
         title_level?: number | null;
       }
     }
-
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
-    }
   }
 }
 
@@ -194,12 +169,31 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
+export interface Scores {
+  /**
+   * How relevant the section is based on full text search
+   */
+  full_text_search?: number | null;
+
+  /**
+   * How relevant the section is based on vector search
+   */
+  semantic_search?: number | null;
+
+  /**
+   * The final weighted score of the section
+   */
+  weighted?: number | null;
+}
+
 export interface DocumentListResponse {
   id?: number | null;
 
   collection?: string;
 
   created_at?: string | null;
+
+  events?: Array<DocumentListResponse.Event>;
 
   ingested_at?: string | null;
 
@@ -237,6 +231,14 @@ export interface DocumentListResponse {
 }
 
 export namespace DocumentListResponse {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
   export interface Section {
     document_id: number;
 
@@ -250,7 +252,7 @@ export namespace DocumentListResponse {
 
     metadata?: Record<string, unknown>;
 
-    scores?: Section.Scores;
+    scores?: DocumentsAPI.Scores;
 
     text?: string;
   }
@@ -288,23 +290,6 @@ export namespace DocumentListResponse {
 
         title_level?: number | null;
       }
-    }
-
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
     }
   }
 }
@@ -368,15 +353,20 @@ export interface DocumentAddURLParams {
   collection: string;
 
   /**
-   * Source URL of the document. If text is not provided and URL is publicly
-   * accessible, Hyperspell will retrieve the document from this URL.
+   * Source URL of the document.
    */
-  url?: string | null;
+  url: string;
 }
 
 export interface DocumentUploadParams {
+  /**
+   * The collection to add the document to.
+   */
   collection: string;
 
+  /**
+   * The file to ingest.
+   */
   file: Core.Uploadable;
 }
 
@@ -386,6 +376,7 @@ export declare namespace Documents {
   export {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
+    type Scores as Scores,
     type DocumentListResponse as DocumentListResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
