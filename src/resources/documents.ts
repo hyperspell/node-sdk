@@ -359,8 +359,14 @@ export interface DocumentAddURLParams {
 }
 
 export interface DocumentUploadParams {
+  /**
+   * The collection to add the document to.
+   */
   collection: string;
 
+  /**
+   * The file to ingest.
+   */
   file: Core.Uploadable;
 }
 
