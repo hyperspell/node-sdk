@@ -13,6 +13,7 @@ import {
   CollectionListParams,
   CollectionListResponse,
   CollectionListResponsesCursorPage,
+  CollectionResponse,
   Collections,
 } from './resources/collections';
 import {
@@ -220,7 +221,7 @@ export declare namespace Hyperspell {
 
   export {
     Collections as Collections,
-    type Collection as Collection,
+    type CollectionResponse as CollectionResponse,
     type CollectionListResponse as CollectionListResponse,
     CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
     type CollectionCreateParams as CollectionCreateParams,
@@ -235,7 +236,7 @@ export declare namespace Hyperspell {
 
   export { Auth as Auth, type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
 
-  export type Apikey = API.Apikey;
+  export type APIKkey = API.APIKkey;
   export type App = API.App;
   export type Collection = API.Collection;
 }
