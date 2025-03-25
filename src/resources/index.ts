@@ -5,7 +5,7 @@ export { Auth, type Token, type AuthUserTokenParams } from './auth';
 export {
   CollectionListResponsesCursorPage,
   Collections,
-  type Collection,
+  type CollectionResponse,
   type CollectionListResponse,
   type CollectionCreateParams,
   type CollectionListParams,
