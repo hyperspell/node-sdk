@@ -9,7 +9,6 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthUserTokenParams, Token } from './resources/auth';
 import {
-  Collection,
   CollectionCreateParams,
   CollectionListParams,
   CollectionListResponse,
@@ -235,6 +234,10 @@ export declare namespace Hyperspell {
   };
 
   export { Auth as Auth, type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
+
+  export type Apikey = API.Apikey;
+  export type App = API.App;
+  export type Collection = API.Collection;
 }
 
 export { toFile, fileFromPath } from './uploads';
