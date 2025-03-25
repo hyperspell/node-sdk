@@ -10,7 +10,7 @@ export class Collections extends APIResource {
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
    */
-  create(body: CollectionCreateParams, options?: Core.RequestOptions): Core.APIPromise<CollectionResponse> {
+  create(body: CollectionCreateParams, options?: Core.RequestOptions): Core.APIPromise<Collection> {
     return this._client.post('/collections/add', { body, ...options });
   }
 
@@ -40,14 +40,14 @@ export class Collections extends APIResource {
   /**
    * Retrieves a collection by name.
    */
-  get(name: string, options?: Core.RequestOptions): Core.APIPromise<CollectionResponse> {
+  get(name: string, options?: Core.RequestOptions): Core.APIPromise<Collection> {
     return this._client.get(`/collections/get/${name}`, options);
   }
 }
 
 export class CollectionListResponsesCursorPage extends CursorPage<CollectionListResponse> {}
 
-export interface CollectionResponse {
+export interface Collection {
   created_at: string;
 
   name: string;
@@ -86,7 +86,7 @@ Collections.CollectionListResponsesCursorPage = CollectionListResponsesCursorPag
 
 export declare namespace Collections {
   export {
-    type CollectionResponse as CollectionResponse,
+    type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
     CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
     type CollectionCreateParams as CollectionCreateParams,

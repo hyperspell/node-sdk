@@ -4,7 +4,6 @@ Types:
 
 - <code><a href="./src/resources/shared.ts">APIKkey</a></code>
 - <code><a href="./src/resources/shared.ts">App</a></code>
-- <code><a href="./src/resources/shared.ts">Collection</a></code>
 
 # Documents
 
@@ -27,14 +26,14 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/collections.ts">CollectionResponse</a></code>
+- <code><a href="./src/resources/collections.ts">Collection</a></code>
 - <code><a href="./src/resources/collections.ts">CollectionListResponse</a></code>
 
 Methods:
 
-- <code title="post /collections/add">client.collections.<a href="./src/resources/collections.ts">create</a>({ ...params }) -> CollectionResponse</code>
+- <code title="post /collections/add">client.collections.<a href="./src/resources/collections.ts">create</a>({ ...params }) -> Collection</code>
 - <code title="get /collections/list">client.collections.<a href="./src/resources/collections.ts">list</a>({ ...params }) -> CollectionListResponsesCursorPage</code>
-- <code title="get /collections/get/{name}">client.collections.<a href="./src/resources/collections.ts">get</a>(name) -> CollectionResponse</code>
+- <code title="get /collections/get/{name}">client.collections.<a href="./src/resources/collections.ts">get</a>(name) -> Collection</code>
 
 # Query
 
