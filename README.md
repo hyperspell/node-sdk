@@ -27,7 +27,7 @@ const client = new Hyperspell({
 });
 
 async function main() {
-  const documentStatus = await client.documents.add({ collection: 'collection', text: 'text' });
+  const documentStatus = await client.documents.add({ text: 'text' });
 
   console.log(documentStatus.id);
 }
@@ -48,7 +48,7 @@ const client = new Hyperspell({
 });
 
 async function main() {
-  const params: Hyperspell.DocumentAddParams = { collection: 'collection', text: 'text' };
+  const params: Hyperspell.DocumentAddParams = { text: 'text' };
   const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
 }
 
@@ -102,17 +102,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const documentStatus = await client.documents
-    .add({ collection: 'collection', text: 'text' })
-    .catch(async (err) => {
-      if (err instanceof Hyperspell.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const documentStatus = await client.documents.add({ text: 'text' }).catch(async (err) => {
+    if (err instanceof Hyperspell.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -147,7 +145,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.documents.add({ collection: 'collection', text: 'text' }, {
+await client.documents.add({ text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -164,7 +162,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.documents.add({ collection: 'collection', text: 'text' }, {
+await client.documents.add({ text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -216,13 +214,11 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.documents.add({ collection: 'collection', text: 'text' }).asResponse();
+const response = await client.documents.add({ text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: documentStatus, response: raw } = await client.documents
-  .add({ collection: 'collection', text: 'text' })
-  .withResponse();
+const { data: documentStatus, response: raw } = await client.documents.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(documentStatus.id);
 ```
@@ -329,7 +325,7 @@ const client = new Hyperspell({
 
 // Override per-request:
 await client.documents.add(
-  { collection: 'collection', text: 'text' },
+  { text: 'text' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },
