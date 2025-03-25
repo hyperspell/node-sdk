@@ -1,3 +1,11 @@
+# Shared
+
+Types:
+
+- <code><a href="./src/resources/shared.ts">Apikey</a></code>
+- <code><a href="./src/resources/shared.ts">App</a></code>
+- <code><a href="./src/resources/shared.ts">Collection</a></code>
+
 # Documents
 
 Types:
