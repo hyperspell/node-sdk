@@ -36,19 +36,11 @@ export interface App {
 
   id?: number | null;
 
-  api_keys?: Array<APIKey> | null;
-
-  collections?: Array<unknown> | null;
-
   created_at?: string;
 
   integrations?: Array<unknown>;
 
-  jwt_secret?: string;
-
   optional_integrations?: Array<unknown> | null;
 
-  public_key?: string;
-
-  settings?: unknown;
+  settings?: Record<string, unknown>;
 }
