@@ -5,7 +5,7 @@ import * as DocumentsAPI from './documents';
 /**
  * ApiKeys Base Schema.
  */
-export interface Apikey {
+export interface APIKkey {
   app_id: number;
 
   scopes: Array<'all' | 'ingest' | 'query'>;
@@ -38,7 +38,7 @@ export interface App {
 
   id?: number | null;
 
-  api_keys?: Array<Apikey> | null;
+  api_keys?: Array<APIKkey> | null;
 
   collections?: Array<Collection> | null;
 
