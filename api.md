@@ -2,7 +2,7 @@
 
 Types:
 
-- <code><a href="./src/resources/shared.ts">APIKkey</a></code>
+- <code><a href="./src/resources/shared.ts">APIKey</a></code>
 - <code><a href="./src/resources/shared.ts">App</a></code>
 
 # Documents
