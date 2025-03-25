@@ -3,7 +3,7 @@
 /**
  * ApiKeys Base Schema.
  */
-export interface APIKkey {
+export interface APIKey {
   app_id: number;
 
   scopes: Array<'all' | 'ingest' | 'query'>;
@@ -36,7 +36,7 @@ export interface App {
 
   id?: number | null;
 
-  api_keys?: Array<APIKkey> | null;
+  api_keys?: Array<APIKey> | null;
 
   collections?: Array<unknown> | null;
 
