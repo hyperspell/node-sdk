@@ -235,9 +235,6 @@ export declare namespace Hyperspell {
   };
 
   export { Auth as Auth, type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
-
-  export type APIKey = API.APIKey;
-  export type App = API.App;
 }
 
 export { toFile, fileFromPath } from './uploads';
