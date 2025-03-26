@@ -26,9 +26,10 @@ export interface QuerySearchParams {
   query: string;
 
   /**
-   * Only query documents in these collections.
+   * Only query documents in these collections. If not given, will query the user's
+   * default collection
    */
-  collections?: Array<string>;
+  collections?: string | Array<string> | null;
 
   /**
    * Filter the query results.
@@ -62,9 +63,19 @@ export namespace QuerySearchParams {
     end_date?: string | null;
 
     /**
+     * Only query documents from these sources.
+     */
+    source?: Array<'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot'>;
+
+    /**
+     * Only query documents on or after this date.
+     */
+    start_date?: string | null;
+
+    /**
      * Only query documents of these types.
      */
-    source?: Array<
+    types?: Array<
       | 'generic'
       | 'markdown'
       | 'chat'
@@ -75,17 +86,19 @@ export namespace QuerySearchParams {
       | 'image'
       | 'pdf'
       | 'audio'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs'
+      | 'spreadsheet'
+      | 'archive'
+      | 'book'
+      | 'video'
+      | 'code'
+      | 'calendar'
+      | 'json'
+      | 'presentation'
+      | 'unsupported'
+      | 'person'
+      | 'company'
+      | 'crm_contact'
     >;
-
-    /**
-     * Only query documents on or after this date.
-     */
-    start_date?: string | null;
   }
 }
 

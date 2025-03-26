@@ -26,6 +26,7 @@ import {
   DocumentStatus,
   DocumentUploadParams,
   Documents,
+  Scores,
 } from './resources/documents';
 import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
 
@@ -209,6 +210,7 @@ export declare namespace Hyperspell {
     Documents as Documents,
     type Document as Document,
     type DocumentStatus as DocumentStatus,
+    type Scores as Scores,
     type DocumentListResponse as DocumentListResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,

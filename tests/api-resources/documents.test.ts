@@ -9,8 +9,8 @@ const client = new Hyperspell({
 });
 
 describe('resource documents', () => {
-  test('list: only required params', async () => {
-    const responsePromise = client.documents.list({ collection: 'collection' });
+  test('list', async () => {
+    const responsePromise = client.documents.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,12 +20,25 @@ describe('resource documents', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: required and optional params', async () => {
-    const response = await client.documents.list({ collection: 'collection', cursor: 'cursor', size: 0 });
+  test('list: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.documents.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Hyperspell.NotFoundError,
+    );
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.documents.list(
+        { collection: 'collection', cursor: 'cursor', size: 0 },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
   test('add: only required params', async () => {
-    const responsePromise = client.documents.add({ collection: 'collection', text: 'text' });
+    const responsePromise = client.documents.add({ text: 'text' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -37,8 +50,8 @@ describe('resource documents', () => {
 
   test('add: required and optional params', async () => {
     const response = await client.documents.add({
-      collection: 'collection',
       text: 'text',
+      collection: 'collection',
       date: '2019-12-27T18:11:19.117Z',
       source: 'generic',
       title: 'title',
@@ -46,7 +59,7 @@ describe('resource documents', () => {
   });
 
   test('addURL: only required params', async () => {
-    const responsePromise = client.documents.addURL({ collection: 'collection' });
+    const responsePromise = client.documents.addURL({ url: 'url' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -57,7 +70,7 @@ describe('resource documents', () => {
   });
 
   test('addURL: required and optional params', async () => {
-    const response = await client.documents.addURL({ collection: 'collection', url: 'url' });
+    const response = await client.documents.addURL({ url: 'url', collection: 'collection' });
   });
 
   test('get', async () => {

@@ -23,11 +23,12 @@ describe('resource query', () => {
   test('search: required and optional params', async () => {
     const response = await client.query.search({
       query: 'query',
-      collections: ['string'],
+      collections: 'string',
       filter: {
         end_date: '2019-12-27T18:11:19.117Z',
         source: ['generic'],
         start_date: '2019-12-27T18:11:19.117Z',
+        types: ['generic'],
       },
       include_elements: true,
       max_results: 0,

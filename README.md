@@ -6,7 +6,7 @@ This library provides convenient access to the Hyperspell REST API from server-s
 
 The REST API documentation can be found on [docs.hyperspell.com](https://docs.hyperspell.com/). The full API of this library can be found in [api.md](api.md).
 
-It is generated with [Stainless](https://www.stainlessapi.com/).
+It is generated with [Stainless](https://www.stainless.com/).
 
 ## Installation
 
@@ -27,7 +27,7 @@ const client = new Hyperspell({
 });
 
 async function main() {
-  const documentStatus = await client.documents.add({ collection: 'collection', text: 'text' });
+  const documentStatus = await client.documents.add({ text: 'text' });
 
   console.log(documentStatus.id);
 }
@@ -48,7 +48,7 @@ const client = new Hyperspell({
 });
 
 async function main() {
-  const params: Hyperspell.DocumentAddParams = { collection: 'collection', text: 'text' };
+  const params: Hyperspell.DocumentAddParams = { text: 'text' };
   const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
 }
 
@@ -56,6 +56,42 @@ main();
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
+
+## File uploads
+
+Request parameters that correspond to file uploads can be passed in many different forms:
+
+- `File` (or an object with the same structure)
+- a `fetch` `Response` (or an object with the same structure)
+- an `fs.ReadStream`
+- the return value of our `toFile` helper
+
+```ts
+import fs from 'fs';
+import fetch from 'node-fetch';
+import Hyperspell, { toFile } from 'hyperspell';
+
+const client = new Hyperspell();
+
+// If you have access to Node `fs` we recommend using `fs.createReadStream()`:
+await client.documents.upload({ collection: 'collection', file: fs.createReadStream('/path/to/file') });
+
+// Or if you have the web `File` API you can pass a `File` instance:
+await client.documents.upload({ collection: 'collection', file: new File(['my bytes'], 'file') });
+
+// You can also pass a `fetch` `Response`:
+await client.documents.upload({ collection: 'collection', file: await fetch('https://somesite/file') });
+
+// Finally, if none of the above are convenient, you can use our `toFile` helper:
+await client.documents.upload({
+  collection: 'collection',
+  file: await toFile(Buffer.from('my bytes'), 'file'),
+});
+await client.documents.upload({
+  collection: 'collection',
+  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
+});
+```
 
 ## Handling errors
 
@@ -66,17 +102,15 @@ a subclass of `APIError` will be thrown:
 <!-- prettier-ignore -->
 ```ts
 async function main() {
-  const documentStatus = await client.documents
-    .add({ collection: 'collection', text: 'text' })
-    .catch(async (err) => {
-      if (err instanceof Hyperspell.APIError) {
-        console.log(err.status); // 400
-        console.log(err.name); // BadRequestError
-        console.log(err.headers); // {server: 'nginx', ...}
-      } else {
-        throw err;
-      }
-    });
+  const documentStatus = await client.documents.add({ text: 'text' }).catch(async (err) => {
+    if (err instanceof Hyperspell.APIError) {
+      console.log(err.status); // 400
+      console.log(err.name); // BadRequestError
+      console.log(err.headers); // {server: 'nginx', ...}
+    } else {
+      throw err;
+    }
+  });
 }
 
 main();
@@ -111,7 +145,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.documents.add({ collection: 'collection', text: 'text' }, {
+await client.documents.add({ text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -128,7 +162,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.documents.add({ collection: 'collection', text: 'text' }, {
+await client.documents.add({ text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -180,13 +214,11 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.documents.add({ collection: 'collection', text: 'text' }).asResponse();
+const response = await client.documents.add({ text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: documentStatus, response: raw } = await client.documents
-  .add({ collection: 'collection', text: 'text' })
-  .withResponse();
+const { data: documentStatus, response: raw } = await client.documents.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(documentStatus.id);
 ```
@@ -293,7 +325,7 @@ const client = new Hyperspell({
 
 // Override per-request:
 await client.documents.add(
-  { collection: 'collection', text: 'text' },
+  { text: 'text' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),
   },

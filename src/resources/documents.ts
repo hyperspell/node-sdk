@@ -1,7 +1,9 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../resource';
+import { isRequestOptions } from '../core';
 import * as Core from '../core';
+import * as DocumentsAPI from './documents';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Documents extends APIResource {
@@ -10,9 +12,19 @@ export class Documents extends APIResource {
    * filter the documents by title, date, metadata, etc.
    */
   list(
-    query: DocumentListParams,
+    query?: DocumentListParams,
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse>;
+  list(
+    options?: Core.RequestOptions,
+  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse>;
+  list(
+    query: DocumentListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
   ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse> {
+    if (isRequestOptions(query)) {
+      return this.list({}, query);
+    }
     return this._client.getAPIList('/documents/list', DocumentListResponsesCursorPage, { query, ...options });
   }
 
@@ -57,6 +69,16 @@ export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResp
 export interface Document {
   collection: string;
 
+  /**
+   * Structured representation of the document
+   */
+  data: unknown | Array<unknown>;
+
+  /**
+   * Summary of the document
+   */
+  summary: string;
+
   id?: number | null;
 
   created_at?: string | null;
@@ -70,9 +92,13 @@ export interface Document {
    */
   resource_id?: string;
 
-  sections?: Array<Document.SectionResult | Document.SectionResultWithElements>;
+  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
-  source?:
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
+
+  type?:
     | 'generic'
     | 'markdown'
     | 'chat'
@@ -83,107 +109,18 @@ export interface Document {
     | 'image'
     | 'pdf'
     | 'audio'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
-}
-
-export namespace Document {
-  export interface SectionResult {
-    id?: number | null;
-
-    scores?: SectionResult.Scores;
-
-    text?: string;
-  }
-
-  export namespace SectionResult {
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
-    }
-  }
-
-  export interface SectionResultWithElements {
-    id?: number | null;
-
-    elements?: Array<SectionResultWithElements.Element>;
-
-    scores?: SectionResultWithElements.Scores;
-
-    text?: string;
-  }
-
-  export namespace SectionResultWithElements {
-    export interface Element {
-      text: string;
-
-      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
-
-      id?: string;
-
-      metadata?: Element.Metadata;
-
-      summary?: string | null;
-    }
-
-    export namespace Element {
-      export interface Metadata {
-        author?: string | null;
-
-        /**
-         * The id of the element that this element is continued from if it had to be split
-         * during chunking
-         */
-        continued_from?: string | null;
-
-        filename?: string | null;
-
-        languages?: Array<string>;
-
-        links?: Array<string>;
-
-        page_number?: number | null;
-
-        title_level?: number | null;
-      }
-    }
-
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
-    }
-  }
+    | 'spreadsheet'
+    | 'archive'
+    | 'book'
+    | 'video'
+    | 'code'
+    | 'calendar'
+    | 'json'
+    | 'presentation'
+    | 'unsupported'
+    | 'person'
+    | 'company'
+    | 'crm_contact';
 }
 
 export interface DocumentStatus {
@@ -194,12 +131,41 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
+export interface Scores {
+  /**
+   * How relevant the section is based on full text search
+   */
+  full_text_search?: number | null;
+
+  /**
+   * How relevant the section is based on vector search
+   */
+  semantic_search?: number | null;
+
+  /**
+   * The final weighted score of the section
+   */
+  weighted?: number | null;
+}
+
 export interface DocumentListResponse {
+  /**
+   * Structured representation of the document
+   */
+  data: unknown | Array<unknown>;
+
+  /**
+   * Summary of the document
+   */
+  summary: string;
+
   id?: number | null;
 
   collection?: string;
 
   created_at?: string | null;
+
+  events?: Array<DocumentListResponse.Event>;
 
   ingested_at?: string | null;
 
@@ -214,7 +180,13 @@ export interface DocumentListResponse {
 
   sections_count?: number | null;
 
-  source?:
+  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
+
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
+
+  type?:
     | 'generic'
     | 'markdown'
     | 'chat'
@@ -225,24 +197,42 @@ export interface DocumentListResponse {
     | 'image'
     | 'pdf'
     | 'audio'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
+    | 'spreadsheet'
+    | 'archive'
+    | 'book'
+    | 'video'
+    | 'code'
+    | 'calendar'
+    | 'json'
+    | 'presentation'
+    | 'unsupported'
+    | 'person'
+    | 'company'
+    | 'crm_contact';
 }
 
 export namespace DocumentListResponse {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
   export interface Section {
     document_id: number;
 
+    /**
+     * Summary of the section
+     */
+    text: string;
+
     id?: number | null;
 
-    elements?: Array<Section.Element>;
+    content?: string | null;
+
+    elements?: Array<unknown>;
 
     embedding_e5_large?: Array<number> | null;
 
@@ -250,80 +240,26 @@ export namespace DocumentListResponse {
 
     metadata?: Record<string, unknown>;
 
-    scores?: Section.Scores;
-
-    text?: string;
-  }
-
-  export namespace Section {
-    export interface Element {
-      text: string;
-
-      type: 'text' | 'markdown' | 'image' | 'table' | 'title' | 'query';
-
-      id?: string;
-
-      metadata?: Element.Metadata;
-
-      summary?: string | null;
-    }
-
-    export namespace Element {
-      export interface Metadata {
-        author?: string | null;
-
-        /**
-         * The id of the element that this element is continued from if it had to be split
-         * during chunking
-         */
-        continued_from?: string | null;
-
-        filename?: string | null;
-
-        languages?: Array<string>;
-
-        links?: Array<string>;
-
-        page_number?: number | null;
-
-        title_level?: number | null;
-      }
-    }
-
-    export interface Scores {
-      /**
-       * How relevant the section is based on full text search
-       */
-      full_text_search?: number | null;
-
-      /**
-       * How relevant the section is based on vector search
-       */
-      semantic_search?: number | null;
-
-      /**
-       * The final weighted score of the section
-       */
-      weighted?: number | null;
-    }
+    scores?: DocumentsAPI.Scores;
   }
 }
 
 export interface DocumentListParams extends CursorPageParams {
-  collection: string;
+  collection?: string | null;
 }
 
 export interface DocumentAddParams {
   /**
-   * Name of the collection to add the document to. If the collection does not exist,
-   * it will be created.
-   */
-  collection: string;
-
-  /**
    * Full text of the document.
    */
   text: string;
+
+  /**
+   * Name of the collection to add the document to. If the collection does not exist,
+   * it will be created. If not given, the document will be added to the user's
+   * default collection.
+   */
+  collection?: string | null;
 
   /**
    * Date of the document. Depending on the document, this could be the creation date
@@ -337,22 +273,7 @@ export interface DocumentAddParams {
    * Source of the document. This helps in parsing the document. Note that some
    * sources require the document to be in a specific format.
    */
-  source?:
-    | 'generic'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs';
+  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
   /**
    * Title of the document.
@@ -362,21 +283,27 @@ export interface DocumentAddParams {
 
 export interface DocumentAddURLParams {
   /**
+   * Source URL of the document.
+   */
+  url: string;
+
+  /**
    * Name of the collection to add the document to. If the collection does not exist,
-   * it will be created.
+   * it will be created. If not given, the document will be added to the user's
+   * default collection.
+   */
+  collection?: string | null;
+}
+
+export interface DocumentUploadParams {
+  /**
+   * The collection to add the document to.
    */
   collection: string;
 
   /**
-   * Source URL of the document. If text is not provided and URL is publicly
-   * accessible, Hyperspell will retrieve the document from this URL.
+   * The file to ingest.
    */
-  url?: string | null;
-}
-
-export interface DocumentUploadParams {
-  collection: string;
-
   file: Core.Uploadable;
 }
 
@@ -386,6 +313,7 @@ export declare namespace Documents {
   export {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
+    type Scores as Scores,
     type DocumentListResponse as DocumentListResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,

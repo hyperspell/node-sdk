@@ -1,5 +1,48 @@
 # Changelog
 
+## 0.8.2 (2025-03-26)
+
+Full Changelog: [v0.5.3...v0.8.2](https://github.com/hyperspell/node-sdk/compare/v0.5.3...v0.8.2)
+
+### Features
+
+* add SKIP_BREW env var to ./scripts/bootstrap ([#32](https://github.com/hyperspell/node-sdk/issues/32)) ([ecdef89](https://github.com/hyperspell/node-sdk/commit/ecdef891f2210522efe31e5120d26ad572432f3b))
+* **api:** api update ([a9f4767](https://github.com/hyperspell/node-sdk/commit/a9f47673364b5e8f8b2fcfee54b2c7a22eca9d2b))
+* **api:** api update ([#23](https://github.com/hyperspell/node-sdk/issues/23)) ([c9aaf54](https://github.com/hyperspell/node-sdk/commit/c9aaf54d0505676b9cc6a75af87a9994cca2f5b3))
+* **api:** api update ([#24](https://github.com/hyperspell/node-sdk/issues/24)) ([5326693](https://github.com/hyperspell/node-sdk/commit/53266933ad271b9f2f00b7c7e3607eb91f65b7f4))
+* **api:** api update ([#25](https://github.com/hyperspell/node-sdk/issues/25)) ([fdc83d1](https://github.com/hyperspell/node-sdk/commit/fdc83d13e6e6d4de12378b219a3ed6b790c66466))
+* **api:** api update ([#26](https://github.com/hyperspell/node-sdk/issues/26)) ([eef40b4](https://github.com/hyperspell/node-sdk/commit/eef40b4f33a39ad5a7887669414a4efdd3303f80))
+* **api:** api update ([#42](https://github.com/hyperspell/node-sdk/issues/42)) ([9e25c59](https://github.com/hyperspell/node-sdk/commit/9e25c59176277df1cd2999ed875968d68137f93d))
+* **api:** update via SDK Studio ([#20](https://github.com/hyperspell/node-sdk/issues/20)) ([4a2c34a](https://github.com/hyperspell/node-sdk/commit/4a2c34a97b3e2131ac1c0f6f392d54962bc50f62))
+* **api:** update via SDK Studio ([#38](https://github.com/hyperspell/node-sdk/issues/38)) ([61373c8](https://github.com/hyperspell/node-sdk/commit/61373c843629c169d69c4dd133d5b3a9899a230f))
+* **api:** update via SDK Studio ([#39](https://github.com/hyperspell/node-sdk/issues/39)) ([a0ce99a](https://github.com/hyperspell/node-sdk/commit/a0ce99aae41fa41ad8bde420f00870ce647ff5d1))
+* **api:** update via SDK Studio ([#40](https://github.com/hyperspell/node-sdk/issues/40)) ([5614b84](https://github.com/hyperspell/node-sdk/commit/5614b84d9d2f34d59ba1b61dc43dd7ce4a143d3a))
+* **api:** update via SDK Studio ([#41](https://github.com/hyperspell/node-sdk/issues/41)) ([6f9da54](https://github.com/hyperspell/node-sdk/commit/6f9da54a9104bbaab340cfb230f4217fdc8ec4ed))
+* **api:** update via SDK Studio ([#43](https://github.com/hyperspell/node-sdk/issues/43)) ([588ad3b](https://github.com/hyperspell/node-sdk/commit/588ad3b6267ca1509e01babedaa2ff89c830bbc0))
+* **client:** accept RFC6838 JSON content types ([#33](https://github.com/hyperspell/node-sdk/issues/33)) ([ca38adc](https://github.com/hyperspell/node-sdk/commit/ca38adc6b3125f68d682462e42f7c79ac0d65da1))
+* **client:** send `X-Stainless-Timeout` header ([#22](https://github.com/hyperspell/node-sdk/issues/22)) ([4ad8147](https://github.com/hyperspell/node-sdk/commit/4ad814769ef6503eb9b5a51c14d1ea3f74c736c5))
+
+
+### Bug Fixes
+
+* avoid type error in certain environments ([#37](https://github.com/hyperspell/node-sdk/issues/37)) ([42542b9](https://github.com/hyperspell/node-sdk/commit/42542b91e05ae3543112c21eae0c110158b753e5))
+* **client:** fix export map for index exports ([#27](https://github.com/hyperspell/node-sdk/issues/27)) ([5543d8e](https://github.com/hyperspell/node-sdk/commit/5543d8ea3804070de726997e8474deb01318eb68))
+
+
+### Chores
+
+* **exports:** cleaner resource index imports ([#35](https://github.com/hyperspell/node-sdk/issues/35)) ([641f5b3](https://github.com/hyperspell/node-sdk/commit/641f5b3a2311b4db0c16d4555e6073a502c94226))
+* **exports:** stop using path fallbacks ([#36](https://github.com/hyperspell/node-sdk/issues/36)) ([801d961](https://github.com/hyperspell/node-sdk/commit/801d961baa29194a1ecc3656305297e893fb2bb0))
+* **internal:** codegen related update ([#28](https://github.com/hyperspell/node-sdk/issues/28)) ([44c69e8](https://github.com/hyperspell/node-sdk/commit/44c69e887a6e32339a487e28e14e444e68ac32c5))
+* **internal:** codegen related update ([#31](https://github.com/hyperspell/node-sdk/issues/31)) ([2b286c1](https://github.com/hyperspell/node-sdk/commit/2b286c14f6545cfaf65259fabc051c40dbe336e7))
+* **internal:** fix devcontainers setup ([#29](https://github.com/hyperspell/node-sdk/issues/29)) ([26194ce](https://github.com/hyperspell/node-sdk/commit/26194ce3891b4f5e6bc89d13a7e8c85137dfe731))
+* **internal:** remove extra empty newlines ([#34](https://github.com/hyperspell/node-sdk/issues/34)) ([3677c0c](https://github.com/hyperspell/node-sdk/commit/3677c0c5673c2f49e7f37072be45aad49f1ee5d6))
+
+
+### Documentation
+
+* update URLs from stainlessapi.com to stainless.com ([#30](https://github.com/hyperspell/node-sdk/issues/30)) ([f9c0492](https://github.com/hyperspell/node-sdk/commit/f9c04926d82f1f863e6e111feb3b6e4ab33ff0bf))
+
 ## 0.5.3 (2025-02-04)
 
 Full Changelog: [v0.1.0-alpha.2...v0.5.3](https://github.com/hyperspell/node-sdk/compare/v0.1.0-alpha.2...v0.5.3)
