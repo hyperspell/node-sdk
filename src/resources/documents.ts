@@ -92,7 +92,7 @@ export interface Document {
    */
   resource_id?: string;
 
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
+  source?: 'generic' | 'mcp' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -100,6 +100,7 @@ export interface Document {
 
   type?:
     | 'generic'
+    | 'memory'
     | 'markdown'
     | 'chat'
     | 'email'
@@ -180,7 +181,7 @@ export interface DocumentListResponse {
 
   sections_count?: number | null;
 
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
+  source?: 'generic' | 'mcp' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -188,6 +189,7 @@ export interface DocumentListResponse {
 
   type?:
     | 'generic'
+    | 'memory'
     | 'markdown'
     | 'chat'
     | 'email'
@@ -273,7 +275,7 @@ export interface DocumentAddParams {
    * Source of the document. This helps in parsing the document. Note that some
    * sources require the document to be in a specific format.
    */
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
+  source?: 'generic' | 'mcp' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
   /**
    * Title of the document.

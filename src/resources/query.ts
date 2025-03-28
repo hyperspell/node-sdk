@@ -65,7 +65,7 @@ export namespace QuerySearchParams {
     /**
      * Only query documents from these sources.
      */
-    source?: Array<'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot'>;
+    source?: Array<'generic' | 'mcp' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot'>;
 
     /**
      * Only query documents on or after this date.
@@ -77,6 +77,7 @@ export namespace QuerySearchParams {
      */
     types?: Array<
       | 'generic'
+      | 'memory'
       | 'markdown'
       | 'chat'
       | 'email'
