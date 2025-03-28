@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.9.0 (2025-03-28)
+
+Full Changelog: [v0.8.2...v0.9.0](https://github.com/hyperspell/node-sdk/compare/v0.8.2...v0.9.0)
+
+### Features
+
+* **api:** api update ([#45](https://github.com/hyperspell/node-sdk/issues/45)) ([c3a3155](https://github.com/hyperspell/node-sdk/commit/c3a315587edbcb59c75c382d04139b2b11b6f0a8))
+
+
+### Bug Fixes
+
+* **internal:** work around https://github.com/vercel/next.js/issues/76881 ([#47](https://github.com/hyperspell/node-sdk/issues/47)) ([f4a35e1](https://github.com/hyperspell/node-sdk/commit/f4a35e10b5a6fd2ef6a092643a64a0ddbf485c2f))
+
 ## 0.8.2 (2025-03-26)
 
 Full Changelog: [v0.5.3...v0.8.2](https://github.com/hyperspell/node-sdk/compare/v0.5.3...v0.8.2)
