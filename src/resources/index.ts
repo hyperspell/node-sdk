@@ -12,10 +12,9 @@ export {
 export {
   DocumentListResponsesCursorPage,
   Documents,
-  type Document,
   type DocumentStatus,
-  type Scores,
   type DocumentListResponse,
+  type DocumentGetResponse,
   type DocumentListParams,
   type DocumentAddParams,
   type DocumentAddURLParams,

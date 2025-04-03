@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as DocumentsAPI from './documents';
 
 export class Query extends APIResource {
   /**
@@ -14,9 +13,27 @@ export class Query extends APIResource {
 }
 
 export interface QuerySearchResponse {
-  documents: Array<DocumentsAPI.Document>;
+  documents: Array<QuerySearchResponse.Document>;
+}
 
-  total_sections: number;
+export namespace QuerySearchResponse {
+  export interface Document {
+    resource_id: string;
+
+    source:
+      | 'generic'
+      | 'mcp'
+      | 'slack'
+      | 's3'
+      | 'gmail'
+      | 'notion'
+      | 'google_docs'
+      | 'hubspot'
+      | 'reddit'
+      | 'google-calendar';
+
+    extra?: unknown;
+  }
 }
 
 export interface QuerySearchParams {
@@ -35,11 +52,6 @@ export interface QuerySearchParams {
    * Filter the query results.
    */
   filter?: QuerySearchParams.Filter;
-
-  /**
-   * Include the elements of a section in the results.
-   */
-  include_elements?: boolean;
 
   /**
    * Maximum number of results to return.
@@ -65,7 +77,18 @@ export namespace QuerySearchParams {
     /**
      * Only query documents from these sources.
      */
-    source?: Array<'generic' | 'mcp' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot'>;
+    source?: Array<
+      | 'generic'
+      | 'mcp'
+      | 'slack'
+      | 's3'
+      | 'gmail'
+      | 'notion'
+      | 'google_docs'
+      | 'hubspot'
+      | 'reddit'
+      | 'google-calendar'
+    >;
 
     /**
      * Only query documents on or after this date.
@@ -99,6 +122,7 @@ export namespace QuerySearchParams {
       | 'person'
       | 'company'
       | 'crm_contact'
+      | 'event'
     >;
   }
 }
