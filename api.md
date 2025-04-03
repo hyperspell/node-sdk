@@ -2,17 +2,16 @@
 
 Types:
 
-- <code><a href="./src/resources/documents.ts">Document</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentStatus</a></code>
-- <code><a href="./src/resources/documents.ts">Scores</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentListResponse</a></code>
+- <code><a href="./src/resources/documents.ts">DocumentGetResponse</a></code>
 
 Methods:
 
 - <code title="get /documents/list">client.documents.<a href="./src/resources/documents.ts">list</a>({ ...params }) -> DocumentListResponsesCursorPage</code>
 - <code title="post /documents/add">client.documents.<a href="./src/resources/documents.ts">add</a>({ ...params }) -> DocumentStatus</code>
 - <code title="post /documents/scrape">client.documents.<a href="./src/resources/documents.ts">addURL</a>({ ...params }) -> DocumentStatus</code>
-- <code title="get /documents/get/{document_id}">client.documents.<a href="./src/resources/documents.ts">get</a>(documentId) -> Document</code>
+- <code title="get /documents/get/{document_id}">client.documents.<a href="./src/resources/documents.ts">get</a>(documentId) -> DocumentGetResponse</code>
 - <code title="post /documents/upload">client.documents.<a href="./src/resources/documents.ts">upload</a>({ ...params }) -> DocumentStatus</code>
 
 # Collections

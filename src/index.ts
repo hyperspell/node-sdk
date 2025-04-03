@@ -17,16 +17,15 @@ import {
   Collections,
 } from './resources/collections';
 import {
-  Document,
   DocumentAddParams,
   DocumentAddURLParams,
+  DocumentGetResponse,
   DocumentListParams,
   DocumentListResponse,
   DocumentListResponsesCursorPage,
   DocumentStatus,
   DocumentUploadParams,
   Documents,
-  Scores,
 } from './resources/documents';
 import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
 
@@ -208,10 +207,9 @@ export declare namespace Hyperspell {
 
   export {
     Documents as Documents,
-    type Document as Document,
     type DocumentStatus as DocumentStatus,
-    type Scores as Scores,
     type DocumentListResponse as DocumentListResponse,
+    type DocumentGetResponse as DocumentGetResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
