@@ -14,6 +14,12 @@ export class Query extends APIResource {
 
 export interface QuerySearchResponse {
   documents: Array<QuerySearchResponse.Document>;
+
+  /**
+   * Errors that occurred during the query. These are meant to help the developer
+   * debug the query, and are not meant to be shown to the user.
+   */
+  errors?: Array<QuerySearchResponse.Error> | null;
 }
 
 export namespace QuerySearchResponse {
@@ -21,7 +27,7 @@ export namespace QuerySearchResponse {
     resource_id: string;
 
     source:
-      | 'generic'
+      | 'collections'
       | 'mcp'
       | 'slack'
       | 's3'
@@ -34,6 +40,12 @@ export namespace QuerySearchResponse {
 
     extra?: unknown;
   }
+
+  export interface Error {
+    error: string;
+
+    message: string;
+  }
 }
 
 export interface QuerySearchParams {
@@ -41,12 +53,6 @@ export interface QuerySearchParams {
    * Query to run.
    */
   query: string;
-
-  /**
-   * Only query documents in these collections. If not given, will query the user's
-   * default collection
-   */
-  collections?: string | Array<string> | null;
 
   /**
    * Filter the query results.
@@ -59,9 +65,20 @@ export interface QuerySearchParams {
   max_results?: number;
 
   /**
-   * Type of query to run.
+   * Only query documents from these sources.
    */
-  query_type?: 'auto' | 'semantic' | 'keyword';
+  sources?: Array<
+    | 'collections'
+    | 'mcp'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs'
+    | 'hubspot'
+    | 'reddit'
+    | 'google-calendar'
+  >;
 }
 
 export namespace QuerySearchParams {
@@ -70,60 +87,20 @@ export namespace QuerySearchParams {
    */
   export interface Filter {
     /**
-     * Only query documents before this date.
-     */
-    end_date?: string | null;
-
-    /**
-     * Only query documents from these sources.
-     */
-    source?: Array<
-      | 'generic'
-      | 'mcp'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs'
-      | 'hubspot'
-      | 'reddit'
-      | 'google-calendar'
-    >;
-
-    /**
      * Only query documents on or after this date.
      */
-    start_date?: string | null;
+    after?: string | null;
 
     /**
-     * Only query documents of these types.
+     * Only query documents before this date.
      */
-    types?: Array<
-      | 'generic'
-      | 'memory'
-      | 'markdown'
-      | 'chat'
-      | 'email'
-      | 'transcript'
-      | 'legal'
-      | 'website'
-      | 'image'
-      | 'pdf'
-      | 'audio'
-      | 'spreadsheet'
-      | 'archive'
-      | 'book'
-      | 'video'
-      | 'code'
-      | 'calendar'
-      | 'json'
-      | 'presentation'
-      | 'unsupported'
-      | 'person'
-      | 'company'
-      | 'crm_contact'
-      | 'event'
-    >;
+    before?: string | null;
+
+    /**
+     * If querying collections: Only query documents in these collections. If not
+     * given, will query the user's default collection
+     */
+    collections?: string | Array<string> | null;
   }
 }
 
