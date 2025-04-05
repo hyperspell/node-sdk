@@ -106,7 +106,7 @@ export interface DocumentListResponse {
   sections_count?: number | null;
 
   source?:
-    | 'generic'
+    | 'collections'
     | 'mcp'
     | 'slack'
     | 's3'
@@ -185,7 +185,7 @@ export interface DocumentGetResponse {
   resource_id: string;
 
   source:
-    | 'generic'
+    | 'collections'
     | 'mcp'
     | 'slack'
     | 's3'
@@ -245,22 +245,6 @@ export interface DocumentAddParams {
    * to filter by date range.
    */
   date?: string;
-
-  /**
-   * Source of the document. This helps in parsing the document. Note that some
-   * sources require the document to be in a specific format.
-   */
-  source?:
-    | 'generic'
-    | 'mcp'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs'
-    | 'hubspot'
-    | 'reddit'
-    | 'google-calendar';
 
   /**
    * Title of the document.
