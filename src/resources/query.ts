@@ -38,7 +38,19 @@ export namespace QuerySearchResponse {
       | 'reddit'
       | 'google-calendar';
 
-    extra?: unknown;
+    metadata?: Document.Metadata;
+  }
+
+  export namespace Document {
+    export interface Metadata {
+      created_at?: string | null;
+
+      last_modified?: string | null;
+
+      url?: string | null;
+
+      [k: string]: unknown;
+    }
   }
 
   export interface Error {
