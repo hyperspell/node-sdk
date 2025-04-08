@@ -48,7 +48,7 @@ export class Documents extends APIResource {
   /**
    * Retrieves a document by ID, including its collection name and sections.
    */
-  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<DocumentGetResponse> {
+  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<unknown> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 
@@ -179,57 +179,7 @@ export namespace DocumentListResponse {
   }
 }
 
-export interface DocumentGetResponse {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'mcp'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs'
-    | 'hubspot'
-    | 'reddit'
-    | 'google-calendar';
-
-  id?: number;
-
-  collection?: string | null;
-
-  data?: Array<unknown>;
-
-  events?: Array<DocumentGetResponse.Event>;
-
-  highlights?: Array<unknown>;
-
-  metadata?: DocumentGetResponse.Metadata;
-
-  summary?: string | null;
-
-  title?: string | null;
-}
-
-export namespace DocumentGetResponse {
-  export interface Event {
-    message: string;
-
-    type: 'error' | 'warning' | 'info';
-
-    time?: string;
-  }
-
-  export interface Metadata {
-    created_at?: string | null;
-
-    last_modified?: string | null;
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-}
+export type DocumentGetResponse = unknown;
 
 export interface DocumentListParams extends CursorPageParams {
   collection?: string | null;
