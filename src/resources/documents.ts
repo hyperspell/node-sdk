@@ -180,8 +180,6 @@ export namespace DocumentListResponse {
 }
 
 export interface DocumentGetResponse {
-  collection: string;
-
   resource_id: string;
 
   source:
@@ -198,13 +196,15 @@ export interface DocumentGetResponse {
 
   id?: number;
 
+  collection?: string | null;
+
   data?: Array<unknown>;
 
   events?: Array<DocumentGetResponse.Event>;
 
-  extra?: unknown;
-
   highlights?: Array<unknown>;
+
+  metadata?: DocumentGetResponse.Metadata;
 
   summary?: string | null;
 
@@ -218,6 +218,16 @@ export namespace DocumentGetResponse {
     type: 'error' | 'warning' | 'info';
 
     time?: string;
+  }
+
+  export interface Metadata {
+    created_at?: string | null;
+
+    last_modified?: string | null;
+
+    url?: string | null;
+
+    [k: string]: unknown;
   }
 }
 
