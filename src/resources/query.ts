@@ -16,6 +16,11 @@ export interface QuerySearchResponse {
   documents: Array<QuerySearchResponse.Document>;
 
   /**
+   * The answer to the query, if the request was set to answer.
+   */
+  answer?: string | null;
+
+  /**
    * Errors that occurred during the query. These are meant to help the developer
    * debug the query, and are not meant to be shown to the user.
    */
@@ -65,6 +70,11 @@ export interface QuerySearchParams {
    * Query to run.
    */
   query: string;
+
+  /**
+   * If true, the query will be answered along with matching source documents.
+   */
+  answer?: boolean;
 
   /**
    * Filter the query results.
