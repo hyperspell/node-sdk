@@ -31,17 +31,7 @@ export namespace QuerySearchResponse {
   export interface Document {
     resource_id: string;
 
-    source:
-      | 'collections'
-      | 'mcp'
-      | 'slack'
-      | 's3'
-      | 'gmail'
-      | 'notion'
-      | 'google_docs'
-      | 'hubspot'
-      | 'reddit'
-      | 'google-calendar';
+    source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar';
 
     metadata?: Document.Metadata;
 
@@ -94,18 +84,7 @@ export interface QuerySearchParams {
   /**
    * Only query documents from these sources.
    */
-  sources?: Array<
-    | 'collections'
-    | 'mcp'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs'
-    | 'hubspot'
-    | 'reddit'
-    | 'google-calendar'
-  >;
+  sources?: Array<'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar'>;
 }
 
 export namespace QuerySearchParams {
