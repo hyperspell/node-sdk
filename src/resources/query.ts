@@ -44,6 +44,11 @@ export namespace QuerySearchResponse {
       | 'google-calendar';
 
     metadata?: Document.Metadata;
+
+    /**
+     * The relevance of the resource to the query
+     */
+    score?: number | null;
   }
 
   export namespace Document {
