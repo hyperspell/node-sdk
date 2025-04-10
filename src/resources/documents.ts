@@ -3,7 +3,6 @@
 import { APIResource } from '../resource';
 import { isRequestOptions } from '../core';
 import * as Core from '../core';
-import * as DocumentsAPI from './documents';
 import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Documents extends APIResource {
@@ -49,7 +48,7 @@ export class Documents extends APIResource {
   /**
    * Retrieves a document by ID, including its collection name and sections.
    */
-  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<Document> {
+  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<unknown> {
     return this._client.get(`/documents/get/${documentId}`, options);
   }
 
@@ -66,63 +65,6 @@ export class Documents extends APIResource {
 
 export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
-export interface Document {
-  collection: string;
-
-  /**
-   * Structured representation of the document
-   */
-  data: unknown | Array<unknown>;
-
-  /**
-   * Summary of the document
-   */
-  summary: string;
-
-  id?: number | null;
-
-  created_at?: string | null;
-
-  ingested_at?: string | null;
-
-  metadata?: Record<string, unknown>;
-
-  /**
-   * Along with service, uniquely identifies the source document
-   */
-  resource_id?: string;
-
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
-
-  type?:
-    | 'generic'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'spreadsheet'
-    | 'archive'
-    | 'book'
-    | 'video'
-    | 'code'
-    | 'calendar'
-    | 'json'
-    | 'presentation'
-    | 'unsupported'
-    | 'person'
-    | 'company'
-    | 'crm_contact';
-}
-
 export interface DocumentStatus {
   id: number;
 
@@ -131,28 +73,11 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export interface Scores {
-  /**
-   * How relevant the section is based on full text search
-   */
-  full_text_search?: number | null;
-
-  /**
-   * How relevant the section is based on vector search
-   */
-  semantic_search?: number | null;
-
-  /**
-   * The final weighted score of the section
-   */
-  weighted?: number | null;
-}
-
 export interface DocumentListResponse {
   /**
-   * Structured representation of the document
+   * Summary of the document
    */
-  data: unknown | Array<unknown>;
+  data: Array<unknown>;
 
   /**
    * Summary of the document
@@ -180,7 +105,17 @@ export interface DocumentListResponse {
 
   sections_count?: number | null;
 
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
+  source?:
+    | 'collections'
+    | 'mcp'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs'
+    | 'hubspot'
+    | 'reddit'
+    | 'google-calendar';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -188,6 +123,7 @@ export interface DocumentListResponse {
 
   type?:
     | 'generic'
+    | 'memory'
     | 'markdown'
     | 'chat'
     | 'email'
@@ -208,7 +144,8 @@ export interface DocumentListResponse {
     | 'unsupported'
     | 'person'
     | 'company'
-    | 'crm_contact';
+    | 'crm_contact'
+    | 'event';
 }
 
 export namespace DocumentListResponse {
@@ -239,10 +176,10 @@ export namespace DocumentListResponse {
     embedding_ts?: string | null;
 
     metadata?: Record<string, unknown>;
-
-    scores?: DocumentsAPI.Scores;
   }
 }
+
+export type DocumentGetResponse = unknown;
 
 export interface DocumentListParams extends CursorPageParams {
   collection?: string | null;
@@ -268,12 +205,6 @@ export interface DocumentAddParams {
    * to filter by date range.
    */
   date?: string;
-
-  /**
-   * Source of the document. This helps in parsing the document. Note that some
-   * sources require the document to be in a specific format.
-   */
-  source?: 'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot';
 
   /**
    * Title of the document.
@@ -311,10 +242,9 @@ Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 
 export declare namespace Documents {
   export {
-    type Document as Document,
     type DocumentStatus as DocumentStatus,
-    type Scores as Scores,
     type DocumentListResponse as DocumentListResponse,
+    type DocumentGetResponse as DocumentGetResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,

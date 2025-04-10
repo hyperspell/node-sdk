@@ -2,7 +2,6 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
-import * as DocumentsAPI from './documents';
 
 export class Query extends APIResource {
   /**
@@ -14,9 +13,61 @@ export class Query extends APIResource {
 }
 
 export interface QuerySearchResponse {
-  documents: Array<DocumentsAPI.Document>;
+  documents: Array<QuerySearchResponse.Document>;
 
-  total_sections: number;
+  /**
+   * The answer to the query, if the request was set to answer.
+   */
+  answer?: string | null;
+
+  /**
+   * Errors that occurred during the query. These are meant to help the developer
+   * debug the query, and are not meant to be shown to the user.
+   */
+  errors?: Array<QuerySearchResponse.Error> | null;
+}
+
+export namespace QuerySearchResponse {
+  export interface Document {
+    resource_id: string;
+
+    source:
+      | 'collections'
+      | 'mcp'
+      | 'slack'
+      | 's3'
+      | 'gmail'
+      | 'notion'
+      | 'google_docs'
+      | 'hubspot'
+      | 'reddit'
+      | 'google-calendar';
+
+    metadata?: Document.Metadata;
+
+    /**
+     * The relevance of the resource to the query
+     */
+    score?: number | null;
+  }
+
+  export namespace Document {
+    export interface Metadata {
+      created_at?: string | null;
+
+      last_modified?: string | null;
+
+      url?: string | null;
+
+      [k: string]: unknown;
+    }
+  }
+
+  export interface Error {
+    error: string;
+
+    message: string;
+  }
 }
 
 export interface QuerySearchParams {
@@ -26,10 +77,9 @@ export interface QuerySearchParams {
   query: string;
 
   /**
-   * Only query documents in these collections. If not given, will query the user's
-   * default collection
+   * If true, the query will be answered along with matching source documents.
    */
-  collections?: string | Array<string> | null;
+  answer?: boolean;
 
   /**
    * Filter the query results.
@@ -37,19 +87,25 @@ export interface QuerySearchParams {
   filter?: QuerySearchParams.Filter;
 
   /**
-   * Include the elements of a section in the results.
-   */
-  include_elements?: boolean;
-
-  /**
    * Maximum number of results to return.
    */
   max_results?: number;
 
   /**
-   * Type of query to run.
+   * Only query documents from these sources.
    */
-  query_type?: 'auto' | 'semantic' | 'keyword';
+  sources?: Array<
+    | 'collections'
+    | 'mcp'
+    | 'slack'
+    | 's3'
+    | 'gmail'
+    | 'notion'
+    | 'google_docs'
+    | 'hubspot'
+    | 'reddit'
+    | 'google-calendar'
+  >;
 }
 
 export namespace QuerySearchParams {
@@ -58,47 +114,20 @@ export namespace QuerySearchParams {
    */
   export interface Filter {
     /**
-     * Only query documents before this date.
-     */
-    end_date?: string | null;
-
-    /**
-     * Only query documents from these sources.
-     */
-    source?: Array<'generic' | 'slack' | 's3' | 'gmail' | 'notion' | 'google_docs' | 'hubspot'>;
-
-    /**
      * Only query documents on or after this date.
      */
-    start_date?: string | null;
+    after?: string | null;
 
     /**
-     * Only query documents of these types.
+     * Only query documents before this date.
      */
-    types?: Array<
-      | 'generic'
-      | 'markdown'
-      | 'chat'
-      | 'email'
-      | 'transcript'
-      | 'legal'
-      | 'website'
-      | 'image'
-      | 'pdf'
-      | 'audio'
-      | 'spreadsheet'
-      | 'archive'
-      | 'book'
-      | 'video'
-      | 'code'
-      | 'calendar'
-      | 'json'
-      | 'presentation'
-      | 'unsupported'
-      | 'person'
-      | 'company'
-      | 'crm_contact'
-    >;
+    before?: string | null;
+
+    /**
+     * If querying collections: Only query documents in these collections. If not
+     * given, will query the user's default collection
+     */
+    collections?: string | Array<string> | null;
   }
 }
 

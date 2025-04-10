@@ -1,5 +1,34 @@
 # Changelog
 
+## 0.9.0 (2025-04-10)
+
+Full Changelog: [v0.8.2...v0.9.0](https://github.com/hyperspell/node-sdk/compare/v0.8.2...v0.9.0)
+
+### Features
+
+* **api:** api update ([7fc15c1](https://github.com/hyperspell/node-sdk/commit/7fc15c1e157998bf4713f7008ad190e10cdb6931))
+* **api:** api update ([#45](https://github.com/hyperspell/node-sdk/issues/45)) ([c3a3155](https://github.com/hyperspell/node-sdk/commit/c3a315587edbcb59c75c382d04139b2b11b6f0a8))
+* **api:** api update ([#50](https://github.com/hyperspell/node-sdk/issues/50)) ([83c66fb](https://github.com/hyperspell/node-sdk/commit/83c66fb558a9aa88ddf82db79e32b4d77de40b44))
+* **api:** api update ([#53](https://github.com/hyperspell/node-sdk/issues/53)) ([32b52ca](https://github.com/hyperspell/node-sdk/commit/32b52ca847549a290c5fa607a81798b183fdee0c))
+* **api:** api update ([#54](https://github.com/hyperspell/node-sdk/issues/54)) ([90e3bd2](https://github.com/hyperspell/node-sdk/commit/90e3bd208b5710c52acd2ac01ae40f571f07b499))
+* **api:** api update ([#55](https://github.com/hyperspell/node-sdk/issues/55)) ([6ea3488](https://github.com/hyperspell/node-sdk/commit/6ea348848f1d22e9c9e4dc9bf9f4304d18b7e253))
+* **api:** api update ([#56](https://github.com/hyperspell/node-sdk/issues/56)) ([8206477](https://github.com/hyperspell/node-sdk/commit/8206477f03333625de9885a0856830911e065ff2))
+
+
+### Bug Fixes
+
+* **api:** improve type resolution when importing as a package ([#51](https://github.com/hyperspell/node-sdk/issues/51)) ([bd6cc31](https://github.com/hyperspell/node-sdk/commit/bd6cc31121c57380fca8088bd569f7c79b93164c))
+* **client:** send `X-Stainless-Timeout` in seconds ([#48](https://github.com/hyperspell/node-sdk/issues/48)) ([ed30b4c](https://github.com/hyperspell/node-sdk/commit/ed30b4c0c4c8802c1ecc999b8d628ab16b81ce82))
+* **internal:** work around https://github.com/vercel/next.js/issues/76881 ([#47](https://github.com/hyperspell/node-sdk/issues/47)) ([f4a35e1](https://github.com/hyperspell/node-sdk/commit/f4a35e10b5a6fd2ef6a092643a64a0ddbf485c2f))
+* **mcp:** remove unused tools.ts ([#52](https://github.com/hyperspell/node-sdk/issues/52)) ([81d6ccd](https://github.com/hyperspell/node-sdk/commit/81d6ccd257f8a29c226a8885fe5120c721ba2a66))
+
+
+### Chores
+
+* **internal:** add aliases for Record and Array ([#49](https://github.com/hyperspell/node-sdk/issues/49)) ([680264c](https://github.com/hyperspell/node-sdk/commit/680264c480dda059684bfcff5637f6402b49a278))
+* **internal:** reduce CI branch coverage ([230a7e0](https://github.com/hyperspell/node-sdk/commit/230a7e040ced22028266e6caf812724fdd2818e3))
+* **internal:** upload builds and expand CI branch coverage ([9c9f933](https://github.com/hyperspell/node-sdk/commit/9c9f933f203a26408ce4b4ef0bedffe5cdce1ad6))
+
 ## 0.8.2 (2025-03-26)
 
 Full Changelog: [v0.5.3...v0.8.2](https://github.com/hyperspell/node-sdk/compare/v0.5.3...v0.8.2)
