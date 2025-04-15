@@ -24,14 +24,14 @@ export interface QuerySearchResponse {
    * Errors that occurred during the query. These are meant to help the developer
    * debug the query, and are not meant to be shown to the user.
    */
-  errors?: Array<QuerySearchResponse.Error> | null;
+  errors?: Array<Record<string, string>> | null;
 }
 
 export namespace QuerySearchResponse {
   export interface Document {
     resource_id: string;
 
-    source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar';
+    source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar' | 'reddit';
 
     metadata?: Document.Metadata;
 
@@ -51,12 +51,6 @@ export namespace QuerySearchResponse {
 
       [k: string]: unknown;
     }
-  }
-
-  export interface Error {
-    error: string;
-
-    message: string;
   }
 }
 
@@ -84,7 +78,7 @@ export interface QuerySearchParams {
   /**
    * Only query documents from these sources.
    */
-  sources?: Array<'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar'>;
+  sources?: Array<'collections' | 'notion' | 'slack' | 'hubspot' | 'google-calendar' | 'reddit'>;
 }
 
 export namespace QuerySearchParams {
