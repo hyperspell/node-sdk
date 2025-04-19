@@ -27,7 +27,39 @@ describe('resource query', () => {
       filter: {
         after: '2019-12-27T18:11:19.117Z',
         before: '2019-12-27T18:11:19.117Z',
-        collections: 'string',
+        collections: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          collections: ['string'],
+        },
+        google_calendar: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          calendar_id: 'calendar_id',
+        },
+        notion: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          notion_page_ids: ['string'],
+        },
+        reddit: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          period: 'hour',
+          sort: 'relevance',
+          subreddit: 'subreddit',
+        },
+        slack: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          channels: ['string'],
+        },
+        web_crawler: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          max_depth: 0,
+          url: 'string',
+        },
       },
       max_results: 0,
       sources: ['collections'],
