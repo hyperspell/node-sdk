@@ -105,17 +105,7 @@ export interface DocumentListResponse {
 
   sections_count?: number | null;
 
-  source?:
-    | 'collections'
-    | 'mcp'
-    | 'slack'
-    | 's3'
-    | 'gmail'
-    | 'notion'
-    | 'google_docs'
-    | 'hubspot'
-    | 'reddit'
-    | 'google-calendar';
+  source?: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
