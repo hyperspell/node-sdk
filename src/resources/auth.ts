@@ -5,6 +5,13 @@ import * as Core from '../core';
 
 export class Auth extends APIResource {
   /**
+   * Endpoint to get basic user data.
+   */
+  me(options?: Core.RequestOptions): Core.APIPromise<AuthMeResponse> {
+    return this._client.get('/auth/me', options);
+  }
+
+  /**
    * Use this endpoing to create a user token for a specific user. This token can be
    * safely passed to your user-facing front-end.
    */
@@ -19,10 +26,41 @@ export interface Token {
   expires_at: string;
 }
 
+export interface AuthMeResponse {
+  /**
+   * The user's id
+   */
+  id: string;
+
+  /**
+   * The Hyperspell app's id this user belongs to
+   */
+  app: string;
+
+  /**
+   * All integrations available for the app
+   */
+  available_integrations: Array<string>;
+
+  /**
+   * All integrations installed for the user
+   */
+  installed_integrations: Array<string>;
+
+  /**
+   * The expiration time of the user token used to make the request
+   */
+  token_expiration: string | null;
+}
+
 export interface AuthUserTokenParams {
   user_id: string;
 }
 
 export declare namespace Auth {
-  export { type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
+  export {
+    type Token as Token,
+    type AuthMeResponse as AuthMeResponse,
+    type AuthUserTokenParams as AuthUserTokenParams,
+  };
 }
