@@ -7,7 +7,7 @@ import * as Pagination from './pagination';
 import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Auth, AuthUserTokenParams, Token } from './resources/auth';
+import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import {
   Collection,
   CollectionCreateParams,
@@ -28,6 +28,7 @@ import {
   Documents,
 } from './resources/documents';
 import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
+import { IntegrationRevokeResponse, Integrations } from './resources/integrations/integrations';
 
 export interface ClientOptions {
   /**
@@ -136,6 +137,7 @@ export class Hyperspell extends Core.APIClient {
     this.apiKey = apiKey;
   }
 
+  integrations: API.Integrations = new API.Integrations(this);
   documents: API.Documents = new API.Documents(this);
   collections: API.Collections = new API.Collections(this);
   query: API.Query = new API.Query(this);
@@ -193,6 +195,7 @@ export class Hyperspell extends Core.APIClient {
   static fileFromPath = Uploads.fileFromPath;
 }
 
+Hyperspell.Integrations = Integrations;
 Hyperspell.Documents = Documents;
 Hyperspell.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 Hyperspell.Collections = Collections;
@@ -204,6 +207,8 @@ export declare namespace Hyperspell {
 
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export { Integrations as Integrations, type IntegrationRevokeResponse as IntegrationRevokeResponse };
 
   export {
     Documents as Documents,
@@ -232,7 +237,12 @@ export declare namespace Hyperspell {
     type QuerySearchParams as QuerySearchParams,
   };
 
-  export { Auth as Auth, type Token as Token, type AuthUserTokenParams as AuthUserTokenParams };
+  export {
+    Auth as Auth,
+    type Token as Token,
+    type AuthMeResponse as AuthMeResponse,
+    type AuthUserTokenParams as AuthUserTokenParams,
+  };
 }
 
 export { toFile, fileFromPath } from './uploads';
