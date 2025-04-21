@@ -17,6 +17,7 @@ import {
   Collections,
 } from './resources/collections';
 import {
+  Document,
   DocumentAddParams,
   DocumentAddURLParams,
   DocumentGetResponse,
@@ -212,6 +213,7 @@ export declare namespace Hyperspell {
 
   export {
     Documents as Documents,
+    type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
     type DocumentGetResponse as DocumentGetResponse,

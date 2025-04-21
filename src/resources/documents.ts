@@ -65,6 +65,104 @@ export class Documents extends APIResource {
 
 export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
+export interface Document {
+  /**
+   * Summary of the document
+   */
+  data: Array<unknown>;
+
+  /**
+   * Summary of the document
+   */
+  summary: string;
+
+  id?: number | null;
+
+  collection?: string;
+
+  collection_id?: number | null;
+
+  created_at?: string | null;
+
+  events?: Array<Document.Event>;
+
+  ingested_at?: string | null;
+
+  metadata?: Record<string, unknown>;
+
+  /**
+   * Along with service, uniquely identifies the source document
+   */
+  resource_id?: string;
+
+  sections?: Array<Document.Section>;
+
+  sections_count?: number | null;
+
+  source?: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  title?: string | null;
+
+  type?:
+    | 'generic'
+    | 'memory'
+    | 'markdown'
+    | 'chat'
+    | 'email'
+    | 'transcript'
+    | 'legal'
+    | 'website'
+    | 'image'
+    | 'pdf'
+    | 'audio'
+    | 'spreadsheet'
+    | 'archive'
+    | 'book'
+    | 'video'
+    | 'code'
+    | 'calendar'
+    | 'json'
+    | 'presentation'
+    | 'unsupported'
+    | 'person'
+    | 'company'
+    | 'crm_contact'
+    | 'event';
+}
+
+export namespace Document {
+  export interface Event {
+    message: string;
+
+    type: 'error' | 'warning' | 'info';
+
+    time?: string;
+  }
+
+  export interface Section {
+    document_id: number;
+
+    /**
+     * Summary of the section
+     */
+    text: string;
+
+    id?: number | null;
+
+    content?: string | null;
+
+    elements?: Array<unknown>;
+
+    embedding_e5_large?: Array<number> | null;
+
+    embedding_ts?: string | null;
+
+    metadata?: Record<string, unknown>;
+  }
+}
+
 export interface DocumentStatus {
   id: number;
 
@@ -232,6 +330,7 @@ Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 
 export declare namespace Documents {
   export {
+    type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
     type DocumentGetResponse as DocumentGetResponse,
