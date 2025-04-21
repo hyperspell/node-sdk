@@ -32,6 +32,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/documents.ts">Document</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentStatus</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentListResponse</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentGetResponse</a></code>

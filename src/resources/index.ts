@@ -12,6 +12,7 @@ export {
 export {
   DocumentListResponsesCursorPage,
   Documents,
+  type Document,
   type DocumentStatus,
   type DocumentListResponse,
   type DocumentGetResponse,
