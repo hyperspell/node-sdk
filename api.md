@@ -12,11 +12,11 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/integrations/google-calendar.ts">GoogleCalendarListResponse</a></code>
+- <code><a href="./src/resources/integrations/google-calendar.ts">Calendar</a></code>
 
 Methods:
 
-- <code title="get /integrations/google_calendar/list">client.integrations.googleCalendar.<a href="./src/resources/integrations/google-calendar.ts">list</a>() -> GoogleCalendarListResponse</code>
+- <code title="get /integrations/google_calendar/list">client.integrations.googleCalendar.<a href="./src/resources/integrations/google-calendar.ts">list</a>() -> Calendar</code>
 
 ## WebCrawler
 

@@ -3,7 +3,7 @@
 import { APIResource } from '../../resource';
 import * as Core from '../../core';
 import * as GoogleCalendarAPI from './google-calendar';
-import { GoogleCalendar, GoogleCalendarListResponse } from './google-calendar';
+import { Calendar, GoogleCalendar } from './google-calendar';
 import * as WebCrawlerAPI from './web-crawler';
 import { WebCrawler, WebCrawlerIndexParams, WebCrawlerIndexResponse } from './web-crawler';
 
@@ -32,7 +32,7 @@ Integrations.WebCrawler = WebCrawler;
 export declare namespace Integrations {
   export { type IntegrationRevokeResponse as IntegrationRevokeResponse };
 
-  export { GoogleCalendar as GoogleCalendar, type GoogleCalendarListResponse as GoogleCalendarListResponse };
+  export { GoogleCalendar as GoogleCalendar, type Calendar as Calendar };
 
   export {
     WebCrawler as WebCrawler,

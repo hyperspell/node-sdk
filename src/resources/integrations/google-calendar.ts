@@ -8,16 +8,16 @@ export class GoogleCalendar extends APIResource {
    * List available calendars for a user. This can be used to ie. populate a dropdown
    * for the user to select a calendar.
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<GoogleCalendarListResponse> {
+  list(options?: Core.RequestOptions): Core.APIPromise<Calendar> {
     return this._client.get('/integrations/google_calendar/list', options);
   }
 }
 
-export interface GoogleCalendarListResponse {
-  items: Array<GoogleCalendarListResponse.Item>;
+export interface Calendar {
+  items: Array<Calendar.Item>;
 }
 
-export namespace GoogleCalendarListResponse {
+export namespace Calendar {
   export interface Item {
     /**
      * The ID of the calendar
@@ -42,5 +42,5 @@ export namespace GoogleCalendarListResponse {
 }
 
 export declare namespace GoogleCalendar {
-  export { type GoogleCalendarListResponse as GoogleCalendarListResponse };
+  export { type Calendar as Calendar };
 }
