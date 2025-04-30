@@ -31,7 +31,15 @@ export namespace QuerySearchResponse {
   export interface Document {
     resource_id: string;
 
-    source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+    source:
+      | 'collections'
+      | 'notion'
+      | 'slack'
+      | 'hubspot'
+      | 'google_calendar'
+      | 'reddit'
+      | 'web_crawler'
+      | 'box';
 
     metadata?: Document.Metadata;
 
@@ -84,7 +92,7 @@ export interface QuerySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler'
+    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler' | 'box'
   >;
 }
 
@@ -103,6 +111,11 @@ export namespace QuerySearchParams {
      * Only query documents created before this date.
      */
     before?: string | null;
+
+    /**
+     * Search options for Box
+     */
+    box?: unknown;
 
     /**
      * Search options for Collections
@@ -231,6 +244,11 @@ export namespace QuerySearchParams {
      * Only query documents created before this date.
      */
     before?: string | null;
+
+    /**
+     * Search options for Box
+     */
+    box?: unknown;
 
     /**
      * Search options for Collections

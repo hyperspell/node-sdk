@@ -27,6 +27,7 @@ describe('resource query', () => {
       filter: {
         after: '2019-12-27T18:11:19.117Z',
         before: '2019-12-27T18:11:19.117Z',
+        box: {},
         collections: { collections: ['string'] },
         google_calendar: { calendar_id: 'calendar_id' },
         notion: { notion_page_ids: ['string'] },
@@ -38,6 +39,7 @@ describe('resource query', () => {
       options: {
         after: '2019-12-27T18:11:19.117Z',
         before: '2019-12-27T18:11:19.117Z',
+        box: {},
         collections: { collections: ['string'] },
         google_calendar: { calendar_id: 'calendar_id' },
         notion: { notion_page_ids: ['string'] },
