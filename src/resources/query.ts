@@ -74,7 +74,8 @@ export interface QuerySearchParams {
   answer?: boolean;
 
   /**
-   * DEPRECATED: Use options instead. This field will be removed in a future version.
+   * @deprecated DEPRECATED: Use options instead. This field will be removed in a
+   * future version.
    */
   filter?: QuerySearchParams.Filter | null;
 
