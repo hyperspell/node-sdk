@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.14.0 (2025-05-01)
+
+Full Changelog: [v0.13.0...v0.14.0](https://github.com/hyperspell/node-sdk/compare/v0.13.0...v0.14.0)
+
+### Features
+
+* **api:** api update ([6f9c746](https://github.com/hyperspell/node-sdk/commit/6f9c74687f4e79cf83ed0d5b705064ab0b5d413e))
+* **api:** api update ([d297aa4](https://github.com/hyperspell/node-sdk/commit/d297aa4cbd7b2373713381cbbd8c15f64d240d8c))
+
+
+### Chores
+
+* **ci:** add timeout thresholds for CI jobs ([b0a9540](https://github.com/hyperspell/node-sdk/commit/b0a95401a7cffc8b4a460926d68943e9f355c925))
+* **ci:** only use depot for staging repos ([a39159d](https://github.com/hyperspell/node-sdk/commit/a39159da3134e1b5cbd5e47d39b8ce24c0f0d1be))
+* **docs:** add missing deprecation warnings ([32486cc](https://github.com/hyperspell/node-sdk/commit/32486ccb3b493dc7e68f7681c4c1ba5054a9cd63))
+* **internal:** codegen related update ([c044268](https://github.com/hyperspell/node-sdk/commit/c044268dcbd4cf5be42fa77a28731b5921847aa4))
+
+
+### Documentation
+
+* **readme:** fix typo ([b3c1a53](https://github.com/hyperspell/node-sdk/commit/b3c1a539678787c6b7d6d89aa4d32dc2be0b6f87))
+
 ## 0.13.0 (2025-04-21)
 
 Full Changelog: [v0.12.0...v0.13.0](https://github.com/hyperspell/node-sdk/compare/v0.12.0...v0.13.0)
