@@ -31,7 +31,15 @@ export namespace QuerySearchResponse {
   export interface Document {
     resource_id: string;
 
-    source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+    source:
+      | 'collections'
+      | 'notion'
+      | 'slack'
+      | 'hubspot'
+      | 'google_calendar'
+      | 'reddit'
+      | 'web_crawler'
+      | 'box';
 
     metadata?: Document.Metadata;
 
@@ -66,9 +74,10 @@ export interface QuerySearchParams {
   answer?: boolean;
 
   /**
-   * Filter the query results.
+   * @deprecated DEPRECATED: Use options instead. This field will be removed in a
+   * future version.
    */
-  filter?: QuerySearchParams.Filter;
+  filter?: QuerySearchParams.Filter | null;
 
   /**
    * Maximum number of results to return.
@@ -76,16 +85,22 @@ export interface QuerySearchParams {
   max_results?: number;
 
   /**
+   * Search options for the query.
+   */
+  options?: QuerySearchParams.Options;
+
+  /**
    * Only query documents from these sources.
    */
   sources?: Array<
-    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler'
+    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler' | 'box'
   >;
 }
 
 export namespace QuerySearchParams {
   /**
-   * Filter the query results.
+   * @deprecated DEPRECATED: Use options instead. This field will be removed in a
+   * future version.
    */
   export interface Filter {
     /**
@@ -97,6 +112,11 @@ export namespace QuerySearchParams {
      * Only query documents created before this date.
      */
     before?: string | null;
+
+    /**
+     * Search options for Box
+     */
+    box?: unknown;
 
     /**
      * Search options for Collections
@@ -135,16 +155,6 @@ export namespace QuerySearchParams {
      */
     export interface Collections {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * List of collections to search. If not provided, only the user's default
        * collection will be searched.
        */
@@ -155,16 +165,6 @@ export namespace QuerySearchParams {
      * Search options for Google Calendar
      */
     export interface GoogleCalendar {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       /**
        * The ID of the calendar to search. If not provided, it will use the ID of the
        * default calendar. You can get the list of calendars with the
@@ -178,16 +178,6 @@ export namespace QuerySearchParams {
      */
     export interface Notion {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
        * will be searched.
        */
@@ -198,16 +188,6 @@ export namespace QuerySearchParams {
      * Search options for Reddit
      */
     export interface Reddit {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       /**
        * The time period to search. Defaults to 'month'.
        */
@@ -230,16 +210,6 @@ export namespace QuerySearchParams {
      */
     export interface Slack {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * List of Slack channels to search. If not provided, all channels in the workspace
        * will be searched.
        */
@@ -251,15 +221,138 @@ export namespace QuerySearchParams {
      */
     export interface WebCrawler {
       /**
-       * Only query documents created on or after this date.
+       * Maximum depth to crawl from the starting URL
        */
-      after?: string | null;
+      max_depth?: number;
 
       /**
-       * Only query documents created before this date.
+       * The URL to crawl
        */
-      before?: string | null;
+      url?: string | unknown;
+    }
+  }
 
+  /**
+   * Search options for the query.
+   */
+  export interface Options {
+    /**
+     * Only query documents created on or after this date.
+     */
+    after?: string | null;
+
+    /**
+     * Only query documents created before this date.
+     */
+    before?: string | null;
+
+    /**
+     * Search options for Box
+     */
+    box?: unknown;
+
+    /**
+     * Search options for Collections
+     */
+    collections?: Options.Collections;
+
+    /**
+     * Search options for Google Calendar
+     */
+    google_calendar?: Options.GoogleCalendar;
+
+    /**
+     * Search options for Notion
+     */
+    notion?: Options.Notion;
+
+    /**
+     * Search options for Reddit
+     */
+    reddit?: Options.Reddit;
+
+    /**
+     * Search options for Slack
+     */
+    slack?: Options.Slack;
+
+    /**
+     * Search options for Web Crawler
+     */
+    web_crawler?: Options.WebCrawler;
+  }
+
+  export namespace Options {
+    /**
+     * Search options for Collections
+     */
+    export interface Collections {
+      /**
+       * List of collections to search. If not provided, only the user's default
+       * collection will be searched.
+       */
+      collections?: Array<string> | null;
+    }
+
+    /**
+     * Search options for Google Calendar
+     */
+    export interface GoogleCalendar {
+      /**
+       * The ID of the calendar to search. If not provided, it will use the ID of the
+       * default calendar. You can get the list of calendars with the
+       * `/integrations/google_calendar/list` endpoint.
+       */
+      calendar_id?: string | null;
+    }
+
+    /**
+     * Search options for Notion
+     */
+    export interface Notion {
+      /**
+       * List of Notion page IDs to search. If not provided, all pages in the workspace
+       * will be searched.
+       */
+      notion_page_ids?: Array<string>;
+    }
+
+    /**
+     * Search options for Reddit
+     */
+    export interface Reddit {
+      /**
+       * The time period to search. Defaults to 'month'.
+       */
+      period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all';
+
+      /**
+       * The sort order of the posts. Defaults to 'relevance'.
+       */
+      sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments';
+
+      /**
+       * The subreddit to search. If not provided, the query will be searched for in all
+       * subreddits.
+       */
+      subreddit?: string | null;
+    }
+
+    /**
+     * Search options for Slack
+     */
+    export interface Slack {
+      /**
+       * List of Slack channels to search. If not provided, all channels in the workspace
+       * will be searched.
+       */
+      channels?: Array<string>;
+    }
+
+    /**
+     * Search options for Web Crawler
+     */
+    export interface WebCrawler {
       /**
        * Maximum depth to crawl from the starting URL
        */

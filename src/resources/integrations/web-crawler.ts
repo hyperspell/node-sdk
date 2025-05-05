@@ -18,7 +18,15 @@ export class WebCrawler extends APIResource {
 export interface WebCrawlerIndexResponse {
   resource_id: string;
 
-  source: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+  source:
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }

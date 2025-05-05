@@ -99,7 +99,15 @@ export interface Document {
 
   sections_count?: number | null;
 
-  source?: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+  source?:
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -203,7 +211,15 @@ export interface DocumentListResponse {
 
   sections_count?: number | null;
 
-  source?: 'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler';
+  source?:
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
