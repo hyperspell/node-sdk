@@ -9,6 +9,14 @@ export class Documents extends APIResource {
   /**
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const documentListResponse of client.documents.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: DocumentListParams,
@@ -31,6 +39,13 @@ export class Documents extends APIResource {
    * Adds an arbitrary document to the index. This can be any text, email, call
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
+   *
+   * @example
+   * ```ts
+   * const documentStatus = await client.documents.add({
+   *   text: 'text',
+   * });
+   * ```
    */
   add(body: DocumentAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/add', { body, ...options });
@@ -40,6 +55,13 @@ export class Documents extends APIResource {
    * Adds an arbitrary document to the index. This can be any text, email, call
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
+   *
+   * @example
+   * ```ts
+   * const documentStatus = await client.documents.addURL({
+   *   url: 'url',
+   * });
+   * ```
    */
   addURL(body: DocumentAddURLParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/scrape', { body, ...options });
@@ -47,6 +69,11 @@ export class Documents extends APIResource {
 
   /**
    * Retrieves a document by ID, including its collection name and sections.
+   *
+   * @example
+   * ```ts
+   * const document = await client.documents.get(0);
+   * ```
    */
   get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<unknown> {
     return this._client.get(`/documents/get/${documentId}`, options);
@@ -57,6 +84,14 @@ export class Documents extends APIResource {
    * will be processed in the background and the document will be available for
    * querying once the processing is complete. You can use the `document_id` to query
    * the document later, and check the status of the document.
+   *
+   * @example
+   * ```ts
+   * const documentStatus = await client.documents.upload({
+   *   collection: 'collection',
+   *   file: fs.createReadStream('path/to/file'),
+   * });
+   * ```
    */
   upload(body: DocumentUploadParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/upload', Core.multipartFormRequestOptions({ body, ...options }));
