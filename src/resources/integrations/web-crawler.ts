@@ -6,6 +6,13 @@ import * as Core from '../../core';
 export class WebCrawler extends APIResource {
   /**
    * Recursively crawl a website to make it available for indexed search.
+   *
+   * @example
+   * ```ts
+   * const response = await client.integrations.webCrawler.index(
+   *   { url: 'url' },
+   * );
+   * ```
    */
   index(
     query: WebCrawlerIndexParams,

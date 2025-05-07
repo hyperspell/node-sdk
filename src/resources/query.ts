@@ -6,6 +6,13 @@ import * as Core from '../core';
 export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
+   *
+   * @example
+   * ```ts
+   * const response = await client.query.search({
+   *   query: 'query',
+   * });
+   * ```
    */
   search(body: QuerySearchParams, options?: Core.RequestOptions): Core.APIPromise<QuerySearchResponse> {
     return this._client.post('/query', { body, ...options });
