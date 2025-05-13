@@ -207,9 +207,22 @@ export namespace Document {
 }
 
 export interface DocumentStatus {
+  /**
+   * @deprecated Deprecated: refer to documents by source and resource_id instead
+   */
   id: number;
 
-  collection: string;
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
