@@ -33,7 +33,8 @@ export interface WebCrawlerIndexResponse {
     | 'google_calendar'
     | 'reddit'
     | 'web_crawler'
-    | 'box';
+    | 'box'
+    | 'google_drive';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }

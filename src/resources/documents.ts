@@ -142,7 +142,8 @@ export interface Document {
     | 'google_calendar'
     | 'reddit'
     | 'web_crawler'
-    | 'box';
+    | 'box'
+    | 'google_drive';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
@@ -222,7 +223,8 @@ export interface DocumentStatus {
     | 'google_calendar'
     | 'reddit'
     | 'web_crawler'
-    | 'box';
+    | 'box'
+    | 'google_drive';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
@@ -267,7 +269,8 @@ export interface DocumentListResponse {
     | 'google_calendar'
     | 'reddit'
     | 'web_crawler'
-    | 'box';
+    | 'box'
+    | 'google_drive';
 
   status?: 'pending' | 'processing' | 'completed' | 'failed';
 
