@@ -46,7 +46,8 @@ export namespace QuerySearchResponse {
       | 'google_calendar'
       | 'reddit'
       | 'web_crawler'
-      | 'box';
+      | 'box'
+      | 'google_drive';
 
     metadata?: Document.Metadata;
 
@@ -100,7 +101,15 @@ export interface QuerySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler' | 'box'
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box'
+    | 'google_drive'
   >;
 }
 
@@ -134,6 +143,11 @@ export namespace QuerySearchParams {
      * Search options for Google Calendar
      */
     google_calendar?: Filter.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion
@@ -267,6 +281,11 @@ export namespace QuerySearchParams {
      * Search options for Google Calendar
      */
     google_calendar?: Options.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion
