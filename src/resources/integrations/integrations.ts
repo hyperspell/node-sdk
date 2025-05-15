@@ -14,6 +14,13 @@ export class Integrations extends APIResource {
   /**
    * Revokes Hyperspell's access the given provider and deletes all stored
    * credentials. It does not delete any cached or synced data.
+   *
+   * @example
+   * ```ts
+   * const response = await client.integrations.revoke(
+   *   'provider',
+   * );
+   * ```
    */
   revoke(provider: string, options?: Core.RequestOptions): Core.APIPromise<IntegrationRevokeResponse> {
     return this._client.get(`/integrations/${provider}/revoke`, options);
