@@ -6,6 +6,13 @@ import * as Core from '../core';
 export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
+   *
+   * @example
+   * ```ts
+   * const response = await client.query.search({
+   *   query: 'query',
+   * });
+   * ```
    */
   search(body: QuerySearchParams, options?: Core.RequestOptions): Core.APIPromise<QuerySearchResponse> {
     return this._client.post('/query', { body, ...options });
@@ -39,7 +46,8 @@ export namespace QuerySearchResponse {
       | 'google_calendar'
       | 'reddit'
       | 'web_crawler'
-      | 'box';
+      | 'box'
+      | 'google_drive';
 
     metadata?: Document.Metadata;
 
@@ -93,7 +101,15 @@ export interface QuerySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler' | 'box'
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box'
+    | 'google_drive'
   >;
 }
 
@@ -127,6 +143,11 @@ export namespace QuerySearchParams {
      * Search options for Google Calendar
      */
     google_calendar?: Filter.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion
@@ -260,6 +281,11 @@ export namespace QuerySearchParams {
      * Search options for Google Calendar
      */
     google_calendar?: Options.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion

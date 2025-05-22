@@ -33,7 +33,7 @@ import { IntegrationRevokeResponse, Integrations } from './resources/integration
 
 export interface ClientOptions {
   /**
-   * API key used for authentication with the Hyperspell API
+   * Either an API Key or User Token to authenticate a specific user of your app.
    */
   apiKey?: string | null | undefined;
 
@@ -105,7 +105,7 @@ export class Hyperspell extends Core.APIClient {
   /**
    * API Client for interfacing with the Hyperspell API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['HYPERSPELL_API_KEY'] ?? null]
+   * @param {string | null | undefined} [opts.apiKey=process.env['HYPERSPELL_TOKEN'] ?? null]
    * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://api.hyperspell.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -116,7 +116,7 @@ export class Hyperspell extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('HYPERSPELL_BASE_URL'),
-    apiKey = Core.readEnv('HYPERSPELL_API_KEY') ?? null,
+    apiKey = Core.readEnv('HYPERSPELL_TOKEN') ?? null,
     ...opts
   }: ClientOptions = {}) {
     const options: ClientOptions = {

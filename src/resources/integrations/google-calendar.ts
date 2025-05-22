@@ -7,6 +7,12 @@ export class GoogleCalendar extends APIResource {
   /**
    * List available calendars for a user. This can be used to ie. populate a dropdown
    * for the user to select a calendar.
+   *
+   * @example
+   * ```ts
+   * const calendar =
+   *   await client.integrations.googleCalendar.list();
+   * ```
    */
   list(options?: Core.RequestOptions): Core.APIPromise<Calendar> {
     return this._client.get('/integrations/google_calendar/list', options);
