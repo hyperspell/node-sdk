@@ -135,9 +135,9 @@ export namespace QuerySearchParams {
     box?: unknown;
 
     /**
-     * Search options for Collections
+     * Search options for Collection
      */
-    collections?: Filter.Collections;
+    collections?: unknown;
 
     /**
      * Search options for Google Calendar
@@ -171,17 +171,6 @@ export namespace QuerySearchParams {
   }
 
   export namespace Filter {
-    /**
-     * Search options for Collections
-     */
-    export interface Collections {
-      /**
-       * List of collections to search. If not provided, only the user's default
-       * collection will be searched.
-       */
-      collections?: Array<string> | null;
-    }
-
     /**
      * Search options for Google Calendar
      */
@@ -273,9 +262,9 @@ export namespace QuerySearchParams {
     box?: unknown;
 
     /**
-     * Search options for Collections
+     * Search options for Collection
      */
-    collections?: Options.Collections;
+    collections?: unknown;
 
     /**
      * Search options for Google Calendar
@@ -309,17 +298,6 @@ export namespace QuerySearchParams {
   }
 
   export namespace Options {
-    /**
-     * Search options for Collections
-     */
-    export interface Collections {
-      /**
-       * List of collections to search. If not provided, only the user's default
-       * collection will be searched.
-       */
-      collections?: Array<string> | null;
-    }
-
     /**
      * Search options for Google Calendar
      */

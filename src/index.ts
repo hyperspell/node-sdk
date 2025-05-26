@@ -9,18 +9,13 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import {
-  Collection,
-  CollectionCreateParams,
   CollectionListParams,
   CollectionListResponse,
   CollectionListResponsesCursorPage,
   Collections,
 } from './resources/collections';
 import {
-  Document,
   DocumentAddParams,
-  DocumentAddURLParams,
-  DocumentGetResponse,
   DocumentListParams,
   DocumentListResponse,
   DocumentListResponsesCursorPage,
@@ -213,23 +208,18 @@ export declare namespace Hyperspell {
 
   export {
     Documents as Documents,
-    type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    type DocumentGetResponse as DocumentGetResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
-    type DocumentAddURLParams as DocumentAddURLParams,
     type DocumentUploadParams as DocumentUploadParams,
   };
 
   export {
     Collections as Collections,
-    type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
     CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
-    type CollectionCreateParams as CollectionCreateParams,
     type CollectionListParams as CollectionListParams,
   };
 
