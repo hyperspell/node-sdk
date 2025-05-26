@@ -7,8 +7,9 @@ import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Collections extends APIResource {
   /**
-   * This endpoint allows you to paginate through all documents in the index. You can
-   * filter the documents by title, date, metadata, etc.
+   * This endpoint lists all collections, and how many documents are in each
+   * collection. All documents that do not have a collection assigned are in the
+   * `null` collection.
    */
   list(
     query?: CollectionListParams,
