@@ -12,7 +12,7 @@ export class Auth extends APIResource {
   }
 
   /**
-   * Use this endpoing to create a user token for a specific user. This token can be
+   * Use this endpoint to create a user token for a specific user. This token can be
    * safely passed to your user-facing front-end.
    */
   userToken(body: AuthUserTokenParams, options?: Core.RequestOptions): Core.APIPromise<Token> {
@@ -40,12 +40,32 @@ export interface AuthMeResponse {
   /**
    * All integrations available for the app
    */
-  available_integrations: Array<string>;
+  available_integrations: Array<
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box'
+    | 'google_drive'
+  >;
 
   /**
    * All integrations installed for the user
    */
-  installed_integrations: Array<string>;
+  installed_integrations: Array<
+    | 'collections'
+    | 'notion'
+    | 'slack'
+    | 'hubspot'
+    | 'google_calendar'
+    | 'reddit'
+    | 'web_crawler'
+    | 'box'
+    | 'google_drive'
+  >;
 
   /**
    * The expiration time of the user token used to make the request
