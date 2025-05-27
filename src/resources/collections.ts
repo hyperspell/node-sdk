@@ -7,15 +7,9 @@ import { CursorPage, type CursorPageParams } from '../pagination';
 
 export class Collections extends APIResource {
   /**
-   * This endpoint allows you to paginate through all documents in the index. You can
-   * filter the documents by title, date, metadata, etc.
-   */
-  create(body: CollectionCreateParams, options?: Core.RequestOptions): Core.APIPromise<Collection> {
-    return this._client.post('/collections/add', { body, ...options });
-  }
-
-  /**
-   * Lists all collections the user has access to.
+   * This endpoint lists all collections, and how many documents are in each
+   * collection. All documents that do not have a collection assigned are in the
+   * `null` collection.
    */
   list(
     query?: CollectionListParams,
@@ -36,48 +30,14 @@ export class Collections extends APIResource {
       ...options,
     });
   }
-
-  /**
-   * Retrieves a collection by name.
-   */
-  get(name: string, options?: Core.RequestOptions): Core.APIPromise<Collection> {
-    return this._client.get(`/collections/get/${name}`, options);
-  }
 }
 
 export class CollectionListResponsesCursorPage extends CursorPage<CollectionListResponse> {}
 
-export interface Collection {
-  created_at: string;
-
-  name: string;
-
-  owner: string | null;
-}
-
 export interface CollectionListResponse {
-  name: string;
+  collection: string | null;
 
-  id?: number | null;
-
-  created_at?: string;
-
-  documents_count?: number | null;
-
-  owner?: string | null;
-}
-
-export interface CollectionCreateParams {
-  /**
-   * The name of the collection.
-   */
-  name: string;
-
-  /**
-   * The owner of the collection. If the request is made using a user token, this
-   * will be set to the user ID.
-   */
-  owner?: string | null;
+  document_count: number;
 }
 
 export interface CollectionListParams extends CursorPageParams {}
@@ -86,10 +46,8 @@ Collections.CollectionListResponsesCursorPage = CollectionListResponsesCursorPag
 
 export declare namespace Collections {
   export {
-    type Collection as Collection,
     type CollectionListResponse as CollectionListResponse,
     CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
-    type CollectionCreateParams as CollectionCreateParams,
     type CollectionListParams as CollectionListParams,
   };
 }

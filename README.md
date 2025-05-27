@@ -23,7 +23,7 @@ The full API of this library can be found in [api.md](api.md).
 import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
-  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
+  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
 async function main() {
@@ -44,7 +44,7 @@ This library includes TypeScript definitions for all request params and response
 import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
-  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
+  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
 async function main() {
@@ -74,23 +74,17 @@ import Hyperspell, { toFile } from 'hyperspell';
 const client = new Hyperspell();
 
 // If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.documents.upload({ collection: 'collection', file: fs.createReadStream('/path/to/file') });
+await client.documents.upload({ file: fs.createReadStream('/path/to/file') });
 
 // Or if you have the web `File` API you can pass a `File` instance:
-await client.documents.upload({ collection: 'collection', file: new File(['my bytes'], 'file') });
+await client.documents.upload({ file: new File(['my bytes'], 'file') });
 
 // You can also pass a `fetch` `Response`:
-await client.documents.upload({ collection: 'collection', file: await fetch('https://somesite/file') });
+await client.documents.upload({ file: await fetch('https://somesite/file') });
 
 // Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.documents.upload({
-  collection: 'collection',
-  file: await toFile(Buffer.from('my bytes'), 'file'),
-});
-await client.documents.upload({
-  collection: 'collection',
-  file: await toFile(new Uint8Array([0, 1, 2]), 'file'),
-});
+await client.documents.upload({ file: await toFile(Buffer.from('my bytes'), 'file') });
+await client.documents.upload({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
 ```
 
 ## Handling errors

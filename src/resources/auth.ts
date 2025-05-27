@@ -12,7 +12,7 @@ export class Auth extends APIResource {
   }
 
   /**
-   * Use this endpoing to create a user token for a specific user. This token can be
+   * Use this endpoint to create a user token for a specific user. This token can be
    * safely passed to your user-facing front-end.
    */
   userToken(body: AuthUserTokenParams, options?: Core.RequestOptions): Core.APIPromise<Token> {
@@ -40,12 +40,104 @@ export interface AuthMeResponse {
   /**
    * All integrations available for the app
    */
-  available_integrations: Array<string>;
+  available_integrations: Array<
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom'
+  >;
 
   /**
    * All integrations installed for the user
    */
-  installed_integrations: Array<string>;
+  installed_integrations: Array<
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom'
+  >;
 
   /**
    * The expiration time of the user token used to make the request

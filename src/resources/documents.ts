@@ -9,6 +9,14 @@ export class Documents extends APIResource {
   /**
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
+   *
+   * @example
+   * ```ts
+   * // Automatically fetches more pages as needed.
+   * for await (const documentListResponse of client.documents.list()) {
+   *   // ...
+   * }
+   * ```
    */
   list(
     query?: DocumentListParams,
@@ -31,25 +39,16 @@ export class Documents extends APIResource {
    * Adds an arbitrary document to the index. This can be any text, email, call
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
+   *
+   * @example
+   * ```ts
+   * const documentStatus = await client.documents.add({
+   *   text: 'text',
+   * });
+   * ```
    */
   add(body: DocumentAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/add', { body, ...options });
-  }
-
-  /**
-   * Adds an arbitrary document to the index. This can be any text, email, call
-   * transcript, etc. The document will be processed and made available for querying
-   * once the processing is complete.
-   */
-  addURL(body: DocumentAddURLParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
-    return this._client.post('/documents/scrape', { body, ...options });
-  }
-
-  /**
-   * Retrieves a document by ID, including its collection name and sections.
-   */
-  get(documentId: number, options?: Core.RequestOptions): Core.APIPromise<unknown> {
-    return this._client.get(`/documents/get/${documentId}`, options);
   }
 
   /**
@@ -57,6 +56,13 @@ export class Documents extends APIResource {
    * will be processed in the background and the document will be available for
    * querying once the processing is complete. You can use the `document_id` to query
    * the document later, and check the status of the document.
+   *
+   * @example
+   * ```ts
+   * const documentStatus = await client.documents.upload({
+   *   file: fs.createReadStream('path/to/file'),
+   * });
+   * ```
    */
   upload(body: DocumentUploadParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/upload', Core.multipartFormRequestOptions({ body, ...options }));
@@ -65,227 +71,138 @@ export class Documents extends APIResource {
 
 export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
 
-export interface Document {
-  /**
-   * Summary of the document
-   */
-  data: Array<unknown>;
-
-  /**
-   * Summary of the document
-   */
-  summary: string;
-
-  id?: number | null;
-
-  collection?: string;
-
-  collection_id?: number | null;
-
-  created_at?: string | null;
-
-  events?: Array<Document.Event>;
-
-  ingested_at?: string | null;
-
-  metadata?: Record<string, unknown>;
-
-  /**
-   * Along with service, uniquely identifies the source document
-   */
-  resource_id?: string;
-
-  sections?: Array<Document.Section>;
-
-  sections_count?: number | null;
-
-  source?:
-    | 'collections'
-    | 'notion'
-    | 'slack'
-    | 'hubspot'
-    | 'google_calendar'
-    | 'reddit'
-    | 'web_crawler'
-    | 'box';
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-  title?: string | null;
-
-  type?:
-    | 'generic'
-    | 'memory'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'spreadsheet'
-    | 'archive'
-    | 'book'
-    | 'video'
-    | 'code'
-    | 'calendar'
-    | 'json'
-    | 'presentation'
-    | 'unsupported'
-    | 'person'
-    | 'company'
-    | 'crm_contact'
-    | 'event';
-}
-
-export namespace Document {
-  export interface Event {
-    message: string;
-
-    type: 'error' | 'warning' | 'info';
-
-    time?: string;
-  }
-
-  export interface Section {
-    document_id: number;
-
-    /**
-     * Summary of the section
-     */
-    text: string;
-
-    id?: number | null;
-
-    content?: string | null;
-
-    elements?: Array<unknown>;
-
-    embedding_e5_large?: Array<number> | null;
-
-    embedding_ts?: string | null;
-
-    metadata?: Record<string, unknown>;
-  }
-}
-
 export interface DocumentStatus {
+  /**
+   * @deprecated Deprecated: refer to documents by source and resource_id instead
+   */
   id: number;
 
-  collection: string;
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export interface DocumentListResponse {
-  /**
-   * Summary of the document
-   */
-  data: Array<unknown>;
+  resource_id: string;
 
-  /**
-   * Summary of the document
-   */
-  summary: string;
-
-  id?: number | null;
-
-  collection?: string;
-
-  created_at?: string | null;
-
-  events?: Array<DocumentListResponse.Event>;
-
-  ingested_at?: string | null;
-
-  metadata?: Record<string, unknown>;
-
-  /**
-   * Along with service, uniquely identifies the source document
-   */
-  resource_id?: string;
-
-  sections?: Array<DocumentListResponse.Section>;
-
-  sections_count?: number | null;
-
-  source?:
+  source:
     | 'collections'
+    | 'web_crawler'
     | 'notion'
     | 'slack'
-    | 'hubspot'
     | 'google_calendar'
     | 'reddit'
-    | 'web_crawler'
-    | 'box';
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
 
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
+  metadata?: DocumentListResponse.Metadata;
 
-  title?: string | null;
-
-  type?:
-    | 'generic'
-    | 'memory'
-    | 'markdown'
-    | 'chat'
-    | 'email'
-    | 'transcript'
-    | 'legal'
-    | 'website'
-    | 'image'
-    | 'pdf'
-    | 'audio'
-    | 'spreadsheet'
-    | 'archive'
-    | 'book'
-    | 'video'
-    | 'code'
-    | 'calendar'
-    | 'json'
-    | 'presentation'
-    | 'unsupported'
-    | 'person'
-    | 'company'
-    | 'crm_contact'
-    | 'event';
+  /**
+   * The relevance of the resource to the query
+   */
+  score?: number | null;
 }
 
 export namespace DocumentListResponse {
-  export interface Event {
-    message: string;
+  export interface Metadata {
+    created_at?: string | null;
 
-    type: 'error' | 'warning' | 'info';
+    last_modified?: string | null;
 
-    time?: string;
-  }
+    url?: string | null;
 
-  export interface Section {
-    document_id: number;
-
-    /**
-     * Summary of the section
-     */
-    text: string;
-
-    id?: number | null;
-
-    content?: string | null;
-
-    elements?: Array<unknown>;
-
-    embedding_e5_large?: Array<number> | null;
-
-    embedding_ts?: string | null;
-
-    metadata?: Record<string, unknown>;
+    [k: string]: unknown;
   }
 }
 
-export type DocumentGetResponse = unknown;
-
 export interface DocumentListParams extends CursorPageParams {
+  /**
+   * Filter documents by collection.
+   */
   collection?: string | null;
 }
 
@@ -296,9 +213,7 @@ export interface DocumentAddParams {
   text: string;
 
   /**
-   * Name of the collection to add the document to. If the collection does not exist,
-   * it will be created. If not given, the document will be added to the user's
-   * default collection.
+   * The collection to add the document to for easier retrieval.
    */
   collection?: string | null;
 
@@ -316,44 +231,27 @@ export interface DocumentAddParams {
   title?: string | null;
 }
 
-export interface DocumentAddURLParams {
-  /**
-   * Source URL of the document.
-   */
-  url: string;
-
-  /**
-   * Name of the collection to add the document to. If the collection does not exist,
-   * it will be created. If not given, the document will be added to the user's
-   * default collection.
-   */
-  collection?: string | null;
-}
-
 export interface DocumentUploadParams {
-  /**
-   * The collection to add the document to.
-   */
-  collection: string;
-
   /**
    * The file to ingest.
    */
   file: Core.Uploadable;
+
+  /**
+   * The collection to add the document to.
+   */
+  collection?: string | null;
 }
 
 Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
 
 export declare namespace Documents {
   export {
-    type Document as Document,
     type DocumentStatus as DocumentStatus,
     type DocumentListResponse as DocumentListResponse,
-    type DocumentGetResponse as DocumentGetResponse,
     DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
-    type DocumentAddURLParams as DocumentAddURLParams,
     type DocumentUploadParams as DocumentUploadParams,
   };
 }

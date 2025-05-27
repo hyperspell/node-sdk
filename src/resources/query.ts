@@ -6,6 +6,13 @@ import * as Core from '../core';
 export class Query extends APIResource {
   /**
    * Retrieves documents matching the query.
+   *
+   * @example
+   * ```ts
+   * const response = await client.query.search({
+   *   query: 'query',
+   * });
+   * ```
    */
   search(body: QuerySearchParams, options?: Core.RequestOptions): Core.APIPromise<QuerySearchResponse> {
     return this._client.post('/query', { body, ...options });
@@ -33,13 +40,50 @@ export namespace QuerySearchResponse {
 
     source:
       | 'collections'
+      | 'web_crawler'
       | 'notion'
       | 'slack'
-      | 'hubspot'
       | 'google_calendar'
       | 'reddit'
-      | 'web_crawler'
-      | 'box';
+      | 'box'
+      | 'google_drive'
+      | 'airtable'
+      | 'algolia'
+      | 'amplitude'
+      | 'asana'
+      | 'ashby'
+      | 'bamboohr'
+      | 'basecamp'
+      | 'bubbles'
+      | 'calendly'
+      | 'confluence'
+      | 'clickup'
+      | 'datadog'
+      | 'deel'
+      | 'discord'
+      | 'dropbox'
+      | 'exa'
+      | 'facebook'
+      | 'front'
+      | 'github'
+      | 'gitlab'
+      | 'google_docs'
+      | 'google_mail'
+      | 'google_sheet'
+      | 'hubspot'
+      | 'jira'
+      | 'linear'
+      | 'microsoft_teams'
+      | 'mixpanel'
+      | 'monday'
+      | 'outlook'
+      | 'perplexity'
+      | 'rippling'
+      | 'salesforce'
+      | 'segment'
+      | 'todoist'
+      | 'twitter'
+      | 'zoom';
 
     metadata?: Document.Metadata;
 
@@ -93,7 +137,51 @@ export interface QuerySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    'collections' | 'notion' | 'slack' | 'hubspot' | 'google_calendar' | 'reddit' | 'web_crawler' | 'box'
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom'
   >;
 }
 
@@ -119,14 +207,19 @@ export namespace QuerySearchParams {
     box?: unknown;
 
     /**
-     * Search options for Collections
+     * Search options for Collection
      */
-    collections?: Filter.Collections;
+    collections?: unknown;
 
     /**
      * Search options for Google Calendar
      */
     google_calendar?: Filter.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion
@@ -150,17 +243,6 @@ export namespace QuerySearchParams {
   }
 
   export namespace Filter {
-    /**
-     * Search options for Collections
-     */
-    export interface Collections {
-      /**
-       * List of collections to search. If not provided, only the user's default
-       * collection will be searched.
-       */
-      collections?: Array<string> | null;
-    }
-
     /**
      * Search options for Google Calendar
      */
@@ -252,14 +334,19 @@ export namespace QuerySearchParams {
     box?: unknown;
 
     /**
-     * Search options for Collections
+     * Search options for Collection
      */
-    collections?: Options.Collections;
+    collections?: unknown;
 
     /**
      * Search options for Google Calendar
      */
     google_calendar?: Options.GoogleCalendar;
+
+    /**
+     * Search options for Google Drive
+     */
+    google_drive?: unknown;
 
     /**
      * Search options for Notion
@@ -283,17 +370,6 @@ export namespace QuerySearchParams {
   }
 
   export namespace Options {
-    /**
-     * Search options for Collections
-     */
-    export interface Collections {
-      /**
-       * List of collections to search. If not provided, only the user's default
-       * collection will be searched.
-       */
-      collections?: Array<string> | null;
-    }
-
     /**
      * Search options for Google Calendar
      */
