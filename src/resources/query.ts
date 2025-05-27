@@ -2,6 +2,7 @@
 
 import { APIResource } from '../resource';
 import * as Core from '../core';
+import * as DocumentsAPI from './documents';
 
 export class Query extends APIResource {
   /**
@@ -20,7 +21,7 @@ export class Query extends APIResource {
 }
 
 export interface QuerySearchResponse {
-  documents: Array<QuerySearchResponse.Document>;
+  documents: Array<DocumentsAPI.Document>;
 
   /**
    * The answer to the query, if the request was set to answer.
@@ -32,78 +33,6 @@ export interface QuerySearchResponse {
    * debug the query, and are not meant to be shown to the user.
    */
   errors?: Array<Record<string, string>> | null;
-}
-
-export namespace QuerySearchResponse {
-  export interface Document {
-    resource_id: string;
-
-    source:
-      | 'collections'
-      | 'web_crawler'
-      | 'notion'
-      | 'slack'
-      | 'google_calendar'
-      | 'reddit'
-      | 'box'
-      | 'google_drive'
-      | 'airtable'
-      | 'algolia'
-      | 'amplitude'
-      | 'asana'
-      | 'ashby'
-      | 'bamboohr'
-      | 'basecamp'
-      | 'bubbles'
-      | 'calendly'
-      | 'confluence'
-      | 'clickup'
-      | 'datadog'
-      | 'deel'
-      | 'discord'
-      | 'dropbox'
-      | 'exa'
-      | 'facebook'
-      | 'front'
-      | 'github'
-      | 'gitlab'
-      | 'google_docs'
-      | 'google_mail'
-      | 'google_sheet'
-      | 'hubspot'
-      | 'jira'
-      | 'linear'
-      | 'microsoft_teams'
-      | 'mixpanel'
-      | 'monday'
-      | 'outlook'
-      | 'perplexity'
-      | 'rippling'
-      | 'salesforce'
-      | 'segment'
-      | 'todoist'
-      | 'twitter'
-      | 'zoom';
-
-    metadata?: Document.Metadata;
-
-    /**
-     * The relevance of the resource to the query
-     */
-    score?: number | null;
-  }
-
-  export namespace Document {
-    export interface Metadata {
-      created_at?: string | null;
-
-      last_modified?: string | null;
-
-      url?: string | null;
-
-      [k: string]: unknown;
-    }
-  }
 }
 
 export interface QuerySearchParams {

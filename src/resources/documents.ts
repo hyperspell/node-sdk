@@ -13,7 +13,7 @@ export class Documents extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const documentListResponse of client.documents.list()) {
+   * for await (const document of client.documents.list()) {
    *   // ...
    * }
    * ```
@@ -21,18 +21,16 @@ export class Documents extends APIResource {
   list(
     query?: DocumentListParams,
     options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse>;
-  list(
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse>;
+  ): Core.PagePromise<DocumentsCursorPage, Document>;
+  list(options?: Core.RequestOptions): Core.PagePromise<DocumentsCursorPage, Document>;
   list(
     query: DocumentListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentListResponsesCursorPage, DocumentListResponse> {
+  ): Core.PagePromise<DocumentsCursorPage, Document> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/documents/list', DocumentListResponsesCursorPage, { query, ...options });
+    return this._client.getAPIList('/documents/list', DocumentsCursorPage, { query, ...options });
   }
 
   /**
@@ -49,6 +47,70 @@ export class Documents extends APIResource {
    */
   add(body: DocumentAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
     return this._client.post('/documents/add', { body, ...options });
+  }
+
+  /**
+   * Retrieves a document by provider and resource_id.
+   *
+   * @example
+   * ```ts
+   * const document = await client.documents.get(
+   *   'collections',
+   *   'resource_id',
+   * );
+   * ```
+   */
+  get(
+    source:
+      | 'collections'
+      | 'web_crawler'
+      | 'notion'
+      | 'slack'
+      | 'google_calendar'
+      | 'reddit'
+      | 'box'
+      | 'google_drive'
+      | 'airtable'
+      | 'algolia'
+      | 'amplitude'
+      | 'asana'
+      | 'ashby'
+      | 'bamboohr'
+      | 'basecamp'
+      | 'bubbles'
+      | 'calendly'
+      | 'confluence'
+      | 'clickup'
+      | 'datadog'
+      | 'deel'
+      | 'discord'
+      | 'dropbox'
+      | 'exa'
+      | 'facebook'
+      | 'front'
+      | 'github'
+      | 'gitlab'
+      | 'google_docs'
+      | 'google_mail'
+      | 'google_sheet'
+      | 'hubspot'
+      | 'jira'
+      | 'linear'
+      | 'microsoft_teams'
+      | 'mixpanel'
+      | 'monday'
+      | 'outlook'
+      | 'perplexity'
+      | 'rippling'
+      | 'salesforce'
+      | 'segment'
+      | 'todoist'
+      | 'twitter'
+      | 'zoom',
+    resourceId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<Document> {
+    return this._client.get(`/documents/get/${source}/${resourceId}`, options);
   }
 
   /**
@@ -69,7 +131,77 @@ export class Documents extends APIResource {
   }
 }
 
-export class DocumentListResponsesCursorPage extends CursorPage<DocumentListResponse> {}
+export class DocumentsCursorPage extends CursorPage<Document> {}
+
+export interface Document {
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
+
+  metadata?: Document.Metadata;
+
+  /**
+   * The relevance of the resource to the query
+   */
+  score?: number | null;
+}
+
+export namespace Document {
+  export interface Metadata {
+    created_at?: string | null;
+
+    last_modified?: string | null;
+
+    url?: string | null;
+
+    [k: string]: unknown;
+  }
+}
 
 export interface DocumentStatus {
   /**
@@ -129,76 +261,6 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
-export interface DocumentListResponse {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'web_crawler'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'reddit'
-    | 'box'
-    | 'google_drive'
-    | 'airtable'
-    | 'algolia'
-    | 'amplitude'
-    | 'asana'
-    | 'ashby'
-    | 'bamboohr'
-    | 'basecamp'
-    | 'bubbles'
-    | 'calendly'
-    | 'confluence'
-    | 'clickup'
-    | 'datadog'
-    | 'deel'
-    | 'discord'
-    | 'dropbox'
-    | 'exa'
-    | 'facebook'
-    | 'front'
-    | 'github'
-    | 'gitlab'
-    | 'google_docs'
-    | 'google_mail'
-    | 'google_sheet'
-    | 'hubspot'
-    | 'jira'
-    | 'linear'
-    | 'microsoft_teams'
-    | 'mixpanel'
-    | 'monday'
-    | 'outlook'
-    | 'perplexity'
-    | 'rippling'
-    | 'salesforce'
-    | 'segment'
-    | 'todoist'
-    | 'twitter'
-    | 'zoom';
-
-  metadata?: DocumentListResponse.Metadata;
-
-  /**
-   * The relevance of the resource to the query
-   */
-  score?: number | null;
-}
-
-export namespace DocumentListResponse {
-  export interface Metadata {
-    created_at?: string | null;
-
-    last_modified?: string | null;
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-}
-
 export interface DocumentListParams extends CursorPageParams {
   /**
    * Filter documents by collection.
@@ -243,13 +305,13 @@ export interface DocumentUploadParams {
   collection?: string | null;
 }
 
-Documents.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
+Documents.DocumentsCursorPage = DocumentsCursorPage;
 
 export declare namespace Documents {
   export {
+    type Document as Document,
     type DocumentStatus as DocumentStatus,
-    type DocumentListResponse as DocumentListResponse,
-    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
+    DocumentsCursorPage as DocumentsCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
     type DocumentUploadParams as DocumentUploadParams,

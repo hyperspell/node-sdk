@@ -15,13 +15,13 @@ import {
   Collections,
 } from './resources/collections';
 import {
+  Document,
   DocumentAddParams,
   DocumentListParams,
-  DocumentListResponse,
-  DocumentListResponsesCursorPage,
   DocumentStatus,
   DocumentUploadParams,
   Documents,
+  DocumentsCursorPage,
 } from './resources/documents';
 import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
 import { IntegrationRevokeResponse, Integrations } from './resources/integrations/integrations';
@@ -193,7 +193,7 @@ export class Hyperspell extends Core.APIClient {
 
 Hyperspell.Integrations = Integrations;
 Hyperspell.Documents = Documents;
-Hyperspell.DocumentListResponsesCursorPage = DocumentListResponsesCursorPage;
+Hyperspell.DocumentsCursorPage = DocumentsCursorPage;
 Hyperspell.Collections = Collections;
 Hyperspell.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
 Hyperspell.Query = Query;
@@ -208,9 +208,9 @@ export declare namespace Hyperspell {
 
   export {
     Documents as Documents,
+    type Document as Document,
     type DocumentStatus as DocumentStatus,
-    type DocumentListResponse as DocumentListResponse,
-    DocumentListResponsesCursorPage as DocumentListResponsesCursorPage,
+    DocumentsCursorPage as DocumentsCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,
     type DocumentUploadParams as DocumentUploadParams,
