@@ -174,8 +174,8 @@ You can use the `for await … of` syntax to iterate through items across all pa
 async function fetchAllDocuments(params) {
   const allDocuments = [];
   // Automatically fetches more pages as needed.
-  for await (const documentListResponse of client.documents.list({ collection: 'REPLACE_ME' })) {
-    allDocuments.push(documentListResponse);
+  for await (const document of client.documents.list({ collection: 'REPLACE_ME' })) {
+    allDocuments.push(document);
   }
   return allDocuments;
 }
@@ -185,8 +185,8 @@ Alternatively, you can request a single page at a time:
 
 ```ts
 let page = await client.documents.list({ collection: 'REPLACE_ME' });
-for (const documentListResponse of page.items) {
-  console.log(documentListResponse);
+for (const document of page.items) {
+  console.log(document);
 }
 
 // Convenience methods are provided for manually paginating:

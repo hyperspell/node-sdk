@@ -8,10 +8,10 @@ export {
   type CollectionListParams,
 } from './collections';
 export {
-  DocumentListResponsesCursorPage,
+  DocumentsCursorPage,
   Documents,
+  type Document,
   type DocumentStatus,
-  type DocumentListResponse,
   type DocumentListParams,
   type DocumentAddParams,
   type DocumentUploadParams,
