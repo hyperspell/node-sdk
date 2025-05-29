@@ -114,6 +114,19 @@ export class Documents extends APIResource {
   }
 
   /**
+   * This endpoint shows the indexing progress of documents, both by provider and
+   * total.
+   *
+   * @example
+   * ```ts
+   * const response = await client.documents.status();
+   * ```
+   */
+  status(options?: Core.RequestOptions): Core.APIPromise<DocumentStatusResponse> {
+    return this._client.get('/documents/status', options);
+  }
+
+  /**
    * This endpoint will upload a file to the index and return a document ID. The file
    * will be processed in the background and the document will be available for
    * querying once the processing is complete. You can use the `document_id` to query
@@ -193,13 +206,25 @@ export interface Document {
 
 export namespace Document {
   export interface Metadata {
-    created_at?: string | null;
+    events?: Array<Metadata.Event>;
+
+    indexed_at?: string | null;
 
     last_modified?: string | null;
 
-    url?: string | null;
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
 
     [k: string]: unknown;
+  }
+
+  export namespace Metadata {
+    export interface Event {
+      message: string;
+
+      type: 'error' | 'warning' | 'info' | 'success';
+
+      time?: string;
+    }
   }
 }
 
@@ -261,11 +286,68 @@ export interface DocumentStatus {
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
+export interface DocumentStatusResponse {
+  providers: Record<string, Record<string, number>>;
+
+  total: Record<string, number>;
+}
+
 export interface DocumentListParams extends CursorPageParams {
   /**
    * Filter documents by collection.
    */
   collection?: string | null;
+
+  /**
+   * Filter documents by source.
+   */
+  source?:
+    | 'collections'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom'
+    | null;
 }
 
 export interface DocumentAddParams {
@@ -311,6 +393,7 @@ export declare namespace Documents {
   export {
     type Document as Document,
     type DocumentStatus as DocumentStatus,
+    type DocumentStatusResponse as DocumentStatusResponse,
     DocumentsCursorPage as DocumentsCursorPage,
     type DocumentListParams as DocumentListParams,
     type DocumentAddParams as DocumentAddParams,

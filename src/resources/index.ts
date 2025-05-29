@@ -12,6 +12,7 @@ export {
   Documents,
   type Document,
   type DocumentStatus,
+  type DocumentStatusResponse,
   type DocumentListParams,
   type DocumentAddParams,
   type DocumentUploadParams,
