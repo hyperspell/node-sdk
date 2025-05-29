@@ -31,7 +31,7 @@ describe('resource documents', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.documents.list(
-        { collection: 'collection', cursor: 'cursor', size: 0 },
+        { collection: 'collection', cursor: 'cursor', size: 0, source: 'collections' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hyperspell.NotFoundError);
@@ -73,6 +73,24 @@ describe('resource documents', () => {
     await expect(
       client.documents.get('collections', 'resource_id', { path: '/_stainless_unknown_path' }),
     ).rejects.toThrow(Hyperspell.NotFoundError);
+  });
+
+  test('status', async () => {
+    const responsePromise = client.documents.status();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('status: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(client.documents.status({ path: '/_stainless_unknown_path' })).rejects.toThrow(
+      Hyperspell.NotFoundError,
+    );
   });
 
   test('upload: only required params', async () => {
