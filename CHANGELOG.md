@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.17.0 (2025-05-29)
+
+Full Changelog: [v0.16.0...v0.17.0](https://github.com/hyperspell/node-sdk/compare/v0.16.0...v0.17.0)
+
+### Features
+
+* **api:** api update ([a90e7f5](https://github.com/hyperspell/node-sdk/commit/a90e7f56a4a898bd629f500949bff54aa0ff6046))
+* **api:** api update ([ffee59f](https://github.com/hyperspell/node-sdk/commit/ffee59fefc3926c86aaa147936c3264900d9ae3e))
+
+
+### Chores
+
+* improve publish-npm script --latest tag logic ([55d7d43](https://github.com/hyperspell/node-sdk/commit/55d7d438e1a910e3ef773b95f9e1a4038b130353))
+
 ## 0.16.0 (2025-05-27)
 
 Full Changelog: [v0.15.0...v0.16.0](https://github.com/hyperspell/node-sdk/compare/v0.15.0...v0.16.0)

@@ -147,6 +147,11 @@ export interface AuthMeResponse {
 
 export interface AuthUserTokenParams {
   user_id: string;
+
+  /**
+   * Token lifetime, e.g., '30m', '2h', '1d'. Defaults to 24 hours if not provided.
+   */
+  expires_in?: string | null;
 }
 
 export declare namespace Auth {
