@@ -26,13 +26,9 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const documentStatus = await client.documents.add({ text: 'text' });
+const documentStatus = await client.documents.add({ text: 'text' });
 
-  console.log(documentStatus.id);
-}
-
-main();
+console.log(documentStatus.id);
 ```
 
 ### Request & Response types
@@ -47,12 +43,8 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
-async function main() {
-  const params: Hyperspell.DocumentAddParams = { text: 'text' };
-  const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
-}
-
-main();
+const params: Hyperspell.DocumentAddParams = { text: 'text' };
+const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -95,19 +87,15 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-async function main() {
-  const documentStatus = await client.documents.add({ text: 'text' }).catch(async (err) => {
-    if (err instanceof Hyperspell.APIError) {
-      console.log(err.status); // 400
-      console.log(err.name); // BadRequestError
-      console.log(err.headers); // {server: 'nginx', ...}
-    } else {
-      throw err;
-    }
-  });
-}
-
-main();
+const documentStatus = await client.documents.add({ text: 'text' }).catch(async (err) => {
+  if (err instanceof Hyperspell.APIError) {
+    console.log(err.status); // 400
+    console.log(err.name); // BadRequestError
+    console.log(err.headers); // {server: 'nginx', ...}
+  } else {
+    throw err;
+  }
+});
 ```
 
 Error codes are as follows:
