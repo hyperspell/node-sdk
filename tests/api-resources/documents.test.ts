@@ -53,6 +53,7 @@ describe('resource documents', () => {
       text: 'text',
       collection: 'collection',
       date: '2019-12-27T18:11:19.117Z',
+      resource_id: 'resource_id',
       title: 'title',
     });
   });

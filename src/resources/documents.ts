@@ -370,6 +370,12 @@ export interface DocumentAddParams {
   date?: string;
 
   /**
+   * The resource ID to add the document to. If not provided, a new resource ID will
+   * be generated. If provided, the document will be updated if it already exists.
+   */
+  resource_id?: string;
+
+  /**
    * Title of the document.
    */
   title?: string | null;
