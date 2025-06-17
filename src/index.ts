@@ -123,6 +123,7 @@ export class Hyperspell extends Core.APIClient {
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.hyperspell.com' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -139,6 +140,13 @@ export class Hyperspell extends Core.APIClient {
   collections: API.Collections = new API.Collections(this);
   query: API.Query = new API.Query(this);
   auth: API.Auth = new API.Auth(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.hyperspell.com';
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
