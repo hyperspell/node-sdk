@@ -10,6 +10,7 @@ You can run the MCP Server directly via `npx`:
 
 ```sh
 export HYPERSPELL_TOKEN="My API Key"
+export HYPERSPELL_USER_ID="My User ID"
 npx -y hyperspell-mcp@latest
 ```
 
@@ -27,7 +28,8 @@ For clients with a configuration JSON, it might look something like this:
       "command": "npx",
       "args": ["-y", "hyperspell-mcp", "--client=claude", "--tools=all"],
       "env": {
-        "HYPERSPELL_TOKEN": "My API Key"
+        "HYPERSPELL_TOKEN": "My API Key",
+        "HYPERSPELL_USER_ID": "My User ID"
       }
     }
   }

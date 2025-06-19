@@ -65,7 +65,9 @@ export function init(params: {
 
   const endpointMap = Object.fromEntries(providedEndpoints.map((endpoint) => [endpoint.tool.name, endpoint]));
 
-  const client = params.client || new Hyperspell({ defaultHeaders: { 'X-Stainless-MCP': 'true' } });
+  const client =
+    params.client ||
+    new Hyperspell({ userId: readEnv('HYPERSPELL_USER_ID'), defaultHeaders: { 'X-Stainless-MCP': 'true' } });
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     return {
