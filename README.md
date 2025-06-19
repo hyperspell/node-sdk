@@ -22,7 +22,10 @@ The full API of this library can be found in [api.md](api.md).
 ```js
 import Hyperspell from 'hyperspell';
 
-const client = new Hyperspell();
+const client = new Hyperspell({
+  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
+  userId: 'My User ID',
+});
 
 const documentStatus = await client.documents.add({ text: 'text' });
 
@@ -37,7 +40,10 @@ This library includes TypeScript definitions for all request params and response
 ```ts
 import Hyperspell from 'hyperspell';
 
-const client = new Hyperspell();
+const client = new Hyperspell({
+  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
+  userId: 'My User ID',
+});
 
 const params: Hyperspell.DocumentAddParams = { text: 'text' };
 const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
