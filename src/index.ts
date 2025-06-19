@@ -176,7 +176,21 @@ export class Hyperspell extends Core.APIClient {
   }
 
   protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
+    return {
+      ...this.apiKeyAuth(opts),
+      ...this.asUserAuth(opts),
+    };
+  }
+
+  protected apiKeyAuth(opts: Core.FinalRequestOptions): Core.Headers {
     return { Authorization: `Bearer ${this.apiKey}` };
+  }
+
+  protected asUserAuth(opts: Core.FinalRequestOptions): Core.Headers {
+    if (this.userId == null) {
+      return {};
+    }
+    return { 'X-As-User': this.userId };
   }
 
   static Hyperspell = this;
