@@ -31,7 +31,12 @@ export interface ClientOptions {
   /**
    * Either an API Key or User Token to authenticate a specific user of your app.
    */
-  apiKey?: string | null | undefined;
+  apiKey?: string | undefined;
+
+  /**
+   * The id of the user making this request. Optional.
+   */
+  userId?: string | null | undefined;
 
   /**
    * Override the default base URL for the API, e.g., "https://api.example.com/v2/"
@@ -94,14 +99,16 @@ export interface ClientOptions {
  * API Client for interfacing with the Hyperspell API.
  */
 export class Hyperspell extends Core.APIClient {
-  apiKey: string | null;
+  apiKey: string;
+  userId: string | null;
 
   private _options: ClientOptions;
 
   /**
    * API Client for interfacing with the Hyperspell API.
    *
-   * @param {string | null | undefined} [opts.apiKey=process.env['HYPERSPELL_TOKEN'] ?? null]
+   * @param {string | undefined} [opts.apiKey=process.env['HYPERSPELL_TOKEN'] ?? undefined]
+   * @param {string | null | undefined} [opts.userId]
    * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://api.hyperspell.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
    * @param {number} [opts.httpAgent] - An HTTP agent used to manage HTTP(s) connections.
@@ -112,17 +119,26 @@ export class Hyperspell extends Core.APIClient {
    */
   constructor({
     baseURL = Core.readEnv('HYPERSPELL_BASE_URL'),
-    apiKey = Core.readEnv('HYPERSPELL_TOKEN') ?? null,
+    apiKey = Core.readEnv('HYPERSPELL_TOKEN'),
+    userId = null,
     ...opts
   }: ClientOptions = {}) {
+    if (apiKey === undefined) {
+      throw new Errors.HyperspellError(
+        "The HYPERSPELL_TOKEN environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an apiKey option, like new Hyperspell({ apiKey: 'My API Key' }).",
+      );
+    }
+
     const options: ClientOptions = {
       apiKey,
+      userId,
       ...opts,
       baseURL: baseURL || `https://api.hyperspell.com`,
     };
 
     super({
       baseURL: options.baseURL!,
+      baseURLOverridden: baseURL ? baseURL !== 'https://api.hyperspell.com' : false,
       timeout: options.timeout ?? 60000 /* 1 minute */,
       httpAgent: options.httpAgent,
       maxRetries: options.maxRetries,
@@ -132,6 +148,7 @@ export class Hyperspell extends Core.APIClient {
     this._options = options;
 
     this.apiKey = apiKey;
+    this.userId = userId;
   }
 
   integrations: API.Integrations = new API.Integrations(this);
@@ -139,6 +156,13 @@ export class Hyperspell extends Core.APIClient {
   collections: API.Collections = new API.Collections(this);
   query: API.Query = new API.Query(this);
   auth: API.Auth = new API.Auth(this);
+
+  /**
+   * Check whether the base URL is set to its default.
+   */
+  #baseURLOverridden(): boolean {
+    return this.baseURL !== 'https://api.hyperspell.com';
+  }
 
   protected override defaultQuery(): Core.DefaultQuery | undefined {
     return this._options.defaultQuery;
@@ -151,24 +175,22 @@ export class Hyperspell extends Core.APIClient {
     };
   }
 
-  protected override validateHeaders(headers: Core.Headers, customHeaders: Core.Headers) {
-    if (this.apiKey && headers['authorization']) {
-      return;
-    }
-    if (customHeaders['authorization'] === null) {
-      return;
-    }
-
-    throw new Error(
-      'Could not resolve authentication method. Expected the apiKey to be set. Or for the "Authorization" headers to be explicitly omitted',
-    );
+  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
+    return {
+      ...this.apiKeyAuth(opts),
+      ...this.asUserAuth(opts),
+    };
   }
 
-  protected override authHeaders(opts: Core.FinalRequestOptions): Core.Headers {
-    if (this.apiKey == null) {
+  protected apiKeyAuth(opts: Core.FinalRequestOptions): Core.Headers {
+    return { Authorization: `Bearer ${this.apiKey}` };
+  }
+
+  protected asUserAuth(opts: Core.FinalRequestOptions): Core.Headers {
+    if (this.userId == null) {
       return {};
     }
-    return { Authorization: `Bearer ${this.apiKey}` };
+    return { 'X-As-User': this.userId };
   }
 
   static Hyperspell = this;
