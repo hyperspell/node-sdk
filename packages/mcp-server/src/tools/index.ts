@@ -4,37 +4,11 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
-import revoke_integrations from './integrations/revoke-integrations';
-import list_integrations_google_calendar from './integrations/google-calendar/list-integrations-google-calendar';
-import index_integrations_web_crawler from './integrations/web-crawler/index-integrations-web-crawler';
-import list_documents from './documents/list-documents';
-import add_documents from './documents/add-documents';
-import get_documents from './documents/get-documents';
-import status_documents from './documents/status-documents';
-import upload_documents from './documents/upload-documents';
-import list_collections from './collections/list-collections';
-import search_query from './query/search-query';
-import me_auth from './auth/me-auth';
-import user_token_auth from './auth/user-token-auth';
-
 export const endpoints: Endpoint[] = [];
 
 function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
-
-addEndpoint(revoke_integrations);
-addEndpoint(list_integrations_google_calendar);
-addEndpoint(index_integrations_web_crawler);
-addEndpoint(list_documents);
-addEndpoint(add_documents);
-addEndpoint(get_documents);
-addEndpoint(status_documents);
-addEndpoint(upload_documents);
-addEndpoint(list_collections);
-addEndpoint(search_query);
-addEndpoint(me_auth);
-addEndpoint(user_token_auth);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
