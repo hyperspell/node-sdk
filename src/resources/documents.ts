@@ -287,9 +287,9 @@ export interface DocumentStatus {
 }
 
 export interface DocumentStatusResponse {
-  providers: Record<string, Record<string, number>>;
+  providers: { [key: string]: { [key: string]: number } };
 
-  total: Record<string, number>;
+  total: { [key: string]: number };
 }
 
 export interface DocumentListParams extends CursorPageParams {

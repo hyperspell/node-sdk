@@ -32,7 +32,7 @@ export interface QuerySearchResponse {
    * Errors that occurred during the query. These are meant to help the developer
    * debug the query, and are not meant to be shown to the user.
    */
-  errors?: Array<Record<string, string>> | null;
+  errors?: Array<{ [key: string]: string }> | null;
 }
 
 export interface QuerySearchParams {
