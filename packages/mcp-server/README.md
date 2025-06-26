@@ -183,4 +183,4 @@ The following tools are available in this MCP server.
 
 ### Resource `auth`:
 
-- `search` (`read`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
+- `user_info` (`read`): Get basic info about the current user, including which integrations are currently enabled and which ones are available.

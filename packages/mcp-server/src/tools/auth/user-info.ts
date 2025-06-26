@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'search',
+  name: 'user_info',
   description:
-    "Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.",
+    'Get basic info about the current user, including which integrations are currently enabled and which ones are available.',
   inputSchema: {
     type: 'object',
     properties: {},

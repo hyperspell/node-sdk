@@ -8,7 +8,7 @@ import add_documents from './documents/add-documents';
 import get_documents from './documents/get-documents';
 import upload_documents from './documents/upload-documents';
 import search from './query/search';
-import search from './auth/search';
+import user_info from './auth/user-info';
 
 export const endpoints: Endpoint[] = [];
 
@@ -20,7 +20,7 @@ addEndpoint(add_documents);
 addEndpoint(get_documents);
 addEndpoint(upload_documents);
 addEndpoint(search);
-addEndpoint(search);
+addEndpoint(user_info);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
