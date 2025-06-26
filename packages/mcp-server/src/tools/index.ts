@@ -4,11 +4,23 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
+import add_documents from './documents/add-documents';
+import get_documents from './documents/get-documents';
+import upload_documents from './documents/upload-documents';
+import me_auth from './auth/me-auth';
+import user_token_auth from './auth/user-token-auth';
+
 export const endpoints: Endpoint[] = [];
 
 function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
+
+addEndpoint(add_documents);
+addEndpoint(get_documents);
+addEndpoint(upload_documents);
+addEndpoint(me_auth);
+addEndpoint(user_token_auth);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
