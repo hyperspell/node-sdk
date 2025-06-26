@@ -4,9 +4,9 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
-import add_documents from './documents/add-documents';
-import get_documents from './documents/get-documents';
-import upload_documents from './documents/upload-documents';
+import add_document from './documents/add-document';
+import get_documet from './documents/get-documet';
+import upload_file from './documents/upload-file';
 import search from './query/search';
 import user_info from './auth/user-info';
 
@@ -16,9 +16,9 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
-addEndpoint(add_documents);
-addEndpoint(get_documents);
-addEndpoint(upload_documents);
+addEndpoint(add_document);
+addEndpoint(get_documet);
+addEndpoint(upload_file);
 addEndpoint(search);
 addEndpoint(user_info);
 
