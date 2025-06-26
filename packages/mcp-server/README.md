@@ -135,7 +135,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import revokeIntegrations from "hyperspell-mcp/tools/integrations/revoke-integrations";
+import addDocuments from "hyperspell-mcp/tools/documents/add-documents";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -160,49 +160,23 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [revokeIntegrations, myCustomEndpoint] });
+init({ server: myServer, endpoints: [addDocuments, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
-### Resource `integrations`:
-
-- `revoke_integrations` (`read`): Revokes Hyperspell's access the given provider and deletes all stored credentials. It does not delete any cached or synced data.
-
-### Resource `integrations.google_calendar`:
-
-- `list_integrations_google_calendar` (`read`): List available calendars for a user. This can be used to ie. populate a dropdown for the user to select a calendar.
-
-### Resource `integrations.web_crawler`:
-
-- `index_integrations_web_crawler` (`read`): Recursively crawl a website to make it available for indexed search.
-
 ### Resource `documents`:
 
-- `list_documents` (`read`): This endpoint allows you to paginate through all documents in the index.
-  You can filter the documents by title, date, metadata, etc.
 - `add_documents` (`write`): Adds an arbitrary document to the index. This can be any text, email,
   call transcript, etc. The document will be processed and made available for
   querying once the processing is complete.
 - `get_documents` (`read`): Retrieves a document by provider and resource_id.
-- `status_documents` (`read`): This endpoint shows the indexing progress of documents, both by provider and total.
 - `upload_documents` (`write`): This endpoint will upload a file to the index and return a document ID.
   The file will be processed in the background and the document will be available for querying once the processing is complete.
   You can use the `document_id` to query the document later, and check the status of the document.
 
-### Resource `collections`:
-
-- `list_collections` (`read`): This endpoint lists all collections, and how many documents are in each collection.
-  All documents that do not have a collection assigned are in the `null` collection.
-
-### Resource `query`:
-
-- `search_query` (`write`): Retrieves documents matching the query.
-
 ### Resource `auth`:
 
 - `me_auth` (`read`): Endpoint to get basic user data.
-- `user_token_auth` (`write`): Use this endpoint to create a user token for a specific user.
-  This token can be safely passed to your user-facing front-end.
