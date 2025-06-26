@@ -26,7 +26,7 @@ export { endpoints } from './tools';
 export const server = new McpServer(
   {
     name: 'hyperspell_api',
-    version: '1.0.0',
+    version: '0.18.1',
   },
   {
     capabilities: {
