@@ -180,5 +180,3 @@ The following tools are available in this MCP server.
 ### Resource `auth`:
 
 - `me_auth` (`read`): Endpoint to get basic user data.
-- `user_token_auth` (`write`): Use this endpoint to create a user token for a specific user.
-  This token can be safely passed to your user-facing front-end.
