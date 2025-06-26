@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'add_documents',
+  name: 'add_document',
   description:
-    'Adds an arbitrary document to the index. This can be any text, email,\ncall transcript, etc. The document will be processed and made available for\nquerying once the processing is complete.',
+    'This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.',
   inputSchema: {
     type: 'object',
     properties: {
