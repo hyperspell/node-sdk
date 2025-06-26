@@ -177,6 +177,10 @@ The following tools are available in this MCP server.
   The file will be processed in the background and the document will be available for querying once the processing is complete.
   You can use the `document_id` to query the document later, and check the status of the document.
 
+### Resource `query`:
+
+- `search` (`write`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
+
 ### Resource `auth`:
 
-- `me_auth` (`read`): Endpoint to get basic user data.
+- `search` (`read`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.

@@ -7,7 +7,8 @@ export { Metadata, Endpoint, HandlerFunction };
 import add_documents from './documents/add-documents';
 import get_documents from './documents/get-documents';
 import upload_documents from './documents/upload-documents';
-import me_auth from './auth/me-auth';
+import search from './query/search';
+import search from './auth/search';
 
 export const endpoints: Endpoint[] = [];
 
@@ -18,7 +19,8 @@ function addEndpoint(endpoint: Endpoint) {
 addEndpoint(add_documents);
 addEndpoint(get_documents);
 addEndpoint(upload_documents);
-addEndpoint(me_auth);
+addEndpoint(search);
+addEndpoint(search);
 
 export type Filter = {
   type: 'resource' | 'operation' | 'tag' | 'tool';
