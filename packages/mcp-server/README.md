@@ -131,9 +131,54 @@ over time, you can manually enable or disable certain capabilities:
 ## Importing the tools and server individually
 
 ```js
+// Import the server, generated endpoints, or the init function
+import { server, endpoints, init } from "hyperspell-mcp/server";
 
+// import a specific tool
+import addDocuments from "hyperspell-mcp/tools/documents/add-documents";
+
+// initialize the server and all endpoints
+init({ server, endpoints });
+
+// manually start server
+const transport = new StdioServerTransport();
+await server.connect(transport);
+
+// or initialize your own server with specific tools
+const myServer = new McpServer(...);
+
+// define your own endpoint
+const myCustomEndpoint = {
+  tool: {
+    name: 'my_custom_tool',
+    description: 'My custom tool',
+    inputSchema: zodToJsonSchema(z.object({ a_property: z.string() })),
+  },
+  handler: async (client: client, args: any) => {
+    return { myResponse: 'Hello world!' };
+  })
+};
+
+// initialize the server with your custom endpoints
+init({ server: myServer, endpoints: [addDocuments, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
+
+### Resource `documents`:
+
+- `add_documents` (`write`): Adds an arbitrary document to the index. This can be any text, email,
+  call transcript, etc. The document will be processed and made available for
+  querying once the processing is complete.
+- `get_documents` (`read`): Retrieves a document by provider and resource_id.
+- `upload_documents` (`write`): This endpoint will upload a file to the index and return a document ID.
+  The file will be processed in the background and the document will be available for querying once the processing is complete.
+  You can use the `document_id` to query the document later, and check the status of the document.
+
+### Resource `auth`:
+
+- `me_auth` (`read`): Endpoint to get basic user data.
+- `user_token_auth` (`write`): Use this endpoint to create a user token for a specific user.
+  This token can be safely passed to your user-facing front-end.
