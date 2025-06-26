@@ -135,7 +135,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import addDocuments from "hyperspell-mcp/tools/documents/add-documents";
+import addDocument from "hyperspell-mcp/tools/documents/add-document";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -160,7 +160,7 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [addDocuments, myCustomEndpoint] });
+init({ server: myServer, endpoints: [addDocument, myCustomEndpoint] });
 ```
 
 ## Available Tools
@@ -169,14 +169,14 @@ The following tools are available in this MCP server.
 
 ### Resource `documents`:
 
-- `add_documents` (`write`): Adds an arbitrary document to the index. This can be any text, email,
-  call transcript, etc. The document will be processed and made available for
-  querying once the processing is complete.
-- `get_documents` (`read`): Retrieves a document by provider and resource_id.
-- `upload_documents` (`write`): This endpoint will upload a file to the index and return a document ID.
-  The file will be processed in the background and the document will be available for querying once the processing is complete.
-  You can use the `document_id` to query the document later, and check the status of the document.
+- `add_document` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
+- `get_document` (`read`): This tool lets you retrieve a a document that has been previously indexed.
+- `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
+
+### Resource `query`:
+
+- `search` (`write`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
 
 ### Resource `auth`:
 
-- `me_auth` (`read`): Endpoint to get basic user data.
+- `user_info` (`read`): Get basic info about the current user, including which integrations are currently enabled and which ones are available.

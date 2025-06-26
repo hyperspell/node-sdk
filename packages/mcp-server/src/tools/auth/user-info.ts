@@ -16,8 +16,9 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'me_auth',
-  description: 'Endpoint to get basic user data.',
+  name: 'user_info',
+  description:
+    'Get basic info about the current user, including which integrations are currently enabled and which ones are available.',
   inputSchema: {
     type: 'object',
     properties: {},

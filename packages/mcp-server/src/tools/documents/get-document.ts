@@ -16,8 +16,8 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'get_documents',
-  description: 'Retrieves a document by provider and resource_id.',
+  name: 'get_document',
+  description: 'This tool lets you retrieve a a document that has been previously indexed.',
   inputSchema: {
     type: 'object',
     properties: {

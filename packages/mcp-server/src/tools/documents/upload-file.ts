@@ -16,9 +16,9 @@ export const metadata: Metadata = {
 };
 
 export const tool: Tool = {
-  name: 'upload_documents',
+  name: 'upload_file',
   description:
-    'This endpoint will upload a file to the index and return a document ID.\nThe file will be processed in the background and the document will be available for querying once the processing is complete.\nYou can use the `document_id` to query the document later, and check the status of the document.',
+    'This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.',
   inputSchema: {
     type: 'object',
     properties: {
