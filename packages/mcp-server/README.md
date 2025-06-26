@@ -170,7 +170,7 @@ The following tools are available in this MCP server.
 ### Resource `documents`:
 
 - `add_document` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
-- `get_documet` (`read`): This tool lets you retrieve a a document that has been previously indexed.
+- `get_document` (`read`): This tool lets you retrieve a a document that has been previously indexed.
 - `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
 
 ### Resource `query`:
