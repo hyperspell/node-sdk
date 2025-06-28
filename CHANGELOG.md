@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.18.3 (2025-06-28)
+
+Full Changelog: [v0.18.2...v0.18.3](https://github.com/hyperspell/node-sdk/compare/v0.18.2...v0.18.3)
+
+### Bug Fixes
+
+* **ci:** release-doctor — report correct token name ([1295850](https://github.com/hyperspell/node-sdk/commit/1295850e14526b98d4827447da95d298fb217583))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([2a758c8](https://github.com/hyperspell/node-sdk/commit/2a758c8b7211de130f2287d9ceb2ffb51b926a78))
+
 ## 0.18.2 (2025-06-26)
 
 Full Changelog: [v0.18.1...v0.18.2](https://github.com/hyperspell/node-sdk/compare/v0.18.1...v0.18.2)
