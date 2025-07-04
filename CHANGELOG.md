@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.18.3 (2025-07-04)
+
+Full Changelog: [v0.18.2...v0.18.3](https://github.com/hyperspell/node-sdk/compare/v0.18.2...v0.18.3)
+
+### Bug Fixes
+
+* **build:** bump node version in CI build to 20 to be compatible with MCP package ([676d63e](https://github.com/hyperspell/node-sdk/commit/676d63e0ede567d30d003fbfd574c90c3a0fb19c))
+* **ci:** release-doctor — report correct token name ([1295850](https://github.com/hyperspell/node-sdk/commit/1295850e14526b98d4827447da95d298fb217583))
+* **client:** don't send `Content-Type` for bodyless methods ([9309eaf](https://github.com/hyperspell/node-sdk/commit/9309eaffdacdb289995889ebf1323d8353340386))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([2a758c8](https://github.com/hyperspell/node-sdk/commit/2a758c8b7211de130f2287d9ceb2ffb51b926a78))
+* mention unit type in timeout docs ([8b1f715](https://github.com/hyperspell/node-sdk/commit/8b1f715719b0258460adb86d435c062642afe603))
+
 ## 0.18.2 (2025-06-26)
 
 Full Changelog: [v0.18.1...v0.18.2](https://github.com/hyperspell/node-sdk/compare/v0.18.1...v0.18.2)
