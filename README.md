@@ -24,7 +24,6 @@ import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
-  userId: 'My User ID',
 });
 
 const documentStatus = await client.documents.add({ text: 'text' });
@@ -42,7 +41,6 @@ import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
-  userId: 'My User ID',
 });
 
 const params: Hyperspell.DocumentAddParams = { text: 'text' };
