@@ -1,9 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../';
 import Hyperspell from 'hyperspell';
 
 export const metadata: Metadata = {
