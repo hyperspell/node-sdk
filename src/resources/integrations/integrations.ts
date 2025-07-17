@@ -13,7 +13,7 @@ export class Integrations extends APIResource {
 
   /**
    * Revokes Hyperspell's access the given provider and deletes all stored
-   * credentials. It does not delete any cached or synced data.
+   * credentials and indexed data.
    *
    * @example
    * ```ts
