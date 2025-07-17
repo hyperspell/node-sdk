@@ -135,7 +135,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import addDocument from "hyperspell-mcp/tools/documents/add-document";
+import userInfo from "hyperspell-mcp/tools/auth/user-info";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -160,22 +160,12 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [addDocument, myCustomEndpoint] });
+init({ server: myServer, endpoints: [userInfo, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
-
-### Resource `documents`:
-
-- `add_document` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
-- `get_document` (`read`): This tool lets you retrieve a a document that has been previously indexed.
-- `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
-
-### Resource `query`:
-
-- `search` (`write`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
 
 ### Resource `auth`:
 
