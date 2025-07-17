@@ -34,35 +34,10 @@ Types:
 
 - <code><a href="./src/resources/documents.ts">Document</a></code>
 - <code><a href="./src/resources/documents.ts">DocumentStatus</a></code>
-- <code><a href="./src/resources/documents.ts">DocumentStatusResponse</a></code>
-
-Methods:
-
-- <code title="get /documents/list">client.documents.<a href="./src/resources/documents.ts">list</a>({ ...params }) -> DocumentsCursorPage</code>
-- <code title="post /documents/add">client.documents.<a href="./src/resources/documents.ts">add</a>({ ...params }) -> DocumentStatus</code>
-- <code title="get /documents/get/{source}/{resource_id}">client.documents.<a href="./src/resources/documents.ts">get</a>(source, resourceId) -> Document</code>
-- <code title="get /documents/status">client.documents.<a href="./src/resources/documents.ts">status</a>() -> DocumentStatusResponse</code>
-- <code title="post /documents/upload">client.documents.<a href="./src/resources/documents.ts">upload</a>({ ...params }) -> DocumentStatus</code>
 
 # Collections
 
-Types:
-
-- <code><a href="./src/resources/collections.ts">CollectionListResponse</a></code>
-
-Methods:
-
-- <code title="get /collections/list">client.collections.<a href="./src/resources/collections.ts">list</a>({ ...params }) -> CollectionListResponsesCursorPage</code>
-
 # Query
-
-Types:
-
-- <code><a href="./src/resources/query.ts">QuerySearchResponse</a></code>
-
-Methods:
-
-- <code title="post /query">client.query.<a href="./src/resources/query.ts">search</a>({ ...params }) -> QuerySearchResponse</code>
 
 # Auth
 

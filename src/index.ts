@@ -8,23 +8,9 @@ import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
-import {
-  CollectionListParams,
-  CollectionListResponse,
-  CollectionListResponsesCursorPage,
-  Collections,
-} from './resources/collections';
-import {
-  Document,
-  DocumentAddParams,
-  DocumentListParams,
-  DocumentStatus,
-  DocumentStatusResponse,
-  DocumentUploadParams,
-  Documents,
-  DocumentsCursorPage,
-} from './resources/documents';
-import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
+import { Collections } from './resources/collections';
+import { Document, DocumentStatus, Documents } from './resources/documents';
+import { Query } from './resources/query';
 import { IntegrationRevokeResponse, Integrations } from './resources/integrations/integrations';
 
 export interface ClientOptions {
@@ -218,9 +204,7 @@ export class Hyperspell extends Core.APIClient {
 
 Hyperspell.Integrations = Integrations;
 Hyperspell.Documents = Documents;
-Hyperspell.DocumentsCursorPage = DocumentsCursorPage;
 Hyperspell.Collections = Collections;
-Hyperspell.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
 Hyperspell.Query = Query;
 Hyperspell.Auth = Auth;
 export declare namespace Hyperspell {
@@ -231,29 +215,11 @@ export declare namespace Hyperspell {
 
   export { Integrations as Integrations, type IntegrationRevokeResponse as IntegrationRevokeResponse };
 
-  export {
-    Documents as Documents,
-    type Document as Document,
-    type DocumentStatus as DocumentStatus,
-    type DocumentStatusResponse as DocumentStatusResponse,
-    DocumentsCursorPage as DocumentsCursorPage,
-    type DocumentListParams as DocumentListParams,
-    type DocumentAddParams as DocumentAddParams,
-    type DocumentUploadParams as DocumentUploadParams,
-  };
+  export { Documents as Documents, type Document as Document, type DocumentStatus as DocumentStatus };
 
-  export {
-    Collections as Collections,
-    type CollectionListResponse as CollectionListResponse,
-    CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
-    type CollectionListParams as CollectionListParams,
-  };
+  export { Collections as Collections };
 
-  export {
-    Query as Query,
-    type QuerySearchResponse as QuerySearchResponse,
-    type QuerySearchParams as QuerySearchParams,
-  };
+  export { Query as Query };
 
   export {
     Auth as Auth,

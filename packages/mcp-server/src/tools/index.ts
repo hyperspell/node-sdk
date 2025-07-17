@@ -4,10 +4,6 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
-import add_document from './documents/add-document';
-import get_document from './documents/get-document';
-import upload_file from './documents/upload-file';
-import search from './query/search';
 import user_info from './auth/user-info';
 
 export const endpoints: Endpoint[] = [];
@@ -16,10 +12,6 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
-addEndpoint(add_document);
-addEndpoint(get_document);
-addEndpoint(upload_file);
-addEndpoint(search);
 addEndpoint(user_info);
 
 export type Filter = {
