@@ -151,6 +151,11 @@ export namespace QuerySearchParams {
     google_drive?: unknown;
 
     /**
+     * Search options for Gmail
+     */
+    google_mail?: Filter.GoogleMail;
+
+    /**
      * Search options for Notion
      */
     notion?: Filter.Notion;
@@ -182,6 +187,19 @@ export namespace QuerySearchParams {
        * `/integrations/google_calendar/list` endpoint.
        */
       calendar_id?: string | null;
+    }
+
+    /**
+     * Search options for Gmail
+     */
+    export interface GoogleMail {
+      /**
+       * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
+       * Multiple labels are combined with OR logic - messages matching ANY specified
+       * label will be returned. If empty, no label filtering is applied (searches all
+       * accessible messages).
+       */
+      label_ids?: Array<string>;
     }
 
     /**
@@ -278,6 +296,11 @@ export namespace QuerySearchParams {
     google_drive?: unknown;
 
     /**
+     * Search options for Gmail
+     */
+    google_mail?: Options.GoogleMail;
+
+    /**
      * Search options for Notion
      */
     notion?: Options.Notion;
@@ -309,6 +332,19 @@ export namespace QuerySearchParams {
        * `/integrations/google_calendar/list` endpoint.
        */
       calendar_id?: string | null;
+    }
+
+    /**
+     * Search options for Gmail
+     */
+    export interface GoogleMail {
+      /**
+       * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
+       * Multiple labels are combined with OR logic - messages matching ANY specified
+       * label will be returned. If empty, no label filtering is applied (searches all
+       * accessible messages).
+       */
+      label_ids?: Array<string>;
     }
 
     /**

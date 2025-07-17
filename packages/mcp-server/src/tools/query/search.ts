@@ -77,6 +77,23 @@ export const tool: Tool = {
             title: 'GoogleDriveSearchOptions',
             description: 'Search options for Google Drive',
           },
+          google_mail: {
+            type: 'object',
+            title: 'GmailSearchOptions',
+            description: 'Search options for Gmail',
+            properties: {
+              label_ids: {
+                type: 'array',
+                title: 'Label Ids',
+                description:
+                  "List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']). Multiple labels are combined with OR logic - messages matching ANY specified label will be returned. If empty, no label filtering is applied (searches all accessible messages).",
+                items: {
+                  type: 'string',
+                },
+              },
+            },
+            required: [],
+          },
           notion: {
             type: 'object',
             title: 'NotionSearchOptions',
@@ -217,6 +234,23 @@ export const tool: Tool = {
             type: 'object',
             title: 'GoogleDriveSearchOptions',
             description: 'Search options for Google Drive',
+          },
+          google_mail: {
+            type: 'object',
+            title: 'GmailSearchOptions',
+            description: 'Search options for Gmail',
+            properties: {
+              label_ids: {
+                type: 'array',
+                title: 'Label Ids',
+                description:
+                  "List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']). Multiple labels are combined with OR logic - messages matching ANY specified label will be returned. If empty, no label filtering is applied (searches all accessible messages).",
+                items: {
+                  type: 'string',
+                },
+              },
+            },
+            required: [],
           },
           notion: {
             type: 'object',
