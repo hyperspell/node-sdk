@@ -9,22 +9,18 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import {
-  CollectionListParams,
-  CollectionListResponse,
-  CollectionListResponsesCursorPage,
-  Collections,
-} from './resources/collections';
-import {
-  Document,
-  DocumentAddParams,
-  DocumentListParams,
-  DocumentStatus,
-  DocumentStatusResponse,
-  DocumentUploadParams,
-  Documents,
-  DocumentsCursorPage,
-} from './resources/documents';
-import { Query, QuerySearchParams, QuerySearchResponse } from './resources/query';
+  Memories,
+  MemoriesCursorPage,
+  Memory,
+  MemoryAddParams,
+  MemoryListParams,
+  MemorySearchParams,
+  MemorySearchResponse,
+  MemoryStatus,
+  MemoryStatusResponse,
+  MemoryUploadParams,
+} from './resources/memories';
+import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
 import { IntegrationRevokeResponse, Integrations } from './resources/integrations/integrations';
 
 export interface ClientOptions {
@@ -51,6 +47,8 @@ export interface ClientOptions {
    *
    * Note that request timeouts are retried by default, so in a worst-case scenario you may wait
    * much longer than this timeout before the promise succeeds or fails.
+   *
+   * @unit milliseconds
    */
   timeout?: number | undefined;
 
@@ -152,9 +150,8 @@ export class Hyperspell extends Core.APIClient {
   }
 
   integrations: API.Integrations = new API.Integrations(this);
-  documents: API.Documents = new API.Documents(this);
-  collections: API.Collections = new API.Collections(this);
-  query: API.Query = new API.Query(this);
+  memories: API.Memories = new API.Memories(this);
+  vaults: API.Vaults = new API.Vaults(this);
   auth: API.Auth = new API.Auth(this);
 
   /**
@@ -215,11 +212,10 @@ export class Hyperspell extends Core.APIClient {
 }
 
 Hyperspell.Integrations = Integrations;
-Hyperspell.Documents = Documents;
-Hyperspell.DocumentsCursorPage = DocumentsCursorPage;
-Hyperspell.Collections = Collections;
-Hyperspell.CollectionListResponsesCursorPage = CollectionListResponsesCursorPage;
-Hyperspell.Query = Query;
+Hyperspell.Memories = Memories;
+Hyperspell.MemoriesCursorPage = MemoriesCursorPage;
+Hyperspell.Vaults = Vaults;
+Hyperspell.VaultListResponsesCursorPage = VaultListResponsesCursorPage;
 Hyperspell.Auth = Auth;
 export declare namespace Hyperspell {
   export type RequestOptions = Core.RequestOptions;
@@ -230,27 +226,23 @@ export declare namespace Hyperspell {
   export { Integrations as Integrations, type IntegrationRevokeResponse as IntegrationRevokeResponse };
 
   export {
-    Documents as Documents,
-    type Document as Document,
-    type DocumentStatus as DocumentStatus,
-    type DocumentStatusResponse as DocumentStatusResponse,
-    DocumentsCursorPage as DocumentsCursorPage,
-    type DocumentListParams as DocumentListParams,
-    type DocumentAddParams as DocumentAddParams,
-    type DocumentUploadParams as DocumentUploadParams,
+    Memories as Memories,
+    type Memory as Memory,
+    type MemoryStatus as MemoryStatus,
+    type MemorySearchResponse as MemorySearchResponse,
+    type MemoryStatusResponse as MemoryStatusResponse,
+    MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryListParams as MemoryListParams,
+    type MemoryAddParams as MemoryAddParams,
+    type MemorySearchParams as MemorySearchParams,
+    type MemoryUploadParams as MemoryUploadParams,
   };
 
   export {
-    Collections as Collections,
-    type CollectionListResponse as CollectionListResponse,
-    CollectionListResponsesCursorPage as CollectionListResponsesCursorPage,
-    type CollectionListParams as CollectionListParams,
-  };
-
-  export {
-    Query as Query,
-    type QuerySearchResponse as QuerySearchResponse,
-    type QuerySearchParams as QuerySearchParams,
+    Vaults as Vaults,
+    type VaultListResponse as VaultListResponse,
+    VaultListResponsesCursorPage as VaultListResponsesCursorPage,
+    type VaultListParams as VaultListParams,
   };
 
   export {

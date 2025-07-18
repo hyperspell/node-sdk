@@ -28,41 +28,33 @@ Methods:
 
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
-# Documents
+# Memories
 
 Types:
 
-- <code><a href="./src/resources/documents.ts">Document</a></code>
-- <code><a href="./src/resources/documents.ts">DocumentStatus</a></code>
-- <code><a href="./src/resources/documents.ts">DocumentStatusResponse</a></code>
+- <code><a href="./src/resources/memories.ts">Memory</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
+- <code><a href="./src/resources/memories.ts">MemorySearchResponse</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
 
-- <code title="get /documents/list">client.documents.<a href="./src/resources/documents.ts">list</a>({ ...params }) -> DocumentsCursorPage</code>
-- <code title="post /documents/add">client.documents.<a href="./src/resources/documents.ts">add</a>({ ...params }) -> DocumentStatus</code>
-- <code title="get /documents/get/{source}/{resource_id}">client.documents.<a href="./src/resources/documents.ts">get</a>(source, resourceId) -> Document</code>
-- <code title="get /documents/status">client.documents.<a href="./src/resources/documents.ts">status</a>() -> DocumentStatusResponse</code>
-- <code title="post /documents/upload">client.documents.<a href="./src/resources/documents.ts">upload</a>({ ...params }) -> DocumentStatus</code>
+- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
+- <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
+- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Memory</code>
+- <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> MemorySearchResponse</code>
+- <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
+- <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
 
-# Collections
+# Vaults
 
 Types:
 
-- <code><a href="./src/resources/collections.ts">CollectionListResponse</a></code>
+- <code><a href="./src/resources/vaults.ts">VaultListResponse</a></code>
 
 Methods:
 
-- <code title="get /collections/list">client.collections.<a href="./src/resources/collections.ts">list</a>({ ...params }) -> CollectionListResponsesCursorPage</code>
-
-# Query
-
-Types:
-
-- <code><a href="./src/resources/query.ts">QuerySearchResponse</a></code>
-
-Methods:
-
-- <code title="post /query">client.query.<a href="./src/resources/query.ts">search</a>({ ...params }) -> QuerySearchResponse</code>
+- <code title="get /vault/list">client.vaults.<a href="./src/resources/vaults.ts">list</a>({ ...params }) -> VaultListResponsesCursorPage</code>
 
 # Auth
 

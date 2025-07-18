@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.19.0 (2025-07-18)
+
+Full Changelog: [v0.18.2...v0.19.0](https://github.com/hyperspell/node-sdk/compare/v0.18.2...v0.19.0)
+
+### Features
+
+* **api:** api update ([144c520](https://github.com/hyperspell/node-sdk/commit/144c520a6950007b577d8572d0ed07fe77ccb6cb))
+* **api:** api update ([4d199a6](https://github.com/hyperspell/node-sdk/commit/4d199a6a4d13acea6d602c7e6912b25ba8b69357))
+* **api:** update via SDK Studio ([30795a9](https://github.com/hyperspell/node-sdk/commit/30795a9be8aeeff7d1215a6d0f76ce717bfc8fdb))
+* **api:** update via SDK Studio ([7712189](https://github.com/hyperspell/node-sdk/commit/7712189845a7198eece8fb12d7752f1467c7ba78))
+* **api:** update via SDK Studio ([5b7ad3a](https://github.com/hyperspell/node-sdk/commit/5b7ad3a4d90e8fe728c7c635de1ad1ff3e5b8a0a))
+* clean up environment call outs ([e00b465](https://github.com/hyperspell/node-sdk/commit/e00b4654310a448eab3ac280c7b248d27f5125a6))
+* **mcp:** support filtering tool results by a jq expression ([c4b5326](https://github.com/hyperspell/node-sdk/commit/c4b5326132e4781c53c6fc65e7f22d2b54dd508f))
+
+
+### Bug Fixes
+
+* **build:** bump node version in CI build to 20 to be compatible with MCP package ([676d63e](https://github.com/hyperspell/node-sdk/commit/676d63e0ede567d30d003fbfd574c90c3a0fb19c))
+* **ci:** release-doctor — report correct token name ([1295850](https://github.com/hyperspell/node-sdk/commit/1295850e14526b98d4827447da95d298fb217583))
+* **client:** don't send `Content-Type` for bodyless methods ([9309eaf](https://github.com/hyperspell/node-sdk/commit/9309eaffdacdb289995889ebf1323d8353340386))
+* **mcp:** include required section for top-level properties and support naming transformations ([36ae37a](https://github.com/hyperspell/node-sdk/commit/36ae37a714ae033b6e1afa6e58659d36103025d0))
+* **mcp:** relax input type for asTextContextResult ([dea08b8](https://github.com/hyperspell/node-sdk/commit/dea08b8a889f6de17e5d9998a048413ca64de701))
+* **mcp:** support jq filtering on cloudflare workers ([00f8fa1](https://github.com/hyperspell/node-sdk/commit/00f8fa1e38ea13528e5ec85b349ad1a42cd58adf))
+
+
+### Chores
+
+* **ci:** only run for pushes and fork pull requests ([2a758c8](https://github.com/hyperspell/node-sdk/commit/2a758c8b7211de130f2287d9ceb2ffb51b926a78))
+* make some internal functions async ([e5a5551](https://github.com/hyperspell/node-sdk/commit/e5a555192685f17fc6a0024e820aef1caf907420))
+* **mcp:** formatting ([7e8f571](https://github.com/hyperspell/node-sdk/commit/7e8f5714098860d0e7759ae0571c13eb51ce284c))
+* **mcp:** rework imports in tools ([88946b8](https://github.com/hyperspell/node-sdk/commit/88946b875abebe36b6f50c81b1719183c0feadaa))
+* mention unit type in timeout docs ([8b1f715](https://github.com/hyperspell/node-sdk/commit/8b1f715719b0258460adb86d435c062642afe603))
+
 ## 0.18.2 (2025-06-26)
 
 Full Changelog: [v0.18.1...v0.18.2](https://github.com/hyperspell/node-sdk/compare/v0.18.1...v0.18.2)

@@ -135,7 +135,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import addDocument from "hyperspell-mcp/tools/documents/add-document";
+import addMemory from "hyperspell-mcp/tools/memories/add-memory";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -160,22 +160,19 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [addDocument, myCustomEndpoint] });
+init({ server: myServer, endpoints: [addMemory, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
 
-### Resource `documents`:
+### Resource `memories`:
 
-- `add_document` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
-- `get_document` (`read`): This tool lets you retrieve a a document that has been previously indexed.
-- `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed document.
-
-### Resource `query`:
-
-- `search` (`write`): Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
+- `add_memory` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
+- `get_memory` (`read`): This tool lets you retrieve a memory that has been previously indexed.
+- `search` (`write`): Search all memories indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all memories related to the query.
+- `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
 
 ### Resource `auth`:
 

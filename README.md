@@ -24,12 +24,11 @@ import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
-  userId: 'My User ID',
 });
 
-const documentStatus = await client.documents.add({ text: 'text' });
+const memoryStatus = await client.memories.add({ text: 'text' });
 
-console.log(documentStatus.id);
+console.log(memoryStatus.id);
 ```
 
 ### Request & Response types
@@ -42,11 +41,10 @@ import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
-  userId: 'My User ID',
 });
 
-const params: Hyperspell.DocumentAddParams = { text: 'text' };
-const documentStatus: Hyperspell.DocumentStatus = await client.documents.add(params);
+const params: Hyperspell.MemoryAddParams = { text: 'text' };
+const memoryStatus: Hyperspell.MemoryStatus = await client.memories.add(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -68,17 +66,17 @@ import Hyperspell, { toFile } from 'hyperspell';
 const client = new Hyperspell();
 
 // If you have access to Node `fs` we recommend using `fs.createReadStream()`:
-await client.documents.upload({ file: fs.createReadStream('/path/to/file') });
+await client.memories.upload({ file: fs.createReadStream('/path/to/file') });
 
 // Or if you have the web `File` API you can pass a `File` instance:
-await client.documents.upload({ file: new File(['my bytes'], 'file') });
+await client.memories.upload({ file: new File(['my bytes'], 'file') });
 
 // You can also pass a `fetch` `Response`:
-await client.documents.upload({ file: await fetch('https://somesite/file') });
+await client.memories.upload({ file: await fetch('https://somesite/file') });
 
 // Finally, if none of the above are convenient, you can use our `toFile` helper:
-await client.documents.upload({ file: await toFile(Buffer.from('my bytes'), 'file') });
-await client.documents.upload({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
+await client.memories.upload({ file: await toFile(Buffer.from('my bytes'), 'file') });
+await client.memories.upload({ file: await toFile(new Uint8Array([0, 1, 2]), 'file') });
 ```
 
 ## Handling errors
@@ -89,7 +87,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const documentStatus = await client.documents.add({ text: 'text' }).catch(async (err) => {
+const memoryStatus = await client.memories.add({ text: 'text' }).catch(async (err) => {
   if (err instanceof Hyperspell.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -129,7 +127,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.documents.add({ text: 'text' }, {
+await client.memories.add({ text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -146,7 +144,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.documents.add({ text: 'text' }, {
+await client.memories.add({ text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -161,22 +159,22 @@ List methods in the Hyperspell API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllDocuments(params) {
-  const allDocuments = [];
+async function fetchAllMemories(params) {
+  const allMemories = [];
   // Automatically fetches more pages as needed.
-  for await (const document of client.documents.list({ collection: 'REPLACE_ME' })) {
-    allDocuments.push(document);
+  for await (const memory of client.memories.list({ collection: 'REPLACE_ME' })) {
+    allMemories.push(memory);
   }
-  return allDocuments;
+  return allMemories;
 }
 ```
 
 Alternatively, you can request a single page at a time:
 
 ```ts
-let page = await client.documents.list({ collection: 'REPLACE_ME' });
-for (const document of page.items) {
-  console.log(document);
+let page = await client.memories.list({ collection: 'REPLACE_ME' });
+for (const memory of page.items) {
+  console.log(memory);
 }
 
 // Convenience methods are provided for manually paginating:
@@ -198,13 +196,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.documents.add({ text: 'text' }).asResponse();
+const response = await client.memories.add({ text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: documentStatus, response: raw } = await client.documents.add({ text: 'text' }).withResponse();
+const { data: memoryStatus, response: raw } = await client.memories.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(documentStatus.id);
+console.log(memoryStatus.id);
 ```
 
 ### Making custom/undocumented requests
@@ -308,7 +306,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.documents.add(
+await client.memories.add(
   { text: 'text' },
   {
     httpAgent: new http.Agent({ keepAlive: false }),

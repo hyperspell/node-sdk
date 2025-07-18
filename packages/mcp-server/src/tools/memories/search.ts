@@ -1,24 +1,23 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
-import type { Metadata } from '../';
 import Hyperspell from 'hyperspell';
 
 export const metadata: Metadata = {
-  resource: 'query',
+  resource: 'memories',
   operation: 'write',
   tags: [],
   httpMethod: 'post',
-  httpPath: '/query',
-  operationId: 'query_query_post',
+  httpPath: '/memories/query',
+  operationId: 'query_memories_memories_query_post',
 };
 
 export const tool: Tool = {
   name: 'search',
   description:
-    "Search all documents indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.",
+    "When using this tool, always use the `jq_filter` parameter to reduce the response size and improve performance.\n\nOnly omit if you're sure you don't need the data.\n\nSearch all memories indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all memories related to the query.",
   inputSchema: {
     type: 'object',
     properties: {
@@ -43,6 +42,12 @@ export const tool: Tool = {
             description: 'Only query documents created on or after this date.',
             format: 'date-time',
           },
+          answer_model: {
+            type: 'string',
+            title: 'AnswerModel',
+            description: 'Model to use for answer generation when answer=True',
+            enum: ['llama-3.1', 'gemma2', 'qwen-qwq', 'mistral-saba', 'llama-4-scout', 'deepseek-r1'],
+          },
           before: {
             type: 'string',
             title: 'Before',
@@ -56,8 +61,8 @@ export const tool: Tool = {
           },
           collections: {
             type: 'object',
-            title: 'CollectionSearchOptions',
-            description: 'Search options for Collection',
+            title: 'VaultSearchOptions',
+            description: 'Search options for vault',
           },
           google_calendar: {
             type: 'object',
@@ -71,12 +76,27 @@ export const tool: Tool = {
                   'The ID of the calendar to search. If not provided, it will use the ID of the default calendar. You can get the list of calendars with the `/integrations/google_calendar/list` endpoint.',
               },
             },
-            required: [],
           },
           google_drive: {
             type: 'object',
             title: 'GoogleDriveSearchOptions',
             description: 'Search options for Google Drive',
+          },
+          google_mail: {
+            type: 'object',
+            title: 'GmailSearchOptions',
+            description: 'Search options for Gmail',
+            properties: {
+              label_ids: {
+                type: 'array',
+                title: 'Label Ids',
+                description:
+                  "List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']). Multiple labels are combined with OR logic - messages matching ANY specified label will be returned. If empty, no label filtering is applied (searches all accessible messages).",
+                items: {
+                  type: 'string',
+                },
+              },
+            },
           },
           notion: {
             type: 'object',
@@ -93,7 +113,6 @@ export const tool: Tool = {
                 },
               },
             },
-            required: [],
           },
           reddit: {
             type: 'object',
@@ -119,7 +138,6 @@ export const tool: Tool = {
                   'The subreddit to search. If not provided, the query will be searched for in all subreddits.',
               },
             },
-            required: [],
           },
           slack: {
             type: 'object',
@@ -136,7 +154,6 @@ export const tool: Tool = {
                 },
               },
             },
-            required: [],
           },
           web_crawler: {
             type: 'object',
@@ -163,10 +180,8 @@ export const tool: Tool = {
                 description: 'The URL to crawl',
               },
             },
-            required: [],
           },
         },
-        required: [],
       },
       max_results: {
         type: 'integer',
@@ -184,6 +199,12 @@ export const tool: Tool = {
             description: 'Only query documents created on or after this date.',
             format: 'date-time',
           },
+          answer_model: {
+            type: 'string',
+            title: 'AnswerModel',
+            description: 'Model to use for answer generation when answer=True',
+            enum: ['llama-3.1', 'gemma2', 'qwen-qwq', 'mistral-saba', 'llama-4-scout', 'deepseek-r1'],
+          },
           before: {
             type: 'string',
             title: 'Before',
@@ -197,8 +218,8 @@ export const tool: Tool = {
           },
           collections: {
             type: 'object',
-            title: 'CollectionSearchOptions',
-            description: 'Search options for Collection',
+            title: 'VaultSearchOptions',
+            description: 'Search options for vault',
           },
           google_calendar: {
             type: 'object',
@@ -212,12 +233,27 @@ export const tool: Tool = {
                   'The ID of the calendar to search. If not provided, it will use the ID of the default calendar. You can get the list of calendars with the `/integrations/google_calendar/list` endpoint.',
               },
             },
-            required: [],
           },
           google_drive: {
             type: 'object',
             title: 'GoogleDriveSearchOptions',
             description: 'Search options for Google Drive',
+          },
+          google_mail: {
+            type: 'object',
+            title: 'GmailSearchOptions',
+            description: 'Search options for Gmail',
+            properties: {
+              label_ids: {
+                type: 'array',
+                title: 'Label Ids',
+                description:
+                  "List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']). Multiple labels are combined with OR logic - messages matching ANY specified label will be returned. If empty, no label filtering is applied (searches all accessible messages).",
+                items: {
+                  type: 'string',
+                },
+              },
+            },
           },
           notion: {
             type: 'object',
@@ -234,7 +270,6 @@ export const tool: Tool = {
                 },
               },
             },
-            required: [],
           },
           reddit: {
             type: 'object',
@@ -260,7 +295,6 @@ export const tool: Tool = {
                   'The subreddit to search. If not provided, the query will be searched for in all subreddits.',
               },
             },
-            required: [],
           },
           slack: {
             type: 'object',
@@ -277,7 +311,6 @@ export const tool: Tool = {
                 },
               },
             },
-            required: [],
           },
           web_crawler: {
             type: 'object',
@@ -304,10 +337,8 @@ export const tool: Tool = {
                 description: 'The URL to crawl',
               },
             },
-            required: [],
           },
         },
-        required: [],
       },
       sources: {
         type: 'array',
@@ -318,6 +349,7 @@ export const tool: Tool = {
           title: 'DocumentProviders',
           enum: [
             'collections',
+            'vault',
             'web_crawler',
             'notion',
             'slack',
@@ -366,12 +398,13 @@ export const tool: Tool = {
         },
       },
     },
+    required: ['query'],
   },
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.query.search(body));
+  return asTextContentResult(await client.memories.search(body));
 };
 
 export default { metadata, tool, handler };

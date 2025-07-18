@@ -42,6 +42,7 @@ export interface AuthMeResponse {
    */
   available_integrations: Array<
     | 'collections'
+    | 'vault'
     | 'web_crawler'
     | 'notion'
     | 'slack'
@@ -93,6 +94,7 @@ export interface AuthMeResponse {
    */
   installed_integrations: Array<
     | 'collections'
+    | 'vault'
     | 'web_crawler'
     | 'notion'
     | 'slack'

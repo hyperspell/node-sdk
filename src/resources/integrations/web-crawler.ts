@@ -27,6 +27,7 @@ export interface WebCrawlerIndexResponse {
 
   source:
     | 'collections'
+    | 'vault'
     | 'web_crawler'
     | 'notion'
     | 'slack'
