@@ -26,9 +26,9 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
-const documentStatus = await client.memories.add({ text: 'text' });
+const memoryStatus = await client.memories.add({ text: 'text' });
 
-console.log(documentStatus.id);
+console.log(memoryStatus.id);
 ```
 
 ### Request & Response types
@@ -44,7 +44,7 @@ const client = new Hyperspell({
 });
 
 const params: Hyperspell.MemoryAddParams = { text: 'text' };
-const documentStatus: Hyperspell.DocumentStatus = await client.memories.add(params);
+const memoryStatus: Hyperspell.MemoryStatus = await client.memories.add(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -87,7 +87,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const documentStatus = await client.memories.add({ text: 'text' }).catch(async (err) => {
+const memoryStatus = await client.memories.add({ text: 'text' }).catch(async (err) => {
   if (err instanceof Hyperspell.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -159,13 +159,13 @@ List methods in the Hyperspell API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllDocuments(params) {
-  const allDocuments = [];
+async function fetchAllMemories(params) {
+  const allMemories = [];
   // Automatically fetches more pages as needed.
-  for await (const document of client.memories.list({ collection: 'REPLACE_ME' })) {
-    allDocuments.push(document);
+  for await (const memory of client.memories.list({ collection: 'REPLACE_ME' })) {
+    allMemories.push(memory);
   }
-  return allDocuments;
+  return allMemories;
 }
 ```
 
@@ -173,8 +173,8 @@ Alternatively, you can request a single page at a time:
 
 ```ts
 let page = await client.memories.list({ collection: 'REPLACE_ME' });
-for (const document of page.items) {
-  console.log(document);
+for (const memory of page.items) {
+  console.log(memory);
 }
 
 // Convenience methods are provided for manually paginating:
@@ -200,9 +200,9 @@ const response = await client.memories.add({ text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: documentStatus, response: raw } = await client.memories.add({ text: 'text' }).withResponse();
+const { data: memoryStatus, response: raw } = await client.memories.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(documentStatus.id);
+console.log(memoryStatus.id);
 ```
 
 ### Making custom/undocumented requests

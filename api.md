@@ -32,19 +32,19 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/memories.ts">Document</a></code>
-- <code><a href="./src/resources/memories.ts">DocumentStatus</a></code>
+- <code><a href="./src/resources/memories.ts">Memory</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
 - <code><a href="./src/resources/memories.ts">MemorySearchResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
 
-- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> DocumentsCursorPage</code>
-- <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> DocumentStatus</code>
-- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Document</code>
+- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
+- <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
+- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Memory</code>
 - <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> MemorySearchResponse</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
-- <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> DocumentStatus</code>
+- <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
 
 # Vaults
 

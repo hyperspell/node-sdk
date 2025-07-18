@@ -13,24 +13,21 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const document of client.memories.list()) {
+   * for await (const memory of client.memories.list()) {
    *   // ...
    * }
    * ```
    */
-  list(
-    query?: MemoryListParams,
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentsCursorPage, Document>;
-  list(options?: Core.RequestOptions): Core.PagePromise<DocumentsCursorPage, Document>;
+  list(query?: MemoryListParams, options?: Core.RequestOptions): Core.PagePromise<MemoriesCursorPage, Memory>;
+  list(options?: Core.RequestOptions): Core.PagePromise<MemoriesCursorPage, Memory>;
   list(
     query: MemoryListParams | Core.RequestOptions = {},
     options?: Core.RequestOptions,
-  ): Core.PagePromise<DocumentsCursorPage, Document> {
+  ): Core.PagePromise<MemoriesCursorPage, Memory> {
     if (isRequestOptions(query)) {
       return this.list({}, query);
     }
-    return this._client.getAPIList('/memories/list', DocumentsCursorPage, { query, ...options });
+    return this._client.getAPIList('/memories/list', MemoriesCursorPage, { query, ...options });
   }
 
   /**
@@ -40,12 +37,12 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const documentStatus = await client.memories.add({
+   * const memoryStatus = await client.memories.add({
    *   text: 'text',
    * });
    * ```
    */
-  add(body: MemoryAddParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
+  add(body: MemoryAddParams, options?: Core.RequestOptions): Core.APIPromise<MemoryStatus> {
     return this._client.post('/memories/add', { body, ...options });
   }
 
@@ -54,7 +51,7 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const document = await client.memories.get(
+   * const memory = await client.memories.get(
    *   'collections',
    *   'resource_id',
    * );
@@ -110,7 +107,7 @@ export class Memories extends APIResource {
       | 'zoom',
     resourceId: string,
     options?: Core.RequestOptions,
-  ): Core.APIPromise<Document> {
+  ): Core.APIPromise<Memory> {
     return this._client.get(`/memories/get/${source}/${resourceId}`, options);
   }
 
@@ -149,19 +146,19 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const documentStatus = await client.memories.upload({
+   * const memoryStatus = await client.memories.upload({
    *   file: fs.createReadStream('path/to/file'),
    * });
    * ```
    */
-  upload(body: MemoryUploadParams, options?: Core.RequestOptions): Core.APIPromise<DocumentStatus> {
+  upload(body: MemoryUploadParams, options?: Core.RequestOptions): Core.APIPromise<MemoryStatus> {
     return this._client.post('/memories/upload', Core.multipartFormRequestOptions({ body, ...options }));
   }
 }
 
-export class DocumentsCursorPage extends CursorPage<Document> {}
+export class MemoriesCursorPage extends CursorPage<Memory> {}
 
-export interface Document {
+export interface Memory {
   resource_id: string;
 
   source:
@@ -212,7 +209,7 @@ export interface Document {
     | 'twitter'
     | 'zoom';
 
-  metadata?: Document.Metadata;
+  metadata?: Memory.Metadata;
 
   /**
    * The relevance of the resource to the query
@@ -220,7 +217,7 @@ export interface Document {
   score?: number | null;
 }
 
-export namespace Document {
+export namespace Memory {
   export interface Metadata {
     events?: Array<Metadata.Event>;
 
@@ -244,7 +241,7 @@ export namespace Document {
   }
 }
 
-export interface DocumentStatus {
+export interface MemoryStatus {
   /**
    * @deprecated Deprecated: refer to documents by source and resource_id instead
    */
@@ -304,7 +301,7 @@ export interface DocumentStatus {
 }
 
 export interface MemorySearchResponse {
-  documents: Array<Document>;
+  documents: Array<Memory>;
 
   /**
    * The answer to the query, if the request was set to answer.
@@ -809,15 +806,15 @@ export interface MemoryUploadParams {
   collection?: string | null;
 }
 
-Memories.DocumentsCursorPage = DocumentsCursorPage;
+Memories.MemoriesCursorPage = MemoriesCursorPage;
 
 export declare namespace Memories {
   export {
-    type Document as Document,
-    type DocumentStatus as DocumentStatus,
+    type Memory as Memory,
+    type MemoryStatus as MemoryStatus,
     type MemorySearchResponse as MemorySearchResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    DocumentsCursorPage as DocumentsCursorPage,
+    MemoriesCursorPage as MemoriesCursorPage,
     type MemoryListParams as MemoryListParams,
     type MemoryAddParams as MemoryAddParams,
     type MemorySearchParams as MemorySearchParams,
