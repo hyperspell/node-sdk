@@ -26,9 +26,9 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
-const response = await client.integrations.revoke('provider');
+const documentStatus = await client.memories.add({ text: 'text' });
 
-console.log(response.message);
+console.log(documentStatus.id);
 ```
 
 ### Request & Response types
@@ -43,7 +43,8 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
 });
 
-const response: Hyperspell.IntegrationRevokeResponse = await client.integrations.revoke('provider');
+const params: Hyperspell.MemoryAddParams = { text: 'text' };
+const documentStatus: Hyperspell.DocumentStatus = await client.memories.add(params);
 ```
 
 Documentation for each method, request param, and response field are available in docstrings and will appear on hover in most modern editors.
@@ -86,7 +87,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const response = await client.integrations.revoke('provider').catch(async (err) => {
+const documentStatus = await client.memories.add({ text: 'text' }).catch(async (err) => {
   if (err instanceof Hyperspell.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -126,7 +127,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.integrations.revoke('provider', {
+await client.memories.add({ text: 'text' }, {
   maxRetries: 5,
 });
 ```
@@ -143,7 +144,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.integrations.revoke('provider', {
+await client.memories.add({ text: 'text' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -151,6 +152,37 @@ await client.integrations.revoke('provider', {
 On timeout, an `APIConnectionTimeoutError` is thrown.
 
 Note that requests which time out will be [retried twice by default](#retries).
+
+## Auto-pagination
+
+List methods in the Hyperspell API are paginated.
+You can use the `for await … of` syntax to iterate through items across all pages:
+
+```ts
+async function fetchAllDocuments(params) {
+  const allDocuments = [];
+  // Automatically fetches more pages as needed.
+  for await (const document of client.memories.list({ collection: 'REPLACE_ME' })) {
+    allDocuments.push(document);
+  }
+  return allDocuments;
+}
+```
+
+Alternatively, you can request a single page at a time:
+
+```ts
+let page = await client.memories.list({ collection: 'REPLACE_ME' });
+for (const document of page.items) {
+  console.log(document);
+}
+
+// Convenience methods are provided for manually paginating:
+while (page.hasNextPage()) {
+  page = await page.getNextPage();
+  // ...
+}
+```
 
 ## Advanced Usage
 
@@ -164,13 +196,13 @@ You can also use the `.withResponse()` method to get the raw `Response` along wi
 ```ts
 const client = new Hyperspell();
 
-const response = await client.integrations.revoke('provider').asResponse();
+const response = await client.memories.add({ text: 'text' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
-const { data: response, response: raw } = await client.integrations.revoke('provider').withResponse();
+const { data: documentStatus, response: raw } = await client.memories.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(response.message);
+console.log(documentStatus.id);
 ```
 
 ### Making custom/undocumented requests
@@ -274,9 +306,12 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.integrations.revoke('provider', {
-  httpAgent: new http.Agent({ keepAlive: false }),
-});
+await client.memories.add(
+  { text: 'text' },
+  {
+    httpAgent: new http.Agent({ keepAlive: false }),
+  },
+);
 ```
 
 ## Semantic versioning

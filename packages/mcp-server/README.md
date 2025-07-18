@@ -171,7 +171,7 @@ The following tools are available in this MCP server.
 
 - `add_memory` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
 - `get_memory` (`read`): This tool lets you retrieve a memory that has been previously indexed.
-- `search` (`write`): Search all memories indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
+- `search` (`write`): Search all memories indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all memories related to the query.
 - `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
 
 ### Resource `auth`:
