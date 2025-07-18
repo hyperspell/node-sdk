@@ -135,7 +135,7 @@ over time, you can manually enable or disable certain capabilities:
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import userInfo from "hyperspell-mcp/tools/auth/user-info";
+import addMemory from "hyperspell-mcp/tools/memories/add-memory";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -160,12 +160,19 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [userInfo, myCustomEndpoint] });
+init({ server: myServer, endpoints: [addMemory, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
+
+### Resource `memories`:
+
+- `add_memory` (`write`): This tool lets you add text, markdown, or JSON to the Hyperspell index so it can be searched later. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
+- `get_memory` (`read`): This tool lets you retrieve a memory that has been previously indexed.
+- `search` (`write`): Search all memories indexed by Hyperspell. Set 'answer' to true to directly answer the query, or to 'false' to simply get all documents related to the query.
+- `upload_file` (`write`): This tool lets you upload a file to the Hyperspell index. It will return the `source` and `resource_id` that can be used to later retrieve the processed memory.
 
 ### Resource `auth`:
 

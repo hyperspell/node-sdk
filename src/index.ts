@@ -8,9 +8,19 @@ import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
-import { Collections } from './resources/collections';
-import { Document, DocumentStatus, Documents } from './resources/documents';
-import { Query } from './resources/query';
+import {
+  Document,
+  DocumentStatus,
+  DocumentsCursorPage,
+  Memories,
+  MemoryAddParams,
+  MemoryListParams,
+  MemorySearchParams,
+  MemorySearchResponse,
+  MemoryStatusResponse,
+  MemoryUploadParams,
+} from './resources/memories';
+import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
 import { IntegrationRevokeResponse, Integrations } from './resources/integrations/integrations';
 
 export interface ClientOptions {
@@ -140,9 +150,8 @@ export class Hyperspell extends Core.APIClient {
   }
 
   integrations: API.Integrations = new API.Integrations(this);
-  documents: API.Documents = new API.Documents(this);
-  collections: API.Collections = new API.Collections(this);
-  query: API.Query = new API.Query(this);
+  memories: API.Memories = new API.Memories(this);
+  vaults: API.Vaults = new API.Vaults(this);
   auth: API.Auth = new API.Auth(this);
 
   /**
@@ -203,9 +212,10 @@ export class Hyperspell extends Core.APIClient {
 }
 
 Hyperspell.Integrations = Integrations;
-Hyperspell.Documents = Documents;
-Hyperspell.Collections = Collections;
-Hyperspell.Query = Query;
+Hyperspell.Memories = Memories;
+Hyperspell.DocumentsCursorPage = DocumentsCursorPage;
+Hyperspell.Vaults = Vaults;
+Hyperspell.VaultListResponsesCursorPage = VaultListResponsesCursorPage;
 Hyperspell.Auth = Auth;
 export declare namespace Hyperspell {
   export type RequestOptions = Core.RequestOptions;
@@ -215,11 +225,25 @@ export declare namespace Hyperspell {
 
   export { Integrations as Integrations, type IntegrationRevokeResponse as IntegrationRevokeResponse };
 
-  export { Documents as Documents, type Document as Document, type DocumentStatus as DocumentStatus };
+  export {
+    Memories as Memories,
+    type Document as Document,
+    type DocumentStatus as DocumentStatus,
+    type MemorySearchResponse as MemorySearchResponse,
+    type MemoryStatusResponse as MemoryStatusResponse,
+    DocumentsCursorPage as DocumentsCursorPage,
+    type MemoryListParams as MemoryListParams,
+    type MemoryAddParams as MemoryAddParams,
+    type MemorySearchParams as MemorySearchParams,
+    type MemoryUploadParams as MemoryUploadParams,
+  };
 
-  export { Collections as Collections };
-
-  export { Query as Query };
+  export {
+    Vaults as Vaults,
+    type VaultListResponse as VaultListResponse,
+    VaultListResponsesCursorPage as VaultListResponsesCursorPage,
+    type VaultListParams as VaultListParams,
+  };
 
   export {
     Auth as Auth,

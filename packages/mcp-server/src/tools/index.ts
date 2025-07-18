@@ -4,6 +4,10 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
+import add_memory from './memories/add-memory';
+import get_memory from './memories/get-memory';
+import search from './memories/search';
+import upload_file from './memories/upload-file';
 import user_info from './auth/user-info';
 
 export const endpoints: Endpoint[] = [];
@@ -12,6 +16,10 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
+addEndpoint(add_memory);
+addEndpoint(get_memory);
+addEndpoint(search);
+addEndpoint(upload_file);
 addEndpoint(user_info);
 
 export type Filter = {
