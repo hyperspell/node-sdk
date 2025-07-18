@@ -9,14 +9,14 @@ import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import {
-  Document,
-  DocumentStatus,
-  DocumentsCursorPage,
   Memories,
+  MemoriesCursorPage,
+  Memory,
   MemoryAddParams,
   MemoryListParams,
   MemorySearchParams,
   MemorySearchResponse,
+  MemoryStatus,
   MemoryStatusResponse,
   MemoryUploadParams,
 } from './resources/memories';
@@ -213,7 +213,7 @@ export class Hyperspell extends Core.APIClient {
 
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
-Hyperspell.DocumentsCursorPage = DocumentsCursorPage;
+Hyperspell.MemoriesCursorPage = MemoriesCursorPage;
 Hyperspell.Vaults = Vaults;
 Hyperspell.VaultListResponsesCursorPage = VaultListResponsesCursorPage;
 Hyperspell.Auth = Auth;
@@ -227,11 +227,11 @@ export declare namespace Hyperspell {
 
   export {
     Memories as Memories,
-    type Document as Document,
-    type DocumentStatus as DocumentStatus,
+    type Memory as Memory,
+    type MemoryStatus as MemoryStatus,
     type MemorySearchResponse as MemorySearchResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    DocumentsCursorPage as DocumentsCursorPage,
+    MemoriesCursorPage as MemoriesCursorPage,
     type MemoryListParams as MemoryListParams,
     type MemoryAddParams as MemoryAddParams,
     type MemorySearchParams as MemorySearchParams,
