@@ -219,6 +219,8 @@ export interface Memory {
 
 export namespace Memory {
   export interface Metadata {
+    created_at?: string | null;
+
     events?: Array<Metadata.Event>;
 
     indexed_at?: string | null;
@@ -226,6 +228,8 @@ export namespace Memory {
     last_modified?: string | null;
 
     status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+    url?: string | null;
 
     [k: string]: unknown;
   }

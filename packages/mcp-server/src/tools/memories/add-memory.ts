@@ -59,6 +59,7 @@ export const tool: Tool = {
     },
     required: ['text'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
