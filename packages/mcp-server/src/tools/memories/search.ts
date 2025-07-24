@@ -400,6 +400,7 @@ export const tool: Tool = {
     },
     required: ['query'],
   },
+  annotations: {},
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {

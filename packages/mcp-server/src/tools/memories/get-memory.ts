@@ -87,6 +87,9 @@ export const tool: Tool = {
     },
     required: ['source', 'resource_id'],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
