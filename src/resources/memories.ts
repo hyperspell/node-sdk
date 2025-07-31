@@ -31,6 +31,85 @@ export class Memories extends APIResource {
   }
 
   /**
+   * Delete a memory and its associated chunks from the index.
+   *
+   * This removes the memory completely from the vector index and database. The
+   * operation deletes:
+   *
+   * 1. All chunks associated with the resource (including embeddings)
+   * 2. The resource record itself
+   *
+   * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
+   * The unique identifier of the resource to delete api_token: Authentication token
+   *
+   * Returns: MemoryDeletionResponse with deletion details
+   *
+   * Raises: DocumentNotFound: If the resource doesn't exist or user doesn't have
+   * access
+   *
+   * @example
+   * ```ts
+   * const memory = await client.memories.delete(
+   *   'collections',
+   *   'resource_id',
+   * );
+   * ```
+   */
+  delete(
+    source:
+      | 'collections'
+      | 'vault'
+      | 'web_crawler'
+      | 'notion'
+      | 'slack'
+      | 'google_calendar'
+      | 'reddit'
+      | 'box'
+      | 'google_drive'
+      | 'airtable'
+      | 'algolia'
+      | 'amplitude'
+      | 'asana'
+      | 'ashby'
+      | 'bamboohr'
+      | 'basecamp'
+      | 'bubbles'
+      | 'calendly'
+      | 'confluence'
+      | 'clickup'
+      | 'datadog'
+      | 'deel'
+      | 'discord'
+      | 'dropbox'
+      | 'exa'
+      | 'facebook'
+      | 'front'
+      | 'github'
+      | 'gitlab'
+      | 'google_docs'
+      | 'google_mail'
+      | 'google_sheet'
+      | 'hubspot'
+      | 'jira'
+      | 'linear'
+      | 'microsoft_teams'
+      | 'mixpanel'
+      | 'monday'
+      | 'outlook'
+      | 'perplexity'
+      | 'rippling'
+      | 'salesforce'
+      | 'segment'
+      | 'todoist'
+      | 'twitter'
+      | 'zoom',
+    resourceId: string,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<MemoryDeleteResponse> {
+    return this._client.delete(`/memories/delete/${source}/${resourceId}`, options);
+  }
+
+  /**
    * Adds an arbitrary document to the index. This can be any text, email, call
    * transcript, etc. The document will be processed and made available for querying
    * once the processing is complete.
@@ -302,6 +381,64 @@ export interface MemoryStatus {
     | 'zoom';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
+}
+
+export interface MemoryDeleteResponse {
+  chunks_deleted: number;
+
+  message: string;
+
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'vault'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
+
+  success: boolean;
 }
 
 export interface MemorySearchResponse {
@@ -841,6 +978,7 @@ export declare namespace Memories {
   export {
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemorySearchResponse as MemorySearchResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     MemoriesCursorPage as MemoriesCursorPage,

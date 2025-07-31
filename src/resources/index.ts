@@ -7,6 +7,7 @@ export {
   Memories,
   type Memory,
   type MemoryStatus,
+  type MemoryDeleteResponse,
   type MemorySearchResponse,
   type MemoryStatusResponse,
   type MemoryListParams,
