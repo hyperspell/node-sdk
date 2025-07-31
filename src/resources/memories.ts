@@ -427,13 +427,7 @@ export interface MemorySearchParams {
   answer?: boolean;
 
   /**
-   * @deprecated DEPRECATED: Use options instead. This field will be removed in a
-   * future version.
-   */
-  filter?: MemorySearchParams.Filter | null;
-
-  /**
-   * Maximum number of results to return.
+   * @deprecated Maximum number of results to return.
    */
   max_results?: number;
 
@@ -497,157 +491,6 @@ export interface MemorySearchParams {
 
 export namespace MemorySearchParams {
   /**
-   * @deprecated DEPRECATED: Use options instead. This field will be removed in a
-   * future version.
-   */
-  export interface Filter {
-    /**
-     * Only query documents created on or after this date.
-     */
-    after?: string | null;
-
-    /**
-     * Model to use for answer generation when answer=True
-     */
-    answer_model?: 'llama-3.1' | 'gemma2' | 'qwen-qwq' | 'mistral-saba' | 'llama-4-scout' | 'deepseek-r1';
-
-    /**
-     * Only query documents created before this date.
-     */
-    before?: string | null;
-
-    /**
-     * Search options for Box
-     */
-    box?: unknown;
-
-    /**
-     * Search options for vault
-     */
-    collections?: unknown;
-
-    /**
-     * Search options for Google Calendar
-     */
-    google_calendar?: Filter.GoogleCalendar;
-
-    /**
-     * Search options for Google Drive
-     */
-    google_drive?: unknown;
-
-    /**
-     * Search options for Gmail
-     */
-    google_mail?: Filter.GoogleMail;
-
-    /**
-     * Search options for Notion
-     */
-    notion?: Filter.Notion;
-
-    /**
-     * Search options for Reddit
-     */
-    reddit?: Filter.Reddit;
-
-    /**
-     * Search options for Slack
-     */
-    slack?: Filter.Slack;
-
-    /**
-     * Search options for Web Crawler
-     */
-    web_crawler?: Filter.WebCrawler;
-  }
-
-  export namespace Filter {
-    /**
-     * Search options for Google Calendar
-     */
-    export interface GoogleCalendar {
-      /**
-       * The ID of the calendar to search. If not provided, it will use the ID of the
-       * default calendar. You can get the list of calendars with the
-       * `/integrations/google_calendar/list` endpoint.
-       */
-      calendar_id?: string | null;
-    }
-
-    /**
-     * Search options for Gmail
-     */
-    export interface GoogleMail {
-      /**
-       * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
-       * Multiple labels are combined with OR logic - messages matching ANY specified
-       * label will be returned. If empty, no label filtering is applied (searches all
-       * accessible messages).
-       */
-      label_ids?: Array<string>;
-    }
-
-    /**
-     * Search options for Notion
-     */
-    export interface Notion {
-      /**
-       * List of Notion page IDs to search. If not provided, all pages in the workspace
-       * will be searched.
-       */
-      notion_page_ids?: Array<string>;
-    }
-
-    /**
-     * Search options for Reddit
-     */
-    export interface Reddit {
-      /**
-       * The time period to search. Defaults to 'month'.
-       */
-      period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all';
-
-      /**
-       * The sort order of the posts. Defaults to 'relevance'.
-       */
-      sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments';
-
-      /**
-       * The subreddit to search. If not provided, the query will be searched for in all
-       * subreddits.
-       */
-      subreddit?: string | null;
-    }
-
-    /**
-     * Search options for Slack
-     */
-    export interface Slack {
-      /**
-       * List of Slack channels to search. If not provided, all channels in the workspace
-       * will be searched.
-       */
-      channels?: Array<string>;
-    }
-
-    /**
-     * Search options for Web Crawler
-     */
-    export interface WebCrawler {
-      /**
-       * Maximum depth to crawl from the starting URL
-       */
-      max_depth?: number;
-
-      /**
-       * The URL to crawl
-       */
-      url?: string | unknown;
-    }
-  }
-
-  /**
    * Search options for the query.
    */
   export interface Options {
@@ -669,12 +512,12 @@ export namespace MemorySearchParams {
     /**
      * Search options for Box
      */
-    box?: unknown;
+    box?: Options.Box;
 
     /**
      * Search options for vault
      */
-    collections?: unknown;
+    collections?: Options.Collections;
 
     /**
      * Search options for Google Calendar
@@ -684,12 +527,17 @@ export namespace MemorySearchParams {
     /**
      * Search options for Google Drive
      */
-    google_drive?: unknown;
+    google_drive?: Options.GoogleDrive;
 
     /**
      * Search options for Gmail
      */
     google_mail?: Options.GoogleMail;
+
+    /**
+     * Maximum number of results to return.
+     */
+    max_results?: number;
 
     /**
      * Search options for Notion
@@ -714,15 +562,102 @@ export namespace MemorySearchParams {
 
   export namespace Options {
     /**
+     * Search options for Box
+     */
+    export interface Box {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
+    }
+
+    /**
+     * Search options for vault
+     */
+    export interface Collections {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
+    }
+
+    /**
      * Search options for Google Calendar
      */
     export interface GoogleCalendar {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
       /**
        * The ID of the calendar to search. If not provided, it will use the ID of the
        * default calendar. You can get the list of calendars with the
        * `/integrations/google_calendar/list` endpoint.
        */
       calendar_id?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
+    }
+
+    /**
+     * Search options for Google Drive
+     */
+    export interface GoogleDrive {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
 
     /**
@@ -730,12 +665,30 @@ export namespace MemorySearchParams {
      */
     export interface GoogleMail {
       /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
        * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
        * Multiple labels are combined with OR logic - messages matching ANY specified
        * label will be returned. If empty, no label filtering is applied (searches all
        * accessible messages).
        */
       label_ids?: Array<string>;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
 
     /**
@@ -743,16 +696,44 @@ export namespace MemorySearchParams {
      */
     export interface Notion {
       /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
        * will be searched.
        */
       notion_page_ids?: Array<string>;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
 
     /**
      * Search options for Reddit
      */
     export interface Reddit {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
       /**
        * The time period to search. Defaults to 'month'.
        */
@@ -768,6 +749,14 @@ export namespace MemorySearchParams {
        * subreddits.
        */
       subreddit?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
 
     /**
@@ -775,16 +764,44 @@ export namespace MemorySearchParams {
      */
     export interface Slack {
       /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
+      /**
        * List of Slack channels to search. If not provided, all channels in the workspace
        * will be searched.
        */
       channels?: Array<string>;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
 
     /**
      * Search options for Web Crawler
      */
     export interface WebCrawler {
+      /**
+       * Only query documents created on or after this date.
+       */
+      after?: string | null;
+
+      /**
+       * Only query documents created before this date.
+       */
+      before?: string | null;
+
       /**
        * Maximum depth to crawl from the starting URL
        */
@@ -794,6 +811,14 @@ export namespace MemorySearchParams {
        * The URL to crawl
        */
       url?: string | unknown;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
     }
   }
 }
