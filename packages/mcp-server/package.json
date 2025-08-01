@@ -12,7 +12,7 @@
     "directory": "packages/mcp-server"
   },
   "homepage": "https://github.com/hyperspell/node-sdk/tree/main/packages/mcp-server#readme",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "private": false,
   "scripts": {
