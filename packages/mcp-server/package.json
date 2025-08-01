@@ -1,6 +1,6 @@
 {
   "name": "hyperspell-mcp",
-  "version": "0.19.0",
+  "version": "0.20.0",
   "description": "The official MCP Server for the Hyperspell API",
   "author": "Hyperspell <hello@hyperspell.com>",
   "types": "dist/index.d.ts",
@@ -12,7 +12,7 @@
     "directory": "packages/mcp-server"
   },
   "homepage": "https://github.com/hyperspell/node-sdk/tree/main/packages/mcp-server#readme",
-  "license": "Apache-2.0",
+  "license": "MIT",
   "packageManager": "yarn@1.22.22",
   "private": false,
   "scripts": {

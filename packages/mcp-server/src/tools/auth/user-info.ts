@@ -31,10 +31,14 @@ export const tool: Tool = {
     },
     required: [],
   },
+  annotations: {
+    readOnlyHint: true,
+  },
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
-  return asTextContentResult(await maybeFilter(args, await client.auth.me()));
+  const { jq_filter } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.auth.me()));
 };
 
 export default { metadata, tool, handler };

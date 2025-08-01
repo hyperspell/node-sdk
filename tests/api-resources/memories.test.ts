@@ -38,6 +38,24 @@ describe('resource memories', () => {
     ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
+  test('delete', async () => {
+    const responsePromise = client.memories.delete('collections', 'resource_id');
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('delete: request options instead of params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.memories.delete('collections', 'resource_id', { path: '/_stainless_unknown_path' }),
+    ).rejects.toThrow(Hyperspell.NotFoundError);
+  });
+
   test('add: only required params', async () => {
     const responsePromise = client.memories.add({ text: 'text' });
     const rawResponse = await responsePromise.asResponse();
@@ -92,34 +110,54 @@ describe('resource memories', () => {
     const response = await client.memories.search({
       query: 'query',
       answer: true,
-      filter: {
-        after: '2019-12-27T18:11:19.117Z',
-        answer_model: 'llama-3.1',
-        before: '2019-12-27T18:11:19.117Z',
-        box: {},
-        collections: {},
-        google_calendar: { calendar_id: 'calendar_id' },
-        google_drive: {},
-        google_mail: { label_ids: ['string'] },
-        notion: { notion_page_ids: ['string'] },
-        reddit: { period: 'hour', sort: 'relevance', subreddit: 'subreddit' },
-        slack: { channels: ['string'] },
-        web_crawler: { max_depth: 0, url: 'string' },
-      },
       max_results: 0,
       options: {
         after: '2019-12-27T18:11:19.117Z',
         answer_model: 'llama-3.1',
         before: '2019-12-27T18:11:19.117Z',
-        box: {},
-        collections: {},
-        google_calendar: { calendar_id: 'calendar_id' },
-        google_drive: {},
-        google_mail: { label_ids: ['string'] },
-        notion: { notion_page_ids: ['string'] },
-        reddit: { period: 'hour', sort: 'relevance', subreddit: 'subreddit' },
-        slack: { channels: ['string'] },
-        web_crawler: { max_depth: 0, url: 'string' },
+        box: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
+        collections: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
+        google_calendar: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          calendar_id: 'calendar_id',
+          weight: 0,
+        },
+        google_drive: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
+        google_mail: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          label_ids: ['string'],
+          weight: 0,
+        },
+        max_results: 0,
+        notion: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          notion_page_ids: ['string'],
+          weight: 0,
+        },
+        reddit: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          period: 'hour',
+          sort: 'relevance',
+          subreddit: 'subreddit',
+          weight: 0,
+        },
+        slack: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          channels: ['string'],
+          weight: 0,
+        },
+        web_crawler: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          max_depth: 0,
+          url: 'string',
+          weight: 0,
+        },
       },
       sources: ['collections'],
     });

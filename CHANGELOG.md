@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.20.0 (2025-08-01)
+
+Full Changelog: [v0.19.0...v0.20.0](https://github.com/hyperspell/node-sdk/compare/v0.19.0...v0.20.0)
+
+### Features
+
+* **api:** api update ([cefe243](https://github.com/hyperspell/node-sdk/commit/cefe2431b9038f3571cf8d30cda35d06e50a6892))
+* **api:** api update ([fd28af6](https://github.com/hyperspell/node-sdk/commit/fd28af6865428470f24aa3b74618bc7c285084a0))
+* **api:** update via SDK Studio ([8262076](https://github.com/hyperspell/node-sdk/commit/8262076e98fe17a7638709e2c3a008e3ea4e3b3a))
+* **api:** update via SDK Studio ([a90a5fe](https://github.com/hyperspell/node-sdk/commit/a90a5fea37a284c33b7c5a0f5920529795f5924f))
+
+
+### Bug Fixes
+
+* **mcp:** avoid sending `jq_filter` to base API ([d9af33a](https://github.com/hyperspell/node-sdk/commit/d9af33af4bdbc4a8d32a6d1f211c28b24ab3c5b8))
+* **mcp:** fix tool description of jq_filter ([8c1503c](https://github.com/hyperspell/node-sdk/commit/8c1503c4a348c78f11633b16296450fd8611355d))
+* **mcp:** reverse validJson capability option and limit scope ([357c3cc](https://github.com/hyperspell/node-sdk/commit/357c3cc81c306595fc2a28365133609e9833d35d))
+
+
+### Chores
+
+* **internal:** codegen related update ([a9e0f53](https://github.com/hyperspell/node-sdk/commit/a9e0f534d3ae80b5cf2befc376ad240b58fe940c))
+* **internal:** remove redundant imports config ([73fa6ee](https://github.com/hyperspell/node-sdk/commit/73fa6ee36b6283e56df2520f9112837f3c4f427f))
+
 ## 0.19.0 (2025-07-18)
 
 Full Changelog: [v0.18.2...v0.19.0](https://github.com/hyperspell/node-sdk/compare/v0.18.2...v0.19.0)
