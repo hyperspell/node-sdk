@@ -28,7 +28,7 @@ export const server = new McpServer(
     name: 'hyperspell_api',
     version: '0.20.0',
   },
-  { capabilities: { tools: {} } },
+  { capabilities: { tools: {}, logging: {} } },
 );
 
 /**
