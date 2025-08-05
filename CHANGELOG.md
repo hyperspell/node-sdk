@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.21.0 (2025-08-05)
+
+Full Changelog: [v0.20.0...v0.21.0](https://github.com/hyperspell/node-sdk/compare/v0.20.0...v0.21.0)
+
+### Features
+
+* **api:** api update ([086f49d](https://github.com/hyperspell/node-sdk/commit/086f49d60602fcddd4a35288ffe69e0c622ff84d))
+* **mcp:** add logging when environment variable is set ([485c9fa](https://github.com/hyperspell/node-sdk/commit/485c9fa74d39fbd9d81f0c95f821f4dec4c2c041))
+
 ## 0.20.0 (2025-08-01)
 
 Full Changelog: [v0.19.0...v0.20.0](https://github.com/hyperspell/node-sdk/compare/v0.19.0...v0.20.0)
