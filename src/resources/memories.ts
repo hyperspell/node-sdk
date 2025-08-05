@@ -325,11 +325,6 @@ export namespace Memory {
 }
 
 export interface MemoryStatus {
-  /**
-   * @deprecated Deprecated: refer to documents by source and resource_id instead
-   */
-  id: number;
-
   resource_id: string;
 
   source:
