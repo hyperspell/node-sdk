@@ -7,7 +7,7 @@ import * as Pagination from './pagination';
 import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
-import { Auth, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
+import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import {
   Memories,
   MemoriesCursorPage,
@@ -250,6 +250,7 @@ export declare namespace Hyperspell {
   export {
     Auth as Auth,
     type Token as Token,
+    type AuthDeleteUserResponse as AuthDeleteUserResponse,
     type AuthMeResponse as AuthMeResponse,
     type AuthUserTokenParams as AuthUserTokenParams,
   };
