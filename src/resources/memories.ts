@@ -294,6 +294,8 @@ export interface Memory {
    * The relevance of the resource to the query
    */
   score?: number | null;
+
+  title?: string | null;
 }
 
 export namespace Memory {
@@ -325,11 +327,6 @@ export namespace Memory {
 }
 
 export interface MemoryStatus {
-  /**
-   * @deprecated Deprecated: refer to documents by source and resource_id instead
-   */
-  id: number;
-
   resource_id: string;
 
   source:
