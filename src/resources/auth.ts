@@ -5,6 +5,13 @@ import * as Core from '../core';
 
 export class Auth extends APIResource {
   /**
+   * Endpoint to delete user.
+   */
+  deleteUser(options?: Core.RequestOptions): Core.APIPromise<AuthDeleteUserResponse> {
+    return this._client.delete('/auth/delete', options);
+  }
+
+  /**
    * Endpoint to get basic user data.
    */
   me(options?: Core.RequestOptions): Core.APIPromise<AuthMeResponse> {
@@ -24,6 +31,12 @@ export interface Token {
   token: string;
 
   expires_at: string;
+}
+
+export interface AuthDeleteUserResponse {
+  message: string;
+
+  success: boolean;
 }
 
 export interface AuthMeResponse {
@@ -159,6 +172,7 @@ export interface AuthUserTokenParams {
 export declare namespace Auth {
   export {
     type Token as Token,
+    type AuthDeleteUserResponse as AuthDeleteUserResponse,
     type AuthMeResponse as AuthMeResponse,
     type AuthUserTokenParams as AuthUserTokenParams,
   };

@@ -63,9 +63,11 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/auth.ts">Token</a></code>
+- <code><a href="./src/resources/auth.ts">AuthDeleteUserResponse</a></code>
 - <code><a href="./src/resources/auth.ts">AuthMeResponse</a></code>
 
 Methods:
 
+- <code title="delete /auth/delete">client.auth.<a href="./src/resources/auth.ts">deleteUser</a>() -> AuthDeleteUserResponse</code>
 - <code title="get /auth/me">client.auth.<a href="./src/resources/auth.ts">me</a>() -> AuthMeResponse</code>
 - <code title="post /auth/user_token">client.auth.<a href="./src/resources/auth.ts">userToken</a>({ ...params }) -> Token</code>
