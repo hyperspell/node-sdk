@@ -294,6 +294,8 @@ export interface Memory {
    * The relevance of the resource to the query
    */
   score?: number | null;
+
+  title?: string | null;
 }
 
 export namespace Memory {
