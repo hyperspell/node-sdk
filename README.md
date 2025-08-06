@@ -28,7 +28,7 @@ const client = new Hyperspell({
 
 const memoryStatus = await client.memories.add({ text: 'text' });
 
-console.log(memoryStatus.resource_id);
+console.log(memoryStatus.id);
 ```
 
 ### Request & Response types
@@ -202,7 +202,7 @@ console.log(response.statusText); // access the underlying Response object
 
 const { data: memoryStatus, response: raw } = await client.memories.add({ text: 'text' }).withResponse();
 console.log(raw.headers.get('X-My-Header'));
-console.log(memoryStatus.resource_id);
+console.log(memoryStatus.id);
 ```
 
 ### Making custom/undocumented requests
