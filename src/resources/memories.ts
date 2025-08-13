@@ -218,10 +218,10 @@ export class Memories extends APIResource {
   }
 
   /**
-   * This endpoint will upload a file to the index and return a document ID. The file
-   * will be processed in the background and the document will be available for
-   * querying once the processing is complete. You can use the `document_id` to query
-   * the document later, and check the status of the document.
+   * This endpoint will upload a file to the index and return a resource_id. The file
+   * will be processed in the background and the memory will be available for
+   * querying once the processing is complete. You can use the `resource_id` to query
+   * the memory later, and check the status of the memory.
    *
    * @example
    * ```ts
