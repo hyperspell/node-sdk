@@ -77,7 +77,20 @@ export interface WebCrawlerIndexResponse {
 }
 
 export interface WebCrawlerIndexParams {
+  /**
+   * The base URL of the website to crawl
+   */
   url: string;
+
+  /**
+   * Maximum number of pages to crawl in total
+   */
+  limit?: number;
+
+  /**
+   * Maximum depth of links to follow during crawling
+   */
+  max_depth?: number;
 }
 
 export declare namespace WebCrawler {
