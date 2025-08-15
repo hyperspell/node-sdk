@@ -346,6 +346,7 @@ export const tool: Tool = {
                     type: 'object',
                     title: 'NotGiven',
                     description: 'Sentinel object to indicate that a search option is not set',
+                    additionalProperties: true,
                   },
                 ],
                 title: 'Url',
