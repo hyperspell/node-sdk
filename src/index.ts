@@ -218,6 +218,7 @@ Hyperspell.MemoriesCursorPage = MemoriesCursorPage;
 Hyperspell.Vaults = Vaults;
 Hyperspell.VaultListResponsesCursorPage = VaultListResponsesCursorPage;
 Hyperspell.Auth = Auth;
+
 export declare namespace Hyperspell {
   export type RequestOptions = Core.RequestOptions;
 
