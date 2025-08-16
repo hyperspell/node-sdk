@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.22.2 (2025-08-16)
+
+Full Changelog: [v0.22.1...v0.22.2](https://github.com/hyperspell/node-sdk/compare/v0.22.1...v0.22.2)
+
+### Chores
+
+* **internal:** codegen related update ([1b783b9](https://github.com/hyperspell/node-sdk/commit/1b783b9a68c97640b47efd34b8aa75f8505314e0))
+* **internal:** formatting change ([f3c1d11](https://github.com/hyperspell/node-sdk/commit/f3c1d1173edefbf8c3d4cf9796769a7f742f7501))
+* **mcp:** update README ([ec5d660](https://github.com/hyperspell/node-sdk/commit/ec5d66006ee59b9207f8dc6e42384beec37229df))
+
 ## 0.22.1 (2025-08-13)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/hyperspell/node-sdk/compare/v0.22.0...v0.22.1)
