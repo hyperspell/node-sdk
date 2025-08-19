@@ -17,10 +17,10 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
   }
 
   const apiKey =
-    req.headers['x-hyperspell-token'] instanceof Array ?
+    Array.isArray(req.headers['x-hyperspell-token']) ?
       req.headers['x-hyperspell-token'][0]
     : req.headers['x-hyperspell-token'];
   const userId =
-    req.headers['x-as-user'] instanceof Array ? req.headers['x-as-user'][0] : req.headers['x-as-user'];
+    Array.isArray(req.headers['x-as-user']) ? req.headers['x-as-user'][0] : req.headers['x-as-user'];
   return { apiKey, userId };
 };
