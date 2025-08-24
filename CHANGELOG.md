@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.23.0 (2025-08-24)
+
+Full Changelog: [v0.22.1...v0.23.0](https://github.com/hyperspell/node-sdk/compare/v0.22.1...v0.23.0)
+
+### Features
+
+* **mcp:** add code execution tool ([a6ce72c](https://github.com/hyperspell/node-sdk/commit/a6ce72c662426acdb4a3c1ffa8108ba8dd82bfd1))
+* **mcp:** add option to infer mcp client ([894f4b2](https://github.com/hyperspell/node-sdk/commit/894f4b21d8e12293920f82a53ba45309995f0947))
+* **mcp:** parse query string as mcp client options in mcp server ([20a21ab](https://github.com/hyperspell/node-sdk/commit/20a21aba99384d1e078fefeebf355bb9dc6e61d2))
+
+
+### Chores
+
+* **internal:** codegen related update ([cce85c1](https://github.com/hyperspell/node-sdk/commit/cce85c181ddd14b51bdfd4018892aea9088fee33))
+* **internal:** codegen related update ([1b783b9](https://github.com/hyperspell/node-sdk/commit/1b783b9a68c97640b47efd34b8aa75f8505314e0))
+* **internal:** formatting change ([f3c1d11](https://github.com/hyperspell/node-sdk/commit/f3c1d1173edefbf8c3d4cf9796769a7f742f7501))
+* **internal:** make mcp-server publishing public by defaut ([39d38e3](https://github.com/hyperspell/node-sdk/commit/39d38e323339dbbe3b6967c3f3a645b4695e8a46))
+* **internal:** refactor array check ([2543d11](https://github.com/hyperspell/node-sdk/commit/2543d1138bffda3ef5611d9e60abf0779d13493c))
+* **mcp:** add cors to oauth metadata route ([911cc5f](https://github.com/hyperspell/node-sdk/commit/911cc5f81c225050e518ade02a9c3d790261ba38))
+* **mcp:** update package.json ([100d24b](https://github.com/hyperspell/node-sdk/commit/100d24b0759553ba5fe1327e898b338c16f771b3))
+* **mcp:** update README ([ec5d660](https://github.com/hyperspell/node-sdk/commit/ec5d66006ee59b9207f8dc6e42384beec37229df))
+* **mcp:** update types ([76b2384](https://github.com/hyperspell/node-sdk/commit/76b2384e724984cdebb554d0196e8caebecc3621))
+* update CI script ([cb357d6](https://github.com/hyperspell/node-sdk/commit/cb357d6b9ff4a9d8607be445bc3c23ed56595db8))
+
 ## 0.22.1 (2025-08-13)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/hyperspell/node-sdk/compare/v0.22.0...v0.22.1)
