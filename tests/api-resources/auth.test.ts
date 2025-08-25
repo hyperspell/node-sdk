@@ -58,6 +58,6 @@ describe('resource auth', () => {
   });
 
   test('userToken: required and optional params', async () => {
-    const response = await client.auth.userToken({ user_id: 'user_id', expires_in: '30m' });
+    const response = await client.auth.userToken({ user_id: 'user_id', expires_in: '30m', origin: 'origin' });
   });
 });
