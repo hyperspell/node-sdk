@@ -48,7 +48,7 @@ export interface AuthMeResponse {
   /**
    * The Hyperspell app's id this user belongs to
    */
-  app: string;
+  app: AuthMeResponse.App;
 
   /**
    * All integrations available for the app
@@ -158,6 +158,33 @@ export interface AuthMeResponse {
    * The expiration time of the user token used to make the request
    */
   token_expiration: string | null;
+}
+
+export namespace AuthMeResponse {
+  /**
+   * The Hyperspell app's id this user belongs to
+   */
+  export interface App {
+    /**
+     * The Hyperspell app's id this user belongs to
+     */
+    id: string;
+
+    /**
+     * The app's icon
+     */
+    icon_url: string | null;
+
+    /**
+     * The app's name
+     */
+    name: string;
+
+    /**
+     * The app's redirect URL
+     */
+    redirect_url: string | null;
+  }
 }
 
 export interface AuthUserTokenParams {
