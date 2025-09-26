@@ -7,10 +7,9 @@
     "module": "commonjs",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "baseUrl": "./",
     "paths": {
-      "hyperspell-mcp/*": ["src/*"],
-      "hyperspell-mcp": ["src/index.ts"]
+      "hyperspell-mcp/*": ["./src/*"],
+      "hyperspell-mcp": ["./src/index.ts"]
     },
     "noEmit": true,
 
