@@ -5,8 +5,8 @@
   "compilerOptions": {
     "rootDir": "./dist/src",
     "paths": {
-      "hyperspell/*": ["dist/src/*"],
-      "hyperspell": ["dist/src/index.ts"],
+      "hyperspell/*": ["./dist/src/*"],
+      "hyperspell": ["./dist/src/index.ts"]
     },
     "noEmit": false,
     "declaration": true,
