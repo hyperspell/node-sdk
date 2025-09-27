@@ -18,9 +18,7 @@
     "entry_point": "index.js",
     "mcp_config": {
       "command": "node",
-      "args": [
-        "${__dirname}/index.js"
-      ],
+      "args": ["${__dirname}/index.js"],
       "env": {
         "HYPERSPELL_TOKEN": "${user_config.HYPERSPELL_TOKEN}",
         "HYPERSPELL_USER_ID": "${user_config.HYPERSPELL_USER_ID}"
@@ -48,7 +46,5 @@
       "node": ">=18.0.0"
     }
   },
-  "keywords": [
-    "api"
-  ]
+  "keywords": ["api"]
 }
