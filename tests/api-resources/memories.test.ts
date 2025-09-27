@@ -149,6 +149,10 @@ describe('resource memories', () => {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           channels: ['string'],
+          exclude_archived: true,
+          include_dms: true,
+          include_group_dms: true,
+          include_private: true,
           weight: 0,
         },
         web_crawler: {

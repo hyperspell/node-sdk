@@ -908,10 +908,30 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
-       * List of Slack channels to search. If not provided, all channels in the workspace
-       * will be searched.
+       * List of Slack channels to include (by id, name, or #name).
        */
       channels?: Array<string>;
+
+      /**
+       * If set, pass 'exclude_archived' to Slack. If None, omit the param.
+       */
+      exclude_archived?: boolean | null;
+
+      /**
+       * Include direct messages (im) when listing conversations.
+       */
+      include_dms?: boolean;
+
+      /**
+       * Include group DMs (mpim) when listing conversations.
+       */
+      include_group_dms?: boolean;
+
+      /**
+       * Include private channels when constructing Slack 'types'. Defaults to False to
+       * preserve existing cassette query params.
+       */
+      include_private?: boolean;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
