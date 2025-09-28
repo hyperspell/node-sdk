@@ -451,6 +451,17 @@ export interface MemorySearchResponse {
    * debug the query, and are not meant to be shown to the user.
    */
   errors?: Array<{ [key: string]: string }> | null;
+
+  /**
+   * The ID of the query. This can be used to retrieve the query later, or add
+   * feedback to it. If the query failed, this will be None.
+   */
+  query_id?: string | null;
+
+  /**
+   * The average score of the query feedback, if any.
+   */
+  score?: number | null;
 }
 
 export interface MemoryStatusResponse {
