@@ -7,6 +7,7 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
+export { Evaluate } from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
 export {
   MemoriesCursorPage,

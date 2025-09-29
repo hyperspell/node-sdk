@@ -9,6 +9,7 @@ import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
+import { Evaluate } from './resources/evaluate';
 import {
   Memories,
   MemoriesCursorPage,
@@ -153,6 +154,7 @@ export class Hyperspell extends Core.APIClient {
 
   integrations: API.Integrations = new API.Integrations(this);
   memories: API.Memories = new API.Memories(this);
+  evaluate: API.Evaluate = new API.Evaluate(this);
   vaults: API.Vaults = new API.Vaults(this);
   auth: API.Auth = new API.Auth(this);
 
@@ -220,6 +222,7 @@ export class Hyperspell extends Core.APIClient {
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
 Hyperspell.MemoriesCursorPage = MemoriesCursorPage;
+Hyperspell.Evaluate = Evaluate;
 Hyperspell.Vaults = Vaults;
 Hyperspell.VaultListResponsesCursorPage = VaultListResponsesCursorPage;
 Hyperspell.Auth = Auth;
@@ -245,6 +248,8 @@ export declare namespace Hyperspell {
     type MemorySearchParams as MemorySearchParams,
     type MemoryUploadParams as MemoryUploadParams,
   };
+
+  export { Evaluate as Evaluate };
 
   export {
     Vaults as Vaults,
