@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 
 const commands = {
   migrate: {
-    description: 'Run migrations to update your code using hyperspell@0.22.1 to be compatible with hyperspell@0.23.2',
+    description: 'Run migrations to update your code using hyperspell@0.22.1 to be compatible with hyperspell@0.24.0',
     fn: () => {
       const result = spawnSync(
         'npx',

@@ -8,14 +8,14 @@ import { path } from '../internal/utils/path';
 
 export class Evaluate extends APIResource {
   /**
-   * Retrieve the result of a previous query.
+   * Retrieve an existing query
    */
   getQuery(queryID: string, options?: RequestOptions): APIPromise<Query> {
     return this._client.get(path`/evaluate/query/${queryID}`, options);
   }
 
   /**
-   * Score an individual highlight.
+   * Provide feedback on a query result.
    */
   scoreHighlight(
     highlightID: string,
@@ -26,7 +26,7 @@ export class Evaluate extends APIResource {
   }
 
   /**
-   * Score the result of a query.
+   * Provide feedback on a query result.
    */
   scoreQuery(
     queryID: string,
