@@ -1,4 +1,4 @@
-# Hyperspell Node MCP Server
+# Hyperspell TypeScript MCP Server
 
 It is generated with [Stainless](https://www.stainless.com/).
 
@@ -138,7 +138,7 @@ Additionally, authorization can be provided via the following headers:
 | Header | Equivalent client option | Security scheme |
 | -------------------- | ------------------------ | --------------- |
 | `x-hyperspell-token` | `apiKey` | APIKey |
-| `X-As-User` | `userId` | AsUser |
+| `X-As-User` | `userID` | AsUser |
 
 A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:
 
