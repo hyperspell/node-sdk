@@ -28,6 +28,16 @@ Methods:
 
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
+## Slack
+
+Types:
+
+- <code><a href="./src/resources/integrations/slack.ts">SlackListResponse</a></code>
+
+Methods:
+
+- <code title="get /integrations/slack/list">client.integrations.slack.<a href="./src/resources/integrations/slack.ts">list</a>({ ...params }) -> unknown</code>
+
 # Memories
 
 Types:
