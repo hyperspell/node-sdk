@@ -58,6 +58,8 @@ Methods:
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
 
+# Evaluate
+
 # Vaults
 
 Types:
