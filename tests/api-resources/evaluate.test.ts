@@ -28,6 +28,25 @@ describe('resource evaluate', () => {
     );
   });
 
+  test('scoreHighlight: only required params', async () => {
+    const responsePromise = client.evaluate.scoreHighlight({ highlight_id: 'highlight_id' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('scoreHighlight: required and optional params', async () => {
+    const response = await client.evaluate.scoreHighlight({
+      highlight_id: 'highlight_id',
+      comment: 'comment',
+      score: -1,
+    });
+  });
+
   test('scoreQuery: only required params', async () => {
     const responsePromise = client.evaluate.scoreQuery({ query_id: 'query_id' });
     const rawResponse = await responsePromise.asResponse();

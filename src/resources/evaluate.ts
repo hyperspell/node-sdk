@@ -15,6 +15,16 @@ export class Evaluate extends APIResource {
   /**
    * Provide feedback on a query result.
    */
+  scoreHighlight(
+    body: EvaluateScoreHighlightParams,
+    options?: Core.RequestOptions,
+  ): Core.APIPromise<EvaluateScoreHighlightResponse> {
+    return this._client.post('/memories/highlights/feedback', { body, ...options });
+  }
+
+  /**
+   * Provide feedback on a query result.
+   */
   scoreQuery(
     body: EvaluateScoreQueryParams,
     options?: Core.RequestOptions,
@@ -49,6 +59,18 @@ export interface Query {
   score?: number | null;
 }
 
+export interface EvaluateScoreHighlightResponse {
+  /**
+   * A message describing the result.
+   */
+  message: string;
+
+  /**
+   * Whether the feedback was successfully saved.
+   */
+  success: boolean;
+}
+
 export interface EvaluateScoreQueryResponse {
   /**
    * A message describing the result.
@@ -59,6 +81,23 @@ export interface EvaluateScoreQueryResponse {
    * Whether the feedback was successfully saved.
    */
   success: boolean;
+}
+
+export interface EvaluateScoreHighlightParams {
+  /**
+   * The ID of the chunk to provide feedback on.
+   */
+  highlight_id: string;
+
+  /**
+   * Comment on the chunk
+   */
+  comment?: string | null;
+
+  /**
+   * Rating of the chunk from -1 (bad) to +1 (good).
+   */
+  score?: number;
 }
 
 export interface EvaluateScoreQueryParams {
@@ -76,7 +115,9 @@ export interface EvaluateScoreQueryParams {
 export declare namespace Evaluate {
   export {
     type Query as Query,
+    type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };
 }

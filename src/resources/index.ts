@@ -10,7 +10,9 @@ export {
 export {
   Evaluate,
   type Query,
+  type EvaluateScoreHighlightResponse,
   type EvaluateScoreQueryResponse,
+  type EvaluateScoreHighlightParams,
   type EvaluateScoreQueryParams,
 } from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
