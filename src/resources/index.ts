@@ -7,7 +7,14 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
-export { Evaluate, type Query } from './evaluate';
+export {
+  Evaluate,
+  type Query,
+  type EvaluateScoreHighlightResponse,
+  type EvaluateScoreQueryResponse,
+  type EvaluateScoreHighlightParams,
+  type EvaluateScoreQueryParams,
+} from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
 export {
   Memories,

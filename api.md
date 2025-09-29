@@ -62,6 +62,14 @@ Methods:
 Types:
 
 - <code><a href="./src/resources/evaluate.ts">Query</a></code>
+- <code><a href="./src/resources/evaluate.ts">EvaluateScoreHighlightResponse</a></code>
+- <code><a href="./src/resources/evaluate.ts">EvaluateScoreQueryResponse</a></code>
+
+Methods:
+
+- <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> Query</code>
+- <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
+- <code title="post /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>(queryID, { ...params }) -> EvaluateScoreQueryResponse</code>
 
 # Vaults
 

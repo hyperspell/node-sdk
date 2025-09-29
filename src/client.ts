@@ -20,7 +20,14 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
-import { Evaluate, Query } from './resources/evaluate';
+import {
+  Evaluate,
+  EvaluateScoreHighlightParams,
+  EvaluateScoreHighlightResponse,
+  EvaluateScoreQueryParams,
+  EvaluateScoreQueryResponse,
+  Query,
+} from './resources/evaluate';
 import {
   Memories,
   MemoriesCursorPage,
@@ -795,7 +802,14 @@ export declare namespace Hyperspell {
     type MemoryUploadParams as MemoryUploadParams,
   };
 
-  export { Evaluate as Evaluate, type Query as Query };
+  export {
+    Evaluate as Evaluate,
+    type Query as Query,
+    type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
+    type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
+    type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
+  };
 
   export {
     Vaults as Vaults,
