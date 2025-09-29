@@ -45,7 +45,6 @@ Types:
 - <code><a href="./src/resources/memories.ts">Memory</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryDeleteResponse</a></code>
-- <code><a href="./src/resources/memories.ts">MemorySearchResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
@@ -54,11 +53,15 @@ Methods:
 - <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(source, resourceId) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
 - <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Memory</code>
-- <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> MemorySearchResponse</code>
+- <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> Query</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
 
 # Evaluate
+
+Types:
+
+- <code><a href="./src/resources/evaluate.ts">Query</a></code>
 
 # Vaults
 
