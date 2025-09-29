@@ -1,5 +1,76 @@
 # Changelog
 
+## 0.24.0 (2025-09-29)
+
+Full Changelog: [v0.22.1...v0.24.0](https://github.com/hyperspell/node-sdk/compare/v0.22.1...v0.24.0)
+
+### Features
+
+* **api:** api update ([b6c7bb7](https://github.com/hyperspell/node-sdk/commit/b6c7bb738aef3ad53d711ce3bfec17d3a49dfa8b))
+* **api:** api update ([b57fed4](https://github.com/hyperspell/node-sdk/commit/b57fed43958e7990952357edd7ba74ba174b5c3e))
+* **api:** api update ([63f3df5](https://github.com/hyperspell/node-sdk/commit/63f3df5f3714cb4b2d3d4ea6267e5f075cfebd2c))
+* **api:** api update ([f052117](https://github.com/hyperspell/node-sdk/commit/f0521175118624ad93fca9499d7c8d557edcc5a5))
+* **api:** api update ([c7b3bb7](https://github.com/hyperspell/node-sdk/commit/c7b3bb73249c40bbb92904caf2b4059ae1dba0e3))
+* **api:** api update ([809fb16](https://github.com/hyperspell/node-sdk/commit/809fb16627ea2835330dc6041a3f0f59caf6cf18))
+* **api:** api update ([e30bf2f](https://github.com/hyperspell/node-sdk/commit/e30bf2fe5e09d8f2140d7494876e069736f6abca))
+* **api:** update via SDK Studio ([e710403](https://github.com/hyperspell/node-sdk/commit/e710403e8a47a9ee170d896a7a61194f29274b45))
+* **api:** update via SDK Studio ([baa723d](https://github.com/hyperspell/node-sdk/commit/baa723d44c73dce341458bdf3084e99ca71dfafa))
+* **api:** update via SDK Studio ([31fdcab](https://github.com/hyperspell/node-sdk/commit/31fdcabd1455b9b8471172e0f8e185659020c333))
+* **api:** update via SDK Studio ([2acfdcc](https://github.com/hyperspell/node-sdk/commit/2acfdcc68ce8c7cc560e8d12b8ce27b3189036d4))
+* **api:** update via SDK Studio ([51f48ee](https://github.com/hyperspell/node-sdk/commit/51f48eecc66cc573ef99f23aa641beaab106f908))
+* **api:** update via SDK Studio ([12e3a88](https://github.com/hyperspell/node-sdk/commit/12e3a88e20256aba33c33d12328982d7c1f8df67))
+* **api:** update via SDK Studio ([d79a97a](https://github.com/hyperspell/node-sdk/commit/d79a97a82e1b19e3446984d78a64ac47ce7877cf))
+* **api:** update via SDK Studio ([fcf51e3](https://github.com/hyperspell/node-sdk/commit/fcf51e3b76c517c6fd7dc1d68156a9b3eb0babc4))
+* **mcp:** add code execution tool ([a6ce72c](https://github.com/hyperspell/node-sdk/commit/a6ce72c662426acdb4a3c1ffa8108ba8dd82bfd1))
+* **mcp:** add docs search tool ([10acf03](https://github.com/hyperspell/node-sdk/commit/10acf039fc6a74c4bcd471d83f4b88662b3e7150))
+* **mcp:** add mcp bundles to build script ([4da8c44](https://github.com/hyperspell/node-sdk/commit/4da8c445db5c01f324385b1f3bae6e4f83eb45e3))
+* **mcp:** add option for including docs tools ([0f3a7c4](https://github.com/hyperspell/node-sdk/commit/0f3a7c4505c7ba72e2ac5ee59c88af0fd1572b8e))
+* **mcp:** add option to infer mcp client ([894f4b2](https://github.com/hyperspell/node-sdk/commit/894f4b21d8e12293920f82a53ba45309995f0947))
+* **mcp:** allow setting logging level ([7c6125e](https://github.com/hyperspell/node-sdk/commit/7c6125ed687755523179a25fbd21b596d3a7740a))
+* **mcp:** enable experimental docs search tool ([9c03500](https://github.com/hyperspell/node-sdk/commit/9c03500aecdc0f6c1936fa06167e9fbec8a5e752))
+* **mcp:** expose client options in `streamableHTTPApp` ([eadc59d](https://github.com/hyperspell/node-sdk/commit/eadc59d61aef6bc8a76a44ccda36916112c8dbf1))
+* **mcp:** parse query string as mcp client options in mcp server ([20a21ab](https://github.com/hyperspell/node-sdk/commit/20a21aba99384d1e078fefeebf355bb9dc6e61d2))
+
+
+### Bug Fixes
+
+* **ci:** set permissions for DXT publish action ([084bcd4](https://github.com/hyperspell/node-sdk/commit/084bcd478179851b966355697c8d89df68219748))
+* coerce nullable values to undefined ([b35b4c3](https://github.com/hyperspell/node-sdk/commit/b35b4c38b746074d970556586410972ffe1d833e))
+* **mcp:** fix query options parsing ([3de2bd2](https://github.com/hyperspell/node-sdk/commit/3de2bd21186ebfba24de0268f15294d78597e92b))
+* **mcp:** fix uploading dxt release assets ([219b304](https://github.com/hyperspell/node-sdk/commit/219b3046aa8e0e9954f8941083f955563d7f01ce))
+
+
+### Performance Improvements
+
+* faster formatting ([6f5c026](https://github.com/hyperspell/node-sdk/commit/6f5c02658215e04e11a8ef297508e743b1e89e60))
+
+
+### Chores
+
+* ci build action ([6354b4b](https://github.com/hyperspell/node-sdk/commit/6354b4b5d34f57f19cedb66b87618a397ab950cc))
+* **codegen:** internal codegen update ([2faa68b](https://github.com/hyperspell/node-sdk/commit/2faa68be102b2be07fb2aab6f1de5c66941436ee))
+* do not install brew dependencies in ./scripts/bootstrap by default ([1b8c5a6](https://github.com/hyperspell/node-sdk/commit/1b8c5a6b892e185b8ec0953aa8faf697c62c3a22))
+* **internal:** codegen related update ([1ba814f](https://github.com/hyperspell/node-sdk/commit/1ba814f24f3e2e4bbcc54b8f036e11755d540be1))
+* **internal:** codegen related update ([fd51bf2](https://github.com/hyperspell/node-sdk/commit/fd51bf2ea88352990d3a4c60182bd2b1b5571e13))
+* **internal:** codegen related update ([154fa23](https://github.com/hyperspell/node-sdk/commit/154fa230cc131a9ef6fe4522b30e5d2e139de015))
+* **internal:** codegen related update ([cce85c1](https://github.com/hyperspell/node-sdk/commit/cce85c181ddd14b51bdfd4018892aea9088fee33))
+* **internal:** codegen related update ([1b783b9](https://github.com/hyperspell/node-sdk/commit/1b783b9a68c97640b47efd34b8aa75f8505314e0))
+* **internal:** fix incremental formatting in some cases ([77ebc1a](https://github.com/hyperspell/node-sdk/commit/77ebc1a884d18ab002ed9e669d9ffa5282d56f59))
+* **internal:** formatting change ([f3c1d11](https://github.com/hyperspell/node-sdk/commit/f3c1d1173edefbf8c3d4cf9796769a7f742f7501))
+* **internal:** gitignore .mcpb files ([ae5b458](https://github.com/hyperspell/node-sdk/commit/ae5b458a2da988fa6e2026b366e604b9066b8685))
+* **internal:** ignore .eslintcache ([81f7064](https://github.com/hyperspell/node-sdk/commit/81f7064dab38fcad4cc9f0bd742bf4746135d6e9))
+* **internal:** make mcp-server publishing public by defaut ([39d38e3](https://github.com/hyperspell/node-sdk/commit/39d38e323339dbbe3b6967c3f3a645b4695e8a46))
+* **internal:** refactor array check ([2543d11](https://github.com/hyperspell/node-sdk/commit/2543d1138bffda3ef5611d9e60abf0779d13493c))
+* **internal:** remove deprecated `compilerOptions.baseUrl` from tsconfig.json ([3dd1a02](https://github.com/hyperspell/node-sdk/commit/3dd1a0274494602107a1346daf300780f975fbee))
+* **mcp:** add cors to oauth metadata route ([911cc5f](https://github.com/hyperspell/node-sdk/commit/911cc5f81c225050e518ade02a9c3d790261ba38))
+* **mcp:** allow pointing `docs_search` tool at other URLs ([5fcaf45](https://github.com/hyperspell/node-sdk/commit/5fcaf459a8600f1d85c55f046c3f36d28db4db56))
+* **mcp:** rename dxt to mcpb ([c88e7ad](https://github.com/hyperspell/node-sdk/commit/c88e7ad20f2f29ccc4438bac787e8ac00479b2a0))
+* **mcp:** update package.json ([100d24b](https://github.com/hyperspell/node-sdk/commit/100d24b0759553ba5fe1327e898b338c16f771b3))
+* **mcp:** update README ([ec5d660](https://github.com/hyperspell/node-sdk/commit/ec5d66006ee59b9207f8dc6e42384beec37229df))
+* **mcp:** update types ([76b2384](https://github.com/hyperspell/node-sdk/commit/76b2384e724984cdebb554d0196e8caebecc3621))
+* **mcp:** upload dxt as release asset ([8b6ec67](https://github.com/hyperspell/node-sdk/commit/8b6ec67f32a73b8ac79ec075e9c72e3ce71d4eef))
+* update CI script ([cb357d6](https://github.com/hyperspell/node-sdk/commit/cb357d6b9ff4a9d8607be445bc3c23ed56595db8))
+
 ## 0.22.1 (2025-08-13)
 
 Full Changelog: [v0.22.0...v0.22.1](https://github.com/hyperspell/node-sdk/compare/v0.22.0...v0.22.1)
