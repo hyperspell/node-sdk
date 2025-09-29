@@ -26,7 +26,6 @@ import {
   EvaluateScoreHighlightResponse,
   EvaluateScoreQueryParams,
   EvaluateScoreQueryResponse,
-  Query,
 } from './resources/evaluate';
 import {
   Memories,
@@ -804,7 +803,6 @@ export declare namespace Hyperspell {
 
   export {
     Evaluate as Evaluate,
-    type Query as Query,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
@@ -825,4 +823,6 @@ export declare namespace Hyperspell {
     type AuthMeResponse as AuthMeResponse,
     type AuthUserTokenParams as AuthUserTokenParams,
   };
+
+  export type QueryResult = API.QueryResult;
 }
