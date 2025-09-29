@@ -9,7 +9,7 @@ import { type CursorPageParams, CursorPageResponse } from './pagination';
 import * as Uploads from './uploads';
 import * as API from './resources/index';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
-import { Evaluate, Query } from './resources/evaluate';
+import { Evaluate, EvaluateScoreQueryParams, EvaluateScoreQueryResponse, Query } from './resources/evaluate';
 import {
   Memories,
   MemoriesCursorPage,
@@ -247,7 +247,12 @@ export declare namespace Hyperspell {
     type MemoryUploadParams as MemoryUploadParams,
   };
 
-  export { Evaluate as Evaluate, type Query as Query };
+  export {
+    Evaluate as Evaluate,
+    type Query as Query,
+    type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
+  };
 
   export {
     Vaults as Vaults,
