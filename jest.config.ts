@@ -8,7 +8,6 @@ const config: JestConfigWithTsJest = {
   },
   moduleNameMapper: {
     '^hyperspell$': '<rootDir>/src/index.ts',
-    '^hyperspell/_shims/auto/(.*)$': '<rootDir>/src/_shims/auto/$1-node',
     '^hyperspell/(.*)$': '<rootDir>/src/$1',
   },
   modulePathIgnorePatterns: [
@@ -16,6 +15,7 @@ const config: JestConfigWithTsJest = {
     '<rootDir>/dist/',
     '<rootDir>/deno/',
     '<rootDir>/deno_tests/',
+    '<rootDir>/packages/',
   ],
   testPathIgnorePatterns: ['scripts'],
 };

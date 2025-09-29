@@ -7,18 +7,32 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
+export {
+  Evaluate,
+  type Query,
+  type EvaluateScoreHighlightResponse,
+  type EvaluateScoreQueryResponse,
+  type EvaluateScoreHighlightParams,
+  type EvaluateScoreQueryParams,
+} from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
 export {
-  MemoriesCursorPage,
   Memories,
   type Memory,
   type MemoryStatus,
   type MemoryDeleteResponse,
-  type MemorySearchResponse,
   type MemoryStatusResponse,
   type MemoryListParams,
+  type MemoryDeleteParams,
   type MemoryAddParams,
+  type MemoryGetParams,
   type MemorySearchParams,
   type MemoryUploadParams,
+  type MemoriesCursorPage,
 } from './memories';
-export { VaultListResponsesCursorPage, Vaults, type VaultListResponse, type VaultListParams } from './vaults';
+export {
+  Vaults,
+  type VaultListResponse,
+  type VaultListParams,
+  type VaultListResponsesCursorPage,
+} from './vaults';

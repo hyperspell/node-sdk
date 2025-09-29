@@ -1,11 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import Hyperspell, { toFile } from 'hyperspell';
-import { Response } from 'node-fetch';
 
 const client = new Hyperspell({
   apiKey: 'My API Key',
-  userId: 'My User ID',
+  userID: 'My User ID',
   baseURL: process.env['TEST_API_BASE_URL'] ?? 'http://127.0.0.1:4010',
 });
 
@@ -21,13 +20,6 @@ describe('resource memories', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('list: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.memories.list({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Hyperspell.NotFoundError,
-    );
-  });
-
   test('list: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
@@ -38,8 +30,8 @@ describe('resource memories', () => {
     ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
-  test('delete', async () => {
-    const responsePromise = client.memories.delete('collections', 'resource_id');
+  test('delete: only required params', async () => {
+    const responsePromise = client.memories.delete('resource_id', { source: 'collections' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -49,11 +41,8 @@ describe('resource memories', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('delete: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.memories.delete('collections', 'resource_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Hyperspell.NotFoundError);
+  test('delete: required and optional params', async () => {
+    const response = await client.memories.delete('resource_id', { source: 'collections' });
   });
 
   test('add: only required params', async () => {
@@ -77,8 +66,8 @@ describe('resource memories', () => {
     });
   });
 
-  test('get', async () => {
-    const responsePromise = client.memories.get('collections', 'resource_id');
+  test('get: only required params', async () => {
+    const responsePromise = client.memories.get('resource_id', { source: 'collections' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -88,11 +77,8 @@ describe('resource memories', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('get: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.memories.get('collections', 'resource_id', { path: '/_stainless_unknown_path' }),
-    ).rejects.toThrow(Hyperspell.NotFoundError);
+  test('get: required and optional params', async () => {
+    const response = await client.memories.get('resource_id', { source: 'collections' });
   });
 
   test('search: only required params', async () => {
@@ -149,6 +135,10 @@ describe('resource memories', () => {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           channels: ['string'],
+          exclude_archived: true,
+          include_dms: true,
+          include_group_dms: true,
+          include_private: true,
           weight: 0,
         },
         web_crawler: {
@@ -172,13 +162,6 @@ describe('resource memories', () => {
     const dataAndResponse = await responsePromise.withResponse();
     expect(dataAndResponse.data).toBe(response);
     expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('status: request options instead of params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(client.memories.status({ path: '/_stainless_unknown_path' })).rejects.toThrow(
-      Hyperspell.NotFoundError,
-    );
   });
 
   test('upload: only required params', async () => {

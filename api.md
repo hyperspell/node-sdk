@@ -28,6 +28,16 @@ Methods:
 
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
+## Slack
+
+Types:
+
+- <code><a href="./src/resources/integrations/slack.ts">SlackListResponse</a></code>
+
+Methods:
+
+- <code title="get /integrations/slack/list">client.integrations.slack.<a href="./src/resources/integrations/slack.ts">list</a>({ ...params }) -> unknown</code>
+
 # Memories
 
 Types:
@@ -35,18 +45,31 @@ Types:
 - <code><a href="./src/resources/memories.ts">Memory</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryDeleteResponse</a></code>
-- <code><a href="./src/resources/memories.ts">MemorySearchResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
 
 - <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
-- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(source, resourceId) -> MemoryDeleteResponse</code>
+- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
-- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Memory</code>
-- <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> MemorySearchResponse</code>
+- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> Memory</code>
+- <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> Query</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
+
+# Evaluate
+
+Types:
+
+- <code><a href="./src/resources/evaluate.ts">Query</a></code>
+- <code><a href="./src/resources/evaluate.ts">EvaluateScoreHighlightResponse</a></code>
+- <code><a href="./src/resources/evaluate.ts">EvaluateScoreQueryResponse</a></code>
+
+Methods:
+
+- <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> Query</code>
+- <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
+- <code title="post /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>(queryID, { ...params }) -> EvaluateScoreQueryResponse</code>
 
 # Vaults
 

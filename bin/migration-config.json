@@ -1,0 +1,73 @@
+{
+  "pkg": "hyperspell",
+  "githubRepo": "https://github.com/hyperspell/node-sdk",
+  "clientClass": "Hyperspell",
+  "methods": [
+    {
+      "base": "memories",
+      "name": "delete",
+      "params": [
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "source",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "memories",
+      "name": "get",
+      "params": [
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "source",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    }
+  ]
+}

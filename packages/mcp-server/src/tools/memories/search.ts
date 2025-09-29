@@ -301,11 +301,31 @@ export const tool: Tool = {
               channels: {
                 type: 'array',
                 title: 'Channels',
-                description:
-                  'List of Slack channels to search. If not provided, all channels in the workspace will be searched.',
+                description: 'List of Slack channels to include (by id, name, or #name).',
                 items: {
                   type: 'string',
                 },
+              },
+              exclude_archived: {
+                type: 'boolean',
+                title: 'Exclude Archived',
+                description: "If set, pass 'exclude_archived' to Slack. If None, omit the param.",
+              },
+              include_dms: {
+                type: 'boolean',
+                title: 'Include Dms',
+                description: 'Include direct messages (im) when listing conversations.',
+              },
+              include_group_dms: {
+                type: 'boolean',
+                title: 'Include Group Dms',
+                description: 'Include group DMs (mpim) when listing conversations.',
+              },
+              include_private: {
+                type: 'boolean',
+                title: 'Include Private',
+                description:
+                  "Include private channels when constructing Slack 'types'. Defaults to False to preserve existing cassette query params.",
               },
               weight: {
                 type: 'number',
@@ -346,6 +366,7 @@ export const tool: Tool = {
                     type: 'object',
                     title: 'NotGiven',
                     description: 'Sentinel object to indicate that a search option is not set',
+                    additionalProperties: true,
                   },
                 ],
                 title: 'Url',

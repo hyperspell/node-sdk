@@ -1,9 +1,13 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import { isRequestOptions } from '../core';
-import * as Core from '../core';
-import { CursorPage, type CursorPageParams } from '../pagination';
+import { APIResource } from '../core/resource';
+import * as EvaluateAPI from './evaluate';
+import { APIPromise } from '../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
+import { type Uploadable } from '../core/uploads';
+import { RequestOptions } from '../internal/request-options';
+import { multipartFormRequestOptions } from '../internal/uploads';
+import { path } from '../internal/utils/path';
 
 export class Memories extends APIResource {
   /**
@@ -18,16 +22,11 @@ export class Memories extends APIResource {
    * }
    * ```
    */
-  list(query?: MemoryListParams, options?: Core.RequestOptions): Core.PagePromise<MemoriesCursorPage, Memory>;
-  list(options?: Core.RequestOptions): Core.PagePromise<MemoriesCursorPage, Memory>;
   list(
-    query: MemoryListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.PagePromise<MemoriesCursorPage, Memory> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
-    return this._client.getAPIList('/memories/list', MemoriesCursorPage, { query, ...options });
+    query: MemoryListParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<MemoriesCursorPage, Memory> {
+    return this._client.getAPIList('/memories/list', CursorPage<Memory>, { query, ...options });
   }
 
   /**
@@ -49,64 +48,18 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const memory = await client.memories.delete(
-   *   'collections',
-   *   'resource_id',
-   * );
+   * const memory = await client.memories.delete('resource_id', {
+   *   source: 'collections',
+   * });
    * ```
    */
   delete(
-    source:
-      | 'collections'
-      | 'vault'
-      | 'web_crawler'
-      | 'notion'
-      | 'slack'
-      | 'google_calendar'
-      | 'reddit'
-      | 'box'
-      | 'google_drive'
-      | 'airtable'
-      | 'algolia'
-      | 'amplitude'
-      | 'asana'
-      | 'ashby'
-      | 'bamboohr'
-      | 'basecamp'
-      | 'bubbles'
-      | 'calendly'
-      | 'confluence'
-      | 'clickup'
-      | 'datadog'
-      | 'deel'
-      | 'discord'
-      | 'dropbox'
-      | 'exa'
-      | 'facebook'
-      | 'front'
-      | 'github'
-      | 'gitlab'
-      | 'google_docs'
-      | 'google_mail'
-      | 'google_sheet'
-      | 'hubspot'
-      | 'jira'
-      | 'linear'
-      | 'microsoft_teams'
-      | 'mixpanel'
-      | 'monday'
-      | 'outlook'
-      | 'perplexity'
-      | 'rippling'
-      | 'salesforce'
-      | 'segment'
-      | 'todoist'
-      | 'twitter'
-      | 'zoom',
-    resourceId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<MemoryDeleteResponse> {
-    return this._client.delete(`/memories/delete/${source}/${resourceId}`, options);
+    resourceID: string,
+    params: MemoryDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<MemoryDeleteResponse> {
+    const { source } = params;
+    return this._client.delete(path`/memories/delete/${source}/${resourceID}`, options);
   }
 
   /**
@@ -121,7 +74,7 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  add(body: MemoryAddParams, options?: Core.RequestOptions): Core.APIPromise<MemoryStatus> {
+  add(body: MemoryAddParams, options?: RequestOptions): APIPromise<MemoryStatus> {
     return this._client.post('/memories/add', { body, ...options });
   }
 
@@ -130,64 +83,14 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const memory = await client.memories.get(
-   *   'collections',
-   *   'resource_id',
-   * );
+   * const memory = await client.memories.get('resource_id', {
+   *   source: 'collections',
+   * });
    * ```
    */
-  get(
-    source:
-      | 'collections'
-      | 'vault'
-      | 'web_crawler'
-      | 'notion'
-      | 'slack'
-      | 'google_calendar'
-      | 'reddit'
-      | 'box'
-      | 'google_drive'
-      | 'airtable'
-      | 'algolia'
-      | 'amplitude'
-      | 'asana'
-      | 'ashby'
-      | 'bamboohr'
-      | 'basecamp'
-      | 'bubbles'
-      | 'calendly'
-      | 'confluence'
-      | 'clickup'
-      | 'datadog'
-      | 'deel'
-      | 'discord'
-      | 'dropbox'
-      | 'exa'
-      | 'facebook'
-      | 'front'
-      | 'github'
-      | 'gitlab'
-      | 'google_docs'
-      | 'google_mail'
-      | 'google_sheet'
-      | 'hubspot'
-      | 'jira'
-      | 'linear'
-      | 'microsoft_teams'
-      | 'mixpanel'
-      | 'monday'
-      | 'outlook'
-      | 'perplexity'
-      | 'rippling'
-      | 'salesforce'
-      | 'segment'
-      | 'todoist'
-      | 'twitter'
-      | 'zoom',
-    resourceId: string,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<Memory> {
-    return this._client.get(`/memories/get/${source}/${resourceId}`, options);
+  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<Memory> {
+    const { source } = params;
+    return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
   }
 
   /**
@@ -195,12 +98,12 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const response = await client.memories.search({
+   * const query = await client.memories.search({
    *   query: 'query',
    * });
    * ```
    */
-  search(body: MemorySearchParams, options?: Core.RequestOptions): Core.APIPromise<MemorySearchResponse> {
+  search(body: MemorySearchParams, options?: RequestOptions): APIPromise<EvaluateAPI.Query> {
     return this._client.post('/memories/query', { body, ...options });
   }
 
@@ -213,7 +116,7 @@ export class Memories extends APIResource {
    * const response = await client.memories.status();
    * ```
    */
-  status(options?: Core.RequestOptions): Core.APIPromise<MemoryStatusResponse> {
+  status(options?: RequestOptions): APIPromise<MemoryStatusResponse> {
     return this._client.get('/memories/status', options);
   }
 
@@ -230,12 +133,15 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  upload(body: MemoryUploadParams, options?: Core.RequestOptions): Core.APIPromise<MemoryStatus> {
-    return this._client.post('/memories/upload', Core.multipartFormRequestOptions({ body, ...options }));
+  upload(body: MemoryUploadParams, options?: RequestOptions): APIPromise<MemoryStatus> {
+    return this._client.post(
+      '/memories/upload',
+      multipartFormRequestOptions({ body, ...options }, this._client),
+    );
   }
 }
 
-export class MemoriesCursorPage extends CursorPage<Memory> {}
+export type MemoriesCursorPage = CursorPage<Memory>;
 
 export interface Memory {
   resource_id: string;
@@ -438,21 +344,6 @@ export interface MemoryDeleteResponse {
   success: boolean;
 }
 
-export interface MemorySearchResponse {
-  documents: Array<Memory>;
-
-  /**
-   * The answer to the query, if the request was set to answer.
-   */
-  answer?: string | null;
-
-  /**
-   * Errors that occurred during the query. These are meant to help the developer
-   * debug the query, and are not meant to be shown to the user.
-   */
-  errors?: Array<{ [key: string]: string }> | null;
-}
-
 export interface MemoryStatusResponse {
   providers: { [key: string]: { [key: string]: number } };
 
@@ -518,6 +409,56 @@ export interface MemoryListParams extends CursorPageParams {
     | null;
 }
 
+export interface MemoryDeleteParams {
+  source:
+    | 'collections'
+    | 'vault'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
+}
+
 export interface MemoryAddParams {
   /**
    * Full text of the document.
@@ -547,6 +488,56 @@ export interface MemoryAddParams {
    * Title of the document.
    */
   title?: string | null;
+}
+
+export interface MemoryGetParams {
+  source:
+    | 'collections'
+    | 'vault'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
 }
 
 export interface MemorySearchParams {
@@ -908,10 +899,30 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
-       * List of Slack channels to search. If not provided, all channels in the workspace
-       * will be searched.
+       * List of Slack channels to include (by id, name, or #name).
        */
       channels?: Array<string>;
+
+      /**
+       * If set, pass 'exclude_archived' to Slack. If None, omit the param.
+       */
+      exclude_archived?: boolean | null;
+
+      /**
+       * Include direct messages (im) when listing conversations.
+       */
+      include_dms?: boolean;
+
+      /**
+       * Include group DMs (mpim) when listing conversations.
+       */
+      include_group_dms?: boolean;
+
+      /**
+       * Include private channels when constructing Slack 'types'. Defaults to False to
+       * preserve existing cassette query params.
+       */
+      include_private?: boolean;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -961,7 +972,7 @@ export interface MemoryUploadParams {
   /**
    * The file to ingest.
    */
-  file: Core.Uploadable;
+  file: Uploadable;
 
   /**
    * The collection to add the document to.
@@ -969,18 +980,17 @@ export interface MemoryUploadParams {
   collection?: string | null;
 }
 
-Memories.MemoriesCursorPage = MemoriesCursorPage;
-
 export declare namespace Memories {
   export {
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
     type MemoryDeleteResponse as MemoryDeleteResponse,
-    type MemorySearchResponse as MemorySearchResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    MemoriesCursorPage as MemoriesCursorPage,
+    type MemoriesCursorPage as MemoriesCursorPage,
     type MemoryListParams as MemoryListParams,
+    type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,
+    type MemoryGetParams as MemoryGetParams,
     type MemorySearchParams as MemorySearchParams,
     type MemoryUploadParams as MemoryUploadParams,
   };

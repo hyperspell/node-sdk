@@ -1,0 +1,50 @@
+{
+  "dxt_version": "0.2",
+  "name": "hyperspell-mcp",
+  "version": "0.22.1",
+  "description": "The official MCP Server for the Hyperspell API",
+  "author": {
+    "name": "Hyperspell",
+    "email": "hello@hyperspell.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperspell/node-sdk.git"
+  },
+  "homepage": "https://github.com/hyperspell/node-sdk/tree/main/packages/mcp-server#readme",
+  "documentation": "https://docs.hyperspell.com/",
+  "server": {
+    "type": "node",
+    "entry_point": "index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/index.js"],
+      "env": {
+        "HYPERSPELL_TOKEN": "${user_config.HYPERSPELL_TOKEN}",
+        "HYPERSPELL_USER_ID": "${user_config.HYPERSPELL_USER_ID}"
+      }
+    }
+  },
+  "user_config": {
+    "HYPERSPELL_TOKEN": {
+      "title": "api_key",
+      "description": "Either an API Key or User Token to authenticate a specific user of your app.",
+      "required": true,
+      "type": "string"
+    },
+    "HYPERSPELL_USER_ID": {
+      "title": "user_id",
+      "description": "The id of the user making this request. Optional.",
+      "required": false,
+      "type": "string"
+    }
+  },
+  "tools": [],
+  "tools_generated": true,
+  "compatibility": {
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  },
+  "keywords": ["api"]
+}
