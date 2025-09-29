@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../core/resource';
-import * as EvaluateAPI from './evaluate';
+import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { type Uploadable } from '../core/uploads';
@@ -98,12 +98,12 @@ export class Memories extends APIResource {
    *
    * @example
    * ```ts
-   * const query = await client.memories.search({
+   * const queryResult = await client.memories.search({
    *   query: 'query',
    * });
    * ```
    */
-  search(body: MemorySearchParams, options?: RequestOptions): APIPromise<EvaluateAPI.Query> {
+  search(body: MemorySearchParams, options?: RequestOptions): APIPromise<Shared.QueryResult> {
     return this._client.post('/memories/query', { body, ...options });
   }
 

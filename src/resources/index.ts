@@ -1,5 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+export * from './shared';
 export {
   Auth,
   type Token,
@@ -9,7 +10,6 @@ export {
 } from './auth';
 export {
   Evaluate,
-  type Query,
   type EvaluateScoreHighlightResponse,
   type EvaluateScoreQueryResponse,
   type EvaluateScoreHighlightParams,
