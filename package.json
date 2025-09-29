@@ -1,6 +1,6 @@
 {
   "name": "hyperspell",
-  "version": "0.24.0",
+  "version": "0.25.0",
   "description": "The official TypeScript library for the Hyperspell API",
   "author": "Hyperspell <hello@hyperspell.com>",
   "types": "dist/index.d.ts",
