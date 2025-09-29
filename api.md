@@ -50,9 +50,9 @@ Types:
 Methods:
 
 - <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
-- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(source, resourceId) -> MemoryDeleteResponse</code>
+- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
-- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(source, resourceId) -> Memory</code>
+- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> Memory</code>
 - <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> Query</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
@@ -67,7 +67,7 @@ Types:
 
 Methods:
 
-- <code title="get /memories/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryId) -> Query</code>
+- <code title="get /memories/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> Query</code>
 - <code title="post /memories/highlights/feedback">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>({ ...params }) -> EvaluateScoreHighlightResponse</code>
 - <code title="post /memories/query/feedback">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>({ ...params }) -> EvaluateScoreQueryResponse</code>
 

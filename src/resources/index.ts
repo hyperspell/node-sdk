@@ -17,15 +17,22 @@ export {
 } from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
 export {
-  MemoriesCursorPage,
   Memories,
   type Memory,
   type MemoryStatus,
   type MemoryDeleteResponse,
   type MemoryStatusResponse,
   type MemoryListParams,
+  type MemoryDeleteParams,
   type MemoryAddParams,
+  type MemoryGetParams,
   type MemorySearchParams,
   type MemoryUploadParams,
+  type MemoriesCursorPage,
 } from './memories';
-export { VaultListResponsesCursorPage, Vaults, type VaultListResponse, type VaultListParams } from './vaults';
+export {
+  Vaults,
+  type VaultListResponse,
+  type VaultListParams,
+  type VaultListResponsesCursorPage,
+} from './vaults';

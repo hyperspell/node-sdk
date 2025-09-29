@@ -1,15 +1,17 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../resource';
-import * as Core from '../core';
+import { APIResource } from '../core/resource';
 import * as MemoriesAPI from './memories';
+import { APIPromise } from '../core/api-promise';
+import { RequestOptions } from '../internal/request-options';
+import { path } from '../internal/utils/path';
 
 export class Evaluate extends APIResource {
   /**
    * Retrieve an existing query
    */
-  getQuery(queryId: string, options?: Core.RequestOptions): Core.APIPromise<Query> {
-    return this._client.get(`/memories/query/${queryId}`, options);
+  getQuery(queryID: string, options?: RequestOptions): APIPromise<Query> {
+    return this._client.get(path`/memories/query/${queryID}`, options);
   }
 
   /**
@@ -17,8 +19,8 @@ export class Evaluate extends APIResource {
    */
   scoreHighlight(
     body: EvaluateScoreHighlightParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EvaluateScoreHighlightResponse> {
+    options?: RequestOptions,
+  ): APIPromise<EvaluateScoreHighlightResponse> {
     return this._client.post('/memories/highlights/feedback', { body, ...options });
   }
 
@@ -27,8 +29,8 @@ export class Evaluate extends APIResource {
    */
   scoreQuery(
     body: EvaluateScoreQueryParams,
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<EvaluateScoreQueryResponse> {
+    options?: RequestOptions,
+  ): APIPromise<EvaluateScoreQueryResponse> {
     return this._client.post('/memories/query/feedback', { body, ...options });
   }
 }

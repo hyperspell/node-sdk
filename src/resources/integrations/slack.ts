@@ -1,8 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import { isRequestOptions } from '../../core';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class Slack extends APIResource {
   /**
@@ -19,15 +19,7 @@ export class Slack extends APIResource {
    * const slacks = await client.integrations.slack.list();
    * ```
    */
-  list(query?: SlackListParams, options?: Core.RequestOptions): Core.APIPromise<unknown>;
-  list(options?: Core.RequestOptions): Core.APIPromise<unknown>;
-  list(
-    query: SlackListParams | Core.RequestOptions = {},
-    options?: Core.RequestOptions,
-  ): Core.APIPromise<unknown> {
-    if (isRequestOptions(query)) {
-      return this.list({}, query);
-    }
+  list(query: SlackListParams | null | undefined = {}, options?: RequestOptions): APIPromise<unknown> {
     return this._client.get('/integrations/slack/list', { query, ...options });
   }
 }

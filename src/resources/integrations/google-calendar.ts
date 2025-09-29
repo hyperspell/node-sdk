@@ -1,7 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIResource } from '../../resource';
-import * as Core from '../../core';
+import { APIResource } from '../../core/resource';
+import { APIPromise } from '../../core/api-promise';
+import { RequestOptions } from '../../internal/request-options';
 
 export class GoogleCalendar extends APIResource {
   /**
@@ -14,7 +15,7 @@ export class GoogleCalendar extends APIResource {
    *   await client.integrations.googleCalendar.list();
    * ```
    */
-  list(options?: Core.RequestOptions): Core.APIPromise<Calendar> {
+  list(options?: RequestOptions): APIPromise<Calendar> {
     return this._client.get('/integrations/google_calendar/list', options);
   }
 }

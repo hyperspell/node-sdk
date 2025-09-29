@@ -93,8 +93,8 @@ export const tool: Tool = {
 };
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
-  const { source, resource_id, jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.memories.get(source, resource_id)));
+  const { resource_id, jq_filter, ...body } = args as any;
+  return asTextContentResult(await maybeFilter(jq_filter, await client.memories.get(resource_id, body)));
 };
 
 export default { metadata, tool, handler };
