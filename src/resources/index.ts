@@ -7,7 +7,7 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
-export { Evaluate } from './evaluate';
+export { Evaluate, type Query } from './evaluate';
 export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
 export {
   MemoriesCursorPage,
@@ -15,7 +15,6 @@ export {
   type Memory,
   type MemoryStatus,
   type MemoryDeleteResponse,
-  type MemorySearchResponse,
   type MemoryStatusResponse,
   type MemoryListParams,
   type MemoryAddParams,
