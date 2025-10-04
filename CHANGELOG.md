@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.25.2 (2025-10-04)
+
+Full Changelog: [v0.25.1...v0.25.2](https://github.com/hyperspell/node-sdk/compare/v0.25.1...v0.25.2)
+
+### Bug Fixes
+
+* **mcp:** fix cli argument parsing logic ([17127d2](https://github.com/hyperspell/node-sdk/commit/17127d262e5a4a7ee24aa26e05269a1663afa851))
+
+
+### Chores
+
+* **internal:** codegen related update ([5c370c8](https://github.com/hyperspell/node-sdk/commit/5c370c8d8c2c1b8bae44bd23cac864dd3a1d36cb))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([bd7cfe1](https://github.com/hyperspell/node-sdk/commit/bd7cfe1a038054fea4f300680f4a7e0b057c554c))
+
 ## 0.25.1 (2025-09-29)
 
 Full Changelog: [v0.25.0...v0.25.1](https://github.com/hyperspell/node-sdk/compare/v0.25.0...v0.25.1)
