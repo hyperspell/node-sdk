@@ -104,6 +104,11 @@ export interface AuthMeResponse {
   >;
 
   /**
+   * Established connections for the user
+   */
+  connections: Array<AuthMeResponse.Connection>;
+
+  /**
    * All integrations installed for the user
    */
   installed_integrations: Array<
@@ -185,6 +190,69 @@ export namespace AuthMeResponse {
      * The app's redirect URL
      */
     redirect_url: string | null;
+  }
+
+  export interface Connection {
+    /**
+     * The connection's id
+     */
+    id: string;
+
+    /**
+     * The connection's label
+     */
+    label: string | null;
+
+    /**
+     * The connection's provider
+     */
+    provider:
+      | 'collections'
+      | 'vault'
+      | 'web_crawler'
+      | 'notion'
+      | 'slack'
+      | 'google_calendar'
+      | 'reddit'
+      | 'box'
+      | 'google_drive'
+      | 'airtable'
+      | 'algolia'
+      | 'amplitude'
+      | 'asana'
+      | 'ashby'
+      | 'bamboohr'
+      | 'basecamp'
+      | 'bubbles'
+      | 'calendly'
+      | 'confluence'
+      | 'clickup'
+      | 'datadog'
+      | 'deel'
+      | 'discord'
+      | 'dropbox'
+      | 'exa'
+      | 'facebook'
+      | 'front'
+      | 'github'
+      | 'gitlab'
+      | 'google_docs'
+      | 'google_mail'
+      | 'google_sheet'
+      | 'hubspot'
+      | 'jira'
+      | 'linear'
+      | 'microsoft_teams'
+      | 'mixpanel'
+      | 'monday'
+      | 'outlook'
+      | 'perplexity'
+      | 'rippling'
+      | 'salesforce'
+      | 'segment'
+      | 'todoist'
+      | 'twitter'
+      | 'zoom';
   }
 }
 

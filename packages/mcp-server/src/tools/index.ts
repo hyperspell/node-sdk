@@ -4,6 +4,8 @@ import { Metadata, Endpoint, HandlerFunction } from './types';
 
 export { Metadata, Endpoint, HandlerFunction };
 
+import list_integrations from './integrations/list-integrations';
+import connect_integration from './integrations/connect-integration';
 import add_memory from './memories/add-memory';
 import get_memory from './memories/get-memory';
 import search from './memories/search';
@@ -16,6 +18,8 @@ function addEndpoint(endpoint: Endpoint) {
   endpoints.push(endpoint);
 }
 
+addEndpoint(list_integrations);
+addEndpoint(connect_integration);
 addEndpoint(add_memory);
 addEndpoint(get_memory);
 addEndpoint(search);

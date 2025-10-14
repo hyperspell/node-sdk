@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.26.0 (2025-10-14)
+
+Full Changelog: [v0.25.1...v0.26.0](https://github.com/hyperspell/node-sdk/compare/v0.25.1...v0.26.0)
+
+### Features
+
+* **api:** api update ([0464e87](https://github.com/hyperspell/node-sdk/commit/0464e871864b48f1514048c90539fe7063388f23))
+* **api:** api update ([6ace937](https://github.com/hyperspell/node-sdk/commit/6ace937814906a2423a4d318eb33205f2afd1064))
+* **api:** update via SDK Studio ([3ef6c75](https://github.com/hyperspell/node-sdk/commit/3ef6c7512ec64bdf10fa5eb3dac03e1d79e14c0c))
+* **api:** update via SDK Studio ([5e25f7e](https://github.com/hyperspell/node-sdk/commit/5e25f7ed123b3de40d0796c3c8776113239997cb))
+* **api:** update via SDK Studio ([37393f3](https://github.com/hyperspell/node-sdk/commit/37393f31fe9dea374bbeda1947a668c028f9ccc2))
+* **api:** update via SDK Studio ([0559897](https://github.com/hyperspell/node-sdk/commit/05598978d35144f03b54d1133c54a32f37c461c4))
+
+
+### Bug Fixes
+
+* **mcp:** fix cli argument parsing logic ([17127d2](https://github.com/hyperspell/node-sdk/commit/17127d262e5a4a7ee24aa26e05269a1663afa851))
+
+
+### Chores
+
+* extract some types in mcp docs ([8b71433](https://github.com/hyperspell/node-sdk/commit/8b714338109b7592b85b5c246c5b6824daf4df86))
+* **internal:** codegen related update ([5c370c8](https://github.com/hyperspell/node-sdk/commit/5c370c8d8c2c1b8bae44bd23cac864dd3a1d36cb))
+* **internal:** use npm pack for build uploads ([d74b3a8](https://github.com/hyperspell/node-sdk/commit/d74b3a81e79e086acf21b54628a4734186f2e3b3))
+* **jsdoc:** fix [@link](https://github.com/link) annotations to refer only to parts of the package‘s public interface ([bd7cfe1](https://github.com/hyperspell/node-sdk/commit/bd7cfe1a038054fea4f300680f4a7e0b057c554c))
+
 ## 0.25.1 (2025-09-29)
 
 Full Changelog: [v0.25.0...v0.25.1](https://github.com/hyperspell/node-sdk/compare/v0.25.0...v0.25.1)
