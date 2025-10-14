@@ -86,6 +86,7 @@ client.example.list(undefined, { headers: { ... } });
 
 This affects the following methods:
 
+- `client.integrations.connect()`
 - `client.integrations.slack.list()`
 - `client.memories.list()`
 - `client.vaults.list()`
