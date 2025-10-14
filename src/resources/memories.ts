@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import * as WebCrawlerAPI from './integrations/web-crawler';
 import { APIPromise } from '../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { type Uploadable } from '../core/uploads';
@@ -955,7 +956,7 @@ export namespace MemorySearchParams {
       /**
        * The URL to crawl
        */
-      url?: string | unknown;
+      url?: string | WebCrawlerAPI.NotGiven;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results

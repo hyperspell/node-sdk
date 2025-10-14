@@ -9,4 +9,9 @@ export {
   type IntegrationConnectParams,
 } from './integrations';
 export { Slack, type SlackListResponse, type SlackListParams } from './slack';
-export { WebCrawler, type WebCrawlerIndexResponse, type WebCrawlerIndexParams } from './web-crawler';
+export {
+  WebCrawler,
+  type NotGiven,
+  type WebCrawlerIndexResponse,
+  type WebCrawlerIndexParams,
+} from './web-crawler';

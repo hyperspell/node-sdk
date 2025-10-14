@@ -32,6 +32,7 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/integrations/web-crawler.ts">NotGiven</a></code>
 - <code><a href="./src/resources/integrations/web-crawler.ts">WebCrawlerIndexResponse</a></code>
 
 Methods:
