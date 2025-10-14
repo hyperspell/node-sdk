@@ -42,7 +42,13 @@ import {
   MemoryUploadParams,
 } from './resources/memories';
 import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
-import { Integrations } from './resources/integrations/integrations';
+import {
+  IntegrationConnectParams,
+  IntegrationConnectResponse,
+  IntegrationListResponse,
+  IntegrationRevokeResponse,
+  Integrations,
+} from './resources/integrations/integrations';
 import { type Fetch } from './internal/builtin-types';
 import { HeadersLike, NullableHeaders, buildHeaders } from './internal/headers';
 import { FinalRequestOptions, RequestOptions } from './internal/request-options';
@@ -784,7 +790,13 @@ export declare namespace Hyperspell {
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
-  export { Integrations as Integrations };
+  export {
+    Integrations as Integrations,
+    type IntegrationListResponse as IntegrationListResponse,
+    type IntegrationConnectResponse as IntegrationConnectResponse,
+    type IntegrationRevokeResponse as IntegrationRevokeResponse,
+    type IntegrationConnectParams as IntegrationConnectParams,
+  };
 
   export {
     Memories as Memories,
