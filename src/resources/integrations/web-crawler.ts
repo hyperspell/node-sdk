@@ -20,11 +20,6 @@ export class WebCrawler extends APIResource {
   }
 }
 
-/**
- * Sentinel object to indicate that a search option is not set
- */
-export type NotGiven = unknown;
-
 export interface WebCrawlerIndexResponse {
   resource_id: string;
 
@@ -98,7 +93,6 @@ export interface WebCrawlerIndexParams {
 
 export declare namespace WebCrawler {
   export {
-    type NotGiven as NotGiven,
     type WebCrawlerIndexResponse as WebCrawlerIndexResponse,
     type WebCrawlerIndexParams as WebCrawlerIndexParams,
   };
