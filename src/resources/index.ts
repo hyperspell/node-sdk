@@ -15,7 +15,7 @@ export {
   type EvaluateScoreHighlightParams,
   type EvaluateScoreQueryParams,
 } from './evaluate';
-export { Integrations, type IntegrationRevokeResponse } from './integrations/integrations';
+export { Integrations } from './integrations/integrations';
 export {
   Memories,
   type Memory,
