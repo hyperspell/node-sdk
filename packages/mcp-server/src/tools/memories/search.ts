@@ -363,10 +363,7 @@ export const tool: Tool = {
                     type: 'string',
                   },
                   {
-                    type: 'object',
-                    title: 'NotGiven',
-                    description: 'Sentinel object to indicate that a search option is not set',
-                    additionalProperties: true,
+                    $ref: '#/$defs/not_given',
                   },
                 ],
                 title: 'Url',
@@ -441,6 +438,14 @@ export const tool: Tool = {
       },
     },
     required: ['query'],
+    $defs: {
+      not_given: {
+        type: 'object',
+        title: 'NotGiven',
+        description: 'Sentinel object to indicate that a search option is not set',
+        additionalProperties: true,
+      },
+    },
   },
   annotations: {},
 };

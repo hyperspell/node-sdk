@@ -6,7 +6,7 @@ import { Calendar, GoogleCalendar } from './google-calendar';
 import * as SlackAPI from './slack';
 import { Slack, SlackListParams, SlackListResponse } from './slack';
 import * as WebCrawlerAPI from './web-crawler';
-import { WebCrawler, WebCrawlerIndexParams, WebCrawlerIndexResponse } from './web-crawler';
+import { NotGiven, WebCrawler, WebCrawlerIndexParams, WebCrawlerIndexResponse } from './web-crawler';
 import { APIPromise } from '../../core/api-promise';
 import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
@@ -163,6 +163,7 @@ export declare namespace Integrations {
 
   export {
     WebCrawler as WebCrawler,
+    type NotGiven as NotGiven,
     type WebCrawlerIndexResponse as WebCrawlerIndexResponse,
     type WebCrawlerIndexParams as WebCrawlerIndexParams,
   };
