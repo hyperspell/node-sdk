@@ -19,7 +19,6 @@ export {
   Integrations,
   type IntegrationListResponse,
   type IntegrationConnectResponse,
-  type IntegrationRevokeResponse,
   type IntegrationConnectParams,
 } from './integrations/integrations';
 export {

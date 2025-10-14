@@ -46,7 +46,6 @@ import {
   IntegrationConnectParams,
   IntegrationConnectResponse,
   IntegrationListResponse,
-  IntegrationRevokeResponse,
   Integrations,
 } from './resources/integrations/integrations';
 import { type Fetch } from './internal/builtin-types';
@@ -794,7 +793,6 @@ export declare namespace Hyperspell {
     Integrations as Integrations,
     type IntegrationListResponse as IntegrationListResponse,
     type IntegrationConnectResponse as IntegrationConnectResponse,
-    type IntegrationRevokeResponse as IntegrationRevokeResponse,
     type IntegrationConnectParams as IntegrationConnectParams,
   };
 
