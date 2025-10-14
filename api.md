@@ -10,13 +10,11 @@ Types:
 
 - <code><a href="./src/resources/integrations/integrations.ts">IntegrationListResponse</a></code>
 - <code><a href="./src/resources/integrations/integrations.ts">IntegrationConnectResponse</a></code>
-- <code><a href="./src/resources/integrations/integrations.ts">IntegrationRevokeResponse</a></code>
 
 Methods:
 
 - <code title="get /integrations/list">client.integrations.<a href="./src/resources/integrations/integrations.ts">list</a>() -> IntegrationListResponse</code>
 - <code title="get /integrations/{integration_id}/connect">client.integrations.<a href="./src/resources/integrations/integrations.ts">connect</a>(integrationID, { ...params }) -> IntegrationConnectResponse</code>
-- <code title="get /integrations/{integration_id}/revoke">client.integrations.<a href="./src/resources/integrations/integrations.ts">revoke</a>(integrationID) -> IntegrationRevokeResponse</code>
 
 ## GoogleCalendar
 

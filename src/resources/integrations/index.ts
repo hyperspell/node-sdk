@@ -5,7 +5,6 @@ export {
   Integrations,
   type IntegrationListResponse,
   type IntegrationConnectResponse,
-  type IntegrationRevokeResponse,
   type IntegrationConnectParams,
 } from './integrations';
 export { Slack, type SlackListResponse, type SlackListParams } from './slack';
