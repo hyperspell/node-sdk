@@ -7,35 +7,11 @@ import * as SlackAPI from './slack';
 import { Slack, SlackListParams, SlackListResponse } from './slack';
 import * as WebCrawlerAPI from './web-crawler';
 import { WebCrawler, WebCrawlerIndexParams, WebCrawlerIndexResponse } from './web-crawler';
-import { APIPromise } from '../../core/api-promise';
-import { RequestOptions } from '../../internal/request-options';
-import { path } from '../../internal/utils/path';
 
 export class Integrations extends APIResource {
   googleCalendar: GoogleCalendarAPI.GoogleCalendar = new GoogleCalendarAPI.GoogleCalendar(this._client);
   webCrawler: WebCrawlerAPI.WebCrawler = new WebCrawlerAPI.WebCrawler(this._client);
   slack: SlackAPI.Slack = new SlackAPI.Slack(this._client);
-
-  /**
-   * Revokes Hyperspell's access the given provider and deletes all stored
-   * credentials and indexed data.
-   *
-   * @example
-   * ```ts
-   * const response = await client.integrations.revoke(
-   *   'provider',
-   * );
-   * ```
-   */
-  revoke(provider: string, options?: RequestOptions): APIPromise<IntegrationRevokeResponse> {
-    return this._client.get(path`/integrations/${provider}/revoke`, options);
-  }
-}
-
-export interface IntegrationRevokeResponse {
-  message: string;
-
-  success: boolean;
 }
 
 Integrations.GoogleCalendar = GoogleCalendar;
@@ -43,8 +19,6 @@ Integrations.WebCrawler = WebCrawler;
 Integrations.Slack = Slack;
 
 export declare namespace Integrations {
-  export { type IntegrationRevokeResponse as IntegrationRevokeResponse };
-
   export { GoogleCalendar as GoogleCalendar, type Calendar as Calendar };
 
   export {

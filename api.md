@@ -6,14 +6,6 @@ Types:
 
 # Integrations
 
-Types:
-
-- <code><a href="./src/resources/integrations/integrations.ts">IntegrationRevokeResponse</a></code>
-
-Methods:
-
-- <code title="get /integrations/{provider}/revoke">client.integrations.<a href="./src/resources/integrations/integrations.ts">revoke</a>(provider) -> IntegrationRevokeResponse</code>
-
 ## GoogleCalendar
 
 Types:
