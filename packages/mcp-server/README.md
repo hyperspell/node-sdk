@@ -175,7 +175,7 @@ http://localhost:3000?client=cursor&capability=tool-name-length%3D40
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import addMemory from "hyperspell-mcp/tools/memories/add-memory";
+import listIntegrations from "hyperspell-mcp/tools/integrations/list-integrations";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -200,12 +200,17 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [addMemory, myCustomEndpoint] });
+init({ server: myServer, endpoints: [listIntegrations, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
+
+### Resource `integrations`:
+
+- `list_integrations` (`read`): List all available integrations
+- `connect_integration` (`read`): Get a signed url to connect to a given integration. Use the `list_integrations` tool to find the correct `integration_id` for the required provider.
 
 ### Resource `memories`:
 
