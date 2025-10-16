@@ -8,6 +8,7 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
+export { Connections } from './connections';
 export {
   Evaluate,
   type EvaluateScoreHighlightResponse,

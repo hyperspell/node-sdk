@@ -20,6 +20,7 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
+import { Connections } from './resources/connections';
 import {
   Evaluate,
   EvaluateScoreHighlightParams,
@@ -770,6 +771,7 @@ export class Hyperspell {
 
   static toFile = Uploads.toFile;
 
+  connections: API.Connections = new API.Connections(this);
   integrations: API.Integrations = new API.Integrations(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
@@ -777,6 +779,7 @@ export class Hyperspell {
   auth: API.Auth = new API.Auth(this);
 }
 
+Hyperspell.Connections = Connections;
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
@@ -788,6 +791,8 @@ export declare namespace Hyperspell {
 
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export { Connections as Connections };
 
   export {
     Integrations as Integrations,

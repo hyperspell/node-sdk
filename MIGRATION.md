@@ -151,16 +151,16 @@ If you were relying on anything that was only exported from `hyperspell/core` an
 
 #### Resource classes
 
-Previously under certain circumstances it was possible to import resource classes like `Integrations` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
+Previously under certain circumstances it was possible to import resource classes like `Connections` directly from the root of the package. This was never valid at the type level and only worked in CommonJS files.
 Now you must always either reference them as static class properties or import them directly from the files in which they are defined.
 
 ```typescript
 // Before
-const { Integrations } = require('hyperspell');
+const { Connections } = require('hyperspell');
 
 // After
 const { Hyperspell } = require('hyperspell');
-Hyperspell.Integrations; // or import directly from hyperspell/resources/integrations/integrations
+Hyperspell.Connections; // or import directly from hyperspell/resources/connections
 ```
 
 #### Cleaned up `uploads` exports
