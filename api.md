@@ -4,6 +4,8 @@ Types:
 
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 
+# Connections
+
 # Integrations
 
 Types:
