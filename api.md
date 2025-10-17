@@ -6,6 +6,16 @@ Types:
 
 # Connections
 
+Types:
+
+- <code><a href="./src/resources/connections.ts">ConnectionListResponse</a></code>
+- <code><a href="./src/resources/connections.ts">ConnectionRevokeResponse</a></code>
+
+Methods:
+
+- <code title="get /connections/list">client.connections.<a href="./src/resources/connections.ts">list</a>() -> ConnectionListResponse</code>
+- <code title="delete /connections/{connection_id}/revoke">client.connections.<a href="./src/resources/connections.ts">revoke</a>(connectionID) -> ConnectionRevokeResponse</code>
+
 # Integrations
 
 Types:

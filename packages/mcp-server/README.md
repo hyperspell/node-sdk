@@ -175,7 +175,7 @@ http://localhost:3000?client=cursor&capability=tool-name-length%3D40
 import { server, endpoints, init } from "hyperspell-mcp/server";
 
 // import a specific tool
-import listIntegrations from "hyperspell-mcp/tools/integrations/list-integrations";
+import listConnections from "hyperspell-mcp/tools/connections/list-connections";
 
 // initialize the server and all endpoints
 init({ server, endpoints });
@@ -200,12 +200,16 @@ const myCustomEndpoint = {
 };
 
 // initialize the server with your custom endpoints
-init({ server: myServer, endpoints: [listIntegrations, myCustomEndpoint] });
+init({ server: myServer, endpoints: [listConnections, myCustomEndpoint] });
 ```
 
 ## Available Tools
 
 The following tools are available in this MCP server.
+
+### Resource `connections`:
+
+- `list_connections` (`read`): Get accounts the user has connected
 
 ### Resource `integrations`:
 

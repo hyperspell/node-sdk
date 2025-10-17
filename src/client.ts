@@ -20,7 +20,7 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
-import { Connections } from './resources/connections';
+import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
 import {
   Evaluate,
   EvaluateScoreHighlightParams,
@@ -792,7 +792,11 @@ export declare namespace Hyperspell {
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
-  export { Connections as Connections };
+  export {
+    Connections as Connections,
+    type ConnectionListResponse as ConnectionListResponse,
+    type ConnectionRevokeResponse as ConnectionRevokeResponse,
+  };
 
   export {
     Integrations as Integrations,
