@@ -145,7 +145,7 @@ describe('resource memories', () => {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           max_depth: 0,
-          url: 'string',
+          url: 'url',
           weight: 0,
         },
       },
