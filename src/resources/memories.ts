@@ -955,7 +955,7 @@ export namespace MemorySearchParams {
       /**
        * The URL to crawl
        */
-      url?: string | unknown;
+      url?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results

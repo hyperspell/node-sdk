@@ -358,17 +358,7 @@ export const tool: Tool = {
                 description: 'Maximum depth to crawl from the starting URL',
               },
               url: {
-                anyOf: [
-                  {
-                    type: 'string',
-                  },
-                  {
-                    type: 'object',
-                    title: 'NotGiven',
-                    description: 'Sentinel object to indicate that a search option is not set',
-                    additionalProperties: true,
-                  },
-                ],
+                type: 'string',
                 title: 'Url',
                 description: 'The URL to crawl',
               },
