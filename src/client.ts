@@ -30,13 +30,14 @@ import {
 } from './resources/evaluate';
 import {
   Memories,
-  MemoriesCursorPage,
-  Memory,
   MemoryAddParams,
   MemoryDeleteParams,
   MemoryDeleteResponse,
   MemoryGetParams,
+  MemoryGetResponse,
   MemoryListParams,
+  MemoryListResponse,
+  MemoryListResponsesCursorPage,
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
@@ -807,11 +808,12 @@ export declare namespace Hyperspell {
 
   export {
     Memories as Memories,
-    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
+    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,

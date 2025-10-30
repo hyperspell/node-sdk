@@ -24,9 +24,10 @@ export {
 } from './integrations/integrations';
 export {
   Memories,
-  type Memory,
   type MemoryStatus,
+  type MemoryListResponse,
   type MemoryDeleteResponse,
+  type MemoryGetResponse,
   type MemoryStatusResponse,
   type MemoryListParams,
   type MemoryDeleteParams,
@@ -34,7 +35,7 @@ export {
   type MemoryGetParams,
   type MemorySearchParams,
   type MemoryUploadParams,
-  type MemoriesCursorPage,
+  type MemoryListResponsesCursorPage,
 } from './memories';
 export {
   Vaults,
