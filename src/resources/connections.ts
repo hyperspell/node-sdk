@@ -34,6 +34,11 @@ export namespace ConnectionListResponse {
     id: string;
 
     /**
+     * The connection's integration id
+     */
+    integration_id: string;
+
+    /**
      * The connection's label
      */
     label: string | null;
