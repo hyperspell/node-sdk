@@ -64,6 +64,21 @@ export namespace IntegrationListResponse {
     allow_multiple_connections: boolean;
 
     /**
+     * The integration's auth provider
+     */
+    auth_provider: 'nango' | 'hyperspell' | 'composio' | 'whitelabel' | 'unified';
+
+    /**
+     * Generate a display name from the provider by capitalizing each word.
+     */
+    icon: string;
+
+    /**
+     * Generate a display name from the provider by capitalizing each word.
+     */
+    name: string;
+
+    /**
      * The integration's provider
      */
     provider:
