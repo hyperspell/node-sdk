@@ -43,6 +43,22 @@ in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > Ne
 
 [![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=hyperspell-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImh5cGVyc3BlbGwtbWNwIl0sImVudiI6eyJIWVBFUlNQRUxMX1RPS0VOIjoiU2V0IHlvdXIgSFlQRVJTUEVMTF9UT0tFTiBoZXJlLiIsIkhZUEVSU1BFTExfVVNFUl9JRCI6IlNldCB5b3VyIEhZUEVSU1BFTExfVVNFUl9JRCBoZXJlLiJ9fQ)
 
+### VS Code
+
+If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
+in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
+
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22hyperspell-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22hyperspell-mcp%22%5D%2C%22env%22%3A%7B%22HYPERSPELL_TOKEN%22%3A%22Set%20your%20HYPERSPELL_TOKEN%20here.%22%2C%22HYPERSPELL_USER_ID%22%3A%22Set%20your%20HYPERSPELL_USER_ID%20here.%22%7D%7D)
+
+### Claude Code
+
+If you use Claude Code, you can install the MCP server by running the command below in your terminal. You will need to set your
+environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
+
+```
+claude mcp add --transport stdio hyperspell_api --env HYPERSPELL_TOKEN="Your HYPERSPELL_TOKEN here." HYPERSPELL_USER_ID="Your HYPERSPELL_USER_ID here." -- npx -y hyperspell-mcp
+```
+
 ## Exposing endpoints to your MCP Client
 
 There are three ways to expose endpoints as tools in the MCP server:
