@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from 'hyperspell-mcp/filtering';
-import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { isJqError, maybeFilter } from 'hyperspell-mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Hyperspell from 'hyperspell';
@@ -38,7 +38,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
   const { jq_filter } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.integrations.list()));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.integrations.list()));
+  } catch (error) {
+    if (isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };
