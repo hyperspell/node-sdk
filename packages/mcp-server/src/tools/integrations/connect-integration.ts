@@ -51,7 +51,7 @@ export const handler = async (client: Hyperspell, args: Record<string, unknown> 
       await maybeFilter(jq_filter, await client.integrations.connect(integration_id, body)),
     );
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Hyperspell.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;

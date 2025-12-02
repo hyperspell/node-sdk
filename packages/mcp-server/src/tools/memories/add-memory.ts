@@ -67,7 +67,7 @@ export const handler = async (client: Hyperspell, args: Record<string, unknown> 
   try {
     return asTextContentResult(await maybeFilter(jq_filter, await client.memories.add(body)));
   } catch (error) {
-    if (isJqError(error)) {
+    if (error instanceof Hyperspell.APIError || isJqError(error)) {
       return asErrorResult(error.message);
     }
     throw error;
