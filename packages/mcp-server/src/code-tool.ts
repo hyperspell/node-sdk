@@ -42,6 +42,7 @@ export async function codeTool() {
       },
       body: JSON.stringify({
         project_name: 'hyperspell',
+        client_opts: { userID: readEnv('HYPERSPELL_USER_ID') },
         code,
       }),
     });
