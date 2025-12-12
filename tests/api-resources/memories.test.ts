@@ -61,6 +61,7 @@ describe('resource memories', () => {
       text: 'text',
       collection: 'collection',
       date: '2019-12-27T18:11:19.117Z',
+      metadata: { foo: 'string' },
       resource_id: 'resource_id',
       title: 'title',
     });
@@ -101,18 +102,36 @@ describe('resource memories', () => {
         after: '2019-12-27T18:11:19.117Z',
         answer_model: 'llama-3.1',
         before: '2019-12-27T18:11:19.117Z',
-        box: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
-        collections: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
+        box: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
+          weight: 0,
+        },
+        collections: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
+          weight: 0,
+        },
+        filter: { foo: 'bar' },
         google_calendar: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           calendar_id: 'calendar_id',
+          filter: { foo: 'bar' },
           weight: 0,
         },
-        google_drive: { after: '2019-12-27T18:11:19.117Z', before: '2019-12-27T18:11:19.117Z', weight: 0 },
+        google_drive: {
+          after: '2019-12-27T18:11:19.117Z',
+          before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
+          weight: 0,
+        },
         google_mail: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
           label_ids: ['string'],
           weight: 0,
         },
@@ -120,12 +139,14 @@ describe('resource memories', () => {
         notion: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
           notion_page_ids: ['string'],
           weight: 0,
         },
         reddit: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
           period: 'hour',
           sort: 'relevance',
           subreddit: 'subreddit',
@@ -136,6 +157,7 @@ describe('resource memories', () => {
           before: '2019-12-27T18:11:19.117Z',
           channels: ['string'],
           exclude_archived: true,
+          filter: { foo: 'bar' },
           include_dms: true,
           include_group_dms: true,
           include_private: true,
@@ -144,6 +166,7 @@ describe('resource memories', () => {
         web_crawler: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          filter: { foo: 'bar' },
           max_depth: 0,
           url: 'url',
           weight: 0,
@@ -181,6 +204,7 @@ describe('resource memories', () => {
     const response = await client.memories.upload({
       file: await toFile(Buffer.from('# my file contents'), 'README.md'),
       collection: 'collection',
+      metadata: 'metadata',
     });
   });
 });

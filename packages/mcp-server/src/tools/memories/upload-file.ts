@@ -32,6 +32,12 @@ export const tool: Tool = {
         title: 'Collection',
         description: 'The collection to add the document to.',
       },
+      metadata: {
+        type: 'string',
+        title: 'Metadata',
+        description:
+          'Custom metadata as JSON string for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, or boolean.',
+      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',

@@ -568,6 +568,12 @@ export interface MemoryAddParams {
   date?: string;
 
   /**
+   * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
+   * 64 chars. Values must be string, number, or boolean.
+   */
+  metadata?: { [key: string]: string | number | boolean } | null;
+
+  /**
    * The resource ID to add the document to. If not provided, a new resource ID will
    * be generated. If provided, the document will be updated if it already exists.
    */
@@ -734,6 +740,12 @@ export namespace MemorySearchParams {
     collections?: Options.Collections;
 
     /**
+     * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+     * 'priority': {'$gt': 3}}
+     */
+    filter?: { [key: string]: unknown } | null;
+
+    /**
      * Search options for Google Calendar
      */
     google_calendar?: Options.GoogleCalendar;
@@ -790,6 +802,12 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
        * will be returned. This will only affect results if multiple sources are queried
@@ -811,6 +829,12 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -843,6 +867,12 @@ export namespace MemorySearchParams {
       calendar_id?: string | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
        * will be returned. This will only affect results if multiple sources are queried
@@ -866,6 +896,12 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
        * will be returned. This will only affect results if multiple sources are queried
@@ -887,6 +923,12 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
 
       /**
        * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
@@ -920,6 +962,12 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
        * will be searched.
        */
@@ -947,6 +995,12 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
 
       /**
        * The time period to search. Defaults to 'month'.
@@ -998,6 +1052,12 @@ export namespace MemorySearchParams {
       exclude_archived?: boolean | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * Include direct messages (im) when listing conversations.
        */
       include_dms?: boolean;
@@ -1037,6 +1097,12 @@ export namespace MemorySearchParams {
       before?: string | null;
 
       /**
+       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
+       * 'priority': {'$gt': 3}}
+       */
+      filter?: { [key: string]: unknown } | null;
+
+      /**
        * Maximum depth to crawl from the starting URL
        */
       max_depth?: number;
@@ -1067,6 +1133,12 @@ export interface MemoryUploadParams {
    * The collection to add the document to.
    */
   collection?: string | null;
+
+  /**
+   * Custom metadata as JSON string for filtering. Keys must be alphanumeric with
+   * underscores, max 64 chars. Values must be string, number, or boolean.
+   */
+  metadata?: string | null;
 }
 
 export declare namespace Memories {
