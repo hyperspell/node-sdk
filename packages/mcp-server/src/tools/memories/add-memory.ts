@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from 'hyperspell-mcp/filtering';
-import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { isJqError, maybeFilter } from 'hyperspell-mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Hyperspell from 'hyperspell';
@@ -39,6 +39,13 @@ export const tool: Tool = {
           'Date of the document. Depending on the document, this could be the creation date or date the document was last updated (eg. for a chat transcript, this would be the date of the last message). This helps the ranking algorithm and allows you to filter by date range.',
         format: 'date-time',
       },
+      metadata: {
+        type: 'object',
+        title: 'Metadata',
+        description:
+          'Custom metadata for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, or boolean.',
+        additionalProperties: true,
+      },
       resource_id: {
         type: 'string',
         title: 'Resource Id',
@@ -64,7 +71,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.memories.add(body)));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.memories.add(body)));
+  } catch (error) {
+    if (error instanceof Hyperspell.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

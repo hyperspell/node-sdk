@@ -20,6 +20,7 @@ import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
+import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
 import {
   Evaluate,
   EvaluateScoreHighlightParams,
@@ -46,7 +47,6 @@ import {
   IntegrationConnectParams,
   IntegrationConnectResponse,
   IntegrationListResponse,
-  IntegrationRevokeResponse,
   Integrations,
 } from './resources/integrations/integrations';
 import { type Fetch } from './internal/builtin-types';
@@ -152,7 +152,7 @@ export class Hyperspell {
   baseURL: string;
   maxRetries: number;
   timeout: number;
-  logger: Logger | undefined;
+  logger: Logger;
   logLevel: LogLevel | undefined;
   fetchOptions: MergedRequestInit | undefined;
 
@@ -164,7 +164,7 @@ export class Hyperspell {
   /**
    * API Client for interfacing with the Hyperspell API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['HYPERSPELL_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['HYPERSPELL_API_KEY'] ?? undefined]
    * @param {string | null | undefined} [opts.userID]
    * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://api.hyperspell.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -176,13 +176,13 @@ export class Hyperspell {
    */
   constructor({
     baseURL = readEnv('HYPERSPELL_BASE_URL'),
-    apiKey = readEnv('HYPERSPELL_TOKEN'),
+    apiKey = readEnv('HYPERSPELL_API_KEY'),
     userID = null,
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.HyperspellError(
-        "The HYPERSPELL_TOKEN environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an apiKey option, like new Hyperspell({ apiKey: 'My API Key' }).",
+        "The HYPERSPELL_API_KEY environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an apiKey option, like new Hyperspell({ apiKey: 'My API Key' }).",
       );
     }
 
@@ -771,6 +771,7 @@ export class Hyperspell {
 
   static toFile = Uploads.toFile;
 
+  connections: API.Connections = new API.Connections(this);
   integrations: API.Integrations = new API.Integrations(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
@@ -778,6 +779,7 @@ export class Hyperspell {
   auth: API.Auth = new API.Auth(this);
 }
 
+Hyperspell.Connections = Connections;
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
@@ -791,10 +793,15 @@ export declare namespace Hyperspell {
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
   export {
+    Connections as Connections,
+    type ConnectionListResponse as ConnectionListResponse,
+    type ConnectionRevokeResponse as ConnectionRevokeResponse,
+  };
+
+  export {
     Integrations as Integrations,
     type IntegrationListResponse as IntegrationListResponse,
     type IntegrationConnectResponse as IntegrationConnectResponse,
-    type IntegrationRevokeResponse as IntegrationRevokeResponse,
     type IntegrationConnectParams as IntegrationConnectParams,
   };
 

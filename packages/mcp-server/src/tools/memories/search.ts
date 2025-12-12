@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { Metadata, asErrorResult, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Hyperspell from 'hyperspell';
@@ -76,6 +76,13 @@ export const tool: Tool = {
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               weight: {
                 type: 'number',
                 title: 'Weight',
@@ -101,6 +108,13 @@ export const tool: Tool = {
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               weight: {
                 type: 'number',
                 title: 'Weight',
@@ -108,6 +122,13 @@ export const tool: Tool = {
                   'Weight of results from this source. A weight greater than 1.0 means more results from this source will be returned, a weight less than 1.0 means fewer results will be returned. This will only affect results if multiple sources are queried at the same time.',
               },
             },
+          },
+          filter: {
+            type: 'object',
+            title: 'Filter',
+            description:
+              "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+            additionalProperties: true,
           },
           google_calendar: {
             type: 'object',
@@ -131,6 +152,13 @@ export const tool: Tool = {
                 title: 'Calendar Id',
                 description:
                   'The ID of the calendar to search. If not provided, it will use the ID of the default calendar. You can get the list of calendars with the `/integrations/google_calendar/list` endpoint.',
+              },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
               },
               weight: {
                 type: 'number',
@@ -157,6 +185,13 @@ export const tool: Tool = {
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               weight: {
                 type: 'number',
                 title: 'Weight',
@@ -181,6 +216,13 @@ export const tool: Tool = {
                 title: 'Before',
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
+              },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
               },
               label_ids: {
                 type: 'array',
@@ -221,6 +263,13 @@ export const tool: Tool = {
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               notion_page_ids: {
                 type: 'array',
                 title: 'Notion Page Ids',
@@ -254,6 +303,13 @@ export const tool: Tool = {
                 title: 'Before',
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
+              },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
               },
               period: {
                 type: 'string',
@@ -311,6 +367,13 @@ export const tool: Tool = {
                 title: 'Exclude Archived',
                 description: "If set, pass 'exclude_archived' to Slack. If None, omit the param.",
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               include_dms: {
                 type: 'boolean',
                 title: 'Include Dms',
@@ -352,23 +415,20 @@ export const tool: Tool = {
                 description: 'Only query documents created before this date.',
                 format: 'date-time',
               },
+              filter: {
+                type: 'object',
+                title: 'Filter',
+                description:
+                  "Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}",
+                additionalProperties: true,
+              },
               max_depth: {
                 type: 'integer',
                 title: 'Max Depth',
                 description: 'Maximum depth to crawl from the starting URL',
               },
               url: {
-                anyOf: [
-                  {
-                    type: 'string',
-                  },
-                  {
-                    type: 'object',
-                    title: 'NotGiven',
-                    description: 'Sentinel object to indicate that a search option is not set',
-                    additionalProperties: true,
-                  },
-                ],
+                type: 'string',
                 title: 'Url',
                 description: 'The URL to crawl',
               },
@@ -447,7 +507,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
   const body = args as any;
-  return asTextContentResult(await client.memories.search(body));
+  try {
+    return asTextContentResult(await client.memories.search(body));
+  } catch (error) {
+    if (error instanceof Hyperspell.APIError) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

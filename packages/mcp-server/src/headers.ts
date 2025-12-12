@@ -11,14 +11,16 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
       case 'Bearer':
         return { apiKey: req.headers.authorization.slice('Bearer '.length) };
       default:
-        throw new Error(`Unsupported authorization scheme`);
+        throw new Error(
+          'Unsupported authorization scheme. Expected the "Authorization" header to be a supported scheme (Bearer).',
+        );
     }
   }
 
   const apiKey =
-    Array.isArray(req.headers['x-hyperspell-token']) ?
-      req.headers['x-hyperspell-token'][0]
-    : req.headers['x-hyperspell-token'];
+    Array.isArray(req.headers['x-hyperspell-api-key']) ?
+      req.headers['x-hyperspell-api-key'][0]
+    : req.headers['x-hyperspell-api-key'];
   const userID =
     Array.isArray(req.headers['x-as-user']) ? req.headers['x-as-user'][0] : req.headers['x-as-user'];
   return { apiKey, userID };

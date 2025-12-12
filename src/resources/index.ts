@@ -8,6 +8,7 @@ export {
   type AuthMeResponse,
   type AuthUserTokenParams,
 } from './auth';
+export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
   Evaluate,
   type EvaluateScoreHighlightResponse,
@@ -19,7 +20,6 @@ export {
   Integrations,
   type IntegrationListResponse,
   type IntegrationConnectResponse,
-  type IntegrationRevokeResponse,
   type IntegrationConnectParams,
 } from './integrations/integrations';
 export {

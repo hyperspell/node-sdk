@@ -4,19 +4,29 @@ Types:
 
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 
+# Connections
+
+Types:
+
+- <code><a href="./src/resources/connections.ts">ConnectionListResponse</a></code>
+- <code><a href="./src/resources/connections.ts">ConnectionRevokeResponse</a></code>
+
+Methods:
+
+- <code title="get /connections/list">client.connections.<a href="./src/resources/connections.ts">list</a>() -> ConnectionListResponse</code>
+- <code title="delete /connections/{connection_id}/revoke">client.connections.<a href="./src/resources/connections.ts">revoke</a>(connectionID) -> ConnectionRevokeResponse</code>
+
 # Integrations
 
 Types:
 
 - <code><a href="./src/resources/integrations/integrations.ts">IntegrationListResponse</a></code>
 - <code><a href="./src/resources/integrations/integrations.ts">IntegrationConnectResponse</a></code>
-- <code><a href="./src/resources/integrations/integrations.ts">IntegrationRevokeResponse</a></code>
 
 Methods:
 
 - <code title="get /integrations/list">client.integrations.<a href="./src/resources/integrations/integrations.ts">list</a>() -> IntegrationListResponse</code>
 - <code title="get /integrations/{integration_id}/connect">client.integrations.<a href="./src/resources/integrations/integrations.ts">connect</a>(integrationID, { ...params }) -> IntegrationConnectResponse</code>
-- <code title="get /integrations/{integration_id}/revoke">client.integrations.<a href="./src/resources/integrations/integrations.ts">revoke</a>(integrationID) -> IntegrationRevokeResponse</code>
 
 ## GoogleCalendar
 

@@ -1,7 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { maybeFilter } from 'hyperspell-mcp/filtering';
-import { Metadata, asTextContentResult } from 'hyperspell-mcp/tools/types';
+import { isJqError, maybeFilter } from 'hyperspell-mcp/filtering';
+import { Metadata, asErrorResult, asTextContentResult } from 'hyperspell-mcp/tools/types';
 
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import Hyperspell from 'hyperspell';
@@ -32,6 +32,12 @@ export const tool: Tool = {
         title: 'Collection',
         description: 'The collection to add the document to.',
       },
+      metadata: {
+        type: 'string',
+        title: 'Metadata',
+        description:
+          'Custom metadata as JSON string for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, or boolean.',
+      },
       jq_filter: {
         type: 'string',
         title: 'jq Filter',
@@ -46,7 +52,14 @@ export const tool: Tool = {
 
 export const handler = async (client: Hyperspell, args: Record<string, unknown> | undefined) => {
   const { jq_filter, ...body } = args as any;
-  return asTextContentResult(await maybeFilter(jq_filter, await client.memories.upload(body)));
+  try {
+    return asTextContentResult(await maybeFilter(jq_filter, await client.memories.upload(body)));
+  } catch (error) {
+    if (error instanceof Hyperspell.APIError || isJqError(error)) {
+      return asErrorResult(error.message);
+    }
+    throw error;
+  }
 };
 
 export default { metadata, tool, handler };

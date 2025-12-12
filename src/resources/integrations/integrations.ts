@@ -45,21 +45,6 @@ export class Integrations extends APIResource {
   ): APIPromise<IntegrationConnectResponse> {
     return this._client.get(path`/integrations/${integrationID}/connect`, { query, ...options });
   }
-
-  /**
-   * Revokes Hyperspell's access the given provider and deletes all stored
-   * credentials and indexed data.
-   *
-   * @example
-   * ```ts
-   * const response = await client.integrations.revoke(
-   *   'integration_id',
-   * );
-   * ```
-   */
-  revoke(integrationID: string, options?: RequestOptions): APIPromise<IntegrationRevokeResponse> {
-    return this._client.get(path`/integrations/${integrationID}/revoke`, options);
-  }
 }
 
 export interface IntegrationListResponse {
@@ -77,6 +62,21 @@ export namespace IntegrationListResponse {
      * Whether the integration allows multiple connections
      */
     allow_multiple_connections: boolean;
+
+    /**
+     * The integration's auth provider
+     */
+    auth_provider: 'nango' | 'hyperspell' | 'composio' | 'whitelabel' | 'unified';
+
+    /**
+     * Generate a display name from the provider by capitalizing each word.
+     */
+    icon: string;
+
+    /**
+     * Generate a display name from the provider by capitalizing each word.
+     */
+    name: string;
 
     /**
      * The integration's provider
@@ -137,12 +137,6 @@ export interface IntegrationConnectResponse {
   url: string;
 }
 
-export interface IntegrationRevokeResponse {
-  message: string;
-
-  success: boolean;
-}
-
 export interface IntegrationConnectParams {
   redirect_url?: string | null;
 }
@@ -155,7 +149,6 @@ export declare namespace Integrations {
   export {
     type IntegrationListResponse as IntegrationListResponse,
     type IntegrationConnectResponse as IntegrationConnectResponse,
-    type IntegrationRevokeResponse as IntegrationRevokeResponse,
     type IntegrationConnectParams as IntegrationConnectParams,
   };
 
