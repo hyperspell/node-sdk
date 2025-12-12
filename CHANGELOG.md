@@ -1,5 +1,61 @@
 # Changelog
 
+## 0.27.0 (2025-12-12)
+
+Full Changelog: [v0.26.0...v0.27.0](https://github.com/hyperspell/node-sdk/compare/v0.26.0...v0.27.0)
+
+### Features
+
+* **api:** api update ([56eac47](https://github.com/hyperspell/node-sdk/commit/56eac4744ace31b95ad81d614b2b6165e78ef463))
+* **api:** api update ([c1fb3c4](https://github.com/hyperspell/node-sdk/commit/c1fb3c4aafa35d7806fb58921f2c13b2b700ad4b))
+* **api:** api update ([c3c4b7e](https://github.com/hyperspell/node-sdk/commit/c3c4b7e298142c9921db702fc88893573f5f8c5b))
+* **api:** api update ([9191f0a](https://github.com/hyperspell/node-sdk/commit/9191f0afb4ed3046be3140a157501c6125ec9126))
+* **api:** api update ([5ccc509](https://github.com/hyperspell/node-sdk/commit/5ccc50944b5d6f712d8329f1d3695a64cdfbcb10))
+* **api:** update via SDK Studio ([0605f55](https://github.com/hyperspell/node-sdk/commit/0605f55ba71434e411d25162302742b65f469d1e))
+* **api:** update via SDK Studio ([4d42a43](https://github.com/hyperspell/node-sdk/commit/4d42a43e41a6c5025d556248b20ab2b67b488902))
+* **api:** update via SDK Studio ([c3a9f7b](https://github.com/hyperspell/node-sdk/commit/c3a9f7ba14118b8270f3a64d583a6bb11776d17e))
+* **api:** update via SDK Studio ([8a17972](https://github.com/hyperspell/node-sdk/commit/8a179727d98ee9af7110bb5cebe7e07ac6c7cdcb))
+* **mcp:** add detail field to docs search tool ([cf35c13](https://github.com/hyperspell/node-sdk/commit/cf35c137e638bc92ae2182e63f0017be7f9566de))
+* **mcp:** add typescript check to code execution tool ([b231e21](https://github.com/hyperspell/node-sdk/commit/b231e216f2e90760aa88ef2cfba2436552c189bd))
+* **mcp:** enable optional code execution tool on http mcp servers ([ff85254](https://github.com/hyperspell/node-sdk/commit/ff8525482d4aa5302cd48bf8cf02031d7a4b6000))
+* **mcp:** handle code mode calls in the Stainless API ([3a2143c](https://github.com/hyperspell/node-sdk/commit/3a2143c50929e03cd2b567f6999e7879e3fae416))
+* **mcp:** return logs on code tool errors ([d6e5cb6](https://github.com/hyperspell/node-sdk/commit/d6e5cb602de9c02a1f201fde2c328b6206f57e93))
+
+
+### Bug Fixes
+
+* **mcp:** add client instantiation options to code tool ([709c887](https://github.com/hyperspell/node-sdk/commit/709c8871db1fb9e1a0016920405f0bea3bfe824a))
+* **mcpb:** pin @anthropic-ai/mcpb version ([0cc695d](https://github.com/hyperspell/node-sdk/commit/0cc695dae9610ca65274cf68ef2df36d3ca3e916))
+* **mcp:** correct code tool API endpoint ([112858e](https://github.com/hyperspell/node-sdk/commit/112858e1ba646dacfba5c5b54005446e099b8b3a))
+* **mcp:** return correct lines on typescript errors ([fdb85a3](https://github.com/hyperspell/node-sdk/commit/fdb85a33236c75a7eca373dd93b48a20f33f2138))
+* **mcp:** return tool execution error on api error ([4915976](https://github.com/hyperspell/node-sdk/commit/4915976152ec69434cbd7f1a01fa294e7cbf84be))
+* **mcp:** return tool execution error on jq failure ([655e2be](https://github.com/hyperspell/node-sdk/commit/655e2be3e052079f91706a8ed75a08e4762505bc))
+
+
+### Chores
+
+* **client:** fix logger property type ([a7d5b47](https://github.com/hyperspell/node-sdk/commit/a7d5b4702540a0c945681205e85f9fefd906503d))
+* **internal:** codegen related update ([946f9c0](https://github.com/hyperspell/node-sdk/commit/946f9c0d9597be1ea124a319d4e4b281e9a9ca4e))
+* **internal:** codegen related update ([cf41b0b](https://github.com/hyperspell/node-sdk/commit/cf41b0b2abb639ca38876cb3074bdf07137f6b3e))
+* **internal:** codegen related update ([a153712](https://github.com/hyperspell/node-sdk/commit/a153712bdb29a43fc8ecde9ea1f75280c9a24a83))
+* **internal:** codegen related update ([4458148](https://github.com/hyperspell/node-sdk/commit/445814833de0a9d998d83ae86766e67eb7a4ff1d))
+* **internal:** grammar fix (it's -&gt; its) ([4fa00ab](https://github.com/hyperspell/node-sdk/commit/4fa00ab305ecff5d06cc6038a10d7fa1f3e73c28))
+* **internal:** upgrade eslint ([5e16246](https://github.com/hyperspell/node-sdk/commit/5e16246b8d9ac8c4de70fc9a9ce8e96000e8e29c))
+* mcp code tool explicit error message when missing a run function ([8d95acd](https://github.com/hyperspell/node-sdk/commit/8d95acd5117d4fde7441236d0a78d0ec2fdab39e))
+* **mcp:** add friendlier MCP code tool errors on incorrect method invocations ([98d995c](https://github.com/hyperspell/node-sdk/commit/98d995cba7a5e09ffbd161d302889d604cd8e938))
+* **mcp:** add line numbers to code tool errors ([e51e239](https://github.com/hyperspell/node-sdk/commit/e51e23911aa0edcc7bc9c282bbe5984dce7cd462))
+* **mcp:** clarify http auth error ([5d7dd6b](https://github.com/hyperspell/node-sdk/commit/5d7dd6b32315f9606559981afc19b9980d1ab192))
+* **mcp:** update lockfile ([331bcf0](https://github.com/hyperspell/node-sdk/commit/331bcf0a6549863eafdc6b8b6f5be15006b3a573))
+* **mcp:** upgrade jq-web ([8108ed1](https://github.com/hyperspell/node-sdk/commit/8108ed10ce7e1b09b3fc310c9849342fc1f1e820))
+* use latest @modelcontextprotocol/sdk ([7b5bab4](https://github.com/hyperspell/node-sdk/commit/7b5bab4d3494be28e98de645109c2016a137653f))
+* use structured error when code execution tool errors ([d4b9589](https://github.com/hyperspell/node-sdk/commit/d4b95895fe47ec817bb6b2863c6da859f0b9fb48))
+
+
+### Documentation
+
+* **mcp:** add a README button for one-click add to Cursor ([f8da367](https://github.com/hyperspell/node-sdk/commit/f8da3673fd563fcd44b5df6dc99927a95ed7be02))
+* **mcp:** add a README link to add server to VS Code or Claude Code ([c020fbc](https://github.com/hyperspell/node-sdk/commit/c020fbc656e4438c9a36977eaaea23fb475f6481))
+
 ## 0.26.0 (2025-10-14)
 
 Full Changelog: [v0.25.1...v0.26.0](https://github.com/hyperspell/node-sdk/compare/v0.25.1...v0.26.0)
