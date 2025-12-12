@@ -18,9 +18,9 @@ export const parseAuthHeaders = (req: IncomingMessage): Partial<ClientOptions> =
   }
 
   const apiKey =
-    Array.isArray(req.headers['x-hyperspell-token']) ?
-      req.headers['x-hyperspell-token'][0]
-    : req.headers['x-hyperspell-token'];
+    Array.isArray(req.headers['x-hyperspell-api-key']) ?
+      req.headers['x-hyperspell-api-key'][0]
+    : req.headers['x-hyperspell-api-key'];
   const userID =
     Array.isArray(req.headers['x-as-user']) ? req.headers['x-as-user'][0] : req.headers['x-as-user'];
   return { apiKey, userID };

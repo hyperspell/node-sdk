@@ -9,7 +9,7 @@ It is generated with [Stainless](https://www.stainless.com/).
 You can run the MCP Server directly via `npx`:
 
 ```sh
-export HYPERSPELL_TOKEN="My API Key"
+export HYPERSPELL_API_KEY="My API Key"
 export HYPERSPELL_USER_ID="My User ID"
 npx -y hyperspell-mcp@latest
 ```
@@ -28,7 +28,7 @@ For clients with a configuration JSON, it might look something like this:
       "command": "npx",
       "args": ["-y", "hyperspell-mcp", "--client=claude", "--tools=all"],
       "env": {
-        "HYPERSPELL_TOKEN": "My API Key",
+        "HYPERSPELL_API_KEY": "My API Key",
         "HYPERSPELL_USER_ID": "My User ID"
       }
     }
@@ -41,14 +41,14 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=hyperspell-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImh5cGVyc3BlbGwtbWNwIl0sImVudiI6eyJIWVBFUlNQRUxMX1RPS0VOIjoiU2V0IHlvdXIgSFlQRVJTUEVMTF9UT0tFTiBoZXJlLiIsIkhZUEVSU1BFTExfVVNFUl9JRCI6IlNldCB5b3VyIEhZUEVSU1BFTExfVVNFUl9JRCBoZXJlLiJ9fQ)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=hyperspell-mcp&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImh5cGVyc3BlbGwtbWNwIl0sImVudiI6eyJIWVBFUlNQRUxMX0FQSV9LRVkiOiJTZXQgeW91ciBIWVBFUlNQRUxMX0FQSV9LRVkgaGVyZS4iLCJIWVBFUlNQRUxMX1VTRVJfSUQiOiJTZXQgeW91ciBIWVBFUlNQRUxMX1VTRVJfSUQgaGVyZS4ifX0)
 
 ### VS Code
 
 If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
 in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
 
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22hyperspell-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22hyperspell-mcp%22%5D%2C%22env%22%3A%7B%22HYPERSPELL_TOKEN%22%3A%22Set%20your%20HYPERSPELL_TOKEN%20here.%22%2C%22HYPERSPELL_USER_ID%22%3A%22Set%20your%20HYPERSPELL_USER_ID%20here.%22%7D%7D)
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22hyperspell-mcp%22%2C%22command%22%3A%22npx%22%2C%22args%22%3A%5B%22-y%22%2C%22hyperspell-mcp%22%5D%2C%22env%22%3A%7B%22HYPERSPELL_API_KEY%22%3A%22Set%20your%20HYPERSPELL_API_KEY%20here.%22%2C%22HYPERSPELL_USER_ID%22%3A%22Set%20your%20HYPERSPELL_USER_ID%20here.%22%7D%7D)
 
 ### Claude Code
 
@@ -56,7 +56,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add --transport stdio hyperspell_api --env HYPERSPELL_TOKEN="Your HYPERSPELL_TOKEN here." HYPERSPELL_USER_ID="Your HYPERSPELL_USER_ID here." -- npx -y hyperspell-mcp
+claude mcp add --transport stdio hyperspell_api --env HYPERSPELL_API_KEY="Your HYPERSPELL_API_KEY here." HYPERSPELL_USER_ID="Your HYPERSPELL_USER_ID here." -- npx -y hyperspell-mcp
 ```
 
 ## Exposing endpoints to your MCP Client
@@ -172,8 +172,8 @@ Authorization can be provided via the `Authorization` header using the Bearer sc
 
 Additionally, authorization can be provided via the following headers:
 | Header | Equivalent client option | Security scheme |
-| -------------------- | ------------------------ | --------------- |
-| `x-hyperspell-token` | `apiKey` | APIKey |
+| ---------------------- | ------------------------ | --------------- |
+| `x-hyperspell-api-key` | `apiKey` | APIKey |
 | `X-As-User` | `userID` | AsUser |
 
 A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:

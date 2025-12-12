@@ -20,13 +20,13 @@
       "command": "node",
       "args": ["${__dirname}/index.js"],
       "env": {
-        "HYPERSPELL_TOKEN": "${user_config.HYPERSPELL_TOKEN}",
+        "HYPERSPELL_API_KEY": "${user_config.HYPERSPELL_API_KEY}",
         "HYPERSPELL_USER_ID": "${user_config.HYPERSPELL_USER_ID}"
       }
     }
   },
   "user_config": {
-    "HYPERSPELL_TOKEN": {
+    "HYPERSPELL_API_KEY": {
       "title": "api_key",
       "description": "Either an API Key or User Token to authenticate a specific user of your app.",
       "required": true,

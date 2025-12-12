@@ -164,7 +164,7 @@ export class Hyperspell {
   /**
    * API Client for interfacing with the Hyperspell API.
    *
-   * @param {string | undefined} [opts.apiKey=process.env['HYPERSPELL_TOKEN'] ?? undefined]
+   * @param {string | undefined} [opts.apiKey=process.env['HYPERSPELL_API_KEY'] ?? undefined]
    * @param {string | null | undefined} [opts.userID]
    * @param {string} [opts.baseURL=process.env['HYPERSPELL_BASE_URL'] ?? https://api.hyperspell.com] - Override the default base URL for the API.
    * @param {number} [opts.timeout=1 minute] - The maximum amount of time (in milliseconds) the client will wait for a response before timing out.
@@ -176,13 +176,13 @@ export class Hyperspell {
    */
   constructor({
     baseURL = readEnv('HYPERSPELL_BASE_URL'),
-    apiKey = readEnv('HYPERSPELL_TOKEN'),
+    apiKey = readEnv('HYPERSPELL_API_KEY'),
     userID = null,
     ...opts
   }: ClientOptions = {}) {
     if (apiKey === undefined) {
       throw new Errors.HyperspellError(
-        "The HYPERSPELL_TOKEN environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an apiKey option, like new Hyperspell({ apiKey: 'My API Key' }).",
+        "The HYPERSPELL_API_KEY environment variable is missing or empty; either provide it, or instantiate the Hyperspell client with an apiKey option, like new Hyperspell({ apiKey: 'My API Key' }).",
       );
     }
 

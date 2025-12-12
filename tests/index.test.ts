@@ -472,7 +472,7 @@ describe('instantiate client', () => {
 
   test('with environment variable arguments', () => {
     // set options via env var
-    process.env['HYPERSPELL_TOKEN'] = 'My API Key';
+    process.env['HYPERSPELL_API_KEY'] = 'My API Key';
     const client = new Hyperspell({ userID: 'My User ID' });
     expect(client.apiKey).toBe('My API Key');
     expect(client.userID).toBe('My User ID');
@@ -480,7 +480,7 @@ describe('instantiate client', () => {
 
   test('with overridden environment variable arguments', () => {
     // set options via env var
-    process.env['HYPERSPELL_TOKEN'] = 'another My API Key';
+    process.env['HYPERSPELL_API_KEY'] = 'another My API Key';
     const client = new Hyperspell({ apiKey: 'My API Key', userID: 'My User ID' });
     expect(client.apiKey).toBe('My API Key');
     expect(client.userID).toBe('My User ID');

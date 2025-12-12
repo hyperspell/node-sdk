@@ -36,7 +36,7 @@ export async function codeTool() {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          HYPERSPELL_TOKEN: readEnv('HYPERSPELL_TOKEN'),
+          HYPERSPELL_API_KEY: readEnv('HYPERSPELL_API_KEY'),
           HYPERSPELL_USER_ID: readEnv('HYPERSPELL_USER_ID'),
         }),
       },
