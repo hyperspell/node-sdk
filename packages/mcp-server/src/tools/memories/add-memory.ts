@@ -39,6 +39,13 @@ export const tool: Tool = {
           'Date of the document. Depending on the document, this could be the creation date or date the document was last updated (eg. for a chat transcript, this would be the date of the last message). This helps the ranking algorithm and allows you to filter by date range.',
         format: 'date-time',
       },
+      metadata: {
+        type: 'object',
+        title: 'Metadata',
+        description:
+          'Custom metadata for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, or boolean.',
+        additionalProperties: true,
+      },
       resource_id: {
         type: 'string',
         title: 'Resource Id',
