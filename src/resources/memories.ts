@@ -17,7 +17,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const memoryListResponse of client.memories.list()) {
+   * for await (const memory of client.memories.list()) {
    *   // ...
    * }
    * ```
@@ -25,8 +25,8 @@ export class Memories extends APIResource {
   list(
     query: MemoryListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<MemoryListResponsesCursorPage, MemoryListResponse> {
-    return this._client.getAPIList('/memories/list', CursorPage<MemoryListResponse>, { query, ...options });
+  ): PagePromise<MemoriesCursorPage, Memory> {
+    return this._client.getAPIList('/memories/list', CursorPage<Memory>, { query, ...options });
   }
 
   /**
@@ -88,7 +88,7 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<MemoryGetResponse> {
+  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<Memory> {
     const { source } = params;
     return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
   }
@@ -141,7 +141,96 @@ export class Memories extends APIResource {
   }
 }
 
-export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
+export type MemoriesCursorPage = CursorPage<Memory>;
+
+export interface Memory {
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'vault'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
+
+  metadata?: Memory.Metadata;
+
+  /**
+   * The relevance of the resource to the query
+   */
+  score?: number | null;
+
+  title?: string | null;
+}
+
+export namespace Memory {
+  export interface Metadata {
+    created_at?: string | null;
+
+    events?: Array<Metadata.Event>;
+
+    indexed_at?: string | null;
+
+    last_modified?: string | null;
+
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+    url?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Metadata {
+    export interface Event {
+      message: string;
+
+      type: 'error' | 'warning' | 'info' | 'success';
+
+      time?: string;
+    }
+  }
+}
 
 export interface MemoryStatus {
   resource_id: string;
@@ -195,95 +284,6 @@ export interface MemoryStatus {
     | 'zoom';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface MemoryListResponse {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'vault'
-    | 'web_crawler'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'reddit'
-    | 'box'
-    | 'google_drive'
-    | 'airtable'
-    | 'algolia'
-    | 'amplitude'
-    | 'asana'
-    | 'ashby'
-    | 'bamboohr'
-    | 'basecamp'
-    | 'bubbles'
-    | 'calendly'
-    | 'confluence'
-    | 'clickup'
-    | 'datadog'
-    | 'deel'
-    | 'discord'
-    | 'dropbox'
-    | 'exa'
-    | 'facebook'
-    | 'front'
-    | 'github'
-    | 'gitlab'
-    | 'google_docs'
-    | 'google_mail'
-    | 'google_sheet'
-    | 'hubspot'
-    | 'jira'
-    | 'linear'
-    | 'microsoft_teams'
-    | 'mixpanel'
-    | 'monday'
-    | 'outlook'
-    | 'perplexity'
-    | 'rippling'
-    | 'salesforce'
-    | 'segment'
-    | 'todoist'
-    | 'twitter'
-    | 'zoom';
-
-  metadata?: MemoryListResponse.Metadata;
-
-  /**
-   * The relevance of the resource to the query
-   */
-  score?: number | null;
-
-  title?: string | null;
-}
-
-export namespace MemoryListResponse {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
 }
 
 export interface MemoryDeleteResponse {
@@ -342,95 +342,6 @@ export interface MemoryDeleteResponse {
     | 'zoom';
 
   success: boolean;
-}
-
-export interface MemoryGetResponse {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'vault'
-    | 'web_crawler'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'reddit'
-    | 'box'
-    | 'google_drive'
-    | 'airtable'
-    | 'algolia'
-    | 'amplitude'
-    | 'asana'
-    | 'ashby'
-    | 'bamboohr'
-    | 'basecamp'
-    | 'bubbles'
-    | 'calendly'
-    | 'confluence'
-    | 'clickup'
-    | 'datadog'
-    | 'deel'
-    | 'discord'
-    | 'dropbox'
-    | 'exa'
-    | 'facebook'
-    | 'front'
-    | 'github'
-    | 'gitlab'
-    | 'google_docs'
-    | 'google_mail'
-    | 'google_sheet'
-    | 'hubspot'
-    | 'jira'
-    | 'linear'
-    | 'microsoft_teams'
-    | 'mixpanel'
-    | 'monday'
-    | 'outlook'
-    | 'perplexity'
-    | 'rippling'
-    | 'salesforce'
-    | 'segment'
-    | 'todoist'
-    | 'twitter'
-    | 'zoom';
-
-  metadata?: MemoryGetResponse.Metadata;
-
-  /**
-   * The relevance of the resource to the query
-   */
-  score?: number | null;
-
-  title?: string | null;
-}
-
-export namespace MemoryGetResponse {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
 }
 
 export interface MemoryStatusResponse {
@@ -1143,12 +1054,11 @@ export interface MemoryUploadParams {
 
 export declare namespace Memories {
   export {
+    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
-    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
-    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
+    type MemoriesCursorPage as MemoriesCursorPage,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,

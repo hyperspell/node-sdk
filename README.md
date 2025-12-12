@@ -158,13 +158,13 @@ List methods in the Hyperspell API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllMemoryListResponses(params) {
-  const allMemoryListResponses = [];
+async function fetchAllMemories(params) {
+  const allMemories = [];
   // Automatically fetches more pages as needed.
-  for await (const memoryListResponse of client.memories.list({ collection: 'REPLACE_ME' })) {
-    allMemoryListResponses.push(memoryListResponse);
+  for await (const memory of client.memories.list({ collection: 'REPLACE_ME' })) {
+    allMemories.push(memory);
   }
-  return allMemoryListResponses;
+  return allMemories;
 }
 ```
 
@@ -172,8 +172,8 @@ Alternatively, you can request a single page at a time:
 
 ```ts
 let page = await client.memories.list({ collection: 'REPLACE_ME' });
-for (const memoryListResponse of page.items) {
-  console.log(memoryListResponse);
+for (const memory of page.items) {
+  console.log(memory);
 }
 
 // Convenience methods are provided for manually paginating:
