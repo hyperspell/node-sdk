@@ -23,7 +23,7 @@ The full API of this library can be found in [api.md](api.md).
 import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
-  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
+  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
 const memoryStatus = await client.memories.add({ text: 'text' });
@@ -40,7 +40,7 @@ This library includes TypeScript definitions for all request params and response
 import Hyperspell from 'hyperspell';
 
 const client = new Hyperspell({
-  apiKey: process.env['HYPERSPELL_TOKEN'], // This is the default and can be omitted
+  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
 const params: Hyperspell.MemoryAddParams = { text: 'text' };
