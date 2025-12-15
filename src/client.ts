@@ -40,6 +40,7 @@ import {
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
+  MemoryUpdateParams,
   MemoryUploadParams,
 } from './resources/memories';
 import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
@@ -812,6 +813,7 @@ export declare namespace Hyperspell {
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,

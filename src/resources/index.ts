@@ -28,6 +28,7 @@ export {
   type MemoryStatus,
   type MemoryDeleteResponse,
   type MemoryStatusResponse,
+  type MemoryUpdateParams,
   type MemoryListParams,
   type MemoryDeleteParams,
   type MemoryAddParams,

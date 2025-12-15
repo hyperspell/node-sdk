@@ -5,6 +5,43 @@
   "methods": [
     {
       "base": "memories",
+      "name": "update",
+      "params": [
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "source",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "resource_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
+      "base": "memories",
       "name": "delete",
       "params": [
         {

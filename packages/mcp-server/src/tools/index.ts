@@ -7,6 +7,7 @@ export { Metadata, Endpoint, HandlerFunction };
 import list_connections from './connections/list-connections';
 import list_integrations from './integrations/list-integrations';
 import connect_integration from './integrations/connect-integration';
+import update_memory from './memories/update-memory';
 import add_memory from './memories/add-memory';
 import get_memory from './memories/get-memory';
 import search from './memories/search';
@@ -22,6 +23,7 @@ function addEndpoint(endpoint: Endpoint) {
 addEndpoint(list_connections);
 addEndpoint(list_integrations);
 addEndpoint(connect_integration);
+addEndpoint(update_memory);
 addEndpoint(add_memory);
 addEndpoint(get_memory);
 addEndpoint(search);
