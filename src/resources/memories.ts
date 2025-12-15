@@ -357,6 +357,12 @@ export interface MemoryListParams extends CursorPageParams {
   collection?: string | null;
 
   /**
+   * Filter documents by metadata using MongoDB-style operators. Example:
+   * {"department": "engineering", "priority": {"$gt": 3}}
+   */
+  filter?: string | null;
+
+  /**
    * Filter documents by source.
    */
   source?:
