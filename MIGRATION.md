@@ -54,6 +54,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 
 This affects the following methods:
 
+- `client.memories.update()`
 - `client.memories.delete()`
 - `client.memories.get()`
 

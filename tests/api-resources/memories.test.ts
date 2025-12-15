@@ -9,6 +9,27 @@ const client = new Hyperspell({
 });
 
 describe('resource memories', () => {
+  test('update: only required params', async () => {
+    const responsePromise = client.memories.update('resource_id', { source: 'collections' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.memories.update('resource_id', {
+      source: 'collections',
+      collection: 'string',
+      metadata: { foo: 'string' },
+      text: 'string',
+      title: 'string',
+    });
+  });
+
   test('list', async () => {
     const responsePromise = client.memories.list();
     const rawResponse = await responsePromise.asResponse();
