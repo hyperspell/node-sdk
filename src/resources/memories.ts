@@ -11,6 +11,26 @@ import { path } from '../internal/utils/path';
 
 export class Memories extends APIResource {
   /**
+   * Updates an existing document in the index. You can update the text, collection,
+   * title, and metadata. The document must already exist or a 404 will be returned.
+   * This works for documents from any source (vault, slack, gmail, etc.).
+   *
+   * To remove a collection, set it to null explicitly.
+   *
+   * @example
+   * ```ts
+   * const memoryStatus = await client.memories.update(
+   *   'resource_id',
+   *   { source: 'collections' },
+   * );
+   * ```
+   */
+  update(resourceID: string, params: MemoryUpdateParams, options?: RequestOptions): APIPromise<MemoryStatus> {
+    const { source, ...body } = params;
+    return this._client.post(path`/memories/update/${source}/${resourceID}`, { body, ...options });
+  }
+
+  /**
    * This endpoint allows you to paginate through all documents in the index. You can
    * filter the documents by title, date, metadata, etc.
    *
@@ -350,11 +370,94 @@ export interface MemoryStatusResponse {
   total: { [key: string]: number };
 }
 
+export interface MemoryUpdateParams {
+  /**
+   * Path param:
+   */
+  source:
+    | 'collections'
+    | 'vault'
+    | 'web_crawler'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'reddit'
+    | 'box'
+    | 'google_drive'
+    | 'airtable'
+    | 'algolia'
+    | 'amplitude'
+    | 'asana'
+    | 'ashby'
+    | 'bamboohr'
+    | 'basecamp'
+    | 'bubbles'
+    | 'calendly'
+    | 'confluence'
+    | 'clickup'
+    | 'datadog'
+    | 'deel'
+    | 'discord'
+    | 'dropbox'
+    | 'exa'
+    | 'facebook'
+    | 'front'
+    | 'github'
+    | 'gitlab'
+    | 'google_docs'
+    | 'google_mail'
+    | 'google_sheet'
+    | 'hubspot'
+    | 'jira'
+    | 'linear'
+    | 'microsoft_teams'
+    | 'mixpanel'
+    | 'monday'
+    | 'outlook'
+    | 'perplexity'
+    | 'rippling'
+    | 'salesforce'
+    | 'segment'
+    | 'todoist'
+    | 'twitter'
+    | 'zoom';
+
+  /**
+   * Body param: The collection to move the document to. Set to null to remove the
+   * collection.
+   */
+  collection?: string | unknown | null;
+
+  /**
+   * Body param: Custom metadata for filtering. Keys must be alphanumeric with
+   * underscores, max 64 chars. Values must be string, number, or boolean. Will be
+   * merged with existing metadata.
+   */
+  metadata?: { [key: string]: string | number | boolean } | unknown | null;
+
+  /**
+   * Body param: Full text of the document. If provided, the document will be
+   * re-indexed.
+   */
+  text?: string | unknown | null;
+
+  /**
+   * Body param: Title of the document.
+   */
+  title?: string | unknown | null;
+}
+
 export interface MemoryListParams extends CursorPageParams {
   /**
    * Filter documents by collection.
    */
   collection?: string | null;
+
+  /**
+   * Filter documents by metadata using MongoDB-style operators. Example:
+   * {"department": "engineering", "priority": {"$gt": 3}}
+   */
+  filter?: string | null;
 
   /**
    * Filter documents by source.
@@ -1059,6 +1162,7 @@ export declare namespace Memories {
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,

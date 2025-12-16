@@ -9,6 +9,27 @@ const client = new Hyperspell({
 });
 
 describe('resource memories', () => {
+  test('update: only required params', async () => {
+    const responsePromise = client.memories.update('resource_id', { source: 'collections' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.memories.update('resource_id', {
+      source: 'collections',
+      collection: 'string',
+      metadata: { foo: 'string' },
+      text: 'string',
+      title: 'string',
+    });
+  });
+
   test('list', async () => {
     const responsePromise = client.memories.list();
     const rawResponse = await responsePromise.asResponse();
@@ -24,7 +45,7 @@ describe('resource memories', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memories.list(
-        { collection: 'collection', cursor: 'cursor', size: 0, source: 'collections' },
+        { collection: 'collection', cursor: 'cursor', filter: 'filter', size: 0, source: 'collections' },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hyperspell.NotFoundError);

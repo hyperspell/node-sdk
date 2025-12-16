@@ -69,6 +69,7 @@ Types:
 
 Methods:
 
+- <code title="post /memories/update/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">update</a>(resourceID, { ...params }) -> MemoryStatus</code>
 - <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
 - <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>

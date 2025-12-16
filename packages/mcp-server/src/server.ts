@@ -34,7 +34,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'hyperspell_api',
-      version: '0.27.0',
+      version: '0.29.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );
