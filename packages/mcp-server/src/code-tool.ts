@@ -38,6 +38,7 @@ export async function codeTool() {
         client_envs: JSON.stringify({
           HYPERSPELL_API_KEY: readEnv('HYPERSPELL_API_KEY'),
           HYPERSPELL_USER_ID: readEnv('HYPERSPELL_USER_ID'),
+          HYPERSPELL_BASE_URL: readEnv('HYPERSPELL_BASE_URL'),
         }),
       },
       body: JSON.stringify({
