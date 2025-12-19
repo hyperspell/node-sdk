@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { Metadata, ToolCallResult, asTextContentResult } from './tools/types';
+import { McpTool, Metadata, ToolCallResult, asTextContentResult } from './types';
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { readEnv } from './server';
 import { WorkerSuccess } from './code-tool-types';
@@ -13,7 +13,7 @@ import { WorkerSuccess } from './code-tool-types';
  *
  * @param endpoints - The endpoints to include in the list.
  */
-export async function codeTool() {
+export function codeTool(): McpTool {
   const metadata: Metadata = { resource: 'all', operation: 'write', tags: [] };
   const tool: Tool = {
     name: 'execute',
@@ -38,6 +38,7 @@ export async function codeTool() {
         client_envs: JSON.stringify({
           HYPERSPELL_API_KEY: readEnv('HYPERSPELL_API_KEY'),
           HYPERSPELL_USER_ID: readEnv('HYPERSPELL_USER_ID'),
+          HYPERSPELL_BASE_URL: readEnv('HYPERSPELL_BASE_URL'),
         }),
       },
       body: JSON.stringify({
