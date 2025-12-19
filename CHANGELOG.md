@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.30.0 (2025-12-19)
+
+Full Changelog: [v0.29.0...v0.30.0](https://github.com/hyperspell/node-sdk/compare/v0.29.0...v0.30.0)
+
+### ⚠ BREAKING CHANGES
+
+* **mcp:** remove deprecated tool schemes
+* **mcp:** **Migration:** To migrate, simply modify the command used to invoke the MCP server. Currently, the only supported tool scheme is code mode. Now, starting the server with just `node /path/to/mcp/server` or `npx package-name` will invoke code tools: changing your command to one of these is likely all you will need to do.
+
+### Bug Fixes
+
+* **mcp:** pass base url to code tool ([5cb1499](https://github.com/hyperspell/node-sdk/commit/5cb1499f5651f1fd65ff80c6ed9f231c160b0a62))
+
+
+### Chores
+
+* **mcp:** remove deprecated tool schemes ([5aa93e0](https://github.com/hyperspell/node-sdk/commit/5aa93e0c5b58a2023376fe6e82a91982c122fd91))
+
 ## 0.29.0 (2025-12-16)
 
 Full Changelog: [v0.27.0...v0.29.0](https://github.com/hyperspell/node-sdk/compare/v0.27.0...v0.29.0)
