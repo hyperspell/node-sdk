@@ -21,6 +21,10 @@ describe('resource webCrawler', () => {
   });
 
   test('index: required and optional params', async () => {
-    const response = await client.integrations.webCrawler.index({ url: 'url', limit: 1, max_depth: 0 });
+    const response = await client.integrations.webCrawler.index({
+      url: 'url',
+      limit: 1,
+      max_depth: 0,
+    });
   });
 });
