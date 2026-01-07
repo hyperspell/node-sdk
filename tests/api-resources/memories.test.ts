@@ -45,7 +45,13 @@ describe('resource memories', () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
       client.memories.list(
-        { collection: 'collection', cursor: 'cursor', filter: 'filter', size: 0, source: 'collections' },
+        {
+          collection: 'collection',
+          cursor: 'cursor',
+          filter: 'filter',
+          size: 0,
+          source: 'collections',
+        },
         { path: '/_stainless_unknown_path' },
       ),
     ).rejects.toThrow(Hyperspell.NotFoundError);

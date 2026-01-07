@@ -134,7 +134,11 @@ describe('instantiate client', () => {
       };
 
       process.env['HYPERSPELL_LOG'] = 'debug';
-      const client = new Hyperspell({ logger: logger, apiKey: 'My API Key', userID: 'My User ID' });
+      const client = new Hyperspell({
+        logger: logger,
+        apiKey: 'My API Key',
+        userID: 'My User ID',
+      });
       expect(client.logLevel).toBe('debug');
 
       await forceAPIResponseForClient(client);
@@ -151,7 +155,11 @@ describe('instantiate client', () => {
       };
 
       process.env['HYPERSPELL_LOG'] = 'not a log level';
-      const client = new Hyperspell({ logger: logger, apiKey: 'My API Key', userID: 'My User ID' });
+      const client = new Hyperspell({
+        logger: logger,
+        apiKey: 'My API Key',
+        userID: 'My User ID',
+      });
       expect(client.logLevel).toBe('warn');
       expect(warnMock).toHaveBeenCalledWith(
         'process.env[\'HYPERSPELL_LOG\'] was set to "not a log level", expected one of ["off","error","warn","info","debug"]',
@@ -383,7 +391,11 @@ describe('instantiate client', () => {
   });
 
   test('maxRetries option is correctly set', () => {
-    const client = new Hyperspell({ maxRetries: 4, apiKey: 'My API Key', userID: 'My User ID' });
+    const client = new Hyperspell({
+      maxRetries: 4,
+      apiKey: 'My API Key',
+      userID: 'My User ID',
+    });
     expect(client.maxRetries).toEqual(4);
 
     // default
@@ -759,7 +771,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Hyperspell({ apiKey: 'My API Key', userID: 'My User ID', fetch: testFetch });
+    const client = new Hyperspell({
+      apiKey: 'My API Key',
+      userID: 'My User ID',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
@@ -789,7 +805,11 @@ describe('retries', () => {
       return new Response(JSON.stringify({ a: 1 }), { headers: { 'Content-Type': 'application/json' } });
     };
 
-    const client = new Hyperspell({ apiKey: 'My API Key', userID: 'My User ID', fetch: testFetch });
+    const client = new Hyperspell({
+      apiKey: 'My API Key',
+      userID: 'My User ID',
+      fetch: testFetch,
+    });
 
     expect(await client.request({ path: '/foo', method: 'get' })).toEqual({ a: 1 });
     expect(count).toEqual(2);
