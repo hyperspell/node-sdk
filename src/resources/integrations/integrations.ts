@@ -66,7 +66,7 @@ export namespace IntegrationListResponse {
     /**
      * The integration's auth provider
      */
-    auth_provider: 'nango' | 'hyperspell' | 'composio' | 'whitelabel' | 'unified';
+    auth_provider: 'nango' | 'unified' | 'whitelabel';
 
     /**
      * Generate a display name from the provider by capitalizing each word.
@@ -83,51 +83,15 @@ export namespace IntegrationListResponse {
      */
     provider:
       | 'collections'
-      | 'vault'
-      | 'web_crawler'
+      | 'reddit'
       | 'notion'
       | 'slack'
       | 'google_calendar'
-      | 'reddit'
+      | 'google_mail'
       | 'box'
       | 'google_drive'
-      | 'airtable'
-      | 'algolia'
-      | 'amplitude'
-      | 'asana'
-      | 'ashby'
-      | 'bamboohr'
-      | 'basecamp'
-      | 'bubbles'
-      | 'calendly'
-      | 'confluence'
-      | 'clickup'
-      | 'datadog'
-      | 'deel'
-      | 'discord'
-      | 'dropbox'
-      | 'exa'
-      | 'facebook'
-      | 'front'
-      | 'github'
-      | 'gitlab'
-      | 'google_docs'
-      | 'google_mail'
-      | 'google_sheet'
-      | 'hubspot'
-      | 'jira'
-      | 'linear'
-      | 'microsoft_teams'
-      | 'mixpanel'
-      | 'monday'
-      | 'outlook'
-      | 'perplexity'
-      | 'rippling'
-      | 'salesforce'
-      | 'segment'
-      | 'todoist'
-      | 'twitter'
-      | 'zoom';
+      | 'vault'
+      | 'web_crawler';
   }
 }
 
