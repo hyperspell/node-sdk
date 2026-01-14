@@ -264,7 +264,7 @@ export interface MemoryStatusResponse {
 
 export interface MemoryUpdateParams {
   /**
-   * Path param:
+   * Path param
    */
   source:
     | 'collections'
