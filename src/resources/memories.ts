@@ -99,6 +99,27 @@ export class Memories extends APIResource {
   }
 
   /**
+   * Adds multiple documents to the index in a single request.
+   *
+   * All items are validated before any database operations occur. If any item fails
+   * validation, the entire batch is rejected with a 422 error detailing which items
+   * failed and why.
+   *
+   * Maximum 100 items per request. Each item follows the same schema as the
+   * single-item /memories/add endpoint.
+   *
+   * @example
+   * ```ts
+   * const response = await client.memories.addBulk({
+   *   items: [{ text: '...' }],
+   * });
+   * ```
+   */
+  addBulk(body: MemoryAddBulkParams, options?: RequestOptions): APIPromise<MemoryAddBulkResponse> {
+    return this._client.post('/memories/add/bulk', { body, ...options });
+  }
+
+  /**
    * Retrieves a document by provider and resource_id.
    *
    * @example
@@ -256,6 +277,23 @@ export interface MemoryDeleteResponse {
   success: boolean;
 }
 
+/**
+ * Response schema for successful bulk ingestion.
+ */
+export interface MemoryAddBulkResponse {
+  /**
+   * Number of items successfully processed
+   */
+  count: number;
+
+  /**
+   * Status of each ingested item
+   */
+  items: Array<MemoryStatus>;
+
+  success?: boolean;
+}
+
 export interface MemoryStatusResponse {
   providers: { [key: string]: { [key: string]: number } };
 
@@ -381,6 +419,52 @@ export interface MemoryAddParams {
    * Title of the document.
    */
   title?: string | null;
+}
+
+export interface MemoryAddBulkParams {
+  /**
+   * List of memories to ingest. Maximum 100 items.
+   */
+  items: Array<MemoryAddBulkParams.Item>;
+}
+
+export namespace MemoryAddBulkParams {
+  export interface Item {
+    /**
+     * Full text of the document.
+     */
+    text: string;
+
+    /**
+     * The collection to add the document to for easier retrieval.
+     */
+    collection?: string | null;
+
+    /**
+     * Date of the document. Depending on the document, this could be the creation date
+     * or date the document was last updated (eg. for a chat transcript, this would be
+     * the date of the last message). This helps the ranking algorithm and allows you
+     * to filter by date range.
+     */
+    date?: string;
+
+    /**
+     * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
+     * 64 chars. Values must be string, number, or boolean.
+     */
+    metadata?: { [key: string]: string | number | boolean } | null;
+
+    /**
+     * The resource ID to add the document to. If not provided, a new resource ID will
+     * be generated. If provided, the document will be updated if it already exists.
+     */
+    resource_id?: string;
+
+    /**
+     * Title of the document.
+     */
+    title?: string | null;
+  }
 }
 
 export interface MemoryGetParams {
@@ -872,12 +956,14 @@ export declare namespace Memories {
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
     type MemoryDeleteResponse as MemoryDeleteResponse,
+    type MemoryAddBulkResponse as MemoryAddBulkResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoriesCursorPage as MemoriesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,
+    type MemoryAddBulkParams as MemoryAddBulkParams,
     type MemoryGetParams as MemoryGetParams,
     type MemorySearchParams as MemorySearchParams,
     type MemoryUploadParams as MemoryUploadParams,

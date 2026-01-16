@@ -94,6 +94,36 @@ describe('resource memories', () => {
     });
   });
 
+  test('addBulk: only required params', async () => {
+    const responsePromise = client.memories.addBulk({ items: [{ text: '...' }] });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('addBulk: required and optional params', async () => {
+    const response = await client.memories.addBulk({
+      items: [
+        {
+          text: '...',
+          collection: 'my-collection',
+          date: '2019-12-27T18:11:19.117Z',
+          metadata: {
+            author: 'John Doe',
+            date: '2025-05-20T02:31:00Z',
+            rating: 3,
+          },
+          resource_id: 'resource_id',
+          title: 'My Document',
+        },
+      ],
+    });
+  });
+
   test('get: only required params', async () => {
     const responsePromise = client.memories.get('resource_id', { source: 'collections' });
     const rawResponse = await responsePromise.asResponse();
