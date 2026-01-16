@@ -65,6 +65,7 @@ Types:
 - <code><a href="./src/resources/memories.ts">Memory</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryDeleteResponse</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryAddBulkResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
@@ -73,6 +74,7 @@ Methods:
 - <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoriesCursorPage</code>
 - <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
+- <code title="post /memories/add/bulk">client.memories.<a href="./src/resources/memories.ts">addBulk</a>({ ...params }) -> MemoryAddBulkResponse</code>
 - <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> Memory</code>
 - <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> QueryResult</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>

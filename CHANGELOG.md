@@ -1,5 +1,50 @@
 # Changelog
 
+## 0.30.0 (2026-01-16)
+
+Full Changelog: [v0.29.0...v0.30.0](https://github.com/hyperspell/node-sdk/compare/v0.29.0...v0.30.0)
+
+### ⚠ BREAKING CHANGES
+
+* **mcp:** remove deprecated tool schemes
+* **mcp:** **Migration:** To migrate, simply modify the command used to invoke the MCP server. Currently, the only supported tool scheme is code mode. Now, starting the server with just `node /path/to/mcp/server` or `npx package-name` will invoke code tools: changing your command to one of these is likely all you will need to do.
+
+### Features
+
+* **api:** api update ([84d8505](https://github.com/hyperspell/node-sdk/commit/84d8505ddd4e272872a50ebe012e2074772565ba))
+* **api:** manual updates ([f8ecbf0](https://github.com/hyperspell/node-sdk/commit/f8ecbf022b9bbd886d0f92330bf28112253036fc))
+
+
+### Bug Fixes
+
+* **mcp:** correct code tool api output types ([b3e2519](https://github.com/hyperspell/node-sdk/commit/b3e2519cd7e4163614969336dbfc52b014b5c3c1))
+* **mcp:** fix env parsing ([7741041](https://github.com/hyperspell/node-sdk/commit/7741041a400221447d8d3c193d4309ef593bdd75))
+* **mcp:** fix options parsing ([918c00b](https://github.com/hyperspell/node-sdk/commit/918c00b99d1a5d113162357a84fe30df1cd7f0d4))
+* **mcp:** pass base url to code tool ([5cb1499](https://github.com/hyperspell/node-sdk/commit/5cb1499f5651f1fd65ff80c6ed9f231c160b0a62))
+* **mcp:** update code tool prompt ([3dd3bf4](https://github.com/hyperspell/node-sdk/commit/3dd3bf40dbed106d09e8a8b3e858cc173c6cb8e0))
+
+
+### Chores
+
+* break long lines in snippets into multiline ([fd4370d](https://github.com/hyperspell/node-sdk/commit/fd4370d564345e30444e9de3ce30d1305b146c82))
+* fix typo in descriptions ([7b8beab](https://github.com/hyperspell/node-sdk/commit/7b8beab39afc24f06c5b5aacc12da2153fbb0cbe))
+* **internal:** codegen related update ([4ddb1fb](https://github.com/hyperspell/node-sdk/commit/4ddb1fba99894fcedb9717241d08fe86c33164c7))
+* **internal:** codegen related update ([beaee3f](https://github.com/hyperspell/node-sdk/commit/beaee3fd24c50a3b40c0d6f70d63d7101af8305e))
+* **internal:** codegen related update ([b754f1f](https://github.com/hyperspell/node-sdk/commit/b754f1fb7ec3a47d275cbafa1eba0ab90d3f0091))
+* **internal:** codegen related update ([c693c35](https://github.com/hyperspell/node-sdk/commit/c693c35e951375c8186d0406f932fff8cd44e4c8))
+* **internal:** codegen related update ([f7fb438](https://github.com/hyperspell/node-sdk/commit/f7fb438f6cbcc3110300ebba9e406f7d53804cc3))
+* **internal:** fix dockerfile ([91fb24c](https://github.com/hyperspell/node-sdk/commit/91fb24cdf187a0ec47521c2dc8cbc6e6a8d23264))
+* **internal:** upgrade babel, qs, js-yaml ([c8b8f57](https://github.com/hyperspell/node-sdk/commit/c8b8f57d90a8670f648439743b89910f1bfc43b2))
+* **mcp:** add intent param to execute tool ([b6a908e](https://github.com/hyperspell/node-sdk/commit/b6a908ec045addd7c20a3925cb54c70140d5bb30))
+* **mcp:** pass intent param to execute handler ([ed7d524](https://github.com/hyperspell/node-sdk/commit/ed7d52417949ac6e3e367f726074fffb64c03691))
+* **mcp:** remove deprecated tool schemes ([5aa93e0](https://github.com/hyperspell/node-sdk/commit/5aa93e0c5b58a2023376fe6e82a91982c122fd91))
+* **mcp:** upgrade dependencies ([526ebc1](https://github.com/hyperspell/node-sdk/commit/526ebc1af8780b0f754d7828899f9afea2dadc4f))
+
+
+### Documentation
+
+* prominently feature MCP server setup in root SDK readmes ([b84e864](https://github.com/hyperspell/node-sdk/commit/b84e864d022974598ce18c55c71ba7b56ba3dc70))
+
 ## 0.29.0 (2025-12-16)
 
 Full Changelog: [v0.27.0...v0.29.0](https://github.com/hyperspell/node-sdk/compare/v0.27.0...v0.29.0)
