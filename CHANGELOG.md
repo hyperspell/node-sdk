@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.30.1 (2026-01-17)
+
+Full Changelog: [v0.30.0...v0.30.1](https://github.com/hyperspell/node-sdk/compare/v0.30.0...v0.30.1)
+
+### Chores
+
+* **internal:** update `actions/checkout` version ([954ce30](https://github.com/hyperspell/node-sdk/commit/954ce3099c58efa8c5071b6830dad969401a050a))
+
 ## 0.30.0 (2026-01-16)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/hyperspell/node-sdk/compare/v0.29.0...v0.30.0)
