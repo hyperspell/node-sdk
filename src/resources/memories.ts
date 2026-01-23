@@ -37,7 +37,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const memory of client.memories.list()) {
+   * for await (const memoryListResponse of client.memories.list()) {
    *   // ...
    * }
    * ```
@@ -45,8 +45,8 @@ export class Memories extends APIResource {
   list(
     query: MemoryListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<MemoriesCursorPage, Memory> {
-    return this._client.getAPIList('/memories/list', CursorPage<Memory>, { query, ...options });
+  ): PagePromise<MemoryListResponsesCursorPage, MemoryListResponse> {
+    return this._client.getAPIList('/memories/list', CursorPage<MemoryListResponse>, { query, ...options });
   }
 
   /**
@@ -129,7 +129,7 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<Memory> {
+  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<MemoryGetResponse> {
     const { source } = params;
     return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
   }
@@ -182,9 +182,9 @@ export class Memories extends APIResource {
   }
 }
 
-export type MemoriesCursorPage = CursorPage<Memory>;
+export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
 
-export interface Memory {
+export interface MemoryStatus {
   resource_id: string;
 
   source:
@@ -199,7 +199,25 @@ export interface Memory {
     | 'vault'
     | 'web_crawler';
 
-  metadata?: Memory.Metadata;
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+}
+
+export interface MemoryListResponse {
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler';
+
+  metadata?: MemoryListResponse.Metadata;
 
   /**
    * The relevance of the resource to the query
@@ -209,7 +227,7 @@ export interface Memory {
   title?: string | null;
 }
 
-export namespace Memory {
+export namespace MemoryListResponse {
   export interface Metadata {
     created_at?: string | null;
 
@@ -235,24 +253,6 @@ export namespace Memory {
       time?: string;
     }
   }
-}
-
-export interface MemoryStatus {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler';
-
-  status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export interface MemoryDeleteResponse {
@@ -292,6 +292,59 @@ export interface MemoryAddBulkResponse {
   items: Array<MemoryStatus>;
 
   success?: boolean;
+}
+
+export interface MemoryGetResponse {
+  resource_id: string;
+
+  source:
+    | 'collections'
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler';
+
+  metadata?: MemoryGetResponse.Metadata;
+
+  /**
+   * The relevance of the resource to the query
+   */
+  score?: number | null;
+
+  title?: string | null;
+}
+
+export namespace MemoryGetResponse {
+  export interface Metadata {
+    created_at?: string | null;
+
+    events?: Array<Metadata.Event>;
+
+    indexed_at?: string | null;
+
+    last_modified?: string | null;
+
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+    url?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Metadata {
+    export interface Event {
+      message: string;
+
+      type: 'error' | 'warning' | 'info' | 'success';
+
+      time?: string;
+    }
+  }
 }
 
 export interface MemoryStatusResponse {
@@ -953,12 +1006,13 @@ export interface MemoryUploadParams {
 
 export declare namespace Memories {
   export {
-    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
+    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
