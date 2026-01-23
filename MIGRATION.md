@@ -234,8 +234,8 @@ The `for await` syntax **is not affected**. This still works as-is:
 
 ```ts
 // Automatically fetches more pages as needed.
-for await (const memory of client.memories.list()) {
-  console.log(memory);
+for await (const memoryListResponse of client.memories.list()) {
+  console.log(memoryListResponse);
 }
 ```
 
@@ -257,10 +257,10 @@ Page classes for individual methods are now type aliases:
 
 ```ts
 // Before
-export class MemoriesCursorPage extends CursorPage<Memory> {}
+export class MemoryListResponsesCursorPage extends CursorPage<MemoryListResponse> {}
 
 // After
-export type MemoriesCursorPage = CursorPage<Memory>;
+export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
 ```
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.
