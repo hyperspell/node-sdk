@@ -4,6 +4,7 @@ import { McpTool, Metadata, ToolCallResult, asErrorResult, asTextContentResult }
 import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { readEnv, readEnvOrError } from './server';
 import { WorkerInput, WorkerOutput } from './code-tool-types';
+import { Hyperspell } from 'hyperspell';
 
 const prompt = `Runs JavaScript code to interact with the Hyperspell API.
 
@@ -54,7 +55,7 @@ export function codeTool(): McpTool {
       required: ['code'],
     },
   };
-  const handler = async (_: unknown, args: any): Promise<ToolCallResult> => {
+  const handler = async (client: Hyperspell, args: any): Promise<ToolCallResult> => {
     const code = args.code as string;
     const intent = args.intent as string | undefined;
 
@@ -70,8 +71,8 @@ export function codeTool(): McpTool {
         ...(stainlessAPIKey && { Authorization: stainlessAPIKey }),
         'Content-Type': 'application/json',
         client_envs: JSON.stringify({
-          HYPERSPELL_API_KEY: readEnvOrError('HYPERSPELL_API_KEY'),
-          HYPERSPELL_BASE_URL: readEnv('HYPERSPELL_BASE_URL'),
+          HYPERSPELL_API_KEY: readEnvOrError('HYPERSPELL_API_KEY') ?? client.apiKey ?? undefined,
+          HYPERSPELL_BASE_URL: readEnv('HYPERSPELL_BASE_URL') ?? client.baseURL ?? undefined,
         }),
       },
       body: JSON.stringify({
