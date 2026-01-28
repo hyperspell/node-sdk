@@ -11,6 +11,7 @@ export type CLIOptions = McpOptions & {
 
 export type McpOptions = {
   includeDocsTools?: boolean | undefined;
+  includeMemoryTools?: boolean | undefined;
 };
 
 export function parseCLIOptions(): CLIOptions {
@@ -18,13 +19,13 @@ export function parseCLIOptions(): CLIOptions {
     .option('tools', {
       type: 'string',
       array: true,
-      choices: ['code', 'docs'],
+      choices: ['code', 'docs', 'memory'],
       description: 'Use dynamic tools or all tools',
     })
     .option('no-tools', {
       type: 'string',
       array: true,
-      choices: ['code', 'docs'],
+      choices: ['code', 'docs', 'memory'],
       description: 'Do not use any dynamic or all tools',
     })
     .option('transport', {
@@ -45,17 +46,19 @@ export function parseCLIOptions(): CLIOptions {
 
   const argv = opts.parseSync();
 
-  const shouldIncludeToolType = (toolType: 'code' | 'docs') =>
+  const shouldIncludeToolType = (toolType: 'code' | 'docs' | 'memory') =>
     argv.noTools?.includes(toolType) ? false
     : argv.tools?.includes(toolType) ? true
     : undefined;
 
   const includeDocsTools = shouldIncludeToolType('docs');
+  const includeMemoryTools = shouldIncludeToolType('memory');
 
   const transport = argv.transport as 'stdio' | 'http';
 
   return {
     ...(includeDocsTools !== undefined && { includeDocsTools }),
+    ...(includeMemoryTools !== undefined && { includeMemoryTools }),
     transport,
     port: argv.port,
     socket: argv.socket,
@@ -72,8 +75,8 @@ const coerceArray = <T extends z.ZodTypeAny>(zodType: T) =>
   );
 
 const QueryOptions = z.object({
-  tools: coerceArray(z.enum(['code', 'docs'])).describe('Specify which MCP tools to use'),
-  no_tools: coerceArray(z.enum(['code', 'docs'])).describe('Specify which MCP tools to not use.'),
+  tools: coerceArray(z.enum(['code', 'docs', 'memory'])).describe('Specify which MCP tools to use'),
+  no_tools: coerceArray(z.enum(['code', 'docs', 'memory'])).describe('Specify which MCP tools to not use.'),
   tool: coerceArray(z.string()).describe('Include tools matching the specified names'),
 });
 
@@ -86,7 +89,13 @@ export function parseQueryOptions(defaultOptions: McpOptions, query: unknown): M
     : queryOptions.tools?.includes('docs') ? true
     : defaultOptions.includeDocsTools;
 
+  let memoryTools: boolean | undefined =
+    queryOptions.no_tools && queryOptions.no_tools?.includes('memory') ? false
+    : queryOptions.tools?.includes('memory') ? true
+    : defaultOptions.includeMemoryTools;
+
   return {
     ...(docsTools !== undefined && { includeDocsTools: docsTools }),
+    ...(memoryTools !== undefined && { includeMemoryTools: memoryTools }),
   };
 }
