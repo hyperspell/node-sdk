@@ -21,7 +21,7 @@ export const newMcpServer = () =>
   new McpServer(
     {
       name: 'hyperspell_api',
-      version: '0.30.0',
+      version: '0.31.0',
     },
     { capabilities: { tools: {}, logging: {} } },
   );
@@ -145,4 +145,11 @@ export const readEnvOrError = (env: string): string => {
     throw new Error(`Environment variable ${env} is not set`);
   }
   return envValue;
+};
+
+export const requireValue = <T>(value: T | undefined, description: string): T => {
+  if (value === undefined) {
+    throw new Error(`Missing required value: ${description}`);
+  }
+  return value;
 };
