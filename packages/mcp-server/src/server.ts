@@ -11,6 +11,7 @@ import { ClientOptions } from 'hyperspell';
 import Hyperspell from 'hyperspell';
 import { codeTool } from './code-tool';
 import docsSearchTool from './docs-search-tool';
+import memoryTools from './memory-tools';
 import { McpOptions } from './options';
 import { HandlerFunction, McpTool } from './types';
 
@@ -115,6 +116,9 @@ export function selectTools(options?: McpOptions): McpTool[] {
   const includedTools = [codeTool()];
   if (options?.includeDocsTools ?? true) {
     includedTools.push(docsSearchTool);
+  }
+  if (options?.includeMemoryTools ?? true) {
+    includedTools.push(...memoryTools);
   }
   return includedTools;
 }
