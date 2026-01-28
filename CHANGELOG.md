@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.31.0 (2026-01-28)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/hyperspell/node-sdk/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* **api:** api update ([a0df1be](https://github.com/hyperspell/node-sdk/commit/a0df1be8d411efda7d9c06ba663e64a72e308de0))
+
+
+### Bug Fixes
+
+* **mcp:** allow falling back for required env variables ([6054c99](https://github.com/hyperspell/node-sdk/commit/6054c99672bb1399b5db94931d20979394ab9f60))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([090b5c1](https://github.com/hyperspell/node-sdk/commit/090b5c1a28992d318a2904cabe73556f61e76edf))
+* **internal:** codegen related update ([1c6bacc](https://github.com/hyperspell/node-sdk/commit/1c6bacc1daa1c93198ea61ec75325cf7dc1e7950))
+* **internal:** update `actions/checkout` version ([954ce30](https://github.com/hyperspell/node-sdk/commit/954ce3099c58efa8c5071b6830dad969401a050a))
+* **internal:** update lock file ([e192aa3](https://github.com/hyperspell/node-sdk/commit/e192aa3c9ac16fb38cad2e56f2e46498eb11f8ee))
+
 ## 0.30.0 (2026-01-16)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/hyperspell/node-sdk/compare/v0.29.0...v0.30.0)
