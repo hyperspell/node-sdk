@@ -214,7 +214,169 @@ export const rememberMcpTool: McpTool = {
 };
 
 // ============================================================================
-// Export both tools
+// hyperspell_forget - Delete a memory
 // ============================================================================
 
-export default [recallMcpTool, rememberMcpTool];
+const forgetMetadata: Metadata = {
+  resource: 'memories',
+  operation: 'write',
+  tags: ['memory', 'delete', 'forget'],
+  httpMethod: 'post',
+  httpPath: '/memories/forget',
+};
+
+const forgetTool: Tool = {
+  name: 'hyperspell_forget',
+  description: `Delete a memory by ID or semantic search.
+
+Use this tool to remove outdated or incorrect memories:
+- Delete by memory_id for precise removal
+- Delete by query to find and remove the closest matching memory
+
+At least one of memory_id or query must be provided.`,
+  inputSchema: {
+    type: 'object',
+    properties: {
+      memory_id: {
+        type: 'string',
+        description: 'The resource_id of the memory to delete.',
+      },
+      query: {
+        type: 'string',
+        description: 'Semantic search query to find and delete the closest matching memory.',
+      },
+    },
+  },
+};
+
+const forgetHandler = async (
+  client: Hyperspell,
+  args: Record<string, unknown> | undefined,
+): Promise<ToolCallResult> => {
+  if (!args?.memory_id && !args?.query) {
+    return asErrorResult('Either memory_id or query must be provided');
+  }
+
+  try {
+    const response = await client.post('/memories/forget', {
+      body: {
+        memory_id: args.memory_id ? String(args.memory_id) : undefined,
+        query: args.query ? String(args.query) : undefined,
+      },
+    });
+
+    const result = response as any;
+
+    return asTextContentResult({
+      success: result.success,
+      deleted_memory_id: result.deleted_memory_id,
+      chunks_deleted: result.chunks_deleted,
+      message: result.message,
+    });
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return asErrorResult(`Failed to forget: ${message}`);
+  }
+};
+
+export const forgetMcpTool: McpTool = {
+  metadata: forgetMetadata,
+  tool: forgetTool,
+  handler: forgetHandler,
+};
+
+// ============================================================================
+// hyperspell_profile - Get memory profile
+// ============================================================================
+
+const profileMetadata: Metadata = {
+  resource: 'memories',
+  operation: 'read',
+  tags: ['memory', 'profile', 'context'],
+  httpMethod: 'post',
+  httpPath: '/memories/profile',
+};
+
+const profileTool: Tool = {
+  name: 'hyperspell_profile',
+  description: `Get a summary of recent and relevant memories.
+
+Use this tool to understand what context is available:
+- recent_memories: Most recently stored memories
+- similar_memories: Semantically similar memories (if query provided)
+
+Useful before responding to understand what you know about the user/project.`,
+  inputSchema: {
+    type: 'object',
+    properties: {
+      query: {
+        type: 'string',
+        description: 'Optional focus query to find semantically similar memories.',
+      },
+      recent_limit: {
+        type: 'number',
+        description: 'Maximum number of recent memories to return (1-50, default 10).',
+        default: 10,
+      },
+      similar_limit: {
+        type: 'number',
+        description: 'Maximum number of similar memories to return (1-50, default 10).',
+        default: 10,
+      },
+    },
+  },
+  annotations: {
+    readOnlyHint: true,
+  },
+};
+
+const profileHandler = async (
+  client: Hyperspell,
+  args: Record<string, unknown> | undefined,
+): Promise<ToolCallResult> => {
+  const recentLimit = Math.min(Math.max(Number(args?.recent_limit) || 10, 1), 50);
+  const similarLimit = Math.min(Math.max(Number(args?.similar_limit) || 10, 1), 50);
+
+  try {
+    const response = await client.post('/memories/profile', {
+      body: {
+        query: args?.query ? String(args.query) : undefined,
+        recent_limit: recentLimit,
+        similar_limit: similarLimit,
+      },
+    });
+
+    const result = response as any;
+
+    const formatted = {
+      recent_memories: (result.recent_memories || []).map((r: any) => ({
+        title: r.title || r.resource_id,
+        source: r.source,
+        resource_id: r.resource_id,
+      })),
+      similar_memories: (result.similar_memories || []).map((r: any) => ({
+        title: r.title || r.resource_id,
+        source: r.source,
+        score: r.score,
+        resource_id: r.resource_id,
+      })),
+    };
+
+    return asTextContentResult(formatted);
+  } catch (error) {
+    const message = error instanceof Error ? error.message : 'Unknown error';
+    return asErrorResult(`Failed to get profile: ${message}`);
+  }
+};
+
+export const profileMcpTool: McpTool = {
+  metadata: profileMetadata,
+  tool: profileTool,
+  handler: profileHandler,
+};
+
+// ============================================================================
+// Export all tools
+// ============================================================================
+
+export default [recallMcpTool, rememberMcpTool, forgetMcpTool, profileMcpTool];
