@@ -66,13 +66,13 @@ const recallHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  if (!args?.query) {
+  if (!args?.['query']) {
     return asErrorResult('Query is required');
   }
 
-  const query = String(args.query);
-  const includeDocuments = args.include_documents !== false;
-  const limit = Math.min(Math.max(Number(args.limit) || 10, 1), 50);
+  const query = String(args['query']);
+  const includeDocuments = args['include_documents'] !== false;
+  const limit = Math.min(Math.max(Number(args['limit']) || 10, 1), 50);
 
   try {
     // Use the new /memories/recall endpoint
@@ -81,7 +81,7 @@ const recallHandler = async (
         query,
         include_documents: includeDocuments,
         limit,
-        session_id: args.session_id ? String(args.session_id) : undefined,
+        session_id: args['session_id'] ? String(args['session_id']) : undefined,
       },
     });
 
@@ -169,11 +169,11 @@ const rememberHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  if (!args?.content) {
+  if (!args?.['content']) {
     return asErrorResult('Content is required');
   }
 
-  const content = String(args.content);
+  const content = String(args['content']);
   if (content.length < 10) {
     return asErrorResult('Content must be at least 10 characters');
   }
@@ -183,9 +183,9 @@ const rememberHandler = async (
     const response = await client.post('/memories/remember', {
       body: {
         content,
-        title: args.title ? String(args.title) : undefined,
-        tags: Array.isArray(args.tags) ? args.tags.map(String).slice(0, 10) : undefined,
-        session_id: args.session_id ? String(args.session_id) : undefined,
+        title: args['title'] ? String(args['title']) : undefined,
+        tags: Array.isArray(args['tags']) ? args['tags'].map(String).slice(0, 10) : undefined,
+        session_id: args['session_id'] ? String(args['session_id']) : undefined,
       },
     });
 
@@ -253,15 +253,15 @@ const forgetHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  if (!args?.memory_id && !args?.query) {
+  if (!args?.['memory_id'] && !args?.['query']) {
     return asErrorResult('Either memory_id or query must be provided');
   }
 
   try {
     const response = await client.post('/memories/forget', {
       body: {
-        memory_id: args.memory_id ? String(args.memory_id) : undefined,
-        query: args.query ? String(args.query) : undefined,
+        memory_id: args['memory_id'] ? String(args['memory_id']) : undefined,
+        query: args['query'] ? String(args['query']) : undefined,
       },
     });
 
@@ -334,13 +334,13 @@ const profileHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  const recentLimit = Math.min(Math.max(Number(args?.recent_limit) || 10, 1), 50);
-  const similarLimit = Math.min(Math.max(Number(args?.similar_limit) || 10, 1), 50);
+  const recentLimit = Math.min(Math.max(Number(args?.['recent_limit']) || 10, 1), 50);
+  const similarLimit = Math.min(Math.max(Number(args?.['similar_limit']) || 10, 1), 50);
 
   try {
     const response = await client.post('/memories/profile', {
       body: {
-        query: args?.query ? String(args.query) : undefined,
+        query: args?.['query'] ? String(args['query']) : undefined,
         recent_limit: recentLimit,
         similar_limit: similarLimit,
       },
