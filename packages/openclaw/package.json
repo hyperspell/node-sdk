@@ -1,0 +1,63 @@
+{
+  "name": "@hyperspell/openclaw",
+  "version": "0.1.0",
+  "description": "Hyperspell memory integration for OpenClaw — hook + skill for automatic long-term memory",
+  "author": "Hyperspell <hello@hyperspell.com>",
+  "types": "dist/index.d.ts",
+  "main": "dist/index.js",
+  "type": "commonjs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hyperspell/node-sdk.git",
+    "directory": "packages/openclaw"
+  },
+  "homepage": "https://github.com/hyperspell/node-sdk/tree/main/packages/openclaw#readme",
+  "license": "MIT",
+  "packageManager": "yarn@1.22.22",
+  "private": false,
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "bash ./build",
+    "prepack": "echo 'to pack, run yarn build && (cd dist; yarn pack)' && exit 1",
+    "prepublishOnly": "echo 'to publish, run yarn build && (cd dist; yarn publish)' && exit 1",
+    "format": "prettier --write --cache --cache-strategy metadata . !dist",
+    "lint": "eslint --ext ts,js .",
+    "fix": "eslint --fix --ext ts,js ."
+  },
+  "dependencies": {
+    "typescript": "5.8.3",
+    "yargs": "^17.7.2"
+  },
+  "bin": {
+    "hyperspell-openclaw": "dist/index.js"
+  },
+  "devDependencies": {
+    "@types/yargs": "^17.0.8",
+    "@types/node": "^20.0.0",
+    "@typescript-eslint/eslint-plugin": "8.31.1",
+    "@typescript-eslint/parser": "8.31.1",
+    "eslint": "^8.49.0",
+    "prettier": "^3.0.0",
+    "ts-node": "^10.5.0",
+    "tsc-multi": "https://github.com/stainless-api/tsc-multi/releases/download/v1.1.9/tsc-multi.tgz",
+    "tsconfig-paths": "^4.0.0"
+  },
+  "imports": {
+    "@hyperspell/openclaw": ".",
+    "@hyperspell/openclaw/*": "./src/*"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js",
+      "default": "./dist/index.mjs"
+    },
+    "./*.mjs": "./dist/*.mjs",
+    "./*.js": "./dist/*.js",
+    "./*": {
+      "require": "./dist/*.js",
+      "default": "./dist/*.mjs"
+    }
+  }
+}
