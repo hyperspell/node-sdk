@@ -261,11 +261,11 @@ async function recallMemories(
 
   try {
     const response = (await hyperspellFetch(
-      '/memories/recall',
+      '/memories/query',
       {
         query,
-        include_documents: true,
-        limit: RECALL_LIMIT,
+        sources: ['vault', 'procedure', 'notion', 'google_drive', 'slack', 'google_mail'],
+        options: { max_results: RECALL_LIMIT },
       },
       apiKey,
       userId,

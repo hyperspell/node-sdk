@@ -1,9 +1,11 @@
 /**
- * Memory tools for AI coding assistants.
+ * Memory tools for AI assistants.
  *
- * These tools provide long-term memory capabilities optimized for coding workflows,
- * enabling unified search across stored memories AND connected documents (Notion,
- * Google Drive, Slack, etc.).
+ * Thin wrappers around existing Hyperspell API endpoints:
+ * - /memories/query  → hyperspell_recall
+ * - /memories/add    → hyperspell_remember
+ * - /memories/delete → hyperspell_forget
+ * - /memories/list   → hyperspell_profile
  */
 
 import Hyperspell from 'hyperspell';
@@ -11,7 +13,7 @@ import { Tool } from '@modelcontextprotocol/sdk/types.js';
 import { Metadata, McpTool, asTextContentResult, asErrorResult, ToolCallResult } from './types';
 
 // ============================================================================
-// hyperspell_recall - Search memories and documents
+// hyperspell_recall - Search memories and connected sources
 // ============================================================================
 
 const recallMetadata: Metadata = {
@@ -19,16 +21,16 @@ const recallMetadata: Metadata = {
   operation: 'read',
   tags: ['memory', 'search', 'recall'],
   httpMethod: 'post',
-  httpPath: '/memories/recall',
+  httpPath: '/memories/query',
 };
 
 const recallTool: Tool = {
   name: 'hyperspell_recall',
-  description: `Search your memories and connected documents for relevant context.
+  description: `Search your memories and connected sources for relevant context.
 
 Use this tool BEFORE starting complex tasks to find relevant context from:
 - Previous conversations and decisions
-- Connected documents (Notion, Google Drive, Slack, Gmail)
+- Connected sources (Notion, Google Drive, Slack, Gmail)
 - Stored insights and learnings
 
 This enables "unified search" - searching everything at once, not just memories.`,
@@ -39,20 +41,16 @@ This enables "unified search" - searching everything at once, not just memories.
         type: 'string',
         description: 'Natural language query to search for relevant context.',
       },
-      include_documents: {
-        type: 'boolean',
+      sources: {
+        type: 'array',
+        items: { type: 'string' },
         description:
-          'If true (default), search connected documents (Notion, Drive, etc.) in addition to memories.',
-        default: true,
+          'Sources to search (e.g. ["vault", "notion", "slack", "google_drive", "google_mail"]). Defaults to all connected sources.',
       },
       limit: {
         type: 'number',
-        description: 'Maximum number of results to return (1-50, default 10).',
+        description: 'Maximum number of results to return (default 10).',
         default: 10,
-      },
-      session_id: {
-        type: 'string',
-        description: 'Optional session ID to boost results from the current session.',
       },
     },
     required: ['query'],
@@ -71,29 +69,35 @@ const recallHandler = async (
   }
 
   const query = String(args['query']);
-  const includeDocuments = args['include_documents'] !== false;
   const limit = Math.min(Math.max(Number(args['limit']) || 10, 1), 50);
 
+  // Build sources list — default to vault + common integrations
+  let sources: string[] | undefined;
+  if (Array.isArray(args['sources']) && args['sources'].length > 0) {
+    sources = args['sources'].map(String);
+  } else {
+    sources = ['vault', 'notion', 'google_drive', 'slack', 'google_mail'];
+  }
+
   try {
-    // Use the new /memories/recall endpoint
-    const response = await client.post('/memories/recall', {
+    const response = await client.post('/memories/query', {
       body: {
         query,
-        include_documents: includeDocuments,
-        limit,
-        session_id: args['session_id'] ? String(args['session_id']) : undefined,
+        sources,
+        options: {
+          max_results: limit,
+        },
       },
     });
 
-    // Format results for readability
-    const results = (response as any).results || [];
-    const sourcesSearched = (response as any).sources_searched || [];
+    const result = response as any;
+    const documents = result.documents || [];
 
     const formatted = {
-      query_id: (response as any).query_id,
-      sources_searched: sourcesSearched,
-      result_count: results.length,
-      results: results.map((r: any) => ({
+      query_id: result.query_id,
+      result_count: documents.length,
+      answer: result.answer || undefined,
+      results: documents.map((r: any) => ({
         title: r.title || r.resource_id,
         source: r.source,
         score: r.score,
@@ -116,7 +120,7 @@ export const recallMcpTool: McpTool = {
 };
 
 // ============================================================================
-// hyperspell_remember - Store a memory for future recall
+// hyperspell_remember - Store a memory
 // ============================================================================
 
 const rememberMetadata: Metadata = {
@@ -124,7 +128,7 @@ const rememberMetadata: Metadata = {
   operation: 'write',
   tags: ['memory', 'store', 'remember'],
   httpMethod: 'post',
-  httpPath: '/memories/remember',
+  httpPath: '/memories/add',
 };
 
 const rememberTool: Tool = {
@@ -137,7 +141,7 @@ Use this tool AFTER completing significant work to preserve:
 - Project-specific patterns and conventions
 - User preferences and context
 
-The stored memory will be searchable via hyperspell_recall alongside connected documents.`,
+The stored memory will be searchable via hyperspell_recall alongside connected sources.`,
   inputSchema: {
     type: 'object',
     properties: {
@@ -150,15 +154,13 @@ The stored memory will be searchable via hyperspell_recall alongside connected d
         type: 'string',
         description: 'Optional title for the memory.',
       },
-      tags: {
-        type: 'array',
-        items: { type: 'string' },
-        description: 'Optional tags for categorization (max 10).',
-      },
-      session_id: {
+      collection: {
         type: 'string',
-        description:
-          'Optional session ID for deduplication. Same content in same session will not be stored twice.',
+        description: 'Optional collection name to group related memories.',
+      },
+      metadata: {
+        type: 'object',
+        description: 'Optional custom metadata for filtering (string/number/boolean values).',
       },
     },
     required: ['content'],
@@ -179,13 +181,12 @@ const rememberHandler = async (
   }
 
   try {
-    // Use the new /memories/remember endpoint
-    const response = await client.post('/memories/remember', {
+    const response = await client.post('/memories/add', {
       body: {
-        content,
+        text: content,
         title: args['title'] ? String(args['title']) : undefined,
-        tags: Array.isArray(args['tags']) ? args['tags'].map(String).slice(0, 10) : undefined,
-        session_id: args['session_id'] ? String(args['session_id']) : undefined,
+        collection: args['collection'] ? String(args['collection']) : undefined,
+        metadata: args['metadata'] && typeof args['metadata'] === 'object' ? args['metadata'] : undefined,
       },
     });
 
@@ -194,12 +195,9 @@ const rememberHandler = async (
     return asTextContentResult({
       success: true,
       resource_id: result.resource_id,
+      source: result.source,
       status: result.status,
-      deduplicated: result.deduplicated || false,
-      message:
-        result.deduplicated ?
-          'Content was already stored in this session (deduplicated)'
-        : 'Memory stored successfully and will be available for recall once indexed',
+      message: 'Memory stored successfully and will be available for recall once indexed',
     });
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
@@ -221,31 +219,30 @@ const forgetMetadata: Metadata = {
   resource: 'memories',
   operation: 'write',
   tags: ['memory', 'delete', 'forget'],
-  httpMethod: 'post',
-  httpPath: '/memories/forget',
+  httpMethod: 'delete',
+  httpPath: '/memories/delete/{source}/{resource_id}',
 };
 
 const forgetTool: Tool = {
   name: 'hyperspell_forget',
-  description: `Delete a memory by ID or semantic search.
+  description: `Delete a memory by its resource ID.
 
-Use this tool to remove outdated or incorrect memories:
-- Delete by memory_id for precise removal
-- Delete by query to find and remove the closest matching memory
-
-At least one of memory_id or query must be provided.`,
+Use this tool to remove outdated or incorrect memories.
+The resource_id can be found in results from hyperspell_recall or hyperspell_profile.`,
   inputSchema: {
     type: 'object',
     properties: {
-      memory_id: {
+      resource_id: {
         type: 'string',
         description: 'The resource_id of the memory to delete.',
       },
-      query: {
+      source: {
         type: 'string',
-        description: 'Semantic search query to find and delete the closest matching memory.',
+        description: 'The source of the memory (default: "vault").',
+        default: 'vault',
       },
     },
+    required: ['resource_id'],
   },
 };
 
@@ -253,23 +250,21 @@ const forgetHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  if (!args?.['memory_id'] && !args?.['query']) {
-    return asErrorResult('Either memory_id or query must be provided');
+  if (!args?.['resource_id']) {
+    return asErrorResult('resource_id is required');
   }
 
+  const resourceId = String(args['resource_id']);
+  const source = String(args['source'] || 'vault');
+
   try {
-    const response = await client.post('/memories/forget', {
-      body: {
-        memory_id: args['memory_id'] ? String(args['memory_id']) : undefined,
-        query: args['query'] ? String(args['query']) : undefined,
-      },
-    });
+    const response = await client.delete(`/memories/delete/${source}/${resourceId}`, {});
 
     const result = response as any;
 
     return asTextContentResult({
       success: result.success,
-      deleted_memory_id: result.deleted_memory_id,
+      resource_id: result.resource_id,
       chunks_deleted: result.chunks_deleted,
       message: result.message,
     });
@@ -286,42 +281,33 @@ export const forgetMcpTool: McpTool = {
 };
 
 // ============================================================================
-// hyperspell_profile - Get memory profile
+// hyperspell_profile - Get recent memories
 // ============================================================================
 
 const profileMetadata: Metadata = {
   resource: 'memories',
   operation: 'read',
   tags: ['memory', 'profile', 'context'],
-  httpMethod: 'post',
-  httpPath: '/memories/profile',
+  httpMethod: 'get',
+  httpPath: '/memories/list',
 };
 
 const profileTool: Tool = {
   name: 'hyperspell_profile',
-  description: `Get a summary of recent and relevant memories.
+  description: `List recent memories to understand what context is available.
 
-Use this tool to understand what context is available:
-- recent_memories: Most recently stored memories
-- similar_memories: Semantically similar memories (if query provided)
-
-Useful before responding to understand what you know about the user/project.`,
+Use this tool to see what memories have been stored, including their
+resource IDs (useful for hyperspell_forget).`,
   inputSchema: {
     type: 'object',
     properties: {
-      query: {
+      source: {
         type: 'string',
-        description: 'Optional focus query to find semantically similar memories.',
+        description: 'Filter by source (e.g. "vault", "procedure"). Defaults to all sources.',
       },
-      recent_limit: {
-        type: 'number',
-        description: 'Maximum number of recent memories to return (1-50, default 10).',
-        default: 10,
-      },
-      similar_limit: {
-        type: 'number',
-        description: 'Maximum number of similar memories to return (1-50, default 10).',
-        default: 10,
+      collection: {
+        type: 'string',
+        description: 'Filter by collection name.',
       },
     },
   },
@@ -334,38 +320,38 @@ const profileHandler = async (
   client: Hyperspell,
   args: Record<string, unknown> | undefined,
 ): Promise<ToolCallResult> => {
-  const recentLimit = Math.min(Math.max(Number(args?.['recent_limit']) || 10, 1), 50);
-  const similarLimit = Math.min(Math.max(Number(args?.['similar_limit']) || 10, 1), 50);
-
   try {
-    const response = await client.post('/memories/profile', {
-      body: {
-        query: args?.['query'] ? String(args['query']) : undefined,
-        recent_limit: recentLimit,
-        similar_limit: similarLimit,
-      },
-    });
+    const queryParams: Record<string, string> = {};
+    if (args?.['source']) {
+      queryParams['source'] = String(args['source']);
+    }
+    if (args?.['collection']) {
+      queryParams['collection'] = String(args['collection']);
+    }
+
+    const qs = new URLSearchParams(queryParams).toString();
+    const url = qs ? `/memories/list?${qs}` : '/memories/list';
+
+    const response = await client.get(url, {});
 
     const result = response as any;
+    const items = result.items || result.data || [];
 
     const formatted = {
-      recent_memories: (result.recent_memories || []).map((r: any) => ({
-        title: r.title || r.resource_id,
+      count: items.length,
+      memories: items.map((r: any) => ({
+        title: r.title || r.data?.title || r.resource_id,
         source: r.source,
         resource_id: r.resource_id,
-      })),
-      similar_memories: (result.similar_memories || []).map((r: any) => ({
-        title: r.title || r.resource_id,
-        source: r.source,
-        score: r.score,
-        resource_id: r.resource_id,
+        status: r.status,
+        collection: r.collection,
       })),
     };
 
     return asTextContentResult(formatted);
   } catch (error) {
     const message = error instanceof Error ? error.message : 'Unknown error';
-    return asErrorResult(`Failed to get profile: ${message}`);
+    return asErrorResult(`Failed to list memories: ${message}`);
   }
 };
 
