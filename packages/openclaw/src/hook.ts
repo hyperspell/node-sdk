@@ -2,7 +2,7 @@
  * Hyperspell memory hook for OpenClaw.
  *
  * Listens to `agent:bootstrap` events to:
- * 1. Save the previous session's conversation to Hyperspell memory
+ * 1. Save the previous session's conversation as a structured trace via /memories/add/trace
  * 2. Recall relevant memories and inject them as a bootstrap context file
  *
  * Requires HYPERSPELL_API_KEY and HYPERSPELL_USER_ID environment variables.
@@ -13,7 +13,7 @@ import * as path from 'path';
 
 const HYPERSPELL_API_BASE = 'https://api.hyperspell.com';
 const MARKER_FILE = '.hyperspell-last-saved-session';
-const MAX_CONTENT_LENGTH = 50000;
+const MAX_STEPS = 100;
 const RECALL_LIMIT = 10;
 
 // OpenClaw hook event types (inlined to avoid runtime dependency)
@@ -22,9 +22,25 @@ interface WorkspaceBootstrapFile {
   content: string;
 }
 
+interface ToolCallInfo {
+  tool_call_id?: string;
+  tool_name?: string;
+  input?: Record<string, unknown>;
+}
+
+interface ToolResultInfo {
+  tool_call_id?: string;
+  tool_name?: string;
+  output?: unknown;
+  is_error?: boolean;
+}
+
 interface SessionMessage {
-  role: 'user' | 'assistant' | 'system';
-  content: string;
+  role: 'user' | 'assistant' | 'system' | 'tool';
+  content?: string;
+  tool_calls?: ToolCallInfo[];
+  tool_results?: ToolResultInfo[];
+  reasoning?: Array<{ text?: string; type?: string }>;
 }
 
 interface SessionEntry {
@@ -91,26 +107,38 @@ function setLastSavedSessionId(workspaceDir: string, sessionId: string): void {
 }
 
 /**
- * Extract a summary of the session transcript suitable for saving as a memory.
- * Takes the last N messages and formats them as a conversation.
+ * Convert OpenClaw session messages into structured trace steps
+ * compatible with Hyperspell's /memories/add/trace endpoint.
  */
-function extractSessionContent(session: SessionEntry): string | null {
+function extractTraceSteps(session: SessionEntry): Record<string, unknown>[] | null {
   const messages = session.messages;
   if (!messages || messages.length === 0) return null;
 
-  // Take up to the last 20 messages to stay within size limits
-  const recent = messages.slice(-20);
+  // Take up to the last MAX_STEPS messages
+  const recent = messages.slice(-MAX_STEPS);
 
-  const formatted = recent
-    .map((msg) => {
-      const role = msg.role === 'user' ? 'User' : msg.role === 'assistant' ? 'Assistant' : 'System';
-      return `${role}: ${msg.content}`;
-    })
-    .join('\n\n');
+  const steps: Record<string, unknown>[] = [];
 
-  if (formatted.length < 20) return null;
+  for (const msg of recent) {
+    const step: Record<string, unknown> = { role: msg.role };
 
-  return formatted.slice(0, MAX_CONTENT_LENGTH);
+    if (msg.content) {
+      step['content'] = msg.content;
+    }
+    if (msg.reasoning && msg.reasoning.length > 0) {
+      step['reasoning'] = msg.reasoning;
+    }
+    if (msg.tool_calls && msg.tool_calls.length > 0) {
+      step['tool_calls'] = msg.tool_calls;
+    }
+    if (msg.role === 'tool' && msg.tool_results && msg.tool_results.length > 0) {
+      step['tool_results'] = msg.tool_results;
+    }
+
+    steps.push(step);
+  }
+
+  return steps.length > 0 ? steps : null;
 }
 
 /**
@@ -177,7 +205,9 @@ function formatRecallResults(response: RecallResponse): string | null {
 }
 
 /**
- * Save the previous session's conversation to Hyperspell memory.
+ * Save the previous session's conversation as a structured trace to Hyperspell.
+ * Uses /memories/add/trace to preserve the full structure (messages, tool calls,
+ * tool results, reasoning) rather than flattening to plain text.
  */
 async function savePreviousSession(
   context: HookContext,
@@ -192,17 +222,20 @@ async function savePreviousSession(
   const lastSaved = getLastSavedSessionId(workspaceDir);
   if (lastSaved === session.id) return;
 
-  const content = extractSessionContent(session);
-  if (!content) return;
+  const steps = extractTraceSteps(session);
+  if (!steps) return;
 
   try {
     await hyperspellFetch(
-      '/memories/remember',
+      '/memories/add/trace',
       {
-        content,
         session_id: session.id,
-        title: `Session ${new Date().toISOString().split('T')[0]}`,
-        tags: ['openclaw', 'session'],
+        steps,
+        title: `OpenClaw session ${new Date().toISOString().split('T')[0]}`,
+        metadata: {
+          source_agent: 'openclaw',
+          message_count: steps.length,
+        },
       },
       apiKey,
       userId,
@@ -211,7 +244,7 @@ async function savePreviousSession(
     setLastSavedSessionId(workspaceDir, session.id);
   } catch (err) {
     // Don't block the agent if saving fails — just log it
-    console.error('[hyperspell] Failed to save session:', err);
+    console.error('[hyperspell] Failed to save session trace:', err);
   }
 }
 
@@ -274,4 +307,4 @@ const handler: HookHandler = async (event: HookEvent): Promise<void> => {
 };
 
 export default handler;
-export { handler, savePreviousSession, recallMemories, formatRecallResults };
+export { handler, savePreviousSession, recallMemories, formatRecallResults, extractTraceSteps };
