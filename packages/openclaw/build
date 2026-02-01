@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+set -exuo pipefail
+
+rm -rf dist; mkdir dist
+
+# Copy src to dist/src and build from dist/src into dist, so that
+# the source map for index.js.map will refer to ./src/index.ts etc
+cp -rp src dist
+
+for file in LICENSE; do
+  if [ -e "../../${file}" ]; then cp "../../${file}" dist; fi
+done
+
+for file in README.md CHANGELOG.md; do
+  if [ -e "${file}" ]; then cp "${file}" dist; fi
+done
+
+# this converts the export map paths for the dist directory
+PKG_JSON_PATH=../../packages/openclaw/package.json node ../../scripts/utils/make-dist-package-json.cjs > dist/package.json
+
+# build to .js/.mjs/.d.ts files
+./node_modules/.bin/tsc-multi
+
+chmod +x dist/index.js
+
+DIST_PATH=./dist PKG_IMPORT_PATH=@hyperspell/openclaw/ node ../../scripts/utils/postprocess-files.cjs
