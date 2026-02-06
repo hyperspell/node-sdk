@@ -195,6 +195,7 @@ export interface MemoryStatus {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -213,6 +214,7 @@ export interface MemoryListResponse {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -270,6 +272,7 @@ export interface MemoryDeleteResponse {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -305,6 +308,7 @@ export interface MemoryGetResponse {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -365,6 +369,7 @@ export interface MemoryUpdateParams {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -417,6 +422,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
@@ -432,6 +438,7 @@ export interface MemoryDeleteParams {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -529,6 +536,7 @@ export interface MemoryGetParams {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -566,6 +574,7 @@ export interface MemorySearchParams {
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
