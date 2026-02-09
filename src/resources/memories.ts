@@ -382,10 +382,10 @@ export interface MemoryUpdateParams {
 
   /**
    * Body param: Custom metadata for filtering. Keys must be alphanumeric with
-   * underscores, max 64 chars. Values must be string, number, or boolean. Will be
-   * merged with existing metadata.
+   * underscores, max 64 chars. Values must be string, number, boolean, or null. Will
+   * be merged with existing metadata.
    */
-  metadata?: { [key: string]: string | number | boolean } | unknown | null;
+  metadata?: { [key: string]: string | number | boolean | null } | unknown | null;
 
   /**
    * Body param: Full text of the document. If provided, the document will be
@@ -465,9 +465,9 @@ export interface MemoryAddParams {
 
   /**
    * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-   * 64 chars. Values must be string, number, or boolean.
+   * 64 chars. Values must be string, number, boolean, or null.
    */
-  metadata?: { [key: string]: string | number | boolean } | null;
+  metadata?: { [key: string]: string | number | boolean | null } | null;
 
   /**
    * The resource ID to add the document to. If not provided, a new resource ID will
@@ -510,9 +510,9 @@ export namespace MemoryAddBulkParams {
 
     /**
      * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-     * 64 chars. Values must be string, number, or boolean.
+     * 64 chars. Values must be string, number, boolean, or null.
      */
-    metadata?: { [key: string]: string | number | boolean } | null;
+    metadata?: { [key: string]: string | number | boolean | null } | null;
 
     /**
      * The resource ID to add the document to. If not provided, a new resource ID will
