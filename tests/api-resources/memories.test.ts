@@ -51,6 +51,7 @@ describe('resource memories', () => {
           filter: 'filter',
           size: 0,
           source: 'collections',
+          status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
       ),

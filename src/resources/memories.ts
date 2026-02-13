@@ -427,6 +427,11 @@ export interface MemoryListParams extends CursorPageParams {
     | 'vault'
     | 'web_crawler'
     | null;
+
+  /**
+   * Filter documents by status.
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | null;
 }
 
 export interface MemoryDeleteParams {
