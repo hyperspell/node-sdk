@@ -678,6 +678,8 @@ export namespace MemorySearchParams {
        */
       before?: string | null;
 
+      collection?: string | null;
+
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
        * 'priority': {'$gt': 3}}
@@ -706,6 +708,8 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      collection?: string | null;
 
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
@@ -743,6 +747,8 @@ export namespace MemorySearchParams {
        */
       calendar_id?: string | null;
 
+      collection?: string | null;
+
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
        * 'priority': {'$gt': 3}}
@@ -772,6 +778,8 @@ export namespace MemorySearchParams {
        */
       before?: string | null;
 
+      collection?: string | null;
+
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
        * 'priority': {'$gt': 3}}
@@ -800,6 +808,8 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      collection?: string | null;
 
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
@@ -838,6 +848,8 @@ export namespace MemorySearchParams {
        */
       before?: string | null;
 
+      collection?: string | null;
+
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
        * 'priority': {'$gt': 3}}
@@ -872,6 +884,8 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      collection?: string | null;
 
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
@@ -923,6 +937,8 @@ export namespace MemorySearchParams {
        */
       channels?: Array<string>;
 
+      collection?: string | null;
+
       /**
        * If set, pass 'exclude_archived' to Slack. If None, omit the param.
        */
@@ -972,6 +988,8 @@ export namespace MemorySearchParams {
        * Only query documents created before this date.
        */
       before?: string | null;
+
+      collection?: string | null;
 
       /**
        * Metadata filters using MongoDB-style operators. Example: {'status': 'published',

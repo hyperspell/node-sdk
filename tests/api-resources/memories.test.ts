@@ -163,12 +163,14 @@ describe('resource memories', () => {
         box: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           weight: 0,
         },
         collections: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           weight: 0,
         },
@@ -177,18 +179,21 @@ describe('resource memories', () => {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           calendar_id: 'calendar_id',
+          collection: 'collection',
           filter: { foo: 'bar' },
           weight: 0,
         },
         google_drive: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           weight: 0,
         },
         google_mail: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           label_ids: ['string'],
           weight: 0,
@@ -197,6 +202,7 @@ describe('resource memories', () => {
         notion: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           notion_page_ids: ['string'],
           weight: 0,
@@ -204,6 +210,7 @@ describe('resource memories', () => {
         reddit: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           period: 'hour',
           sort: 'relevance',
@@ -214,6 +221,7 @@ describe('resource memories', () => {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
           channels: ['string'],
+          collection: 'collection',
           exclude_archived: true,
           filter: { foo: 'bar' },
           include_dms: true,
@@ -224,6 +232,7 @@ describe('resource memories', () => {
         web_crawler: {
           after: '2019-12-27T18:11:19.117Z',
           before: '2019-12-27T18:11:19.117Z',
+          collection: 'collection',
           filter: { foo: 'bar' },
           max_depth: 0,
           url: 'url',
