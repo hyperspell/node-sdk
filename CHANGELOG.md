@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.31.0 (2026-02-18)
+
+Full Changelog: [v0.30.0...v0.31.0](https://github.com/hyperspell/node-sdk/compare/v0.30.0...v0.31.0)
+
+### Features
+
+* **api:** api update ([cf01503](https://github.com/hyperspell/node-sdk/commit/cf01503ae907a172075d4d16342c01feb565f9d0))
+* **api:** api update ([9ad9b82](https://github.com/hyperspell/node-sdk/commit/9ad9b82adb38e3732feb664a94b5c64424173f4d))
+* **api:** api update ([19c3610](https://github.com/hyperspell/node-sdk/commit/19c3610a96111b6476bcfa832272defb6be734d2))
+* **api:** api update ([3d27c34](https://github.com/hyperspell/node-sdk/commit/3d27c349c184e5a945a01f91f167c19ca75dac15))
+* **api:** api update ([d430de7](https://github.com/hyperspell/node-sdk/commit/d430de753f07b21551315d1c1250c3203e6fe1b2))
+* **api:** api update ([14fd74c](https://github.com/hyperspell/node-sdk/commit/14fd74c818b355e38342554ddfa652c22da8a5ac))
+* **api:** api update ([5cefb0c](https://github.com/hyperspell/node-sdk/commit/5cefb0c04806e2a0e9bea53bb7428ff773696008))
+* **api:** api update ([a0df1be](https://github.com/hyperspell/node-sdk/commit/a0df1be8d411efda7d9c06ba663e64a72e308de0))
+* **api:** manual updates ([284aea8](https://github.com/hyperspell/node-sdk/commit/284aea8ec3ba5c1f6698d92f83fe41c8b39c4e54))
+* **api:** manual updates ([0d5f484](https://github.com/hyperspell/node-sdk/commit/0d5f484b10f13e89c5bc85878180113ea7beb2aa))
+* **mcp:** add initial server instructions ([581fb5e](https://github.com/hyperspell/node-sdk/commit/581fb5e5aaf49b32facacc9adc28ca3797dbd117))
+
+
+### Bug Fixes
+
+* **client:** avoid memory leak with abort signals ([5b29273](https://github.com/hyperspell/node-sdk/commit/5b2927352218310b6e3a3ec4c950dc4e8d15cbf9))
+* **client:** avoid removing abort listener too early ([b9c9fdd](https://github.com/hyperspell/node-sdk/commit/b9c9fdd0b68027777d2a352ccc6801ef7c6a0a55))
+* **docs:** fix mcp installation instructions for remote servers ([d4c938b](https://github.com/hyperspell/node-sdk/commit/d4c938b9490184c9de54a36e0635b3b7b24e8aeb))
+* **mcp:** allow falling back for required env variables ([6054c99](https://github.com/hyperspell/node-sdk/commit/6054c99672bb1399b5db94931d20979394ab9f60))
+
+
+### Chores
+
+* **ci:** upgrade `actions/github-script` ([090b5c1](https://github.com/hyperspell/node-sdk/commit/090b5c1a28992d318a2904cabe73556f61e76edf))
+* **client:** do not parse responses with empty content-length ([b7dde77](https://github.com/hyperspell/node-sdk/commit/b7dde774dee58aaf475d07c08d8792753c09fc85))
+* **client:** restructure abort controller binding ([ecf2c20](https://github.com/hyperspell/node-sdk/commit/ecf2c20a9d7aa7cfb1d5734a14ba75a4f5ebe0e8))
+* **internal/client:** fix form-urlencoded requests ([f18c133](https://github.com/hyperspell/node-sdk/commit/f18c133e21632a165e90c6170fc9fba8f1455bbe))
+* **internal:** add health check to MCP server when running in HTTP mode ([2ab3844](https://github.com/hyperspell/node-sdk/commit/2ab3844ada3f3bbe0ea5559dc9b9a9f20f00d8e2))
+* **internal:** allow basic filtering of methods allowed for MCP code mode ([a4192e2](https://github.com/hyperspell/node-sdk/commit/a4192e29921822cf5122a2630640315cdd623005))
+* **internal:** allow setting x-stainless-api-key header on mcp server requests ([45eec97](https://github.com/hyperspell/node-sdk/commit/45eec97a147ffed11fdbd184e3e01694689e0e76))
+* **internal:** always generate MCP server dockerfiles and upgrade associated dependencies ([9af9bfa](https://github.com/hyperspell/node-sdk/commit/9af9bfa16c4f5e35c6f4e7f36d7583a662167c45))
+* **internal:** avoid type checking errors with ts-reset ([b44d11c](https://github.com/hyperspell/node-sdk/commit/b44d11c860d0895bfc04c893eaf1af1e646eac48))
+* **internal:** codegen related update ([1c6bacc](https://github.com/hyperspell/node-sdk/commit/1c6bacc1daa1c93198ea61ec75325cf7dc1e7950))
+* **internal:** fix pagination internals not accepting option promises ([e7397fe](https://github.com/hyperspell/node-sdk/commit/e7397fe75b576992632351adeb5e7777e5b38529))
+* **internal:** improve layout of generated MCP server files ([2da53b8](https://github.com/hyperspell/node-sdk/commit/2da53b8ada557168c77b24d95f64003f1b2a617f))
+* **internal:** refactor flag parsing for MCP servers and add debug flag ([051f042](https://github.com/hyperspell/node-sdk/commit/051f0428d7d30eadf1deb83214757e98e7cb86c0))
+* **internal:** support oauth authorization code flow for MCP servers ([027ce2c](https://github.com/hyperspell/node-sdk/commit/027ce2cd7d3164f49134235a10446ed1e838d17f))
+* **internal:** update `actions/checkout` version ([954ce30](https://github.com/hyperspell/node-sdk/commit/954ce3099c58efa8c5071b6830dad969401a050a))
+* **internal:** update lock file ([e192aa3](https://github.com/hyperspell/node-sdk/commit/e192aa3c9ac16fb38cad2e56f2e46498eb11f8ee))
+* **mcp:** forward STAINLESS_API_KEY to docs search endpoint ([80176c6](https://github.com/hyperspell/node-sdk/commit/80176c61f90878132ec0e77ef239712d57e36b33))
+* **mcp:** up tsconfig lib version to es2022 ([db052dc](https://github.com/hyperspell/node-sdk/commit/db052dcd1a475b54cb7c302df23bcfaa73c969d0))
+
 ## 0.30.0 (2026-01-16)
 
 Full Changelog: [v0.29.0...v0.30.0](https://github.com/hyperspell/node-sdk/compare/v0.29.0...v0.30.0)
