@@ -871,5 +871,7 @@ export declare namespace Hyperspell {
     type AuthUserTokenParams as AuthUserTokenParams,
   };
 
+  export type Metadata = API.Metadata;
+  export type Notification = API.Notification;
   export type QueryResult = API.QueryResult;
 }

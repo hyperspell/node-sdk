@@ -1,5 +1,31 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import * as Shared from './shared';
+
+export interface Metadata {
+  created_at?: string | null;
+
+  events?: Array<Notification>;
+
+  indexed_at?: string | null;
+
+  last_modified?: string | null;
+
+  status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+  url?: string | null;
+
+  [k: string]: unknown;
+}
+
+export interface Notification {
+  message: string;
+
+  type: 'error' | 'warning' | 'info' | 'success';
+
+  time?: string;
+}
+
 export interface QueryResult {
   documents: Array<QueryResult.Document>;
 
@@ -42,7 +68,7 @@ export namespace QueryResult {
       | 'vault'
       | 'web_crawler';
 
-    metadata?: Document.Metadata;
+    metadata?: Shared.Metadata;
 
     /**
      * The relevance of the resource to the query
@@ -50,33 +76,5 @@ export namespace QueryResult {
     score?: number | null;
 
     title?: string | null;
-  }
-
-  export namespace Document {
-    export interface Metadata {
-      created_at?: string | null;
-
-      events?: Array<Metadata.Event>;
-
-      indexed_at?: string | null;
-
-      last_modified?: string | null;
-
-      status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-      url?: string | null;
-
-      [k: string]: unknown;
-    }
-
-    export namespace Metadata {
-      export interface Event {
-        message: string;
-
-        type: 'error' | 'warning' | 'info' | 'success';
-
-        time?: string;
-      }
-    }
   }
 }
