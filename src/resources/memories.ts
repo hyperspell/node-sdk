@@ -129,7 +129,7 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<MemoryGetResponse> {
+  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<Memory> {
     const { source } = params;
     return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
   }
@@ -183,6 +183,74 @@ export class Memories extends APIResource {
 }
 
 export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
+
+/**
+ * Response model for the GET /memories/get endpoint.
+ */
+export interface Memory {
+  resource_id: string;
+
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler';
+
+  /**
+   * The type of document (e.g. Document, Website, Email)
+   */
+  type: string;
+
+  /**
+   * The structured content of the document
+   */
+  data?: Array<unknown> | null;
+
+  /**
+   * Summaries of all memories extracted from this document
+   */
+  memories?: Array<string>;
+
+  metadata?: Memory.Metadata;
+
+  title?: string | null;
+
+  [k: string]: unknown;
+}
+
+export namespace Memory {
+  export interface Metadata {
+    created_at?: string | null;
+
+    events?: Array<Metadata.Event>;
+
+    indexed_at?: string | null;
+
+    last_modified?: string | null;
+
+    status?: 'pending' | 'processing' | 'completed' | 'failed';
+
+    url?: string | null;
+
+    [k: string]: unknown;
+  }
+
+  export namespace Metadata {
+    export interface Event {
+      message: string;
+
+      type: 'error' | 'warning' | 'info' | 'success';
+
+      time?: string;
+    }
+  }
+}
 
 export interface MemoryStatus {
   resource_id: string;
@@ -292,74 +360,6 @@ export interface MemoryAddBulkResponse {
   items: Array<MemoryStatus>;
 
   success?: boolean;
-}
-
-/**
- * Response model for the GET /memories/get endpoint.
- */
-export interface MemoryGetResponse {
-  resource_id: string;
-
-  source:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler';
-
-  /**
-   * The type of document (e.g. Document, Website, Email)
-   */
-  type: string;
-
-  /**
-   * The structured content of the document
-   */
-  data?: Array<unknown> | null;
-
-  /**
-   * Summaries of all memories extracted from this document
-   */
-  memories?: Array<string>;
-
-  metadata?: MemoryGetResponse.Metadata;
-
-  title?: string | null;
-
-  [k: string]: unknown;
-}
-
-export namespace MemoryGetResponse {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
 }
 
 export interface MemoryStatusResponse {
@@ -900,11 +900,11 @@ export interface MemoryUploadParams {
 
 export declare namespace Memories {
   export {
+    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
     type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
-    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,

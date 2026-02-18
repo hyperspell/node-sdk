@@ -24,11 +24,11 @@ export {
 } from './integrations/integrations';
 export {
   Memories,
+  type Memory,
   type MemoryStatus,
   type MemoryListResponse,
   type MemoryDeleteResponse,
   type MemoryAddBulkResponse,
-  type MemoryGetResponse,
   type MemoryStatusResponse,
   type MemoryUpdateParams,
   type MemoryListParams,
