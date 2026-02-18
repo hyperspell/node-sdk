@@ -82,7 +82,6 @@ export namespace IntegrationListResponse {
      * The integration's provider
      */
     provider:
-      | 'collections'
       | 'reddit'
       | 'notion'
       | 'slack'

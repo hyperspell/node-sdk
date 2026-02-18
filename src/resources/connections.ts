@@ -47,7 +47,6 @@ export namespace ConnectionListResponse {
      * The connection's provider
      */
     provider:
-      | 'collections'
       | 'reddit'
       | 'notion'
       | 'slack'

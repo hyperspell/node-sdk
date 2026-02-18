@@ -24,7 +24,6 @@ export interface WebCrawlerIndexResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'

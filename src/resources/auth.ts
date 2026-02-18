@@ -55,7 +55,6 @@ export interface AuthMeResponse {
    * All integrations available for the app
    */
   available_integrations: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -72,7 +71,6 @@ export interface AuthMeResponse {
    * All integrations installed for the user
    */
   installed_integrations: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'

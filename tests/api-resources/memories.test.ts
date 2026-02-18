@@ -10,7 +10,7 @@ const client = new Hyperspell({
 
 describe('resource memories', () => {
   test('update: only required params', async () => {
-    const responsePromise = client.memories.update('resource_id', { source: 'collections' });
+    const responsePromise = client.memories.update('resource_id', { source: 'reddit' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -22,7 +22,7 @@ describe('resource memories', () => {
 
   test('update: required and optional params', async () => {
     const response = await client.memories.update('resource_id', {
-      source: 'collections',
+      source: 'reddit',
       collection: 'string',
       metadata: { foo: 'string' },
       text: 'string',
@@ -50,7 +50,7 @@ describe('resource memories', () => {
           cursor: 'cursor',
           filter: 'filter',
           size: 0,
-          source: 'collections',
+          source: 'reddit',
           status: 'pending',
         },
         { path: '/_stainless_unknown_path' },
@@ -59,7 +59,7 @@ describe('resource memories', () => {
   });
 
   test('delete: only required params', async () => {
-    const responsePromise = client.memories.delete('resource_id', { source: 'collections' });
+    const responsePromise = client.memories.delete('resource_id', { source: 'reddit' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -70,7 +70,7 @@ describe('resource memories', () => {
   });
 
   test('delete: required and optional params', async () => {
-    const response = await client.memories.delete('resource_id', { source: 'collections' });
+    const response = await client.memories.delete('resource_id', { source: 'reddit' });
   });
 
   test('add: only required params', async () => {
@@ -126,7 +126,7 @@ describe('resource memories', () => {
   });
 
   test('get: only required params', async () => {
-    const responsePromise = client.memories.get('resource_id', { source: 'collections' });
+    const responsePromise = client.memories.get('resource_id', { source: 'reddit' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -137,7 +137,7 @@ describe('resource memories', () => {
   });
 
   test('get: required and optional params', async () => {
-    const response = await client.memories.get('resource_id', { source: 'collections' });
+    const response = await client.memories.get('resource_id', { source: 'reddit' });
   });
 
   test('search: only required params', async () => {
@@ -161,7 +161,6 @@ describe('resource memories', () => {
         answer_model: 'llama-3.1',
         before: '2019-12-27T18:11:19.117Z',
         box: { collection: 'collection', weight: 0 },
-        collections: { collection: 'collection', weight: 0 },
         filter: { foo: 'bar' },
         google_calendar: {
           calendar_id: 'calendar_id',
@@ -196,6 +195,7 @@ describe('resource memories', () => {
           include_private: true,
           weight: 0,
         },
+        vault: { collection: 'collection', weight: 0 },
         web_crawler: {
           collection: 'collection',
           max_depth: 0,
@@ -203,7 +203,7 @@ describe('resource memories', () => {
           weight: 0,
         },
       },
-      sources: ['collections'],
+      sources: ['reddit'],
     });
   });
 
