@@ -217,39 +217,11 @@ export interface Memory {
    */
   memories?: Array<string>;
 
-  metadata?: Memory.Metadata;
+  metadata?: Shared.Metadata;
 
   title?: string | null;
 
   [k: string]: unknown;
-}
-
-export namespace Memory {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
 }
 
 export interface MemoryStatus {
@@ -285,7 +257,7 @@ export interface MemoryListResponse {
     | 'vault'
     | 'web_crawler';
 
-  metadata?: MemoryListResponse.Metadata;
+  metadata?: Shared.Metadata;
 
   /**
    * The relevance of the resource to the query
@@ -293,34 +265,6 @@ export interface MemoryListResponse {
   score?: number | null;
 
   title?: string | null;
-}
-
-export namespace MemoryListResponse {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
 }
 
 export interface MemoryDeleteResponse {
