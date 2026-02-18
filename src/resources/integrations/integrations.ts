@@ -69,12 +69,12 @@ export namespace IntegrationListResponse {
     auth_provider: 'nango' | 'unified' | 'whitelabel';
 
     /**
-     * Generate a display name from the provider by capitalizing each word.
+     * URL to the integration's icon
      */
-    icon: string;
+    icon: string | null;
 
     /**
-     * Generate a display name from the provider by capitalizing each word.
+     * The integration's display name
      */
     name: string;
 
@@ -82,13 +82,13 @@ export namespace IntegrationListResponse {
      * The integration's provider
      */
     provider:
-      | 'collections'
       | 'reddit'
       | 'notion'
       | 'slack'
       | 'google_calendar'
       | 'google_mail'
       | 'box'
+      | 'dropbox'
       | 'google_drive'
       | 'vault'
       | 'web_crawler';

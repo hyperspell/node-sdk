@@ -24,13 +24,13 @@ export interface WebCrawlerIndexResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';

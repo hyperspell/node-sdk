@@ -41,14 +41,14 @@ For clients with a configuration JSON, it might look something like this:
 If you use Cursor, you can install the MCP server by using the button below. You will need to set your environment variables
 in Cursor's `mcp.json`, which can be found in Cursor Settings > Tools & MCP > New MCP Server.
 
-[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=hyperspell-mcp&config=eyJuYW1lIjoiaHlwZXJzcGVsbC1tY3AiLCJ0cmFuc3BvcnQiOiJzc2UiLCJ1cmwiOiJodHRwczovL2h5cGVyc3BlbGwuc3RsbWNwLmNvbS9zc2UiLCJlbnYiOnsiSFlQRVJTUEVMTF9BUElfS0VZIjoiU2V0IHlvdXIgSFlQRVJTUEVMTF9BUElfS0VZIGhlcmUuIiwiSFlQRVJTUEVMTF9VU0VSX0lEIjoiU2V0IHlvdXIgSFlQRVJTUEVMTF9VU0VSX0lEIGhlcmUuIn19)
+[![Add to Cursor](https://cursor.com/deeplink/mcp-install-dark.svg)](https://cursor.com/en-US/install-mcp?name=hyperspell-mcp&config=eyJuYW1lIjoiaHlwZXJzcGVsbC1tY3AiLCJ0cmFuc3BvcnQiOiJodHRwIiwidXJsIjoiaHR0cHM6Ly9oeXBlcnNwZWxsLnN0bG1jcC5jb20iLCJoZWFkZXJzIjp7IngtaHlwZXJzcGVsbC1hcGkta2V5IjoiTXkgQVBJIEtleSIsIlgtQXMtVXNlciI6Ik15IFVzZXIgSUQifX0)
 
 ### VS Code
 
 If you use MCP, you can install the MCP server by clicking the link below. You will need to set your environment variables
 in VS Code's `mcp.json`, which can be found via Command Palette > MCP: Open User Configuration.
 
-[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22hyperspell-mcp%22%2C%22type%22%3A%22sse%22%2C%22url%22%3A%22https%3A%2F%2Fhyperspell.stlmcp.com%2Fsse%22%2C%22env%22%3A%7B%22HYPERSPELL_API_KEY%22%3A%22Set%20your%20HYPERSPELL_API_KEY%20here.%22%2C%22HYPERSPELL_USER_ID%22%3A%22Set%20your%20HYPERSPELL_USER_ID%20here.%22%7D%7D)
+[Open VS Code](https://vscode.stainless.com/mcp/%7B%22name%22%3A%22hyperspell-mcp%22%2C%22type%22%3A%22http%22%2C%22url%22%3A%22https%3A%2F%2Fhyperspell.stlmcp.com%22%2C%22headers%22%3A%7B%22x-hyperspell-api-key%22%3A%22My%20API%20Key%22%2C%22X-As-User%22%3A%22My%20User%20ID%22%7D%7D)
 
 ### Claude Code
 
@@ -56,7 +56,7 @@ If you use Claude Code, you can install the MCP server by running the command be
 environment variables in Claude Code's `.claude.json`, which can be found in your home directory.
 
 ```
-claude mcp add hyperspell_mcp_api --env HYPERSPELL_API_KEY="Your HYPERSPELL_API_KEY here." HYPERSPELL_USER_ID="Your HYPERSPELL_USER_ID here." --transport sse https://hyperspell.stlmcp.com/sse
+claude mcp add hyperspell_mcp_api --header "x-hyperspell-api-key: My API Key" --header "X-As-User: My User ID" --transport http https://hyperspell.stlmcp.com
 ```
 
 ## Code Mode

@@ -21,7 +21,7 @@ export class Memories extends APIResource {
    * ```ts
    * const memoryStatus = await client.memories.update(
    *   'resource_id',
-   *   { source: 'collections' },
+   *   { source: 'reddit' },
    * );
    * ```
    */
@@ -37,7 +37,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const memory of client.memories.list()) {
+   * for await (const memoryListResponse of client.memories.list()) {
    *   // ...
    * }
    * ```
@@ -45,8 +45,8 @@ export class Memories extends APIResource {
   list(
     query: MemoryListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<MemoriesCursorPage, Memory> {
-    return this._client.getAPIList('/memories/list', CursorPage<Memory>, { query, ...options });
+  ): PagePromise<MemoryListResponsesCursorPage, MemoryListResponse> {
+    return this._client.getAPIList('/memories/list', CursorPage<MemoryListResponse>, { query, ...options });
   }
 
   /**
@@ -69,7 +69,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memory = await client.memories.delete('resource_id', {
-   *   source: 'collections',
+   *   source: 'reddit',
    * });
    * ```
    */
@@ -125,7 +125,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memory = await client.memories.get('resource_id', {
-   *   source: 'collections',
+   *   source: 'reddit',
    * });
    * ```
    */
@@ -182,24 +182,82 @@ export class Memories extends APIResource {
   }
 }
 
-export type MemoriesCursorPage = CursorPage<Memory>;
+export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
 
+/**
+ * Response model for the GET /memories/get endpoint.
+ */
 export interface Memory {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
 
-  metadata?: Memory.Metadata;
+  /**
+   * The type of document (e.g. Document, Website, Email)
+   */
+  type: string;
+
+  /**
+   * The structured content of the document
+   */
+  data?: Array<unknown> | null;
+
+  /**
+   * Summaries of all memories extracted from this document
+   */
+  memories?: Array<string>;
+
+  metadata?: Shared.Metadata;
+
+  title?: string | null;
+
+  [k: string]: unknown;
+}
+
+export interface MemoryStatus {
+  resource_id: string;
+
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler';
+
+  status: 'pending' | 'processing' | 'completed' | 'failed';
+}
+
+export interface MemoryListResponse {
+  resource_id: string;
+
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler';
+
+  metadata?: Shared.Metadata;
 
   /**
    * The relevance of the resource to the query
@@ -207,52 +265,6 @@ export interface Memory {
   score?: number | null;
 
   title?: string | null;
-}
-
-export namespace Memory {
-  export interface Metadata {
-    created_at?: string | null;
-
-    events?: Array<Metadata.Event>;
-
-    indexed_at?: string | null;
-
-    last_modified?: string | null;
-
-    status?: 'pending' | 'processing' | 'completed' | 'failed';
-
-    url?: string | null;
-
-    [k: string]: unknown;
-  }
-
-  export namespace Metadata {
-    export interface Event {
-      message: string;
-
-      type: 'error' | 'warning' | 'info' | 'success';
-
-      time?: string;
-    }
-  }
-}
-
-export interface MemoryStatus {
-  resource_id: string;
-
-  source:
-    | 'collections'
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler';
-
-  status: 'pending' | 'processing' | 'completed' | 'failed';
 }
 
 export interface MemoryDeleteResponse {
@@ -263,13 +275,13 @@ export interface MemoryDeleteResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -305,13 +317,13 @@ export interface MemoryUpdateParams {
    * Path param
    */
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -324,10 +336,10 @@ export interface MemoryUpdateParams {
 
   /**
    * Body param: Custom metadata for filtering. Keys must be alphanumeric with
-   * underscores, max 64 chars. Values must be string, number, or boolean. Will be
-   * merged with existing metadata.
+   * underscores, max 64 chars. Values must be string, number, boolean, or null. Will
+   * be merged with existing metadata.
    */
-  metadata?: { [key: string]: string | number | boolean } | unknown | null;
+  metadata?: { [key: string]: string | number | boolean | null } | unknown | null;
 
   /**
    * Body param: Full text of the document. If provided, the document will be
@@ -357,28 +369,33 @@ export interface MemoryListParams extends CursorPageParams {
    * Filter documents by source.
    */
   source?:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | null;
+
+  /**
+   * Filter documents by status.
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | null;
 }
 
 export interface MemoryDeleteParams {
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -405,9 +422,9 @@ export interface MemoryAddParams {
 
   /**
    * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-   * 64 chars. Values must be string, number, or boolean.
+   * 64 chars. Values must be string, number, boolean, or null.
    */
-  metadata?: { [key: string]: string | number | boolean } | null;
+  metadata?: { [key: string]: string | number | boolean | null } | null;
 
   /**
    * The resource ID to add the document to. If not provided, a new resource ID will
@@ -450,9 +467,9 @@ export namespace MemoryAddBulkParams {
 
     /**
      * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-     * 64 chars. Values must be string, number, or boolean.
+     * 64 chars. Values must be string, number, boolean, or null.
      */
-    metadata?: { [key: string]: string | number | boolean } | null;
+    metadata?: { [key: string]: string | number | boolean | null } | null;
 
     /**
      * The resource ID to add the document to. If not provided, a new resource ID will
@@ -469,13 +486,13 @@ export namespace MemoryAddBulkParams {
 
 export interface MemoryGetParams {
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler';
@@ -506,13 +523,13 @@ export interface MemorySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
@@ -543,11 +560,6 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     box?: Options.Box;
-
-    /**
-     * Search options for vault
-     */
-    collections?: Options.Collections;
 
     /**
      * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
@@ -591,6 +603,11 @@ export namespace MemorySearchParams {
     slack?: Options.Slack;
 
     /**
+     * Search options for vault
+     */
+    vault?: Options.Vault;
+
+    /**
      * Search options for Web Crawler
      */
     web_crawler?: Options.WebCrawler;
@@ -601,50 +618,7 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     export interface Box {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
-     * Search options for vault
-     */
-    export interface Collections {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -660,27 +634,13 @@ export namespace MemorySearchParams {
      */
     export interface GoogleCalendar {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * The ID of the calendar to search. If not provided, it will use the ID of the
        * default calendar. You can get the list of calendars with the
        * `/integrations/google_calendar/list` endpoint.
        */
       calendar_id?: string | null;
 
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -695,21 +655,7 @@ export namespace MemorySearchParams {
      * Search options for Google Drive
      */
     export interface GoogleDrive {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -724,21 +670,7 @@ export namespace MemorySearchParams {
      * Search options for Gmail
      */
     export interface GoogleMail {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
@@ -761,21 +693,7 @@ export namespace MemorySearchParams {
      * Search options for Notion
      */
     export interface Notion {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
@@ -796,21 +714,7 @@ export namespace MemorySearchParams {
      * Search options for Reddit
      */
     export interface Reddit {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * The time period to search. Defaults to 'month'.
@@ -842,30 +746,16 @@ export namespace MemorySearchParams {
      */
     export interface Slack {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * List of Slack channels to include (by id, name, or #name).
        */
       channels?: Array<string>;
+
+      collection?: string | null;
 
       /**
        * If set, pass 'exclude_archived' to Slack. If None, omit the param.
        */
       exclude_archived?: boolean | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Include direct messages (im) when listing conversations.
@@ -893,24 +783,25 @@ export namespace MemorySearchParams {
     }
 
     /**
+     * Search options for vault
+     */
+    export interface Vault {
+      collection?: string | null;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
+    }
+
+    /**
      * Search options for Web Crawler
      */
     export interface WebCrawler {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
+      collection?: string | null;
 
       /**
        * Maximum depth to crawl from the starting URL
@@ -955,10 +846,11 @@ export declare namespace Memories {
   export {
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,

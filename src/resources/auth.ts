@@ -55,13 +55,13 @@ export interface AuthMeResponse {
    * All integrations available for the app
    */
   available_integrations: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
@@ -71,13 +71,13 @@ export interface AuthMeResponse {
    * All integrations installed for the user
    */
   installed_integrations: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
     | 'box'
+    | 'dropbox'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'

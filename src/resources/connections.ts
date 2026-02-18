@@ -47,13 +47,13 @@ export namespace ConnectionListResponse {
      * The connection's provider
      */
     provider:
-      | 'collections'
       | 'reddit'
       | 'notion'
       | 'slack'
       | 'google_calendar'
       | 'google_mail'
       | 'box'
+      | 'dropbox'
       | 'google_drive'
       | 'vault'
       | 'web_crawler';

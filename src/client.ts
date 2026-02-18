@@ -30,7 +30,6 @@ import {
 } from './resources/evaluate';
 import {
   Memories,
-  MemoriesCursorPage,
   Memory,
   MemoryAddBulkParams,
   MemoryAddBulkResponse,
@@ -39,6 +38,8 @@ import {
   MemoryDeleteResponse,
   MemoryGetParams,
   MemoryListParams,
+  MemoryListResponse,
+  MemoryListResponsesCursorPage,
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
@@ -489,7 +490,7 @@ export class Hyperspell {
       loggerFor(this).info(`${responseInfo} - ${retryMessage}`);
 
       const errText = await response.text().catch((err: any) => castToError(err).message);
-      const errJSON = safeJSON(errText);
+      const errJSON = safeJSON(errText) as any;
       const errMessage = errJSON ? undefined : errText;
 
       loggerFor(this).debug(
@@ -526,9 +527,14 @@ export class Hyperspell {
   getAPIList<Item, PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>>(
     path: string,
     Page: new (...args: any[]) => PageClass,
-    opts?: RequestOptions,
+    opts?: PromiseOrValue<RequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
-    return this.requestAPIList(Page, { method: 'get', path, ...opts });
+    return this.requestAPIList(
+      Page,
+      opts && 'then' in opts ?
+        opts.then((opts) => ({ method: 'get', path, ...opts }))
+      : { method: 'get', path, ...opts },
+    );
   }
 
   requestAPIList<
@@ -536,7 +542,7 @@ export class Hyperspell {
     PageClass extends Pagination.AbstractPage<Item> = Pagination.AbstractPage<Item>,
   >(
     Page: new (...args: ConstructorParameters<typeof Pagination.AbstractPage>) => PageClass,
-    options: FinalRequestOptions,
+    options: PromiseOrValue<FinalRequestOptions>,
   ): Pagination.PagePromise<PageClass, Item> {
     const request = this.makeRequest(options, null, undefined);
     return new Pagination.PagePromise<PageClass, Item>(this as any as Hyperspell, request, Page);
@@ -549,9 +555,10 @@ export class Hyperspell {
     controller: AbortController,
   ): Promise<Response> {
     const { signal, method, ...options } = init || {};
-    if (signal) signal.addEventListener('abort', () => controller.abort());
+    const abort = this._makeAbort(controller);
+    if (signal) signal.addEventListener('abort', abort, { once: true });
 
-    const timeout = setTimeout(() => controller.abort(), ms);
+    const timeout = setTimeout(abort, ms);
 
     const isReadableBody =
       ((globalThis as any).ReadableStream && options.body instanceof (globalThis as any).ReadableStream) ||
@@ -718,6 +725,12 @@ export class Hyperspell {
     return headers.values;
   }
 
+  private _makeAbort(controller: AbortController) {
+    // note: we can't just inline this method inside `fetchWithTimeout()` because then the closure
+    //       would capture all request options, and cause a memory leak.
+    return () => controller.abort();
+  }
+
   private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
@@ -750,6 +763,14 @@ export class Hyperspell {
         (Symbol.iterator in body && 'next' in body && typeof body.next === 'function'))
     ) {
       return { bodyHeaders: undefined, body: Shims.ReadableStreamFrom(body as AsyncIterable<Uint8Array>) };
+    } else if (
+      typeof body === 'object' &&
+      headers.values.get('content-type') === 'application/x-www-form-urlencoded'
+    ) {
+      return {
+        bodyHeaders: { 'content-type': 'application/x-www-form-urlencoded' },
+        body: this.stringifyQuery(body as Record<string, unknown>),
+      };
     } else {
       return this.#encoder({ body, headers });
     }
@@ -812,10 +833,11 @@ export declare namespace Hyperspell {
     Memories as Memories,
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoriesCursorPage as MemoriesCursorPage,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -849,5 +871,7 @@ export declare namespace Hyperspell {
     type AuthUserTokenParams as AuthUserTokenParams,
   };
 
+  export type Metadata = API.Metadata;
+  export type Notification = API.Notification;
   export type QueryResult = API.QueryResult;
 }
