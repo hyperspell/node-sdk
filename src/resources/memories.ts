@@ -668,23 +668,7 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     export interface Box {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -699,23 +683,7 @@ export namespace MemorySearchParams {
      * Search options for vault
      */
     export interface Collections {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -731,16 +699,6 @@ export namespace MemorySearchParams {
      */
     export interface GoogleCalendar {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * The ID of the calendar to search. If not provided, it will use the ID of the
        * default calendar. You can get the list of calendars with the
        * `/integrations/google_calendar/list` endpoint.
@@ -748,12 +706,6 @@ export namespace MemorySearchParams {
       calendar_id?: string | null;
 
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -768,23 +720,7 @@ export namespace MemorySearchParams {
      * Search options for Google Drive
      */
     export interface GoogleDrive {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
@@ -799,23 +735,7 @@ export namespace MemorySearchParams {
      * Search options for Gmail
      */
     export interface GoogleMail {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
@@ -838,23 +758,7 @@ export namespace MemorySearchParams {
      * Search options for Notion
      */
     export interface Notion {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
@@ -875,23 +779,7 @@ export namespace MemorySearchParams {
      * Search options for Reddit
      */
     export interface Reddit {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * The time period to search. Defaults to 'month'.
@@ -923,16 +811,6 @@ export namespace MemorySearchParams {
      */
     export interface Slack {
       /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
-      /**
        * List of Slack channels to include (by id, name, or #name).
        */
       channels?: Array<string>;
@@ -943,12 +821,6 @@ export namespace MemorySearchParams {
        * If set, pass 'exclude_archived' to Slack. If None, omit the param.
        */
       exclude_archived?: boolean | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Include direct messages (im) when listing conversations.
@@ -979,23 +851,7 @@ export namespace MemorySearchParams {
      * Search options for Web Crawler
      */
     export interface WebCrawler {
-      /**
-       * Only query documents created on or after this date.
-       */
-      after?: string | null;
-
-      /**
-       * Only query documents created before this date.
-       */
-      before?: string | null;
-
       collection?: string | null;
-
-      /**
-       * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
-       * 'priority': {'$gt': 3}}
-       */
-      filter?: { [key: string]: unknown } | null;
 
       /**
        * Maximum depth to crawl from the starting URL
