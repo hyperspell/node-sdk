@@ -21,7 +21,7 @@ export class Memories extends APIResource {
    * ```ts
    * const memoryStatus = await client.memories.update(
    *   'resource_id',
-   *   { source: 'collections' },
+   *   { source: 'reddit' },
    * );
    * ```
    */
@@ -69,7 +69,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memory = await client.memories.delete('resource_id', {
-   *   source: 'collections',
+   *   source: 'reddit',
    * });
    * ```
    */
@@ -125,7 +125,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memory = await client.memories.get('resource_id', {
-   *   source: 'collections',
+   *   source: 'reddit',
    * });
    * ```
    */
@@ -188,7 +188,6 @@ export interface MemoryStatus {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -207,7 +206,6 @@ export interface MemoryListResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -265,7 +263,6 @@ export interface MemoryDeleteResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -297,11 +294,13 @@ export interface MemoryAddBulkResponse {
   success?: boolean;
 }
 
+/**
+ * Response model for the GET /memories/get endpoint.
+ */
 export interface MemoryGetResponse {
   resource_id: string;
 
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -313,14 +312,26 @@ export interface MemoryGetResponse {
     | 'vault'
     | 'web_crawler';
 
-  metadata?: MemoryGetResponse.Metadata;
+  /**
+   * The type of document (e.g. Document, Website, Email)
+   */
+  type: string;
 
   /**
-   * The relevance of the resource to the query
+   * The structured content of the document
    */
-  score?: number | null;
+  data?: Array<unknown> | null;
+
+  /**
+   * Summaries of all memories extracted from this document
+   */
+  memories?: Array<string>;
+
+  metadata?: MemoryGetResponse.Metadata;
 
   title?: string | null;
+
+  [k: string]: unknown;
 }
 
 export namespace MemoryGetResponse {
@@ -362,7 +373,6 @@ export interface MemoryUpdateParams {
    * Path param
    */
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -415,7 +425,6 @@ export interface MemoryListParams extends CursorPageParams {
    * Filter documents by source.
    */
   source?:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -436,7 +445,6 @@ export interface MemoryListParams extends CursorPageParams {
 
 export interface MemoryDeleteParams {
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -534,7 +542,6 @@ export namespace MemoryAddBulkParams {
 
 export interface MemoryGetParams {
   source:
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -572,7 +579,6 @@ export interface MemorySearchParams {
    * Only query documents from these sources.
    */
   sources?: Array<
-    | 'collections'
     | 'reddit'
     | 'notion'
     | 'slack'
@@ -610,11 +616,6 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     box?: Options.Box;
-
-    /**
-     * Search options for vault
-     */
-    collections?: Options.Collections;
 
     /**
      * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
@@ -658,6 +659,11 @@ export namespace MemorySearchParams {
     slack?: Options.Slack;
 
     /**
+     * Search options for vault
+     */
+    vault?: Options.Vault;
+
+    /**
      * Search options for Web Crawler
      */
     web_crawler?: Options.WebCrawler;
@@ -668,21 +674,6 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     export interface Box {
-      collection?: string | null;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
-     * Search options for vault
-     */
-    export interface Collections {
       collection?: string | null;
 
       /**
@@ -837,6 +828,21 @@ export namespace MemorySearchParams {
        * preserve existing cassette query params.
        */
       include_private?: boolean;
+
+      /**
+       * Weight of results from this source. A weight greater than 1.0 means more results
+       * from this source will be returned, a weight less than 1.0 means fewer results
+       * will be returned. This will only affect results if multiple sources are queried
+       * at the same time.
+       */
+      weight?: number;
+    }
+
+    /**
+     * Search options for vault
+     */
+    export interface Vault {
+      collection?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
