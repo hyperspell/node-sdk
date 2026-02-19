@@ -329,8 +329,8 @@ export interface MemoryUpdateParams {
     | 'web_crawler';
 
   /**
-   * Body param: The collection to move the document to. Set to null to remove the
-   * collection.
+   * @deprecated Body param: The collection to move the document to — deprecated, set
+   * the collection using metadata instead.
    */
   collection?: string | unknown | null;
 
@@ -408,7 +408,8 @@ export interface MemoryAddParams {
   text: string;
 
   /**
-   * The collection to add the document to for easier retrieval.
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
    */
   collection?: string | null;
 
@@ -453,7 +454,8 @@ export namespace MemoryAddBulkParams {
     text: string;
 
     /**
-     * The collection to add the document to for easier retrieval.
+     * @deprecated The collection to add the document to — deprecated, set the
+     * collection using metadata instead.
      */
     collection?: string | null;
 
@@ -831,7 +833,8 @@ export interface MemoryUploadParams {
   file: Uploadable;
 
   /**
-   * The collection to add the document to.
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
    */
   collection?: string | null;
 
