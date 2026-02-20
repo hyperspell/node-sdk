@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.32.0 (2026-02-20)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/hyperspell/node-sdk/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* **api:** api update ([44dc1e7](https://github.com/hyperspell/node-sdk/commit/44dc1e76ae1637fa4e889409f6755cde9ec41d8f))
+* **api:** api update ([c85924d](https://github.com/hyperspell/node-sdk/commit/c85924dccb934adba75421f757b5c2c226984e00))
+
+
+### Bug Fixes
+
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([ff10988](https://github.com/hyperspell/node-sdk/commit/ff10988f658c9ba9fe926f3ae5b9ecc2b6f1908e))
+
+
+### Chores
+
+* **internal:** cache fetch instruction calls in MCP server ([ccacaac](https://github.com/hyperspell/node-sdk/commit/ccacaaccdae08b289609ed69dd272f952007e3e2))
+* **mcp:** correctly update version in sync with sdk ([54f2bff](https://github.com/hyperspell/node-sdk/commit/54f2bffc32d97851ded586a4a0840e5b74bddd54))
+* update mock server docs ([0417d08](https://github.com/hyperspell/node-sdk/commit/0417d08178a0efe5b858d15c3a2c6763964e8bbe))
+
 ## 0.31.0 (2026-02-18)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/hyperspell/node-sdk/compare/v0.30.0...v0.31.0)
