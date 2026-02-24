@@ -60,7 +60,7 @@ $ yarn link hyperspell
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link -—global hyperspell
+$ pnpm link --global hyperspell
 ```
 
 ## Running tests
