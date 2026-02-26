@@ -65,6 +65,7 @@ export interface AuthMeResponse {
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 
   /**
@@ -81,6 +82,7 @@ export interface AuthMeResponse {
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 
   /**

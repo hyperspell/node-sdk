@@ -91,7 +91,8 @@ export namespace IntegrationListResponse {
       | 'dropbox'
       | 'google_drive'
       | 'vault'
-      | 'web_crawler';
+      | 'web_crawler'
+      | 'trace';
   }
 }
 

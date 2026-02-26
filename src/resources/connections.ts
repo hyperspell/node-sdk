@@ -56,7 +56,8 @@ export namespace ConnectionListResponse {
       | 'dropbox'
       | 'google_drive'
       | 'vault'
-      | 'web_crawler';
+      | 'web_crawler'
+      | 'trace';
   }
 }
 
