@@ -200,7 +200,8 @@ export interface Memory {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -237,7 +238,8 @@ export interface MemoryStatus {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
@@ -255,7 +257,8 @@ export interface MemoryListResponse {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   metadata?: Shared.Metadata;
 
@@ -284,7 +287,8 @@ export interface MemoryDeleteResponse {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   success: boolean;
 }
@@ -326,7 +330,8 @@ export interface MemoryUpdateParams {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -379,6 +384,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
     | null;
 
   /**
@@ -398,7 +404,8 @@ export interface MemoryDeleteParams {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 }
 
 export interface MemoryAddParams {
@@ -497,7 +504,8 @@ export interface MemoryGetParams {
     | 'dropbox'
     | 'google_drive'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 }
 
 export interface MemorySearchParams {
@@ -535,6 +543,7 @@ export interface MemorySearchParams {
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 }
 

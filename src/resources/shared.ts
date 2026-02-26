@@ -66,7 +66,8 @@ export namespace QueryResult {
       | 'dropbox'
       | 'google_drive'
       | 'vault'
-      | 'web_crawler';
+      | 'web_crawler'
+      | 'trace';
 
     metadata?: Shared.Metadata;
 
