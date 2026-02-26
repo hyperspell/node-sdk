@@ -560,7 +560,15 @@ export namespace MemorySearchParams {
     /**
      * Model to use for answer generation when answer=True
      */
-    answer_model?: 'llama-3.1' | 'gemma2' | 'qwen-qwq' | 'mistral-saba' | 'llama-4-scout' | 'deepseek-r1';
+    answer_model?:
+      | 'llama-3.1'
+      | 'gemma2'
+      | 'qwen-qwq'
+      | 'mistral-saba'
+      | 'llama-4-scout'
+      | 'deepseek-r1'
+      | 'gpt-oss-20b'
+      | 'gpt-oss-120b';
 
     /**
      * Only query documents created before this date.
