@@ -199,6 +199,7 @@ export interface Memory {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -237,6 +238,7 @@ export interface MemoryStatus {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -256,6 +258,7 @@ export interface MemoryListResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -286,6 +289,7 @@ export interface MemoryDeleteResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -329,6 +333,7 @@ export interface MemoryUpdateParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -382,6 +387,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace'
@@ -403,6 +409,7 @@ export interface MemoryDeleteParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -503,6 +510,7 @@ export interface MemoryGetParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace';
@@ -541,6 +549,7 @@ export interface MemorySearchParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
     | 'trace'
