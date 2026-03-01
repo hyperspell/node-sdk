@@ -199,8 +199,10 @@ export interface Memory {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -236,8 +238,10 @@ export interface MemoryStatus {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
@@ -254,8 +258,10 @@ export interface MemoryListResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   metadata?: Shared.Metadata;
 
@@ -283,8 +289,10 @@ export interface MemoryDeleteResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   success: boolean;
 }
@@ -325,12 +333,14 @@ export interface MemoryUpdateParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   /**
-   * Body param: The collection to move the document to. Set to null to remove the
-   * collection.
+   * @deprecated Body param: The collection to move the document to — deprecated, set
+   * the collection using metadata instead.
    */
   collection?: string | unknown | null;
 
@@ -377,8 +387,10 @@ export interface MemoryListParams extends CursorPageParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
     | null;
 
   /**
@@ -397,8 +409,10 @@ export interface MemoryDeleteParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 }
 
 export interface MemoryAddParams {
@@ -408,7 +422,8 @@ export interface MemoryAddParams {
   text: string;
 
   /**
-   * The collection to add the document to for easier retrieval.
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
    */
   collection?: string | null;
 
@@ -453,7 +468,8 @@ export namespace MemoryAddBulkParams {
     text: string;
 
     /**
-     * The collection to add the document to for easier retrieval.
+     * @deprecated The collection to add the document to — deprecated, set the
+     * collection using metadata instead.
      */
     collection?: string | null;
 
@@ -494,8 +510,10 @@ export interface MemoryGetParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 }
 
 export interface MemorySearchParams {
@@ -531,8 +549,10 @@ export interface MemorySearchParams {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 }
 
@@ -549,7 +569,15 @@ export namespace MemorySearchParams {
     /**
      * Model to use for answer generation when answer=True
      */
-    answer_model?: 'llama-3.1' | 'gemma2' | 'qwen-qwq' | 'mistral-saba' | 'llama-4-scout' | 'deepseek-r1';
+    answer_model?:
+      | 'llama-3.1'
+      | 'gemma2'
+      | 'qwen-qwq'
+      | 'mistral-saba'
+      | 'llama-4-scout'
+      | 'deepseek-r1'
+      | 'gpt-oss-20b'
+      | 'gpt-oss-120b';
 
     /**
      * Only query documents created before this date.
@@ -598,6 +626,12 @@ export namespace MemorySearchParams {
     reddit?: Options.Reddit;
 
     /**
+     * Only return results from these specific resource IDs. Useful for scoping
+     * searches to specific documents (e.g., a specific email thread or uploaded file).
+     */
+    resource_ids?: Array<string> | null;
+
+    /**
      * Search options for Slack
      */
     slack?: Options.Slack;
@@ -618,8 +652,6 @@ export namespace MemorySearchParams {
      * Search options for Box
      */
     export interface Box {
-      collection?: string | null;
-
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
@@ -640,8 +672,6 @@ export namespace MemorySearchParams {
        */
       calendar_id?: string | null;
 
-      collection?: string | null;
-
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
@@ -655,8 +685,6 @@ export namespace MemorySearchParams {
      * Search options for Google Drive
      */
     export interface GoogleDrive {
-      collection?: string | null;
-
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
@@ -670,8 +698,6 @@ export namespace MemorySearchParams {
      * Search options for Gmail
      */
     export interface GoogleMail {
-      collection?: string | null;
-
       /**
        * List of label IDs to filter messages (e.g., ['INBOX', 'SENT', 'DRAFT']).
        * Multiple labels are combined with OR logic - messages matching ANY specified
@@ -693,8 +719,6 @@ export namespace MemorySearchParams {
      * Search options for Notion
      */
     export interface Notion {
-      collection?: string | null;
-
       /**
        * List of Notion page IDs to search. If not provided, all pages in the workspace
        * will be searched.
@@ -714,8 +738,6 @@ export namespace MemorySearchParams {
      * Search options for Reddit
      */
     export interface Reddit {
-      collection?: string | null;
-
       /**
        * The time period to search. Defaults to 'month'.
        */
@@ -749,8 +771,6 @@ export namespace MemorySearchParams {
        * List of Slack channels to include (by id, name, or #name).
        */
       channels?: Array<string>;
-
-      collection?: string | null;
 
       /**
        * If set, pass 'exclude_archived' to Slack. If None, omit the param.
@@ -786,8 +806,6 @@ export namespace MemorySearchParams {
      * Search options for vault
      */
     export interface Vault {
-      collection?: string | null;
-
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results
        * from this source will be returned, a weight less than 1.0 means fewer results
@@ -801,8 +819,6 @@ export namespace MemorySearchParams {
      * Search options for Web Crawler
      */
     export interface WebCrawler {
-      collection?: string | null;
-
       /**
        * Maximum depth to crawl from the starting URL
        */
@@ -831,7 +847,8 @@ export interface MemoryUploadParams {
   file: Uploadable;
 
   /**
-   * The collection to add the document to.
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
    */
   collection?: string | null;
 
