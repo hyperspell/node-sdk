@@ -173,6 +173,7 @@ describe('resource memories', () => {
           subreddit: 'subreddit',
           weight: 0,
         },
+        resource_ids: ['string'],
         slack: {
           channels: ['string'],
           exclude_archived: true,

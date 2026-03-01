@@ -626,6 +626,12 @@ export namespace MemorySearchParams {
     reddit?: Options.Reddit;
 
     /**
+     * Only return results from these specific resource IDs. Useful for scoping
+     * searches to specific documents (e.g., a specific email thread or uploaded file).
+     */
+    resource_ids?: Array<string> | null;
+
+    /**
      * Search options for Slack
      */
     slack?: Options.Slack;
