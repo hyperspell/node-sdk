@@ -63,8 +63,10 @@ export interface AuthMeResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 
   /**
@@ -79,8 +81,10 @@ export interface AuthMeResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
     | 'web_crawler'
+    | 'trace'
   >;
 
   /**

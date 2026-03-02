@@ -1,5 +1,38 @@
 # Changelog
 
+## 0.32.0 (2026-03-01)
+
+Full Changelog: [v0.31.0...v0.32.0](https://github.com/hyperspell/node-sdk/compare/v0.31.0...v0.32.0)
+
+### Features
+
+* **api:** api update ([b4eace6](https://github.com/hyperspell/node-sdk/commit/b4eace6abadca200b50d56c03a753bd598637ea8))
+* **api:** api update ([58dfd3c](https://github.com/hyperspell/node-sdk/commit/58dfd3cf50972db3ffe9479eaffb2fd2a39a9182))
+* **api:** api update ([07490e4](https://github.com/hyperspell/node-sdk/commit/07490e4a52d6d8ac7b38f11dc38a4b23af3dd2f7))
+* **api:** api update ([5a6e5c7](https://github.com/hyperspell/node-sdk/commit/5a6e5c74e6ddcc376450e94b0f5bdafe073ba801))
+* **api:** api update ([44dc1e7](https://github.com/hyperspell/node-sdk/commit/44dc1e76ae1637fa4e889409f6755cde9ec41d8f))
+* **api:** api update ([c85924d](https://github.com/hyperspell/node-sdk/commit/c85924dccb934adba75421f757b5c2c226984e00))
+* **mcp:** add an option to disable code tool ([04751a8](https://github.com/hyperspell/node-sdk/commit/04751a82dec534e1121e64d37cae364139a387e0))
+
+
+### Bug Fixes
+
+* **docs/contributing:** correct pnpm link command ([8904a4f](https://github.com/hyperspell/node-sdk/commit/8904a4f7743ce268f189871f0ca4bb49672ad0fd))
+* **mcp:** initialize SDK lazily to avoid failing the connection on init errors ([ff10988](https://github.com/hyperspell/node-sdk/commit/ff10988f658c9ba9fe926f3ae5b9ecc2b6f1908e))
+* **mcp:** update prompt ([dc2e5d5](https://github.com/hyperspell/node-sdk/commit/dc2e5d5f8c4f4b59efff25e722336b4b05e8bd5d))
+
+
+### Chores
+
+* **internal:** cache fetch instruction calls in MCP server ([ccacaac](https://github.com/hyperspell/node-sdk/commit/ccacaaccdae08b289609ed69dd272f952007e3e2))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([9958397](https://github.com/hyperspell/node-sdk/commit/99583972b4d0533b87ba48e0cd431dcab5bb0333))
+* **internal:** fix MCP Dockerfiles so they can be built without buildkit ([c38098d](https://github.com/hyperspell/node-sdk/commit/c38098da6c6d46eba456572b142bc071147fcbcc))
+* **internal:** make MCP code execution location configurable via a flag ([6ae4a00](https://github.com/hyperspell/node-sdk/commit/6ae4a00a4d3f0eb59041c2e1b49046bc1a55ed40))
+* **internal:** move stringifyQuery implementation to internal function ([1f6b40d](https://github.com/hyperspell/node-sdk/commit/1f6b40dacee9990460286272e8b64c6117680d5d))
+* **internal:** upgrade @modelcontextprotocol/sdk and hono ([f6fdb27](https://github.com/hyperspell/node-sdk/commit/f6fdb27d81b75495ef4e2399699c9153dc056490))
+* **mcp:** correctly update version in sync with sdk ([54f2bff](https://github.com/hyperspell/node-sdk/commit/54f2bffc32d97851ded586a4a0840e5b74bddd54))
+* update mock server docs ([0417d08](https://github.com/hyperspell/node-sdk/commit/0417d08178a0efe5b858d15c3a2c6763964e8bbe))
+
 ## 0.31.0 (2026-02-18)
 
 Full Changelog: [v0.30.0...v0.31.0](https://github.com/hyperspell/node-sdk/compare/v0.30.0...v0.31.0)

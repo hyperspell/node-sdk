@@ -32,8 +32,10 @@ export interface WebCrawlerIndexResponse {
     | 'box'
     | 'dropbox'
     | 'google_drive'
+    | 'github'
     | 'vault'
-    | 'web_crawler';
+    | 'web_crawler'
+    | 'trace';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
