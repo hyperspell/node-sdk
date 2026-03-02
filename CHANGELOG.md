@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.32.1 (2026-03-02)
+
+Full Changelog: [v0.32.0...v0.32.1](https://github.com/hyperspell/node-sdk/compare/v0.32.0...v0.32.1)
+
+### Chores
+
+* trusted publishing ([b36b6c7](https://github.com/hyperspell/node-sdk/commit/b36b6c739997fadbd80e1ccfd4011bd157fe06b0))
+
 ## 0.32.0 (2026-03-01)
 
 Full Changelog: [v0.31.0...v0.32.0](https://github.com/hyperspell/node-sdk/compare/v0.31.0...v0.32.0)
