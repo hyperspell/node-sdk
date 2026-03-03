@@ -165,7 +165,7 @@ describe('resource memories', () => {
         google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
-        max_results: 0,
+        max_results: 200,
         notion: { notion_page_ids: ['string'], weight: 0 },
         reddit: {
           period: 'hour',
