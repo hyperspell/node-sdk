@@ -206,7 +206,7 @@ describe('resource memories', () => {
 
   test('upload: only required params', async () => {
     const responsePromise = client.memories.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -219,7 +219,7 @@ describe('resource memories', () => {
 
   test('upload: required and optional params', async () => {
     const response = await client.memories.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
       collection: 'collection',
       metadata: 'metadata',
     });
