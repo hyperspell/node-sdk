@@ -93,7 +93,8 @@ export namespace IntegrationListResponse {
       | 'github'
       | 'vault'
       | 'web_crawler'
-      | 'trace';
+      | 'trace'
+      | 'microsoft_teams';
   }
 }
 
