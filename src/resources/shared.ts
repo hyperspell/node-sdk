@@ -68,7 +68,8 @@ export namespace QueryResult {
       | 'github'
       | 'vault'
       | 'web_crawler'
-      | 'trace';
+      | 'trace'
+      | 'microsoft_teams';
 
     metadata?: Shared.Metadata;
 
