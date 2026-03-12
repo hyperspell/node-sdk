@@ -625,6 +625,12 @@ export namespace MemorySearchParams {
     max_results?: number;
 
     /**
+     * Filter by memory type. Defaults to generic memories only. Pass multiple types to
+     * include procedures, etc.
+     */
+    memory_types?: Array<'procedure' | 'memory'>;
+
+    /**
      * Search options for Notion
      */
     notion?: Options.Notion;
