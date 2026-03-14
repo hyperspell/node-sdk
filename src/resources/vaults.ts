@@ -9,6 +9,8 @@ export class Vaults extends APIResource {
    * This endpoint lists all collections, and how many documents are in each
    * collection. All documents that do not have a collection assigned are in the
    * `null` collection.
+   *
+   * @deprecated This method will be removed in the future
    */
   list(
     query: VaultListParams | null | undefined = {},
