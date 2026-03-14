@@ -202,7 +202,8 @@ export interface Memory {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -241,7 +242,8 @@ export interface MemoryStatus {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }
@@ -261,7 +263,8 @@ export interface MemoryListResponse {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   metadata?: Shared.Metadata;
 
@@ -292,7 +295,8 @@ export interface MemoryDeleteResponse {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   success: boolean;
 }
@@ -336,7 +340,8 @@ export interface MemoryUpdateParams {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -391,6 +396,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_teams'
     | null;
 
   /**
@@ -412,7 +418,8 @@ export interface MemoryDeleteParams {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 }
 
 export interface MemoryAddParams {
@@ -513,7 +520,8 @@ export interface MemoryGetParams {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 }
 
 export interface MemorySearchParams {
@@ -553,6 +561,7 @@ export interface MemorySearchParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_teams'
   >;
 }
 
@@ -614,6 +623,12 @@ export namespace MemorySearchParams {
      * Maximum number of results to return.
      */
     max_results?: number;
+
+    /**
+     * Filter by memory type. Defaults to generic memories only. Pass multiple types to
+     * include procedures, etc.
+     */
+    memory_types?: Array<'procedure' | 'memory'>;
 
     /**
      * Search options for Notion

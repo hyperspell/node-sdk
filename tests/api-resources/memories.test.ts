@@ -165,7 +165,8 @@ describe('resource memories', () => {
         google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
-        max_results: 0,
+        max_results: 200,
+        memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
         reddit: {
           period: 'hour',
@@ -206,7 +207,7 @@ describe('resource memories', () => {
 
   test('upload: only required params', async () => {
     const responsePromise = client.memories.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
     });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
@@ -219,7 +220,7 @@ describe('resource memories', () => {
 
   test('upload: required and optional params', async () => {
     const response = await client.memories.upload({
-      file: await toFile(Buffer.from('# my file contents'), 'README.md'),
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
       collection: 'collection',
       metadata: 'metadata',
     });
