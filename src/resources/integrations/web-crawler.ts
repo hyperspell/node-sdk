@@ -35,7 +35,8 @@ export interface WebCrawlerIndexResponse {
     | 'github'
     | 'vault'
     | 'web_crawler'
-    | 'trace';
+    | 'trace'
+    | 'microsoft_teams';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
 }

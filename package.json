@@ -1,6 +1,6 @@
 {
   "name": "hyperspell",
-  "version": "0.32.1",
+  "version": "0.33.0",
   "description": "The official TypeScript library for the Hyperspell API",
   "author": "Hyperspell <hello@hyperspell.com>",
   "types": "dist/index.d.ts",
@@ -52,6 +52,17 @@
   },
   "bin": {
     "hyperspell": "bin/cli"
+  },
+  "overrides": {
+    "minimatch": "^9.0.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "minimatch": "^9.0.5"
+    }
+  },
+  "resolutions": {
+    "minimatch": "^9.0.5"
   },
   "exports": {
     ".": {

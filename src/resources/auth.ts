@@ -67,6 +67,7 @@ export interface AuthMeResponse {
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_teams'
   >;
 
   /**
@@ -85,6 +86,7 @@ export interface AuthMeResponse {
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_teams'
   >;
 
   /**

@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.33.0 (2026-03-14)
+
+Full Changelog: [v0.32.1...v0.33.0](https://github.com/hyperspell/node-sdk/compare/v0.32.1...v0.33.0)
+
+### Features
+
+* **api:** api update ([a36859a](https://github.com/hyperspell/node-sdk/commit/a36859af78f57d190f59bbf9352a3412dfff5356))
+* **api:** api update ([f00dec6](https://github.com/hyperspell/node-sdk/commit/f00dec64dd7b4a8fa5bdbb52ee383149d6326898))
+* **api:** api update ([c5c7f31](https://github.com/hyperspell/node-sdk/commit/c5c7f31a366080de58b305429d0bcb84dec91493))
+* **api:** manual updates ([7340a84](https://github.com/hyperspell/node-sdk/commit/7340a849189533a89d897d4dc87a890aa0abf73b))
+
+
+### Bug Fixes
+
+* **client:** preserve URL params already embedded in path ([af6d83b](https://github.com/hyperspell/node-sdk/commit/af6d83b7176a0e8672c1ee54a6db5a4bd48d4bd9))
+
+
+### Chores
+
+* **ci:** skip uploading artifacts on stainless-internal branches ([6a453f9](https://github.com/hyperspell/node-sdk/commit/6a453f9854dd43f6ee2d20674cd31e72743327f4))
+* **internal:** bump @modelcontextprotocol/sdk, @hono/node-server, and minimatch ([16f74a7](https://github.com/hyperspell/node-sdk/commit/16f74a7124c551479b49242ca83b595c85712b20))
+* **internal:** codegen related update ([c49250c](https://github.com/hyperspell/node-sdk/commit/c49250ccd40e962f760fcec44f6ecd85856a1578))
+* **internal:** codegen related update ([e7684c4](https://github.com/hyperspell/node-sdk/commit/e7684c45c0ad25bf0015ccd24d98ea182f8d6055))
+* **internal:** make generated MCP servers compatible with Cloudflare worker environments ([35c5ba8](https://github.com/hyperspell/node-sdk/commit/35c5ba8825288782602fce19cd250aa17d7fa6e4))
+* **internal:** support x-stainless-mcp-client-envs header in MCP servers ([632cb03](https://github.com/hyperspell/node-sdk/commit/632cb03f6161d2c38c78c33753de58f84e97e9b6))
+* **internal:** update dependencies to address dependabot vulnerabilities ([8879f0c](https://github.com/hyperspell/node-sdk/commit/8879f0cbd229d4d09417b38c11a4439380af80ac))
+* **internal:** use x-stainless-mcp-client-envs header for MCP remote code tool calls ([f8b4ea0](https://github.com/hyperspell/node-sdk/commit/f8b4ea07e91449a9262938777c8c32a3b30c9aba))
+* **mcp-server:** improve instructions ([604dcdd](https://github.com/hyperspell/node-sdk/commit/604dcddc6a332f9990e06eacf0edcb64bb2fd171))
+* **mcp-server:** return access instructions for 404 without API key ([2750b02](https://github.com/hyperspell/node-sdk/commit/2750b02b4f1e091728ed4c9d202cd3387ed51294))
+* **test:** do not count install time for mock server timeout ([1d19a8e](https://github.com/hyperspell/node-sdk/commit/1d19a8e8ca7be9782a217c28f12c0329931a725d))
+* update placeholder string ([b91b593](https://github.com/hyperspell/node-sdk/commit/b91b5935f49d8d5be04738bd2cda7dce878ea736))
+
 ## 0.32.1 (2026-03-02)
 
 Full Changelog: [v0.32.0...v0.32.1](https://github.com/hyperspell/node-sdk/compare/v0.32.0...v0.32.1)

@@ -58,7 +58,8 @@ export namespace ConnectionListResponse {
       | 'github'
       | 'vault'
       | 'web_crawler'
-      | 'trace';
+      | 'trace'
+      | 'microsoft_teams';
   }
 }
 
