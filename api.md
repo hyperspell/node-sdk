@@ -5,6 +5,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">Metadata</a></code>
 - <code><a href="./src/resources/shared.ts">Notification</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
+- <code><a href="./src/resources/shared.ts">Resource</a></code>
 
 # Connections
 
@@ -66,7 +67,6 @@ Types:
 
 - <code><a href="./src/resources/memories.ts">Memory</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
-- <code><a href="./src/resources/memories.ts">MemoryListResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryDeleteResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryAddBulkResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
@@ -74,7 +74,7 @@ Types:
 Methods:
 
 - <code title="post /memories/update/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">update</a>(resourceID, { ...params }) -> MemoryStatus</code>
-- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoryListResponsesCursorPage</code>
+- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> ResourcesCursorPage</code>
 - <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
 - <code title="post /memories/add/bulk">client.memories.<a href="./src/resources/memories.ts">addBulk</a>({ ...params }) -> MemoryAddBulkResponse</code>
@@ -95,6 +95,24 @@ Methods:
 - <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> QueryResult</code>
 - <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
 - <code title="post /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>(queryID, { ...params }) -> EvaluateScoreQueryResponse</code>
+
+# Actions
+
+Types:
+
+- <code><a href="./src/resources/actions.ts">ActionAddReactionResponse</a></code>
+- <code><a href="./src/resources/actions.ts">ActionSendMessageResponse</a></code>
+
+Methods:
+
+- <code title="post /actions/add_reaction">client.actions.<a href="./src/resources/actions.ts">addReaction</a>({ ...params }) -> ActionAddReactionResponse</code>
+- <code title="post /actions/send_message">client.actions.<a href="./src/resources/actions.ts">sendMessage</a>({ ...params }) -> ActionSendMessageResponse</code>
+
+# Sessions
+
+Methods:
+
+- <code title="post /trace/add">client.sessions.<a href="./src/resources/sessions.ts">add</a>({ ...params }) -> MemoryStatus</code>
 
 # Vaults
 
