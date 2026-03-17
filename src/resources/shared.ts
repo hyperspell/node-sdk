@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import * as Shared from './shared';
+import { CursorPage } from '../core/pagination';
 
 export interface Metadata {
   created_at?: string | null;
@@ -27,7 +27,7 @@ export interface Notification {
 }
 
 export interface QueryResult {
-  documents: Array<QueryResult.Document>;
+  documents: Array<Resource>;
 
   /**
    * The answer to the query, if the request was set to answer.
@@ -52,32 +52,32 @@ export interface QueryResult {
   score?: number | null;
 }
 
-export namespace QueryResult {
-  export interface Document {
-    resource_id: string;
+export interface Resource {
+  resource_id: string;
 
-    source:
-      | 'reddit'
-      | 'notion'
-      | 'slack'
-      | 'google_calendar'
-      | 'google_mail'
-      | 'box'
-      | 'dropbox'
-      | 'google_drive'
-      | 'github'
-      | 'vault'
-      | 'web_crawler'
-      | 'trace'
-      | 'microsoft_teams';
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'google_drive'
+    | 'github'
+    | 'vault'
+    | 'web_crawler'
+    | 'trace'
+    | 'microsoft_teams';
 
-    metadata?: Shared.Metadata;
+  metadata?: Metadata;
 
-    /**
-     * The relevance of the resource to the query
-     */
-    score?: number | null;
+  /**
+   * The relevance of the resource to the query
+   */
+  score?: number | null;
 
-    title?: string | null;
-  }
+  title?: string | null;
 }
+
+export type ResourcesCursorPage = CursorPage<Resource>;

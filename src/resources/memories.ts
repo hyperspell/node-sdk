@@ -2,6 +2,7 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
+import { ResourcesCursorPage } from './shared';
 import { APIPromise } from '../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { type Uploadable } from '../core/uploads';
@@ -37,7 +38,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const memoryListResponse of client.memories.list()) {
+   * for await (const resource of client.memories.list()) {
    *   // ...
    * }
    * ```
@@ -45,8 +46,8 @@ export class Memories extends APIResource {
   list(
     query: MemoryListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<MemoryListResponsesCursorPage, MemoryListResponse> {
-    return this._client.getAPIList('/memories/list', CursorPage<MemoryListResponse>, { query, ...options });
+  ): PagePromise<ResourcesCursorPage, Shared.Resource> {
+    return this._client.getAPIList('/memories/list', CursorPage<Shared.Resource>, { query, ...options });
   }
 
   /**
@@ -182,8 +183,6 @@ export class Memories extends APIResource {
   }
 }
 
-export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
-
 /**
  * Response model for the GET /memories/get endpoint.
  */
@@ -246,34 +245,6 @@ export interface MemoryStatus {
     | 'microsoft_teams';
 
   status: 'pending' | 'processing' | 'completed' | 'failed';
-}
-
-export interface MemoryListResponse {
-  resource_id: string;
-
-  source:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'google_drive'
-    | 'github'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams';
-
-  metadata?: Shared.Metadata;
-
-  /**
-   * The relevance of the resource to the query
-   */
-  score?: number | null;
-
-  title?: string | null;
 }
 
 export interface MemoryDeleteResponse {
@@ -878,11 +849,9 @@ export declare namespace Memories {
   export {
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
-    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -893,3 +862,5 @@ export declare namespace Memories {
     type MemoryUploadParams as MemoryUploadParams,
   };
 }
+
+export { type ResourcesCursorPage };
