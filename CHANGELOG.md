@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.34.0 (2026-03-17)
+
+Full Changelog: [v0.33.0...v0.34.0](https://github.com/hyperspell/node-sdk/compare/v0.33.0...v0.34.0)
+
+### Features
+
+* **api:** manual updates ([bf44888](https://github.com/hyperspell/node-sdk/commit/bf448889ffd414169ec4766348a0677830241b6b))
+* **api:** manual updates ([f174660](https://github.com/hyperspell/node-sdk/commit/f1746603cff2b484a1c2009a4620dc5c61960d42))
+
+
+### Chores
+
+* **internal:** support x-stainless-mcp-client-permissions headers in MCP servers ([d8d7aab](https://github.com/hyperspell/node-sdk/commit/d8d7aaba5cf4b42692d1caf60c2b379951e26a9d))
+* **internal:** tweak CI branches ([ccba23b](https://github.com/hyperspell/node-sdk/commit/ccba23b58f275c411172b8708ac19c35df8d385f))
+* remove custom code ([62822d4](https://github.com/hyperspell/node-sdk/commit/62822d4bb3520838cc80106ffecbee788b60cef7))
+
 ## 0.33.0 (2026-03-14)
 
 Full Changelog: [v0.32.1...v0.33.0](https://github.com/hyperspell/node-sdk/compare/v0.32.1...v0.33.0)
