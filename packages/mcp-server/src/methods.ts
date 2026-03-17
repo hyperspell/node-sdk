@@ -125,6 +125,24 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/evaluate/query/{query_id}',
   },
   {
+    clientCallName: 'client.actions.addReaction',
+    fullyQualifiedName: 'actions.addReaction',
+    httpMethod: 'post',
+    httpPath: '/actions/add_reaction',
+  },
+  {
+    clientCallName: 'client.actions.sendMessage',
+    fullyQualifiedName: 'actions.sendMessage',
+    httpMethod: 'post',
+    httpPath: '/actions/send_message',
+  },
+  {
+    clientCallName: 'client.sessions.add',
+    fullyQualifiedName: 'sessions.add',
+    httpMethod: 'post',
+    httpPath: '/trace/add',
+  },
+  {
     clientCallName: 'client.vaults.list',
     fullyQualifiedName: 'vaults.list',
     httpMethod: 'get',

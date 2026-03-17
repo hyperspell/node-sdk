@@ -2,6 +2,13 @@
 
 export * from './shared';
 export {
+  Actions,
+  type ActionAddReactionResponse,
+  type ActionSendMessageResponse,
+  type ActionAddReactionParams,
+  type ActionSendMessageParams,
+} from './actions';
+export {
   Auth,
   type Token,
   type AuthDeleteUserResponse,
@@ -26,7 +33,6 @@ export {
   Memories,
   type Memory,
   type MemoryStatus,
-  type MemoryListResponse,
   type MemoryDeleteResponse,
   type MemoryAddBulkResponse,
   type MemoryStatusResponse,
@@ -38,8 +44,8 @@ export {
   type MemoryGetParams,
   type MemorySearchParams,
   type MemoryUploadParams,
-  type MemoryListResponsesCursorPage,
 } from './memories';
+export { Sessions, type SessionAddParams } from './sessions';
 export {
   Vaults,
   type VaultListResponse,

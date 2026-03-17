@@ -1,12 +1,14 @@
 name: CI
 on:
   push:
-    branches-ignore:
-      - 'generated'
-      - 'codegen/**'
-      - 'integrated/**'
-      - 'stl-preview-head/**'
-      - 'stl-preview-base/**'
+    branches:
+      - '**'
+      - '!integrated/**'
+      - '!stl-preview-head/**'
+      - '!stl-preview-base/**'
+      - '!generated'
+      - '!codegen/**'
+      - 'codegen/stl/**'
   pull_request:
     branches-ignore:
       - 'stl-preview-head/**'
@@ -25,6 +27,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.30.1'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -47,6 +54,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.30.1'
 
       - name: Bootstrap
         run: ./scripts/bootstrap
@@ -95,6 +107,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: '10.30.1'
 
       - name: Bootstrap
         run: ./scripts/bootstrap

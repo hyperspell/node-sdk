@@ -19,6 +19,13 @@ import { AbstractPage, type CursorPageParams, CursorPageResponse } from './core/
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
+import {
+  ActionAddReactionParams,
+  ActionAddReactionResponse,
+  ActionSendMessageParams,
+  ActionSendMessageResponse,
+  Actions,
+} from './resources/actions';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
 import {
@@ -38,14 +45,13 @@ import {
   MemoryDeleteResponse,
   MemoryGetParams,
   MemoryListParams,
-  MemoryListResponse,
-  MemoryListResponsesCursorPage,
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
   MemoryUpdateParams,
   MemoryUploadParams,
 } from './resources/memories';
+import { SessionAddParams, Sessions } from './resources/sessions';
 import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
 import {
   IntegrationConnectParams,
@@ -800,6 +806,8 @@ export class Hyperspell {
   integrations: API.Integrations = new API.Integrations(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
+  actions: API.Actions = new API.Actions(this);
+  sessions: API.Sessions = new API.Sessions(this);
   vaults: API.Vaults = new API.Vaults(this);
   auth: API.Auth = new API.Auth(this);
 }
@@ -808,6 +816,8 @@ Hyperspell.Connections = Connections;
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
+Hyperspell.Actions = Actions;
+Hyperspell.Sessions = Sessions;
 Hyperspell.Vaults = Vaults;
 Hyperspell.Auth = Auth;
 
@@ -834,11 +844,9 @@ export declare namespace Hyperspell {
     Memories as Memories,
     type Memory as Memory,
     type MemoryStatus as MemoryStatus,
-    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
-    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -858,6 +866,16 @@ export declare namespace Hyperspell {
   };
 
   export {
+    Actions as Actions,
+    type ActionAddReactionResponse as ActionAddReactionResponse,
+    type ActionSendMessageResponse as ActionSendMessageResponse,
+    type ActionAddReactionParams as ActionAddReactionParams,
+    type ActionSendMessageParams as ActionSendMessageParams,
+  };
+
+  export { Sessions as Sessions, type SessionAddParams as SessionAddParams };
+
+  export {
     Vaults as Vaults,
     type VaultListResponse as VaultListResponse,
     type VaultListResponsesCursorPage as VaultListResponsesCursorPage,
@@ -875,4 +893,5 @@ export declare namespace Hyperspell {
   export type Metadata = API.Metadata;
   export type Notification = API.Notification;
   export type QueryResult = API.QueryResult;
+  export type Resource = API.Resource;
 }
