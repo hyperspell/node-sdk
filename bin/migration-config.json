@@ -4,6 +4,39 @@
   "clientClass": "Hyperspell",
   "methods": [
     {
+      "base": "folders",
+      "name": "deletePolicy",
+      "params": [
+        {
+          "type": "param",
+          "key": "policy_id",
+          "location": "path"
+        },
+        {
+          "type": "params",
+          "maybeOverload": false
+        },
+        {
+          "type": "options"
+        }
+      ],
+      "oldParams": [
+        {
+          "type": "param",
+          "key": "connection_id",
+          "location": "path"
+        },
+        {
+          "type": "param",
+          "key": "policy_id",
+          "location": "path"
+        },
+        {
+          "type": "options"
+        }
+      ]
+    },
+    {
       "base": "memories",
       "name": "update",
       "params": [

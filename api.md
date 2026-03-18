@@ -19,6 +19,22 @@ Methods:
 - <code title="get /connections/list">client.connections.<a href="./src/resources/connections.ts">list</a>() -> ConnectionListResponse</code>
 - <code title="delete /connections/{connection_id}/revoke">client.connections.<a href="./src/resources/connections.ts">revoke</a>(connectionID) -> ConnectionRevokeResponse</code>
 
+# Folders
+
+Types:
+
+- <code><a href="./src/resources/folders.ts">FolderListResponse</a></code>
+- <code><a href="./src/resources/folders.ts">FolderDeletePolicyResponse</a></code>
+- <code><a href="./src/resources/folders.ts">FolderListPoliciesResponse</a></code>
+- <code><a href="./src/resources/folders.ts">FolderSetPoliciesResponse</a></code>
+
+Methods:
+
+- <code title="get /connections/{connection_id}/folders">client.folders.<a href="./src/resources/folders.ts">list</a>(connectionID, { ...params }) -> FolderListResponse</code>
+- <code title="delete /connections/{connection_id}/folder-policies/{policy_id}">client.folders.<a href="./src/resources/folders.ts">deletePolicy</a>(policyID, { ...params }) -> FolderDeletePolicyResponse</code>
+- <code title="get /connections/{connection_id}/folder-policies">client.folders.<a href="./src/resources/folders.ts">listPolicies</a>(connectionID) -> FolderListPoliciesResponse</code>
+- <code title="post /connections/{connection_id}/folder-policies">client.folders.<a href="./src/resources/folders.ts">setPolicies</a>(connectionID, { ...params }) -> FolderSetPoliciesResponse</code>
+
 # Integrations
 
 Types:
