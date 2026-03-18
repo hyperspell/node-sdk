@@ -24,6 +24,16 @@ export {
   type EvaluateScoreQueryParams,
 } from './evaluate';
 export {
+  Folders,
+  type FolderListResponse,
+  type FolderDeletePolicyResponse,
+  type FolderListPoliciesResponse,
+  type FolderSetPoliciesResponse,
+  type FolderListParams,
+  type FolderDeletePolicyParams,
+  type FolderSetPoliciesParams,
+} from './folders';
+export {
   Integrations,
   type IntegrationListResponse,
   type IntegrationConnectResponse,

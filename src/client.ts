@@ -36,6 +36,16 @@ import {
   EvaluateScoreQueryResponse,
 } from './resources/evaluate';
 import {
+  FolderDeletePolicyParams,
+  FolderDeletePolicyResponse,
+  FolderListParams,
+  FolderListPoliciesResponse,
+  FolderListResponse,
+  FolderSetPoliciesParams,
+  FolderSetPoliciesResponse,
+  Folders,
+} from './resources/folders';
+import {
   Memories,
   Memory,
   MemoryAddBulkParams,
@@ -803,6 +813,7 @@ export class Hyperspell {
   static toFile = Uploads.toFile;
 
   connections: API.Connections = new API.Connections(this);
+  folders: API.Folders = new API.Folders(this);
   integrations: API.Integrations = new API.Integrations(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
@@ -813,6 +824,7 @@ export class Hyperspell {
 }
 
 Hyperspell.Connections = Connections;
+Hyperspell.Folders = Folders;
 Hyperspell.Integrations = Integrations;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
@@ -831,6 +843,17 @@ export declare namespace Hyperspell {
     Connections as Connections,
     type ConnectionListResponse as ConnectionListResponse,
     type ConnectionRevokeResponse as ConnectionRevokeResponse,
+  };
+
+  export {
+    Folders as Folders,
+    type FolderListResponse as FolderListResponse,
+    type FolderDeletePolicyResponse as FolderDeletePolicyResponse,
+    type FolderListPoliciesResponse as FolderListPoliciesResponse,
+    type FolderSetPoliciesResponse as FolderSetPoliciesResponse,
+    type FolderListParams as FolderListParams,
+    type FolderDeletePolicyParams as FolderDeletePolicyParams,
+    type FolderSetPoliciesParams as FolderSetPoliciesParams,
   };
 
   export {

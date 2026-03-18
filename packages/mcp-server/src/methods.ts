@@ -23,6 +23,30 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/connections/{connection_id}/revoke',
   },
   {
+    clientCallName: 'client.folders.list',
+    fullyQualifiedName: 'folders.list',
+    httpMethod: 'get',
+    httpPath: '/connections/{connection_id}/folders',
+  },
+  {
+    clientCallName: 'client.folders.deletePolicy',
+    fullyQualifiedName: 'folders.deletePolicy',
+    httpMethod: 'delete',
+    httpPath: '/connections/{connection_id}/folder-policies/{policy_id}',
+  },
+  {
+    clientCallName: 'client.folders.listPolicies',
+    fullyQualifiedName: 'folders.listPolicies',
+    httpMethod: 'get',
+    httpPath: '/connections/{connection_id}/folder-policies',
+  },
+  {
+    clientCallName: 'client.folders.setPolicies',
+    fullyQualifiedName: 'folders.setPolicies',
+    httpMethod: 'post',
+    httpPath: '/connections/{connection_id}/folder-policies',
+  },
+  {
     clientCallName: 'client.integrations.list',
     fullyQualifiedName: 'integrations.list',
     httpMethod: 'get',
