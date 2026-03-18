@@ -106,6 +106,10 @@ const fuse = new Fuse(
   [
     'client.connections.list',
     'client.connections.revoke',
+    'client.folders.deletePolicy',
+    'client.folders.list',
+    'client.folders.listPolicies',
+    'client.folders.setPolicies',
     'client.integrations.connect',
     'client.integrations.list',
     'client.integrations.googleCalendar.list',

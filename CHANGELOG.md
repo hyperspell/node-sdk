@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.35.0 (2026-03-18)
+
+Full Changelog: [v0.34.0...v0.35.0](https://github.com/hyperspell/node-sdk/compare/v0.34.0...v0.35.0)
+
+### Features
+
+* **api:** api update ([19736d9](https://github.com/hyperspell/node-sdk/commit/19736d924ca2214d031765719dc81dd1eede8eb7))
+* **api:** manual updates ([77198d1](https://github.com/hyperspell/node-sdk/commit/77198d1f6abd7ca1261ac38e8147c0306246684f))
+
 ## 0.34.0 (2026-03-17)
 
 Full Changelog: [v0.33.0...v0.34.0](https://github.com/hyperspell/node-sdk/compare/v0.33.0...v0.34.0)

@@ -244,7 +244,7 @@ export interface MemoryStatus {
     | 'trace'
     | 'microsoft_teams';
 
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
 
 export interface MemoryDeleteResponse {
@@ -373,7 +373,7 @@ export interface MemoryListParams extends CursorPageParams {
   /**
    * Filter documents by status.
    */
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | null;
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
 }
 
 export interface MemoryDeleteParams {
