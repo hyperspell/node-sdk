@@ -11,7 +11,7 @@ export interface Metadata {
 
   last_modified?: string | null;
 
-  status?: 'pending' | 'processing' | 'completed' | 'failed';
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 
   url?: string | null;
 
@@ -70,7 +70,17 @@ export interface Resource {
     | 'trace'
     | 'microsoft_teams';
 
+  /**
+   * Provider folder ID this resource belongs to
+   */
+  folder_id?: string | null;
+
   metadata?: Metadata;
+
+  /**
+   * Parent folder ID for policy inheritance
+   */
+  parent_folder_id?: string | null;
 
   /**
    * The relevance of the resource to the query

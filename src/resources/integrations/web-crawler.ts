@@ -38,7 +38,7 @@ export interface WebCrawlerIndexResponse {
     | 'trace'
     | 'microsoft_teams';
 
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
 
 export interface WebCrawlerIndexParams {
