@@ -202,7 +202,8 @@ export interface Memory {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -242,7 +243,8 @@ export interface MemoryStatus {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -267,7 +269,8 @@ export interface MemoryDeleteResponse {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   success: boolean;
 }
@@ -312,7 +315,8 @@ export interface MemoryUpdateParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -368,6 +372,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
     | null;
 
   /**
@@ -390,7 +395,8 @@ export interface MemoryDeleteParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 }
 
 export interface MemoryAddParams {
@@ -492,7 +498,8 @@ export interface MemoryGetParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 }
 
 export interface MemorySearchParams {
@@ -533,6 +540,7 @@ export interface MemorySearchParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
   >;
 }
 
