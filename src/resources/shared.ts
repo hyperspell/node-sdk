@@ -68,7 +68,8 @@ export interface Resource {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * Provider folder ID this resource belongs to

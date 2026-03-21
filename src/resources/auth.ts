@@ -68,6 +68,7 @@ export interface AuthMeResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
   >;
 
   /**
@@ -87,6 +88,7 @@ export interface AuthMeResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
   >;
 
   /**

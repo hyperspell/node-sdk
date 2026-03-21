@@ -75,7 +75,8 @@ export interface ActionAddReactionParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * Message timestamp to react to
@@ -105,7 +106,8 @@ export interface ActionSendMessageParams {
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * Message text

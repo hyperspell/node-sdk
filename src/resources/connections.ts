@@ -59,7 +59,8 @@ export namespace ConnectionListResponse {
       | 'vault'
       | 'web_crawler'
       | 'trace'
-      | 'microsoft_teams';
+      | 'microsoft_teams'
+      | 'gmail_actions';
   }
 }
 
