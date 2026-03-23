@@ -96,6 +96,11 @@ export namespace IntegrationListResponse {
       | 'trace'
       | 'microsoft_teams'
       | 'gmail_actions';
+
+    /**
+     * Whether this integration only supports write actions (no sync)
+     */
+    actions_only?: boolean;
   }
 }
 
