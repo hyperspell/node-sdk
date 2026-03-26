@@ -514,6 +514,12 @@ export interface MemorySearchParams {
   answer?: boolean;
 
   /**
+   * Effort level. 0 = pass query through verbatim. 1 = LLM rewrites the query for
+   * better retrieval and extracts date filters.
+   */
+  effort?: number;
+
+  /**
    * @deprecated Maximum number of results to return.
    */
   max_results?: number;
