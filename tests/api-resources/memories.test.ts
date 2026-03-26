@@ -155,6 +155,7 @@ describe('resource memories', () => {
     const response = await client.memories.search({
       query: 'query',
       answer: true,
+      effort: 0,
       max_results: 0,
       options: {
         after: '2019-12-27T18:11:19.117Z',
