@@ -54,7 +54,7 @@ export interface SessionAddParams {
   /**
    * What kind of memories to extract from the trace
    */
-  extract?: Array<'procedure' | 'memory'>;
+  extract?: Array<'procedure' | 'memory' | 'mood'>;
 
   /**
    * Trace format: 'vercel', 'hyperdoc', or 'openclaw'. Auto-detected if not set.
