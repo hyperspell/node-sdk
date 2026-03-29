@@ -613,7 +613,7 @@ export namespace MemorySearchParams {
      * Filter by memory type. Defaults to generic memories only. Pass multiple types to
      * include procedures, etc.
      */
-    memory_types?: Array<'procedure' | 'memory'>;
+    memory_types?: Array<'procedure' | 'memory' | 'mood'>;
 
     /**
      * Search options for Notion
