@@ -5,6 +5,7 @@ import * as Shared from './shared';
 import { ResourcesCursorPage } from './shared';
 import { APIPromise } from '../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
+import { type Uploadable } from '../core/uploads';
 import { RequestOptions } from '../internal/request-options';
 import { multipartFormRequestOptions } from '../internal/uploads';
 import { path } from '../internal/utils/path';
@@ -170,7 +171,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memoryStatus = await client.memories.upload({
-   *   file: 'file',
+   *   file: fs.createReadStream('path/to/file'),
    * });
    * ```
    */
@@ -843,7 +844,7 @@ export interface MemoryUploadParams {
   /**
    * The file to ingest.
    */
-  file: string;
+  file: Uploadable;
 
   /**
    * @deprecated The collection to add the document to — deprecated, set the

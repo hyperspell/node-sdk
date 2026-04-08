@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Hyperspell from 'hyperspell';
+import Hyperspell, { toFile } from 'hyperspell';
 
 const client = new Hyperspell({
   apiKey: 'My API Key',
@@ -207,7 +207,9 @@ describe('resource memories', () => {
   });
 
   test('upload: only required params', async () => {
-    const responsePromise = client.memories.upload({ file: 'file' });
+    const responsePromise = client.memories.upload({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -219,7 +221,7 @@ describe('resource memories', () => {
 
   test('upload: required and optional params', async () => {
     const response = await client.memories.upload({
-      file: 'file',
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
       collection: 'collection',
       metadata: 'metadata',
     });
