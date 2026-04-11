@@ -25,7 +25,7 @@ For example:
 
 \`\`\`
 async function run(client) {
-  const memoryStatus = await client.memories.add({ text: 'text' });
+  const memoryStatus = await client.memories.add({ text: '...' });
 
   console.log(memoryStatus.resource_id);
 }

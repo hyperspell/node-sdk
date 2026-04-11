@@ -74,7 +74,7 @@ describe('resource memories', () => {
   });
 
   test('add: only required params', async () => {
-    const responsePromise = client.memories.add({ text: 'text' });
+    const responsePromise = client.memories.add({ text: '...' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -86,12 +86,16 @@ describe('resource memories', () => {
 
   test('add: required and optional params', async () => {
     const response = await client.memories.add({
-      text: 'text',
-      collection: 'collection',
+      text: '...',
+      collection: 'my-collection',
       date: '2019-12-27T18:11:19.117Z',
-      metadata: { foo: 'string' },
+      metadata: {
+        author: 'John Doe',
+        date: '2025-05-20T02:31:00Z',
+        rating: 3,
+      },
       resource_id: 'resource_id',
-      title: 'title',
+      title: 'My Document',
     });
   });
 
@@ -141,7 +145,7 @@ describe('resource memories', () => {
   });
 
   test('search: only required params', async () => {
-    const responsePromise = client.memories.search({ query: 'query' });
+    const responsePromise = client.memories.search({ query: 'What does Hyperspell do?' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -153,7 +157,7 @@ describe('resource memories', () => {
 
   test('search: required and optional params', async () => {
     const response = await client.memories.search({
-      query: 'query',
+      query: 'What does Hyperspell do?',
       answer: true,
       effort: 0,
       max_results: 0,
@@ -162,7 +166,7 @@ describe('resource memories', () => {
         answer_model: 'llama-3.1',
         before: '2019-12-27T18:11:19.117Z',
         box: { weight: 0 },
-        filter: { foo: 'bar' },
+        filter: {},
         google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
@@ -191,7 +195,7 @@ describe('resource memories', () => {
           weight: 0,
         },
       },
-      sources: ['reddit'],
+      sources: ['vault'],
     });
   });
 

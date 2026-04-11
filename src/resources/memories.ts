@@ -91,7 +91,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memoryStatus = await client.memories.add({
-   *   text: 'text',
+   *   text: '...',
    * });
    * ```
    */
@@ -141,7 +141,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const queryResult = await client.memories.search({
-   *   query: 'query',
+   *   query: 'What does Hyperspell do?',
    * });
    * ```
    */
