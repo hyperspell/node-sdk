@@ -35,7 +35,7 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
-const memoryStatus = await client.memories.add({ text: 'text' });
+const memoryStatus = await client.memories.add({ text: '...' });
 
 console.log(memoryStatus.resource_id);
 ```
@@ -52,7 +52,7 @@ const client = new Hyperspell({
   apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
-const params: Hyperspell.MemoryAddParams = { text: 'text' };
+const params: Hyperspell.MemoryAddParams = { text: '...' };
 const memoryStatus: Hyperspell.MemoryStatus = await client.memories.add(params);
 ```
 
@@ -95,7 +95,7 @@ a subclass of `APIError` will be thrown:
 
 <!-- prettier-ignore -->
 ```ts
-const memoryStatus = await client.memories.add({ text: 'text' }).catch(async (err) => {
+const memoryStatus = await client.memories.add({ text: '...' }).catch(async (err) => {
   if (err instanceof Hyperspell.APIError) {
     console.log(err.status); // 400
     console.log(err.name); // BadRequestError
@@ -135,7 +135,7 @@ const client = new Hyperspell({
 });
 
 // Or, configure per-request:
-await client.memories.add({ text: 'text' }, {
+await client.memories.add({ text: '...' }, {
   maxRetries: 5,
 });
 ```
@@ -152,7 +152,7 @@ const client = new Hyperspell({
 });
 
 // Override per-request:
-await client.memories.add({ text: 'text' }, {
+await client.memories.add({ text: '...' }, {
   timeout: 5 * 1000,
 });
 ```
@@ -206,12 +206,12 @@ Unlike `.asResponse()` this method consumes the body, returning once it is parse
 ```ts
 const client = new Hyperspell();
 
-const response = await client.memories.add({ text: 'text' }).asResponse();
+const response = await client.memories.add({ text: '...' }).asResponse();
 console.log(response.headers.get('X-My-Header'));
 console.log(response.statusText); // access the underlying Response object
 
 const { data: memoryStatus, response: raw } = await client.memories
-  .add({ text: 'text' })
+  .add({ text: '...' })
   .withResponse();
 console.log(raw.headers.get('X-My-Header'));
 console.log(memoryStatus.resource_id);
