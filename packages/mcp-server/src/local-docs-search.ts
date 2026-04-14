@@ -618,7 +618,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       typescript: {
         method: 'client.memories.upload',
         example:
-          "import Hyperspell from 'hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.upload({ file: fs.createReadStream('path/to/file') });\n\nconsole.log(memoryStatus.resource_id);",
+          "import fs from 'fs';\nimport Hyperspell from 'hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.upload({ file: fs.createReadStream('path/to/file') });\n\nconsole.log(memoryStatus.resource_id);",
       },
     },
   },
