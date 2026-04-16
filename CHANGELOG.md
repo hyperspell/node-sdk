@@ -1,5 +1,67 @@
 # Changelog
 
+## 0.35.1 (2026-04-16)
+
+Full Changelog: [v0.35.0...v0.35.1](https://github.com/hyperspell/node-sdk/compare/v0.35.0...v0.35.1)
+
+### Features
+
+* add 'mood' to memory type unions ([#89](https://github.com/hyperspell/node-sdk/issues/89)) ([76d16b8](https://github.com/hyperspell/node-sdk/commit/76d16b8175736cfd019f10f7363bb0d1b9d274a0))
+* **api:** api update ([fae310c](https://github.com/hyperspell/node-sdk/commit/fae310c5a797ca943dba6ec8dda8e4d0d81d9eb0))
+* **api:** api update ([9451cde](https://github.com/hyperspell/node-sdk/commit/9451cde625b2736fee26be6e5181e6b1a0ffc5c2))
+* **api:** api update ([138925b](https://github.com/hyperspell/node-sdk/commit/138925b62920e96037ff82db171bd96b8a049a98))
+* **api:** api update ([1394392](https://github.com/hyperspell/node-sdk/commit/13943920182f9150b8222e5dc27d6fe69ecbc7eb))
+* **api:** api update ([acf8988](https://github.com/hyperspell/node-sdk/commit/acf8988fd0e5ace07a871bbc2160db7d072effab))
+* **api:** api update ([408ed83](https://github.com/hyperspell/node-sdk/commit/408ed8311554d2110d88031dad7a11f0943ce06c))
+* **api:** api update ([62d04a2](https://github.com/hyperspell/node-sdk/commit/62d04a239910847ecbc4b644a13956f9b246a506))
+* **api:** manual updates ([1b7ca39](https://github.com/hyperspell/node-sdk/commit/1b7ca39a9894d6649349ceb7d4f61de8d981c9f8))
+
+
+### Bug Fixes
+
+* **internal:** gitignore generated `oidc` dir ([a305f3d](https://github.com/hyperspell/node-sdk/commit/a305f3d8f340bbb1838b0e75ed0ca2e7da0d6cff))
+
+
+### Chores
+
+* **ci:** escape input path in publish-npm workflow ([40c8402](https://github.com/hyperspell/node-sdk/commit/40c84026a515ae0b62f676b71b8746ebfd254177))
+* **ci:** skip lint on metadata-only changes ([14012e7](https://github.com/hyperspell/node-sdk/commit/14012e72febb7af66800c6e0f4c389cf5104a1d3))
+* configure new SDK language ([2b1db35](https://github.com/hyperspell/node-sdk/commit/2b1db353a21ecb4c3200e44d7853587c90c7625c))
+* fix example snippet imports ([5655445](https://github.com/hyperspell/node-sdk/commit/56554456662d336a9a12c97f8e74c453b318c8d7))
+* **internal:** codegen related update ([74743e3](https://github.com/hyperspell/node-sdk/commit/74743e38189fcce572490e5ad3d0700209836db5))
+* **internal:** fix MCP server import ordering ([aa4d800](https://github.com/hyperspell/node-sdk/commit/aa4d8007866d8417cb8af1c9d17c11d59d8c1d3c))
+* **internal:** fix MCP server TS errors that occur with required client options ([b7abcfb](https://github.com/hyperspell/node-sdk/commit/b7abcfb96eac3b96305957762f6cadb399236583))
+* **internal:** improve local docs search for MCP servers ([eee2438](https://github.com/hyperspell/node-sdk/commit/eee2438cecb6267496d8b068d2b6b370dcce586c))
+* **internal:** improve local docs search for MCP servers ([f218072](https://github.com/hyperspell/node-sdk/commit/f218072eee356e59cb1f7b0e3e667902acb30c79))
+* **internal:** show error causes in MCP servers when running in local mode ([d7d54bc](https://github.com/hyperspell/node-sdk/commit/d7d54bc605a71b4527f0a210f71e57a9e78ee7f6))
+* **internal:** support custom-instructions-path flag in MCP servers ([c6d4043](https://github.com/hyperspell/node-sdk/commit/c6d404331011597d4ee14440eeb71faaed16ad95))
+* **internal:** support local docs search in MCP servers ([4a9b2cf](https://github.com/hyperspell/node-sdk/commit/4a9b2cfd823fce71d3a08e435e545a97247abba5))
+* **internal:** support type annotations when running MCP in local execution mode ([41a4e6a](https://github.com/hyperspell/node-sdk/commit/41a4e6a998f03224e0aa765c348f7d4d96a98d01))
+* **internal:** update gitignore ([9270ff5](https://github.com/hyperspell/node-sdk/commit/9270ff5aac78355a25f64d1ccabb773c45120f36))
+* **internal:** update multipart form array serialization ([97f213b](https://github.com/hyperspell/node-sdk/commit/97f213bf19e619a90ca72254e6e9d407aaecb41b))
+* **mcp-server:** add support for session id, forward client info ([9e3018f](https://github.com/hyperspell/node-sdk/commit/9e3018f7649a0533788b5a9a75875dbfde5cd493))
+* **mcp-server:** increase local docs search result count from 5 to 10 ([65850d9](https://github.com/hyperspell/node-sdk/commit/65850d9589624991aa107fda8309bddfeef88fb5))
+* **mcp-server:** log client info ([5f1ad6d](https://github.com/hyperspell/node-sdk/commit/5f1ad6d048afabe3d270edf2fd8905053a7cb29f))
+* **tests:** bump steady to v0.19.4 ([e614b67](https://github.com/hyperspell/node-sdk/commit/e614b6739cf3d7398e4d05d806ae0706c3264276))
+* **tests:** bump steady to v0.19.5 ([eadfc98](https://github.com/hyperspell/node-sdk/commit/eadfc98aa8e6dfc6728a8028f01abcb4ffe91c8c))
+* **tests:** bump steady to v0.19.6 ([4ed8bba](https://github.com/hyperspell/node-sdk/commit/4ed8bbac6d2a25580c3355ec7d5309ba18ffd3be))
+* **tests:** bump steady to v0.19.7 ([6aaa435](https://github.com/hyperspell/node-sdk/commit/6aaa43556ea42c3c3440569b051c25adda5046c7))
+* **tests:** bump steady to v0.20.1 ([bb96b8b](https://github.com/hyperspell/node-sdk/commit/bb96b8b039f8a6d906540298e31ebe3e0cd4549e))
+* **tests:** bump steady to v0.20.2 ([2a71a6e](https://github.com/hyperspell/node-sdk/commit/2a71a6e88d24933ce432279a88062fa849454586))
+* update CLI documentation ([b30afe1](https://github.com/hyperspell/node-sdk/commit/b30afe11d9eaa051a051d8e3bff00fa23ad695a4))
+* update SDK settings ([4ee9dca](https://github.com/hyperspell/node-sdk/commit/4ee9dca0d9d188abab3fabe72c5a9d2e53e49994))
+* update SDK settings ([752879e](https://github.com/hyperspell/node-sdk/commit/752879e4c937f55b93ab0da3a002e18bb71240c5))
+
+
+### Documentation
+
+* update examples ([b64d89c](https://github.com/hyperspell/node-sdk/commit/b64d89c48f8f5b345b8903bee0128014daa26604))
+
+
+### Refactors
+
+* **tests:** switch from prism to steady ([75ac934](https://github.com/hyperspell/node-sdk/commit/75ac9345ea6849863c3469f24dc2393046a6dcd0))
+
 ## 0.35.0 (2026-03-18)
 
 Full Changelog: [v0.34.0...v0.35.0](https://github.com/hyperspell/node-sdk/compare/v0.34.0...v0.35.0)
