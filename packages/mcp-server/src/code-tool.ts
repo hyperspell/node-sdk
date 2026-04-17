@@ -25,7 +25,7 @@ For example:
 
 \`\`\`
 async function run(client) {
-  const memoryStatus = await client.memories.add({ text: 'text' });
+  const memoryStatus = await client.memories.add({ text: '...' });
 
   console.log(memoryStatus.resource_id);
 }
@@ -285,16 +285,14 @@ const localDenoHandler = async ({
 
       // Strip null/undefined values so that the worker SDK client can fall back to
       // reading from environment variables (including any upstreamClientEnvs).
-      const opts: ClientOptions = Object.fromEntries(
-        Object.entries({
-          baseURL: client.baseURL,
-          apiKey: client.apiKey,
-          userID: client.userID,
-          defaultHeaders: {
-            'X-Stainless-MCP': 'true',
-          },
-        }).filter(([_, v]) => v != null),
-      ) as ClientOptions;
+      const opts = {
+        ...(client.baseURL != null ? { baseURL: client.baseURL } : undefined),
+        ...(client.apiKey != null ? { apiKey: client.apiKey } : undefined),
+        ...(client.userID != null ? { userID: client.userID } : undefined),
+        defaultHeaders: {
+          'X-Stainless-MCP': 'true',
+        },
+      } satisfies Partial<ClientOptions> as ClientOptions;
 
       const req = worker.request(
         'http://localhost',

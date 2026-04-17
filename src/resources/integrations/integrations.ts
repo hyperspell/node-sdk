@@ -89,12 +89,18 @@ export namespace IntegrationListResponse {
       | 'google_mail'
       | 'box'
       | 'dropbox'
-      | 'google_drive'
       | 'github'
+      | 'google_drive'
       | 'vault'
       | 'web_crawler'
       | 'trace'
-      | 'microsoft_teams';
+      | 'microsoft_teams'
+      | 'gmail_actions';
+
+    /**
+     * Whether this integration only supports write actions (no sync)
+     */
+    actions_only?: boolean;
   }
 }
 

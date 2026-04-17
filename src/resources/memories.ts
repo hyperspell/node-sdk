@@ -91,7 +91,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const memoryStatus = await client.memories.add({
-   *   text: 'text',
+   *   text: '...',
    * });
    * ```
    */
@@ -141,7 +141,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * const queryResult = await client.memories.search({
-   *   query: 'query',
+   *   query: 'What does Hyperspell do?',
    * });
    * ```
    */
@@ -197,12 +197,13 @@ export interface Memory {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -237,12 +238,13 @@ export interface MemoryStatus {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -262,12 +264,13 @@ export interface MemoryDeleteResponse {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   success: boolean;
 }
@@ -307,12 +310,13 @@ export interface MemoryUpdateParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -362,12 +366,13 @@ export interface MemoryListParams extends CursorPageParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
     | null;
 
   /**
@@ -385,12 +390,13 @@ export interface MemoryDeleteParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 }
 
 export interface MemoryAddParams {
@@ -487,12 +493,13 @@ export interface MemoryGetParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 }
 
 export interface MemorySearchParams {
@@ -505,6 +512,12 @@ export interface MemorySearchParams {
    * If true, the query will be answered along with matching source documents.
    */
   answer?: boolean;
+
+  /**
+   * Effort level. 0 = pass query through verbatim. 1 = LLM rewrites the query for
+   * better retrieval and extracts date filters.
+   */
+  effort?: number;
 
   /**
    * @deprecated Maximum number of results to return.
@@ -527,12 +540,13 @@ export interface MemorySearchParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
+    | 'gmail_actions'
   >;
 }
 

@@ -31,12 +31,13 @@ export interface WebCrawlerIndexResponse {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

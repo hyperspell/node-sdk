@@ -70,12 +70,13 @@ export interface ActionAddReactionParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * Message timestamp to react to
@@ -100,12 +101,13 @@ export interface ActionSendMessageParams {
     | 'google_mail'
     | 'box'
     | 'dropbox'
-    | 'google_drive'
     | 'github'
+    | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
-    | 'microsoft_teams';
+    | 'microsoft_teams'
+    | 'gmail_actions';
 
   /**
    * Message text
