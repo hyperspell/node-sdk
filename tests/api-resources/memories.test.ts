@@ -24,6 +24,7 @@ describe('resource memories', () => {
     const response = await client.memories.update('resource_id', {
       source: 'reddit',
       collection: 'string',
+      date: '2019-12-27T18:11:19.117Z',
       metadata: { foo: 'string' },
       text: 'string',
       title: 'string',
