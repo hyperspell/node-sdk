@@ -325,6 +325,11 @@ export interface MemoryUpdateParams {
   collection?: string | unknown | null;
 
   /**
+   * Body param: Date of the document for ranking and filtering.
+   */
+  date?: string | unknown | null;
+
+  /**
    * Body param: Custom metadata for filtering. Keys must be alphanumeric with
    * underscores, max 64 chars. Values must be string, number, boolean, or null. Will
    * be merged with existing metadata.
