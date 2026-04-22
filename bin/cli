@@ -4,7 +4,7 @@ const { spawnSync } = require('child_process');
 
 const commands = {
   migrate: {
-    description: 'Run migrations to update your code using hyperspell@0.22.1 to be compatible with hyperspell@0.24.0',
+    description: 'Run migrations to update your code using @hyperspell/hyperspell@0.22.1 to be compatible with @hyperspell/hyperspell@0.24.0',
     fn: () => {
       const result = spawnSync(
         'npx',
@@ -19,7 +19,7 @@ const commands = {
 }
 
 function exitWithHelp() {
-  console.log(`Usage: hyperspell <subcommand>`);
+  console.log(`Usage: hyperspell-hyperspell <subcommand>`);
   console.log();
   console.log('Subcommands:');
 

@@ -55,12 +55,12 @@ $ cd node-sdk
 # With yarn
 $ yarn link
 $ cd ../my-package
-$ yarn link hyperspell
+$ yarn link @hyperspell/hyperspell
 
 # With pnpm
 $ pnpm link --global
 $ cd ../my-package
-$ pnpm link --global hyperspell
+$ pnpm link --global @hyperspell/hyperspell
 ```
 
 ## Running tests

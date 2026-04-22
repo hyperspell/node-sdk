@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.36.1 (2026-04-22)
+
+Full Changelog: [v0.36.0...v0.36.1](https://github.com/hyperspell/node-sdk/compare/v0.36.0...v0.36.1)
+
+### Chores
+
+* update SDK settings ([597e2c0](https://github.com/hyperspell/node-sdk/commit/597e2c01ec271e6f7054a03b475968ce5e19af31))
+* update SDK settings ([b4e0424](https://github.com/hyperspell/node-sdk/commit/b4e04248e73f2f8f5db328c54b1e6708d5e95799))
+
 ## 0.36.0 (2026-04-22)
 
 Full Changelog: [v0.35.1...v0.36.0](https://github.com/hyperspell/node-sdk/compare/v0.35.1...v0.36.0)

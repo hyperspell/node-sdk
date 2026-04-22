@@ -1,5 +1,5 @@
-import { multipartFormRequestOptions, createForm } from 'hyperspell/internal/uploads';
-import { toFile } from 'hyperspell/core/uploads';
+import { multipartFormRequestOptions, createForm } from '@hyperspell/hyperspell/internal/uploads';
+import { toFile } from '@hyperspell/hyperspell/core/uploads';
 
 describe('form data validation', () => {
   test('valid values do not error', async () => {

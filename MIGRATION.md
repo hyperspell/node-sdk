@@ -7,7 +7,7 @@ The main changes are that the SDK now relies on the [builtin Web fetch API](http
 ## Migration CLI
 
 Most programs will only need minimal changes, but to assist there is a migration tool that will automatically update your code for the new version.
-To use it, upgrade the `hyperspell` package, then run `./node_modules/.bin/hyperspell migrate ./your/src/folders` to update your code.
+To use it, upgrade the `@hyperspell/hyperspell` package, then run `./node_modules/.bin/hyperspell-hyperspell migrate ./your/src/folders` to update your code.
 To preview the changes without writing them to disk, run the tool with `--dry`.
 
 ## Environment requirements
@@ -104,7 +104,7 @@ If you were using `httpAgent` for proxy support, check out the [new proxy docume
 Before:
 
 ```ts
-import Hyperspell from 'hyperspell';
+import Hyperspell from '@hyperspell/hyperspell';
 import http from 'http';
 import { HttpsProxyAgent } from 'https-proxy-agent';
 
@@ -117,7 +117,7 @@ const client = new Hyperspell({
 After:
 
 ```ts
-import Hyperspell from 'hyperspell';
+import Hyperspell from '@hyperspell/hyperspell';
 import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent(process.env.PROXY_URL);
@@ -130,27 +130,27 @@ const client = new Hyperspell({
 
 ### Changed exports
 
-#### Refactor of `hyperspell/core`, `error`, `pagination`, `resource` and `uploads`
+#### Refactor of `@hyperspell/hyperspell/core`, `error`, `pagination`, `resource` and `uploads`
 
-Much of the `hyperspell/core` file was intended to be internal-only but it was publicly accessible, as such it has been refactored and split up into internal and public files, with public-facing code moved to a new `core` folder and internal code moving to the private `internal` folder.
+Much of the `@hyperspell/hyperspell/core` file was intended to be internal-only but it was publicly accessible, as such it has been refactored and split up into internal and public files, with public-facing code moved to a new `core` folder and internal code moving to the private `internal` folder.
 
 At the same time, we moved some public-facing files which were previously at the top level into `core` to make the file structure cleaner and more clear:
 
 ```typescript
 // Before
-import 'hyperspell/error';
-import 'hyperspell/pagination';
-import 'hyperspell/resource';
-import 'hyperspell/uploads';
+import '@hyperspell/hyperspell/error';
+import '@hyperspell/hyperspell/pagination';
+import '@hyperspell/hyperspell/resource';
+import '@hyperspell/hyperspell/uploads';
 
 // After
-import 'hyperspell/core/error';
-import 'hyperspell/core/pagination';
-import 'hyperspell/core/resource';
-import 'hyperspell/core/uploads';
+import '@hyperspell/hyperspell/core/error';
+import '@hyperspell/hyperspell/core/pagination';
+import '@hyperspell/hyperspell/core/resource';
+import '@hyperspell/hyperspell/core/uploads';
 ```
 
-If you were relying on anything that was only exported from `hyperspell/core` and is also not accessible anywhere else, please open an issue and we'll consider adding it to the public API.
+If you were relying on anything that was only exported from `@hyperspell/hyperspell/core` and is also not accessible anywhere else, please open an issue and we'll consider adding it to the public API.
 
 #### Resource classes
 
@@ -159,16 +159,16 @@ Now you must always either reference them as static class properties or import t
 
 ```typescript
 // Before
-const { Connections } = require('hyperspell');
+const { Connections } = require('@hyperspell/hyperspell');
 
 // After
-const { Hyperspell } = require('hyperspell');
-Hyperspell.Connections; // or import directly from hyperspell/resources/connections
+const { Hyperspell } = require('@hyperspell/hyperspell');
+Hyperspell.Connections; // or import directly from @hyperspell/hyperspell/resources/connections
 ```
 
 #### Cleaned up `uploads` exports
 
-As part of the `core` refactor, `hyperspell/uploads` was moved to `hyperspell/core/uploads`
+As part of the `core` refactor, `@hyperspell/hyperspell/uploads` was moved to `@hyperspell/hyperspell/core/uploads`
 and the following exports were removed, as they were not intended to be a part of the public API:
 
 - `fileFromPath`
@@ -188,7 +188,7 @@ and the following exports were removed, as they were not intended to be a part o
 Note that `Uploadable` & `toFile` **are** still exported:
 
 ```typescript
-import { type Uploadable, toFile } from 'hyperspell/core/uploads';
+import { type Uploadable, toFile } from '@hyperspell/hyperspell/core/uploads';
 ```
 
 #### `APIClient`
@@ -197,10 +197,10 @@ The `APIClient` base client class has been removed as it is no longer needed. If
 
 ```typescript
 // Before
-import { APIClient } from 'hyperspell/core';
+import { APIClient } from '@hyperspell/hyperspell/core';
 
 // After
-import { Hyperspell } from 'hyperspell';
+import { Hyperspell } from '@hyperspell/hyperspell';
 ```
 
 ### File handling
@@ -224,11 +224,11 @@ Previously you could configure the types that the SDK used like this:
 
 ```ts
 // Tell TypeScript and the package to use the global Web fetch instead of node-fetch.
-import 'hyperspell/shims/web';
-import Hyperspell from 'hyperspell';
+import '@hyperspell/hyperspell/shims/web';
+import Hyperspell from '@hyperspell/hyperspell';
 ```
 
-The `hyperspell/shims` imports have been removed. Your global types must now be [correctly configured](#minimum-types-requirements).
+The `@hyperspell/hyperspell/shims` imports have been removed. Your global types must now be [correctly configured](#minimum-types-requirements).
 
 ### Pagination changes
 
@@ -267,19 +267,19 @@ export type ResourcesCursorPage = CursorPage<Resource>;
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.
 
-### `hyperspell/src` directory removed
+### `@hyperspell/hyperspell/src` directory removed
 
-Previously IDEs may have auto-completed imports from the `hyperspell/src` directory, however this
+Previously IDEs may have auto-completed imports from the `@hyperspell/hyperspell/src` directory, however this
 directory was only included for an improved go-to-definition experience and should not have been used at runtime.
 
-If you have any `hyperspell/src/*` imports, you will need to replace them with `hyperspell/*`.
+If you have any `@hyperspell/hyperspell/src/*` imports, you will need to replace them with `@hyperspell/hyperspell/*`.
 
 ```ts
 // Before
-import Hyperspell from 'hyperspell/src';
+import Hyperspell from '@hyperspell/hyperspell/src';
 
 // After
-import Hyperspell from 'hyperspell';
+import Hyperspell from '@hyperspell/hyperspell';
 ```
 
 ## TypeScript troubleshooting

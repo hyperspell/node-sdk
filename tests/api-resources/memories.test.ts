@@ -1,6 +1,6 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import Hyperspell, { toFile } from 'hyperspell';
+import Hyperspell, { toFile } from '@hyperspell/hyperspell';
 
 const client = new Hyperspell({
   apiKey: 'My API Key',

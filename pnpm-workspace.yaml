@@ -4,4 +4,4 @@ onlyBuiltDependencies:
   - '@swc/core'
 minimumReleaseAge: 1440
 minimumReleaseAgeExclude:
-  - hyperspell
+  - '@hyperspell/hyperspell'

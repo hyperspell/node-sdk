@@ -7,8 +7,8 @@ import {
   ListToolsRequestSchema,
   SetLevelRequestSchema,
 } from '@modelcontextprotocol/sdk/types.js';
-import { ClientOptions } from 'hyperspell';
-import Hyperspell from 'hyperspell';
+import { ClientOptions } from '@hyperspell/hyperspell';
+import Hyperspell from '@hyperspell/hyperspell';
 import { codeTool } from './code-tool';
 import docsSearchTool from './docs-search-tool';
 import { setLocalSearch } from './docs-search-tool';
@@ -28,8 +28,8 @@ export const newMcpServer = async ({
 }) =>
   new McpServer(
     {
-      name: 'hyperspell_api',
-      version: '0.36.0',
+      name: 'hyperspell_hyperspell_api',
+      version: '0.36.1',
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),
