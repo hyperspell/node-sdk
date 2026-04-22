@@ -1,10 +1,10 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { APIPromise } from 'hyperspell/core/api-promise';
+import { APIPromise } from '@hyperspell/hyperspell/core/api-promise';
 
 import util from 'node:util';
-import Hyperspell from 'hyperspell';
-import { APIUserAbortError } from 'hyperspell';
+import Hyperspell from '@hyperspell/hyperspell';
+import { APIUserAbortError } from '@hyperspell/hyperspell';
 const defaultFetch = fetch;
 
 describe('instantiate client', () => {

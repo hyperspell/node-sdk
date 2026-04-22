@@ -1,5 +1,5 @@
 {
-  "name": "hyperspell",
+  "name": "@hyperspell/hyperspell",
   "version": "0.36.0",
   "description": "The official TypeScript library for the Hyperspell API",
   "author": "Hyperspell <hello@hyperspell.com>",
@@ -51,7 +51,7 @@
     "typescript-eslint": "8.31.1"
   },
   "bin": {
-    "hyperspell": "bin/cli"
+    "hyperspell-hyperspell": "bin/cli"
   },
   "overrides": {
     "minimatch": "^9.0.5"

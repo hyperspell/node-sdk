@@ -5,7 +5,7 @@ import util from 'node:util';
 import Fuse from 'fuse.js';
 import ts from 'typescript';
 import { WorkerOutput } from './code-tool-types';
-import { Hyperspell, ClientOptions } from 'hyperspell';
+import { Hyperspell, ClientOptions } from '@hyperspell/hyperspell';
 
 async function tseval(code: string) {
   return import('data:application/typescript;charset=utf-8;base64,' + Buffer.from(code).toString('base64'));
@@ -57,7 +57,7 @@ function getRunFunctionSource(code: string): {
 function getTSDiagnostics(code: string): string[] {
   const functionSource = getRunFunctionSource(code)!;
   const codeWithImport = [
-    'import { Hyperspell } from "hyperspell";',
+    'import { Hyperspell } from "@hyperspell/hyperspell";',
     functionSource.type === 'declaration' ?
       `async function run(${functionSource.client}: Hyperspell)`
     : `const run: (${functionSource.client}: Hyperspell) => Promise<unknown> =`,

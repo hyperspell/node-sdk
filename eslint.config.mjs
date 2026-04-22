@@ -25,7 +25,7 @@ export default tseslint.config(
         {
           patterns: [
             {
-              regex: '^hyperspell(/.*)?',
+              regex: '^@hyperspell/hyperspell(/.*)?',
               message: 'Use a relative import, not a package import.',
             },
           ],

@@ -8,8 +8,8 @@
     "moduleResolution": "node",
     "esModuleInterop": true,
     "paths": {
-      "hyperspell/*": ["./src/*"],
-      "hyperspell": ["./src/index.ts"]
+      "@hyperspell/hyperspell/*": ["./src/*"],
+      "@hyperspell/hyperspell": ["./src/index.ts"]
     },
     "noEmit": true,
 

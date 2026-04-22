@@ -1,5 +1,5 @@
 {
-  "pkg": "hyperspell",
+  "pkg": "@hyperspell/hyperspell",
   "githubRepo": "https://github.com/hyperspell/node-sdk",
   "clientClass": "Hyperspell",
   "methods": [
