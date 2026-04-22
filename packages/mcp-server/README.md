@@ -24,7 +24,7 @@ For clients with a configuration JSON, it might look something like this:
 ```json
 {
   "mcpServers": {
-    "hyperspell_api": {
+    "hyperspell_hyperspell_api": {
       "command": "npx",
       "args": ["-y", "hyperspell-mcp"],
       "env": {
@@ -93,7 +93,7 @@ A configuration JSON for this server might look like this, assuming the server i
 ```json
 {
   "mcpServers": {
-    "hyperspell_api": {
+    "hyperspell_hyperspell_api": {
       "url": "http://localhost:3000",
       "headers": {
         "Authorization": "Bearer <auth value>"

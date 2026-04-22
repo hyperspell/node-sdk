@@ -1,7 +1,7 @@
 import iconv from 'iconv-lite';
-import { stringify } from 'hyperspell/internal/qs';
-import { encode } from 'hyperspell/internal/qs/utils';
-import { StringifyOptions } from 'hyperspell/internal/qs/types';
+import { stringify } from '@hyperspell/hyperspell/internal/qs';
+import { encode } from '@hyperspell/hyperspell/internal/qs/utils';
+import { StringifyOptions } from '@hyperspell/hyperspell/internal/qs/types';
 import { empty_test_cases } from './empty-keys-cases';
 import assert from 'assert';
 

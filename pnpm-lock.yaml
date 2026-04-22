@@ -83,6 +83,9 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.10
         version: 1.19.11(hono@4.12.5)
+      '@hyperspell/hyperspell':
+        specifier: workspace:*
+        version: link:../..
       '@modelcontextprotocol/sdk':
         specifier: ^1.27.1
         version: 1.27.1(zod@3.25.76)
@@ -107,9 +110,6 @@ importers:
       hono:
         specifier: ^4.12.4
         version: 4.12.5
-      hyperspell:
-        specifier: workspace:*
-        version: link:../..
       jq-web:
         specifier: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz
         version: https://github.com/stainless-api/jq-web/releases/download/v0.8.8/jq-web.tar.gz

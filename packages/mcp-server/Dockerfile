@@ -59,8 +59,8 @@ WORKDIR /app
 # Copy the build results, preserving directory structure
 COPY --from=builder /build .
 
-# Copy the built hyperspell into node_modules
-COPY --from=builder /build/dist ./node_modules/hyperspell
+# Copy the built @hyperspell/hyperspell into node_modules
+COPY --from=builder /build/dist ./node_modules/@hyperspell/hyperspell
 
 # Change ownership to nodejs user
 RUN chown -R nodejs:nodejs /app
