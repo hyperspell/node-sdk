@@ -626,6 +626,15 @@ export namespace MemorySearchParams {
     notion?: Options.Notion;
 
     /**
+     * When set, multiplies each result's score by an exponential-decay factor based on
+     * the document's most recent activity timestamp (source-reported last_modified,
+     * falling back to document_date). A document one half-life old gets its score
+     * halved. Resources with no recency timestamp are passed through unchanged. Leave
+     * unset to disable.
+     */
+    recency_half_life_days?: number | null;
+
+    /**
      * Search options for Reddit
      */
     reddit?: Options.Reddit;

@@ -174,6 +174,7 @@ describe('resource memories', () => {
         max_results: 200,
         memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
+        recency_half_life_days: 1,
         reddit: {
           period: 'hour',
           sort: 'relevance',
