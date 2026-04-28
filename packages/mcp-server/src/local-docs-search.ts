@@ -64,29 +64,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## revoke\n\n`client.connections.revoke(connection_id: string): { message: string; success: boolean; }`\n\n**delete** `/connections/{connection_id}/revoke`\n\nRevokes Hyperspell's access the given provider and deletes all stored credentials and indexed data.\n\n### Parameters\n\n- `connection_id: string`\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.connections.revoke('connection_id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'connections revoke',
+      typescript: {
+        method: 'client.connections.revoke',
         example:
-          "hyperspell connections revoke \\\n  --api-key 'My API Key' \\\n  --connection-id connection_id",
-      },
-      go: {
-        method: 'client.Connections.Revoke',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Connections.Revoke(context.TODO(), "connection_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/revoke \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.connections.revoke('connection_id');\n\nconsole.log(response.message);",
       },
       python: {
         method: 'connections.revoke',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.connections.revoke(\n    "connection_id",\n)\nprint(response.message)',
       },
-      typescript: {
-        method: 'client.connections.revoke',
+      go: {
+        method: 'client.Connections.Revoke',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.connections.revoke('connection_id');\n\nconsole.log(response.message);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Connections.Revoke(context.TODO(), "connection_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
+      cli: {
+        method: 'connections revoke',
+        example:
+          "hyperspell connections revoke \\\n  --api-key 'My API Key' \\\n  --connection-id connection_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/revoke \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -102,28 +102,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.connections.list(): { connections: object[]; }`\n\n**get** `/connections/list`\n\nList all connections for the user.\n\n### Returns\n\n- `{ connections: { id: string; integration_id: string; label: string; provider: string; }[]; }`\n\n  - `connections: { id: string; integration_id: string; label: string; provider: string; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst connections = await client.connections.list();\n\nconsole.log(connections);\n```",
     perLanguage: {
-      cli: {
-        method: 'connections list',
-        example: "hyperspell connections list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Connections.List',
+      typescript: {
+        method: 'client.connections.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tconnections, err := client.Connections.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", connections.Connections)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst connections = await client.connections.list();\n\nconsole.log(connections.connections);",
       },
       python: {
         method: 'connections.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nconnections = client.connections.list()\nprint(connections.connections)',
       },
-      typescript: {
-        method: 'client.connections.list',
+      go: {
+        method: 'client.Connections.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst connections = await client.connections.list();\n\nconsole.log(connections.connections);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tconnections, err := client.Connections.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", connections.Connections)\n}\n',
+      },
+      cli: {
+        method: 'connections list',
+        example: "hyperspell connections list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -142,29 +142,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.folders.list(connection_id: string, parent_id?: string): { folders: object[]; }`\n\n**get** `/connections/{connection_id}/folders`\n\nList one level of folders from the user's connected source.\n\nReturns folders decorated with their explicit folder policy (if any).\nUse parent_id to drill into subfolders.\n\n### Parameters\n\n- `connection_id: string`\n\n- `parent_id?: string`\n  Parent folder ID. Omit for root-level folders.\n\n### Returns\n\n- `{ folders: { has_children: boolean; name: string; provider_folder_id: string; parent_folder_id?: string; policy?: { id: string; sync_mode: 'sync' | 'skip' | 'manual'; }; }[]; }`\n\n  - `folders: { has_children: boolean; name: string; provider_folder_id: string; parent_folder_id?: string; policy?: { id: string; sync_mode: 'sync' | 'skip' | 'manual'; }; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst folders = await client.folders.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(folders);\n```",
     perLanguage: {
-      cli: {
-        method: 'folders list',
+      typescript: {
+        method: 'client.folders.list',
         example:
-          "hyperspell folders list \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
-      go: {
-        method: 'client.Folders.List',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfolders, err := client.Folders.List(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", folders.Folders)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folders \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst folders = await client.folders.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(folders.folders);",
       },
       python: {
         method: 'folders.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nfolders = client.folders.list(\n    connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n)\nprint(folders.folders)',
       },
-      typescript: {
-        method: 'client.folders.list',
+      go: {
+        method: 'client.Folders.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst folders = await client.folders.list('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(folders.folders);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tfolders, err := client.Folders.List(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderListParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", folders.Folders)\n}\n',
+      },
+      cli: {
+        method: 'folders list',
+        example:
+          "hyperspell folders list \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folders \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -182,29 +182,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list_policies\n\n`client.folders.listPolicies(connection_id: string): { policies: object[]; }`\n\n**get** `/connections/{connection_id}/folder-policies`\n\nList all folder policies for a specific connection.\n\n### Parameters\n\n- `connection_id: string`\n\n### Returns\n\n- `{ policies: { id: string; provider_folder_id: string; sync_mode: 'sync' | 'skip' | 'manual'; connection_id?: string; folder_name?: string; folder_path?: string; parent_folder_id?: string; }[]; }`\n\n  - `policies: { id: string; provider_folder_id: string; sync_mode: 'sync' | 'skip' | 'manual'; connection_id?: string; folder_name?: string; folder_path?: string; parent_folder_id?: string; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.folders.listPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'folders list_policies',
+      typescript: {
+        method: 'client.folders.listPolicies',
         example:
-          "hyperspell folders list-policies \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
-      go: {
-        method: 'client.Folders.ListPolicies',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.ListPolicies(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Policies)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.listPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(response.policies);",
       },
       python: {
         method: 'folders.list_policies',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.folders.list_policies(\n    "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n)\nprint(response.policies)',
       },
-      typescript: {
-        method: 'client.folders.listPolicies',
+      go: {
+        method: 'client.Folders.ListPolicies',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.listPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');\n\nconsole.log(response.policies);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.ListPolicies(context.TODO(), "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Policies)\n}\n',
+      },
+      cli: {
+        method: 'folders list_policies',
+        example:
+          "hyperspell folders list-policies \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -229,29 +229,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## set_policies\n\n`client.folders.setPolicies(connection_id: string, provider_folder_id: string, sync_mode: 'sync' | 'skip' | 'manual', folder_name?: string, folder_path?: string, parent_folder_id?: string): { id: string; provider_folder_id: string; sync_mode: 'sync' | 'skip' | 'manual'; connection_id?: string; folder_name?: string; folder_path?: string; parent_folder_id?: string; }`\n\n**post** `/connections/{connection_id}/folder-policies`\n\nCreate or update a folder policy for a specific connection.\n\n### Parameters\n\n- `connection_id: string`\n\n- `provider_folder_id: string`\n  Folder ID from the source provider\n\n- `sync_mode: 'sync' | 'skip' | 'manual'`\n  Sync mode for this folder\n\n- `folder_name?: string`\n  Display name of the folder\n\n- `folder_path?: string`\n  Display path of the folder\n\n- `parent_folder_id?: string`\n  Parent folder's provider ID for inheritance resolution\n\n### Returns\n\n- `{ id: string; provider_folder_id: string; sync_mode: 'sync' | 'skip' | 'manual'; connection_id?: string; folder_name?: string; folder_path?: string; parent_folder_id?: string; }`\n\n  - `id: string`\n  - `provider_folder_id: string`\n  - `sync_mode: 'sync' | 'skip' | 'manual'`\n  - `connection_id?: string`\n  - `folder_name?: string`\n  - `folder_path?: string`\n  - `parent_folder_id?: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.folders.setPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { provider_folder_id: 'provider_folder_id', sync_mode: 'sync' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'folders set_policies',
+      typescript: {
+        method: 'client.folders.setPolicies',
         example:
-          "hyperspell folders set-policies \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --provider-folder-id provider_folder_id \\\n  --sync-mode sync",
-      },
-      go: {
-        method: 'client.Folders.SetPolicies',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.SetPolicies(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderSetPoliciesParams{\n\t\t\tProviderFolderID: "provider_folder_id",\n\t\t\tSyncMode:         hyperspell.FolderSetPoliciesParamsSyncModeSync,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "provider_folder_id": "provider_folder_id",\n          "sync_mode": "sync"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.setPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  provider_folder_id: 'provider_folder_id',\n  sync_mode: 'sync',\n});\n\nconsole.log(response.id);",
       },
       python: {
         method: 'folders.set_policies',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.folders.set_policies(\n    connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    provider_folder_id="provider_folder_id",\n    sync_mode="sync",\n)\nprint(response.id)',
       },
-      typescript: {
-        method: 'client.folders.setPolicies',
+      go: {
+        method: 'client.Folders.SetPolicies',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.setPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  provider_folder_id: 'provider_folder_id',\n  sync_mode: 'sync',\n});\n\nconsole.log(response.id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.SetPolicies(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderSetPoliciesParams{\n\t\t\tProviderFolderID: "provider_folder_id",\n\t\t\tSyncMode:         hyperspell.FolderSetPoliciesParamsSyncModeSync,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+      },
+      cli: {
+        method: 'folders set_policies',
+        example:
+          "hyperspell folders set-policies \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --provider-folder-id provider_folder_id \\\n  --sync-mode sync",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "provider_folder_id": "provider_folder_id",\n          "sync_mode": "sync"\n        }\'',
       },
     },
   },
@@ -268,29 +268,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete_policy\n\n`client.folders.deletePolicy(connection_id: string, policy_id: string): { success: boolean; }`\n\n**delete** `/connections/{connection_id}/folder-policies/{policy_id}`\n\nDelete a folder policy for a specific connection.\n\n### Parameters\n\n- `connection_id: string`\n\n- `policy_id: string`\n\n### Returns\n\n- `{ success: boolean; }`\n\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', { connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'folders delete_policy',
+      typescript: {
+        method: 'client.folders.deletePolicy',
         example:
-          "hyperspell folders delete-policy \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --policy-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
-      },
-      go: {
-        method: 'client.Folders.DeletePolicy',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.DeletePolicy(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderDeletePolicyParams{\n\t\t\tConnectionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Success)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies/$POLICY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n});\n\nconsole.log(response.success);",
       },
       python: {
         method: 'folders.delete_policy',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.folders.delete_policy(\n    policy_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n    connection_id="182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n)\nprint(response.success)',
       },
-      typescript: {
-        method: 'client.folders.deletePolicy',
+      go: {
+        method: 'client.Folders.DeletePolicy',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {\n  connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',\n});\n\nconsole.log(response.success);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Folders.DeletePolicy(\n\t\tcontext.TODO(),\n\t\t"182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\thyperspell.FolderDeletePolicyParams{\n\t\t\tConnectionID: "182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Success)\n}\n',
+      },
+      cli: {
+        method: 'folders delete_policy',
+        example:
+          "hyperspell folders delete-policy \\\n  --api-key 'My API Key' \\\n  --connection-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e \\\n  --policy-id 182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/connections/$CONNECTION_ID/folder-policies/$POLICY_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -307,28 +307,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.integrations.list(): { integrations: object[]; }`\n\n**get** `/integrations/list`\n\nList all integrations for the user.\n\n### Returns\n\n- `{ integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; }[]; }`\n\n  - `integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst integrations = await client.integrations.list();\n\nconsole.log(integrations);\n```",
     perLanguage: {
-      cli: {
-        method: 'integrations list',
-        example: "hyperspell integrations list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Integrations.List',
+      typescript: {
+        method: 'client.integrations.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tintegrations, err := client.Integrations.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", integrations.Integrations)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/integrations/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst integrations = await client.integrations.list();\n\nconsole.log(integrations.integrations);",
       },
       python: {
         method: 'integrations.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nintegrations = client.integrations.list()\nprint(integrations.integrations)',
       },
-      typescript: {
-        method: 'client.integrations.list',
+      go: {
+        method: 'client.Integrations.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst integrations = await client.integrations.list();\n\nconsole.log(integrations.integrations);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tintegrations, err := client.Integrations.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", integrations.Integrations)\n}\n',
+      },
+      cli: {
+        method: 'integrations list',
+        example: "hyperspell integrations list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/integrations/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -345,29 +345,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## connect\n\n`client.integrations.connect(integration_id: string, redirect_url?: string): { expires_at: string; url: string; }`\n\n**get** `/integrations/{integration_id}/connect`\n\nRedirects to the connect URL to link an integration.\n\n### Parameters\n\n- `integration_id: string`\n\n- `redirect_url?: string`\n\n### Returns\n\n- `{ expires_at: string; url: string; }`\n\n  - `expires_at: string`\n  - `url: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.integrations.connect('integration_id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'integrations connect',
+      typescript: {
+        method: 'client.integrations.connect',
         example:
-          "hyperspell integrations connect \\\n  --api-key 'My API Key' \\\n  --integration-id integration_id",
-      },
-      go: {
-        method: 'client.Integrations.Connect',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Integrations.Connect(\n\t\tcontext.TODO(),\n\t\t"integration_id",\n\t\thyperspell.IntegrationConnectParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ExpiresAt)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/integrations/$INTEGRATION_ID/connect \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.integrations.connect('integration_id');\n\nconsole.log(response.expires_at);",
       },
       python: {
         method: 'integrations.connect',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.integrations.connect(\n    integration_id="integration_id",\n)\nprint(response.expires_at)',
       },
-      typescript: {
-        method: 'client.integrations.connect',
+      go: {
+        method: 'client.Integrations.Connect',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.integrations.connect('integration_id');\n\nconsole.log(response.expires_at);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Integrations.Connect(\n\t\tcontext.TODO(),\n\t\t"integration_id",\n\t\thyperspell.IntegrationConnectParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ExpiresAt)\n}\n',
+      },
+      cli: {
+        method: 'integrations connect',
+        example:
+          "hyperspell integrations connect \\\n  --api-key 'My API Key' \\\n  --integration-id integration_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/integrations/$INTEGRATION_ID/connect \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -384,28 +384,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.integrations.googleCalendar.list(): { items: object[]; }`\n\n**get** `/integrations/google_calendar/list`\n\nList available calendars for a user. This can be used to ie. populate a dropdown for the user to select a calendar.\n\n### Returns\n\n- `{ items: { id: string; name: string; primary: boolean; timezone: string; }[]; }`\n\n  - `items: { id: string; name: string; primary: boolean; timezone: string; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst calendar = await client.integrations.googleCalendar.list();\n\nconsole.log(calendar);\n```",
     perLanguage: {
-      cli: {
-        method: 'google_calendar list',
-        example: "hyperspell integrations:google-calendar list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Integrations.GoogleCalendar.List',
+      typescript: {
+        method: 'client.integrations.googleCalendar.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcalendar, err := client.Integrations.GoogleCalendar.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", calendar.Items)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/integrations/google_calendar/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst calendar = await client.integrations.googleCalendar.list();\n\nconsole.log(calendar.items);",
       },
       python: {
         method: 'integrations.google_calendar.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\ncalendar = client.integrations.google_calendar.list()\nprint(calendar.items)',
       },
-      typescript: {
-        method: 'client.integrations.googleCalendar.list',
+      go: {
+        method: 'client.Integrations.GoogleCalendar.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst calendar = await client.integrations.googleCalendar.list();\n\nconsole.log(calendar.items);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tcalendar, err := client.Integrations.GoogleCalendar.List(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", calendar.Items)\n}\n',
+      },
+      cli: {
+        method: 'google_calendar list',
+        example: "hyperspell integrations:google-calendar list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/integrations/google_calendar/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -423,28 +423,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## index\n\n`client.integrations.webCrawler.index(url: string, limit?: number, max_depth?: number): { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n**get** `/integrations/web_crawler/index`\n\nRecursively crawl a website to make it available for indexed search.\n\n### Parameters\n\n- `url: string`\n  The base URL of the website to crawl\n\n- `limit?: number`\n  Maximum number of pages to crawl in total\n\n- `max_depth?: number`\n  Maximum depth of links to follow during crawling\n\n### Returns\n\n- `{ resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.integrations.webCrawler.index({ url: 'url' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'web_crawler index',
-        example: "hyperspell integrations:web-crawler index \\\n  --api-key 'My API Key' \\\n  --url url",
-      },
-      go: {
-        method: 'client.Integrations.WebCrawler.Index',
+      typescript: {
+        method: 'client.integrations.webCrawler.index',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Integrations.WebCrawler.Index(context.TODO(), hyperspell.IntegrationWebCrawlerIndexParams{\n\t\tURL: "url",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/integrations/web_crawler/index \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.integrations.webCrawler.index({ url: 'url' });\n\nconsole.log(response.resource_id);",
       },
       python: {
         method: 'integrations.web_crawler.index',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.integrations.web_crawler.index(\n    url="url",\n)\nprint(response.resource_id)',
       },
-      typescript: {
-        method: 'client.integrations.webCrawler.index',
+      go: {
+        method: 'client.Integrations.WebCrawler.Index',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.integrations.webCrawler.index({ url: 'url' });\n\nconsole.log(response.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Integrations.WebCrawler.Index(context.TODO(), hyperspell.IntegrationWebCrawlerIndexParams{\n\t\tURL: "url",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'web_crawler index',
+        example: "hyperspell integrations:web-crawler index \\\n  --api-key 'My API Key' \\\n  --url url",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/integrations/web_crawler/index \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -468,28 +468,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.integrations.slack.list(channels?: string[], exclude_archived?: boolean, include_dms?: boolean, include_group_dms?: boolean, include_private?: boolean): object`\n\n**get** `/integrations/slack/list`\n\nList Slack conversations accessible to the user via the live Nango connection.\n\nReturns minimal channel metadata suitable for selection UIs. If required\nscopes are missing, Slack's error is propagated with details.\n\nSupports filtering by channels, including/excluding private channels, DMs,\ngroup DMs, and archived channels based on the provided search options.\n\n### Parameters\n\n- `channels?: string[]`\n  List of Slack channels to include (by id, name, or #name).\n\n- `exclude_archived?: boolean`\n  If set, pass 'exclude_archived' to Slack. If None, omit the param.\n\n- `include_dms?: boolean`\n  Include direct messages (im) when listing conversations.\n\n- `include_group_dms?: boolean`\n  Include group DMs (mpim) when listing conversations.\n\n- `include_private?: boolean`\n  Include private channels when constructing Slack 'types'.\n\n### Returns\n\n- `object`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst slacks = await client.integrations.slack.list();\n\nconsole.log(slacks);\n```",
     perLanguage: {
-      cli: {
-        method: 'slack list',
-        example: "hyperspell integrations:slack list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Integrations.Slack.List',
+      typescript: {
+        method: 'client.integrations.slack.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tslacks, err := client.Integrations.Slack.List(context.TODO(), hyperspell.IntegrationSlackListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", slacks)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/integrations/slack/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst slacks = await client.integrations.slack.list();\n\nconsole.log(slacks);",
       },
       python: {
         method: 'integrations.slack.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nslacks = client.integrations.slack.list()\nprint(slacks)',
       },
-      typescript: {
-        method: 'client.integrations.slack.list',
+      go: {
+        method: 'client.Integrations.Slack.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst slacks = await client.integrations.slack.list();\n\nconsole.log(slacks);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tslacks, err := client.Integrations.Slack.List(context.TODO(), hyperspell.IntegrationSlackListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", slacks)\n}\n',
+      },
+      cli: {
+        method: 'slack list',
+        example: "hyperspell integrations:slack list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/integrations/slack/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -515,28 +515,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add\n\n`client.memories.add(text: string, collection?: string, date?: string, metadata?: object, resource_id?: string, title?: string): { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n**post** `/memories/add`\n\nAdds an arbitrary document to the index. This can be any text, email,\ncall transcript, etc. The document will be processed and made available for\nquerying once the processing is complete.\n\n### Parameters\n\n- `text: string`\n  Full text of the document.\n\n- `collection?: string`\n  The collection to add the document to — deprecated, set the collection using metadata instead.\n\n- `date?: string`\n  Date of the document. Depending on the document, this could be the creation date or date the document was last updated (eg. for a chat transcript, this would be the date of the last message). This helps the ranking algorithm and allows you to filter by date range.\n\n- `metadata?: object`\n  Custom metadata for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, boolean, or null.\n\n- `resource_id?: string`\n  The resource ID to add the document to. If not provided, a new resource ID will be generated. If provided, the document will be updated if it already exists.\n\n- `title?: string`\n  Title of the document.\n\n### Returns\n\n- `{ resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memoryStatus = await client.memories.add({ text: '...' });\n\nconsole.log(memoryStatus);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories add',
-        example: "hyperspell memories add \\\n  --api-key 'My API Key' \\\n  --text ...",
-      },
-      go: {
-        method: 'client.Memories.Add',
+      typescript: {
+        method: 'client.memories.add',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Add(context.TODO(), hyperspell.MemoryAddParams{\n\t\tText: "...",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "text": "..."\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.add({ text: '...' });\n\nconsole.log(memoryStatus.resource_id);",
       },
       python: {
         method: 'memories.add',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory_status = client.memories.add(\n    text="...",\n)\nprint(memory_status.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.add',
+      go: {
+        method: 'client.Memories.Add',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.add({ text: '...' });\n\nconsole.log(memoryStatus.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Add(context.TODO(), hyperspell.MemoryAddParams{\n\t\tText: "...",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'memories add',
+        example: "hyperspell memories add \\\n  --api-key 'My API Key' \\\n  --text ...",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "text": "..."\n        }\'',
       },
     },
   },
@@ -557,28 +557,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add_bulk\n\n`client.memories.addBulk(items: { text: string; collection?: string; date?: string; metadata?: object; resource_id?: string; title?: string; }[]): { count: number; items: memory_status[]; success?: boolean; }`\n\n**post** `/memories/add/bulk`\n\nAdds multiple documents to the index in a single request.\n\nAll items are validated before any database operations occur. If any item\nfails validation, the entire batch is rejected with a 422 error detailing\nwhich items failed and why.\n\nMaximum 100 items per request. Each item follows the same schema as the\nsingle-item /memories/add endpoint.\n\n### Parameters\n\n- `items: { text: string; collection?: string; date?: string; metadata?: object; resource_id?: string; title?: string; }[]`\n  List of memories to ingest. Maximum 100 items.\n\n### Returns\n\n- `{ count: number; items: { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }[]; success?: boolean; }`\n  Response schema for successful bulk ingestion.\n\n  - `count: number`\n  - `items: { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }[]`\n  - `success?: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.memories.addBulk({ items: [{ text: '...' }] });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories add_bulk',
-        example: "hyperspell memories add-bulk \\\n  --api-key 'My API Key' \\\n  --item '{text: ...}'",
-      },
-      go: {
-        method: 'client.Memories.AddBulk',
+      typescript: {
+        method: 'client.memories.addBulk',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Memories.AddBulk(context.TODO(), hyperspell.MemoryAddBulkParams{\n\t\tItems: []hyperspell.MemoryAddBulkParamsItem{{\n\t\t\tText: "...",\n\t\t}},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Count)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/add/bulk \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "items": [\n            {\n              "text": "...",\n              "collection": "my-collection",\n              "metadata": {\n                "author": "John Doe",\n                "date": "2025-05-20T02:31:00Z",\n                "rating": 3\n              },\n              "title": "My Document"\n            }\n          ]\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.memories.addBulk({ items: [{ text: '...' }] });\n\nconsole.log(response.count);",
       },
       python: {
         method: 'memories.add_bulk',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.memories.add_bulk(\n    items=[{\n        "text": "..."\n    }],\n)\nprint(response.count)',
       },
-      typescript: {
-        method: 'client.memories.addBulk',
+      go: {
+        method: 'client.Memories.AddBulk',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.memories.addBulk({ items: [{ text: '...' }] });\n\nconsole.log(response.count);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Memories.AddBulk(context.TODO(), hyperspell.MemoryAddBulkParams{\n\t\tItems: []hyperspell.MemoryAddBulkParamsItem{{\n\t\t\tText: "...",\n\t\t}},\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Count)\n}\n',
+      },
+      cli: {
+        method: 'memories add_bulk',
+        example: "hyperspell memories add-bulk \\\n  --api-key 'My API Key' \\\n  --item '{text: ...}'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/add/bulk \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "items": [\n            {\n              "text": "...",\n              "collection": "my-collection",\n              "metadata": {\n                "author": "John Doe",\n                "date": "2025-05-20T02:31:00Z",\n                "rating": 3\n              },\n              "title": "My Document"\n            }\n          ]\n        }\'',
       },
     },
   },
@@ -597,28 +597,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## upload\n\n`client.memories.upload(file: string, collection?: string, metadata?: string): { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n**post** `/memories/upload`\n\nThis endpoint will upload a file to the index and return a resource_id.\nThe file will be processed in the background and the memory will be available for querying once the processing is complete.\nYou can use the `resource_id` to query the memory later, and check the status of the memory.\n\n### Parameters\n\n- `file: string`\n  The file to ingest.\n\n- `collection?: string`\n  The collection to add the document to — deprecated, set the collection using metadata instead.\n\n- `metadata?: string`\n  Custom metadata as JSON string for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, or boolean.\n\n### Returns\n\n- `{ resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memoryStatus = await client.memories.upload({ file: fs.createReadStream('path/to/file') });\n\nconsole.log(memoryStatus);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories upload',
-        example: "hyperspell memories upload \\\n  --api-key 'My API Key' \\\n  --file 'Example data'",
-      },
-      go: {
-        method: 'client.Memories.Upload',
+      typescript: {
+        method: 'client.memories.upload',
         example:
-          'package main\n\nimport (\n\t"bytes"\n\t"context"\n\t"fmt"\n\t"io"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Upload(context.TODO(), hyperspell.MemoryUploadParams{\n\t\tFile: io.Reader(bytes.NewBuffer([]byte("Example data"))),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.hyperspell.com/memories/upload \\\n    -H 'Content-Type: multipart/form-data' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -F 'file=@/path/to/file'",
+          "import fs from 'fs';\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.upload({ file: fs.createReadStream('path/to/file') });\n\nconsole.log(memoryStatus.resource_id);",
       },
       python: {
         method: 'memories.upload',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory_status = client.memories.upload(\n    file=b"Example data",\n)\nprint(memory_status.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.upload',
+      go: {
+        method: 'client.Memories.Upload',
         example:
-          "import fs from 'fs';\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.upload({ file: fs.createReadStream('path/to/file') });\n\nconsole.log(memoryStatus.resource_id);",
+          'package main\n\nimport (\n\t"bytes"\n\t"context"\n\t"fmt"\n\t"io"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Upload(context.TODO(), hyperspell.MemoryUploadParams{\n\t\tFile: io.Reader(bytes.NewBuffer([]byte("Example data"))),\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'memories upload',
+        example: "hyperspell memories upload \\\n  --api-key 'My API Key' \\\n  --file 'Example data'",
+      },
+      http: {
+        example:
+          "curl https://api.hyperspell.com/memories/upload \\\n    -H 'Content-Type: multipart/form-data' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -F 'file=@/path/to/file'",
       },
     },
   },
@@ -645,29 +645,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## update\n\n`client.memories.update(source: string, resource_id: string, collection?: string | object, date?: string | object, metadata?: object | object, text?: string | object, title?: string | object): { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n**post** `/memories/update/{source}/{resource_id}`\n\nUpdates an existing document in the index. You can update the text, collection,\ntitle, and metadata. The document must already exist or a 404 will be returned.\nThis works for documents from any source (vault, slack, gmail, etc.).\n\nTo remove a collection, set it to null explicitly.\n\n### Parameters\n\n- `source: string`\n\n- `resource_id: string`\n\n- `collection?: string | object`\n  The collection to move the document to — deprecated, set the collection using metadata instead.\n\n- `date?: string | object`\n  Date of the document for ranking and filtering.\n\n- `metadata?: object | object`\n  Custom metadata for filtering. Keys must be alphanumeric with underscores, max 64 chars. Values must be string, number, boolean, or null. Will be merged with existing metadata.\n\n- `text?: string | object`\n  Full text of the document. If provided, the document will be re-indexed.\n\n- `title?: string | object`\n  Title of the document.\n\n### Returns\n\n- `{ resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memoryStatus = await client.memories.update('resource_id', { source: 'reddit' });\n\nconsole.log(memoryStatus);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories update',
+      typescript: {
+        method: 'client.memories.update',
         example:
-          "hyperspell memories update \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
-      },
-      go: {
-        method: 'client.Memories.Update',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Update(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryUpdateParams{\n\t\t\tSource: hyperspell.MemoryUpdateParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.hyperspell.com/memories/update/$SOURCE/$RESOURCE_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.update('resource_id', { source: 'reddit' });\n\nconsole.log(memoryStatus.resource_id);",
       },
       python: {
         method: 'memories.update',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory_status = client.memories.update(\n    resource_id="resource_id",\n    source="reddit",\n)\nprint(memory_status.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.update',
+      go: {
+        method: 'client.Memories.Update',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.memories.update('resource_id', { source: 'reddit' });\n\nconsole.log(memoryStatus.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Memories.Update(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryUpdateParams{\n\t\t\tSource: hyperspell.MemoryUpdateParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'memories update',
+        example:
+          "hyperspell memories update \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
+      },
+      http: {
+        example:
+          "curl https://api.hyperspell.com/memories/update/$SOURCE/$RESOURCE_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -693,28 +693,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.memories.list(collection?: string, cursor?: string, filter?: string, size?: number, source?: string, status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'): { resource_id: string; source: string; folder_id?: string; metadata?: metadata; parent_folder_id?: string; score?: number; title?: string; }`\n\n**get** `/memories/list`\n\nThis endpoint allows you to paginate through all documents in the index.\nYou can filter the documents by title, date, metadata, etc.\n\n### Parameters\n\n- `collection?: string`\n  Filter documents by collection.\n\n- `cursor?: string`\n\n- `filter?: string`\n  Filter documents by metadata using MongoDB-style operators. Example: {\"department\": \"engineering\", \"priority\": {\"$gt\": 3}}\n\n- `size?: number`\n\n- `source?: string`\n  Filter documents by source.\n\n- `status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n  Filter documents by status.\n\n### Returns\n\n- `{ resource_id: string; source: string; folder_id?: string; metadata?: { created_at?: string; events?: notification[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }; parent_folder_id?: string; score?: number; title?: string; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `folder_id?: string`\n  - `metadata?: { created_at?: string; events?: { message: string; type: 'error' | 'warning' | 'info' | 'success'; time?: string; }[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }`\n  - `parent_folder_id?: string`\n  - `score?: number`\n  - `title?: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\n// Automatically fetches more pages as needed.\nfor await (const resource of client.memories.list()) {\n  console.log(resource);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'memories list',
-        example: "hyperspell memories list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Memories.List',
+      typescript: {
+        method: 'client.memories.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Memories.List(context.TODO(), hyperspell.MemoryListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const resource of client.memories.list()) {\n  console.log(resource.resource_id);\n}",
       },
       python: {
         method: 'memories.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\npage = client.memories.list()\npage = page.items[0]\nprint(page.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.list',
+      go: {
+        method: 'client.Memories.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const resource of client.memories.list()) {\n  console.log(resource.resource_id);\n}",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Memories.List(context.TODO(), hyperspell.MemoryListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
+      cli: {
+        method: 'memories list',
+        example: "hyperspell memories list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -730,28 +730,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## status\n\n`client.memories.status(): { providers: object; total: object; }`\n\n**get** `/memories/status`\n\nThis endpoint shows the indexing progress of documents, both by provider and total.\n\n### Returns\n\n- `{ providers: object; total: object; }`\n\n  - `providers: object`\n  - `total: object`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.memories.status();\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories status',
-        example: "hyperspell memories status \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Memories.Status',
+      typescript: {
+        method: 'client.memories.status',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Memories.Status(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Providers)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/status \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.memories.status();\n\nconsole.log(response.providers);",
       },
       python: {
         method: 'memories.status',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.memories.status()\nprint(response.providers)',
       },
-      typescript: {
-        method: 'client.memories.status',
+      go: {
+        method: 'client.Memories.Status',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.memories.status();\n\nconsole.log(response.providers);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Memories.Status(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Providers)\n}\n',
+      },
+      cli: {
+        method: 'memories status',
+        example: "hyperspell memories status \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/status \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -769,29 +769,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## get\n\n`client.memories.get(source: string, resource_id: string): { resource_id: string; source: string; type: string; data?: object[]; memories?: string[]; metadata?: metadata; title?: string; }`\n\n**get** `/memories/get/{source}/{resource_id}`\n\nRetrieves a document by provider and resource_id.\n\n### Parameters\n\n- `source: string`\n\n- `resource_id: string`\n\n### Returns\n\n- `{ resource_id: string; source: string; type: string; data?: object[]; memories?: string[]; metadata?: { created_at?: string; events?: notification[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }; title?: string; }`\n  Response model for the GET /memories/get endpoint.\n\n  - `resource_id: string`\n  - `source: string`\n  - `type: string`\n  - `data?: object[]`\n  - `memories?: string[]`\n  - `metadata?: { created_at?: string; events?: { message: string; type: 'error' | 'warning' | 'info' | 'success'; time?: string; }[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }`\n  - `title?: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memory = await client.memories.get('resource_id', { source: 'reddit' });\n\nconsole.log(memory);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories get',
+      typescript: {
+        method: 'client.memories.get',
         example:
-          "hyperspell memories get \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
-      },
-      go: {
-        method: 'client.Memories.Get',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemory, err := client.Memories.Get(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryGetParams{\n\t\t\tSource: hyperspell.MemoryGetParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memory.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/get/$SOURCE/$RESOURCE_ID \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memory = await client.memories.get('resource_id', { source: 'reddit' });\n\nconsole.log(memory.resource_id);",
       },
       python: {
         method: 'memories.get',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory = client.memories.get(\n    resource_id="resource_id",\n    source="reddit",\n)\nprint(memory.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.get',
+      go: {
+        method: 'client.Memories.Get',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memory = await client.memories.get('resource_id', { source: 'reddit' });\n\nconsole.log(memory.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemory, err := client.Memories.Get(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryGetParams{\n\t\t\tSource: hyperspell.MemoryGetParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memory.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'memories get',
+        example:
+          "hyperspell memories get \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/get/$SOURCE/$RESOURCE_ID \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -816,29 +816,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## search\n\n`client.memories.search(query: string, answer?: boolean, effort?: number, max_results?: number, options?: { after?: string; answer_model?: string; before?: string; box?: { weight?: number; }; filter?: object; google_calendar?: { calendar_id?: string; weight?: number; }; google_drive?: { weight?: number; }; google_mail?: { label_ids?: string[]; weight?: number; }; max_results?: number; memory_types?: 'procedure' | 'memory' | 'mood'[]; notion?: { notion_page_ids?: string[]; weight?: number; }; recency_half_life_days?: number; reddit?: { period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all'; sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments'; subreddit?: string; weight?: number; }; resource_ids?: string[]; slack?: { channels?: string[]; exclude_archived?: boolean; include_dms?: boolean; include_group_dms?: boolean; include_private?: boolean; weight?: number; }; vault?: { weight?: number; }; web_crawler?: { max_depth?: number; url?: string; weight?: number; }; }, sources?: string[]): { documents: resource[]; answer?: string; errors?: object[]; query_id?: string; score?: number; }`\n\n**post** `/memories/query`\n\nRetrieves documents matching the query.\n\n### Parameters\n\n- `query: string`\n  Query to run.\n\n- `answer?: boolean`\n  If true, the query will be answered along with matching source documents.\n\n- `effort?: number`\n  Effort level. 0 = pass query through verbatim. 1 = LLM rewrites the query for better retrieval and extracts date filters.\n\n- `max_results?: number`\n  Maximum number of results to return.\n\n- `options?: { after?: string; answer_model?: string; before?: string; box?: { weight?: number; }; filter?: object; google_calendar?: { calendar_id?: string; weight?: number; }; google_drive?: { weight?: number; }; google_mail?: { label_ids?: string[]; weight?: number; }; max_results?: number; memory_types?: 'procedure' | 'memory' | 'mood'[]; notion?: { notion_page_ids?: string[]; weight?: number; }; recency_half_life_days?: number; reddit?: { period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all'; sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments'; subreddit?: string; weight?: number; }; resource_ids?: string[]; slack?: { channels?: string[]; exclude_archived?: boolean; include_dms?: boolean; include_group_dms?: boolean; include_private?: boolean; weight?: number; }; vault?: { weight?: number; }; web_crawler?: { max_depth?: number; url?: string; weight?: number; }; }`\n  Search options for the query.\n  - `after?: string`\n    Only query documents created on or after this date.\n  - `answer_model?: string`\n    Model to use for answer generation when answer=True\n  - `before?: string`\n    Only query documents created before this date.\n  - `box?: { weight?: number; }`\n    Search options for Box\n  - `filter?: object`\n    Metadata filters using MongoDB-style operators. Example: {'status': 'published', 'priority': {'$gt': 3}}\n  - `google_calendar?: { calendar_id?: string; weight?: number; }`\n    Search options for Google Calendar\n  - `google_drive?: { weight?: number; }`\n    Search options for Google Drive\n  - `google_mail?: { label_ids?: string[]; weight?: number; }`\n    Search options for Gmail\n  - `max_results?: number`\n    Maximum number of results to return.\n  - `memory_types?: 'procedure' | 'memory' | 'mood'[]`\n    Filter by memory type. Defaults to generic memories only. Pass multiple types to include procedures, etc.\n  - `notion?: { notion_page_ids?: string[]; weight?: number; }`\n    Search options for Notion\n  - `recency_half_life_days?: number`\n    When set, multiplies each result's score by an exponential-decay factor based on the document's most recent activity timestamp (source-reported last_modified, falling back to document_date). A document one half-life old gets its score halved. Resources with no recency timestamp are passed through unchanged. Leave unset to disable.\n  - `reddit?: { period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all'; sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments'; subreddit?: string; weight?: number; }`\n    Search options for Reddit\n  - `resource_ids?: string[]`\n    Only return results from these specific resource IDs. Useful for scoping searches to specific documents (e.g., a specific email thread or uploaded file).\n  - `slack?: { channels?: string[]; exclude_archived?: boolean; include_dms?: boolean; include_group_dms?: boolean; include_private?: boolean; weight?: number; }`\n    Search options for Slack\n  - `vault?: { weight?: number; }`\n    Search options for vault\n  - `web_crawler?: { max_depth?: number; url?: string; weight?: number; }`\n    Search options for Web Crawler\n\n- `sources?: string[]`\n  Only query documents from these sources.\n\n### Returns\n\n- `{ documents: { resource_id: string; source: string; folder_id?: string; metadata?: metadata; parent_folder_id?: string; score?: number; title?: string; }[]; answer?: string; errors?: object[]; query_id?: string; score?: number; }`\n\n  - `documents: { resource_id: string; source: string; folder_id?: string; metadata?: { created_at?: string; events?: notification[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }; parent_folder_id?: string; score?: number; title?: string; }[]`\n  - `answer?: string`\n  - `errors?: object[]`\n  - `query_id?: string`\n  - `score?: number`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst queryResult = await client.memories.search({ query: 'What does Hyperspell do?' });\n\nconsole.log(queryResult);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories search',
+      typescript: {
+        method: 'client.memories.search',
         example:
-          "hyperspell memories search \\\n  --api-key 'My API Key' \\\n  --query 'What does Hyperspell do?'",
-      },
-      go: {
-        method: 'client.Memories.Search',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tqueryResult, err := client.Memories.Search(context.TODO(), hyperspell.MemorySearchParams{\n\t\tQuery: "What does Hyperspell do?",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", queryResult.QueryID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "query": "What does Hyperspell do?"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst queryResult = await client.memories.search({ query: 'What does Hyperspell do?' });\n\nconsole.log(queryResult.query_id);",
       },
       python: {
         method: 'memories.search',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nquery_result = client.memories.search(\n    query="What does Hyperspell do?",\n)\nprint(query_result.query_id)',
       },
-      typescript: {
-        method: 'client.memories.search',
+      go: {
+        method: 'client.Memories.Search',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst queryResult = await client.memories.search({ query: 'What does Hyperspell do?' });\n\nconsole.log(queryResult.query_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tqueryResult, err := client.Memories.Search(context.TODO(), hyperspell.MemorySearchParams{\n\t\tQuery: "What does Hyperspell do?",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", queryResult.QueryID)\n}\n',
+      },
+      cli: {
+        method: 'memories search',
+        example:
+          "hyperspell memories search \\\n  --api-key 'My API Key' \\\n  --query 'What does Hyperspell do?'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "query": "What does Hyperspell do?"\n        }\'',
       },
     },
   },
@@ -857,29 +857,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete\n\n`client.memories.delete(source: string, resource_id: string): { chunks_deleted: number; message: string; resource_id: string; source: string; success: boolean; }`\n\n**delete** `/memories/delete/{source}/{resource_id}`\n\nDelete a memory and its associated chunks from the index.\n\nThis removes the memory completely from the vector index and database.\nThe operation deletes:\n1. All chunks associated with the resource (including embeddings)\n2. The resource record itself\n\nArgs:\n    source: The document provider (e.g., gmail, notion, vault)\n    resource_id: The unique identifier of the resource to delete\n    api_token: Authentication token\n\nReturns:\n    MemoryDeletionResponse with deletion details\n\nRaises:\n    DocumentNotFound: If the resource doesn't exist or user doesn't have access\n\n### Parameters\n\n- `source: string`\n\n- `resource_id: string`\n\n### Returns\n\n- `{ chunks_deleted: number; message: string; resource_id: string; source: string; success: boolean; }`\n\n  - `chunks_deleted: number`\n  - `message: string`\n  - `resource_id: string`\n  - `source: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memory = await client.memories.delete('resource_id', { source: 'reddit' });\n\nconsole.log(memory);\n```",
     perLanguage: {
-      cli: {
-        method: 'memories delete',
+      typescript: {
+        method: 'client.memories.delete',
         example:
-          "hyperspell memories delete \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
-      },
-      go: {
-        method: 'client.Memories.Delete',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemory, err := client.Memories.Delete(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryDeleteParams{\n\t\t\tSource: hyperspell.MemoryDeleteParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memory.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/memories/delete/$SOURCE/$RESOURCE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memory = await client.memories.delete('resource_id', { source: 'reddit' });\n\nconsole.log(memory.resource_id);",
       },
       python: {
         method: 'memories.delete',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory = client.memories.delete(\n    resource_id="resource_id",\n    source="reddit",\n)\nprint(memory.resource_id)',
       },
-      typescript: {
-        method: 'client.memories.delete',
+      go: {
+        method: 'client.Memories.Delete',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memory = await client.memories.delete('resource_id', { source: 'reddit' });\n\nconsole.log(memory.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemory, err := client.Memories.Delete(\n\t\tcontext.TODO(),\n\t\t"resource_id",\n\t\thyperspell.MemoryDeleteParams{\n\t\t\tSource: hyperspell.MemoryDeleteParamsSourceReddit,\n\t\t},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memory.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'memories delete',
+        example:
+          "hyperspell memories delete \\\n  --api-key 'My API Key' \\\n  --source reddit \\\n  --resource-id resource_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/memories/delete/$SOURCE/$RESOURCE_ID \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -897,28 +897,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## get_query\n\n`client.evaluate.getQuery(query_id: string): { documents: resource[]; answer?: string; errors?: object[]; query_id?: string; score?: number; }`\n\n**get** `/evaluate/query/{query_id}`\n\nRetrieve the result of a previous query.\n\n### Parameters\n\n- `query_id: string`\n\n### Returns\n\n- `{ documents: { resource_id: string; source: string; folder_id?: string; metadata?: metadata; parent_folder_id?: string; score?: number; title?: string; }[]; answer?: string; errors?: object[]; query_id?: string; score?: number; }`\n\n  - `documents: { resource_id: string; source: string; folder_id?: string; metadata?: { created_at?: string; events?: notification[]; indexed_at?: string; last_modified?: string; status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; url?: string; }; parent_folder_id?: string; score?: number; title?: string; }[]`\n  - `answer?: string`\n  - `errors?: object[]`\n  - `query_id?: string`\n  - `score?: number`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst queryResult = await client.evaluate.getQuery('query_id');\n\nconsole.log(queryResult);\n```",
     perLanguage: {
-      cli: {
-        method: 'evaluate get_query',
-        example: "hyperspell evaluate get-query \\\n  --api-key 'My API Key' \\\n  --query-id query_id",
-      },
-      go: {
-        method: 'client.Evaluate.GetQuery',
+      typescript: {
+        method: 'client.evaluate.getQuery',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tqueryResult, err := client.Evaluate.GetQuery(context.TODO(), "query_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", queryResult.QueryID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/evaluate/query/$QUERY_ID \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst queryResult = await client.evaluate.getQuery('query_id');\n\nconsole.log(queryResult.query_id);",
       },
       python: {
         method: 'evaluate.get_query',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nquery_result = client.evaluate.get_query(\n    "query_id",\n)\nprint(query_result.query_id)',
       },
-      typescript: {
-        method: 'client.evaluate.getQuery',
+      go: {
+        method: 'client.Evaluate.GetQuery',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst queryResult = await client.evaluate.getQuery('query_id');\n\nconsole.log(queryResult.query_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tqueryResult, err := client.Evaluate.GetQuery(context.TODO(), "query_id")\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", queryResult.QueryID)\n}\n',
+      },
+      cli: {
+        method: 'evaluate get_query',
+        example: "hyperspell evaluate get-query \\\n  --api-key 'My API Key' \\\n  --query-id query_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/evaluate/query/$QUERY_ID \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -935,28 +935,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## score_query\n\n`client.evaluate.scoreQuery(query_id: string, score?: number): { message: string; success: boolean; }`\n\n**post** `/evaluate/query/{query_id}`\n\nScore the result of a query.\n\n### Parameters\n\n- `query_id: string`\n\n- `score?: number`\n  Rating of the query result from -1 (bad) to +1 (good).\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.evaluate.scoreQuery('query_id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'evaluate score_query',
-        example: "hyperspell evaluate score-query \\\n  --api-key 'My API Key' \\\n  --query-id query_id",
-      },
-      go: {
-        method: 'client.Evaluate.ScoreQuery',
+      typescript: {
+        method: 'client.evaluate.scoreQuery',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Evaluate.ScoreQuery(\n\t\tcontext.TODO(),\n\t\t"query_id",\n\t\thyperspell.EvaluateScoreQueryParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.hyperspell.com/evaluate/query/$QUERY_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.evaluate.scoreQuery('query_id');\n\nconsole.log(response.message);",
       },
       python: {
         method: 'evaluate.score_query',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.evaluate.score_query(\n    query_id="query_id",\n)\nprint(response.message)',
       },
-      typescript: {
-        method: 'client.evaluate.scoreQuery',
+      go: {
+        method: 'client.Evaluate.ScoreQuery',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.evaluate.scoreQuery('query_id');\n\nconsole.log(response.message);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Evaluate.ScoreQuery(\n\t\tcontext.TODO(),\n\t\t"query_id",\n\t\thyperspell.EvaluateScoreQueryParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
+      cli: {
+        method: 'evaluate score_query',
+        example: "hyperspell evaluate score-query \\\n  --api-key 'My API Key' \\\n  --query-id query_id",
+      },
+      http: {
+        example:
+          "curl https://api.hyperspell.com/evaluate/query/$QUERY_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -973,29 +973,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## score_highlight\n\n`client.evaluate.scoreHighlight(highlight_id: string, comment?: string, score?: number): { message: string; success: boolean; }`\n\n**post** `/evaluate/highlight/{highlight_id}`\n\nScore an individual highlight.\n\n### Parameters\n\n- `highlight_id: string`\n\n- `comment?: string`\n  Comment on the chunk\n\n- `score?: number`\n  Rating of the chunk from -1 (bad) to +1 (good).\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.evaluate.scoreHighlight('highlight_id');\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'evaluate score_highlight',
+      typescript: {
+        method: 'client.evaluate.scoreHighlight',
         example:
-          "hyperspell evaluate score-highlight \\\n  --api-key 'My API Key' \\\n  --highlight-id highlight_id",
-      },
-      go: {
-        method: 'client.Evaluate.ScoreHighlight',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Evaluate.ScoreHighlight(\n\t\tcontext.TODO(),\n\t\t"highlight_id",\n\t\thyperspell.EvaluateScoreHighlightParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          "curl https://api.hyperspell.com/evaluate/highlight/$HIGHLIGHT_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.evaluate.scoreHighlight('highlight_id');\n\nconsole.log(response.message);",
       },
       python: {
         method: 'evaluate.score_highlight',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.evaluate.score_highlight(\n    highlight_id="highlight_id",\n)\nprint(response.message)',
       },
-      typescript: {
-        method: 'client.evaluate.scoreHighlight',
+      go: {
+        method: 'client.Evaluate.ScoreHighlight',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.evaluate.scoreHighlight('highlight_id');\n\nconsole.log(response.message);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Evaluate.ScoreHighlight(\n\t\tcontext.TODO(),\n\t\t"highlight_id",\n\t\thyperspell.EvaluateScoreHighlightParams{},\n\t)\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
+      cli: {
+        method: 'evaluate score_highlight',
+        example:
+          "hyperspell evaluate score-highlight \\\n  --api-key 'My API Key' \\\n  --highlight-id highlight_id",
+      },
+      http: {
+        example:
+          "curl https://api.hyperspell.com/evaluate/highlight/$HIGHLIGHT_ID \\\n    -H 'Content-Type: application/json' \\\n    -H \"Authorization: Bearer $HYPERSPELL_API_KEY\" \\\n    -d '{}'",
       },
     },
   },
@@ -1018,29 +1018,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## send_message\n\n`client.actions.sendMessage(provider: string, text: string, channel?: string, connection?: string, parent?: string): { success: boolean; error?: string; provider_response?: object; }`\n\n**post** `/actions/send_message`\n\nSend a message to a channel or conversation on a connected integration.\n\n### Parameters\n\n- `provider: string`\n  Integration provider (e.g., slack)\n\n- `text: string`\n  Message text\n\n- `channel?: string`\n  Channel ID (required for Slack)\n\n- `connection?: string`\n  Connection ID. If omitted, auto-resolved from provider + user.\n\n- `parent?: string`\n  Parent message ID for threading (thread_ts for Slack)\n\n### Returns\n\n- `{ success: boolean; error?: string; provider_response?: object; }`\n  Result from executing an integration action.\n\n  - `success: boolean`\n  - `error?: string`\n  - `provider_response?: object`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.actions.sendMessage({ provider: 'reddit', text: 'text' });\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'actions send_message',
+      typescript: {
+        method: 'client.actions.sendMessage',
         example:
-          "hyperspell actions send-message \\\n  --api-key 'My API Key' \\\n  --provider reddit \\\n  --text text",
-      },
-      go: {
-        method: 'client.Actions.SendMessage',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Actions.SendMessage(context.TODO(), hyperspell.ActionSendMessageParams{\n\t\tProvider: hyperspell.ActionSendMessageParamsProviderReddit,\n\t\tText:     "text",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ProviderResponse)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/actions/send_message \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "provider": "reddit",\n          "text": "text"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.actions.sendMessage({ provider: 'reddit', text: 'text' });\n\nconsole.log(response.provider_response);",
       },
       python: {
         method: 'actions.send_message',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.actions.send_message(\n    provider="reddit",\n    text="text",\n)\nprint(response.provider_response)',
       },
-      typescript: {
-        method: 'client.actions.sendMessage',
+      go: {
+        method: 'client.Actions.SendMessage',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.actions.sendMessage({ provider: 'reddit', text: 'text' });\n\nconsole.log(response.provider_response);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Actions.SendMessage(context.TODO(), hyperspell.ActionSendMessageParams{\n\t\tProvider: hyperspell.ActionSendMessageParamsProviderReddit,\n\t\tText:     "text",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ProviderResponse)\n}\n',
+      },
+      cli: {
+        method: 'actions send_message',
+        example:
+          "hyperspell actions send-message \\\n  --api-key 'My API Key' \\\n  --provider reddit \\\n  --text text",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/actions/send_message \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "provider": "reddit",\n          "text": "text"\n        }\'',
       },
     },
   },
@@ -1063,29 +1063,29 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add_reaction\n\n`client.actions.addReaction(channel: string, name: string, provider: string, timestamp: string, connection?: string): { success: boolean; error?: string; provider_response?: object; }`\n\n**post** `/actions/add_reaction`\n\nAdd an emoji reaction to a message on a connected integration.\n\n### Parameters\n\n- `channel: string`\n  Channel ID containing the message\n\n- `name: string`\n  Emoji name without colons (e.g., thumbsup)\n\n- `provider: string`\n  Integration provider (e.g., slack)\n\n- `timestamp: string`\n  Message timestamp to react to\n\n- `connection?: string`\n  Connection ID. If omitted, auto-resolved from provider + user.\n\n### Returns\n\n- `{ success: boolean; error?: string; provider_response?: object; }`\n  Result from executing an integration action.\n\n  - `success: boolean`\n  - `error?: string`\n  - `provider_response?: object`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.actions.addReaction({\n  channel: 'channel',\n  name: 'name',\n  provider: 'reddit',\n  timestamp: 'timestamp',\n});\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'actions add_reaction',
+      typescript: {
+        method: 'client.actions.addReaction',
         example:
-          "hyperspell actions add-reaction \\\n  --api-key 'My API Key' \\\n  --channel channel \\\n  --name name \\\n  --provider reddit \\\n  --timestamp timestamp",
-      },
-      go: {
-        method: 'client.Actions.AddReaction',
-        example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Actions.AddReaction(context.TODO(), hyperspell.ActionAddReactionParams{\n\t\tChannel:   "channel",\n\t\tName:      "name",\n\t\tProvider:  hyperspell.ActionAddReactionParamsProviderReddit,\n\t\tTimestamp: "timestamp",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ProviderResponse)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/actions/add_reaction \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "channel": "channel",\n          "name": "name",\n          "provider": "reddit",\n          "timestamp": "timestamp"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.actions.addReaction({\n  channel: 'channel',\n  name: 'name',\n  provider: 'reddit',\n  timestamp: 'timestamp',\n});\n\nconsole.log(response.provider_response);",
       },
       python: {
         method: 'actions.add_reaction',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.actions.add_reaction(\n    channel="channel",\n    name="name",\n    provider="reddit",\n    timestamp="timestamp",\n)\nprint(response.provider_response)',
       },
-      typescript: {
-        method: 'client.actions.addReaction',
+      go: {
+        method: 'client.Actions.AddReaction',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.actions.addReaction({\n  channel: 'channel',\n  name: 'name',\n  provider: 'reddit',\n  timestamp: 'timestamp',\n});\n\nconsole.log(response.provider_response);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Actions.AddReaction(context.TODO(), hyperspell.ActionAddReactionParams{\n\t\tChannel:   "channel",\n\t\tName:      "name",\n\t\tProvider:  hyperspell.ActionAddReactionParamsProviderReddit,\n\t\tTimestamp: "timestamp",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ProviderResponse)\n}\n',
+      },
+      cli: {
+        method: 'actions add_reaction',
+        example:
+          "hyperspell actions add-reaction \\\n  --api-key 'My API Key' \\\n  --channel channel \\\n  --name name \\\n  --provider reddit \\\n  --timestamp timestamp",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/actions/add_reaction \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "channel": "channel",\n          "name": "name",\n          "provider": "reddit",\n          "timestamp": "timestamp"\n        }\'',
       },
     },
   },
@@ -1112,28 +1112,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## add\n\n`client.sessions.add(history: string, date?: string, extract?: 'procedure' | 'memory' | 'mood'[], format?: 'vercel' | 'hyperdoc' | 'openclaw', metadata?: object, session_id?: string, title?: string): { resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n**post** `/trace/add`\n\nAdd an agent trace/transcript to the index.\n\nAccepts traces as a string in Hyperdoc format (native), Vercel AI SDK format,\nor OpenClaw JSONL format. The format is auto-detected if not specified.\n\n**Hyperdoc format** (JSON array, snake_case with type discriminators):\n```json\n{\"history\": \"[{\\\"type\\\": \\\"trace_message\\\", \\\"role\\\": \\\"user\\\", \\\"text\\\": \\\"Hello\\\"}]\"}\n```\n\n**Vercel AI SDK format** (JSON array, camelCase):\n```json\n{\"history\": \"[{\\\"role\\\": \\\"user\\\", \\\"content\\\": \\\"Hello\\\"}]\"}\n```\n\n**OpenClaw JSONL format** (newline-delimited JSON):\n```json\n{\"history\": \"{\\\"type\\\":\\\"session\\\",\\\"id\\\":\\\"abc\\\"}\\n{\\\"type\\\":\\\"message\\\",\\\"message\\\":{\\\"role\\\":\\\"user\\\",...}}\"}\n```\n\n### Parameters\n\n- `history: string`\n  The trace history as a string. Can be a JSON array of Hyperdoc steps, a JSON array of Vercel AI SDK steps, or OpenClaw JSONL.\n\n- `date?: string`\n  Date of the trace\n\n- `extract?: 'procedure' | 'memory' | 'mood'[]`\n  What kind of memories to extract from the trace\n\n- `format?: 'vercel' | 'hyperdoc' | 'openclaw'`\n  Trace format: 'vercel', 'hyperdoc', or 'openclaw'. Auto-detected if not set.\n\n- `metadata?: object`\n  Custom metadata for filtering. Keys must be alphanumeric with underscores, max 64 chars.\n\n- `session_id?: string`\n  Resource identifier for the trace.\n\n- `title?: string`\n  Title of the trace\n\n### Returns\n\n- `{ resource_id: string; source: string; status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'; }`\n\n  - `resource_id: string`\n  - `source: string`\n  - `status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped'`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst memoryStatus = await client.sessions.add({ history: 'history' });\n\nconsole.log(memoryStatus);\n```",
     perLanguage: {
-      cli: {
-        method: 'sessions add',
-        example: "hyperspell sessions add \\\n  --api-key 'My API Key' \\\n  --history history",
-      },
-      go: {
-        method: 'client.Sessions.Add',
+      typescript: {
+        method: 'client.sessions.add',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Sessions.Add(context.TODO(), hyperspell.SessionAddParams{\n\t\tHistory: "history",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/trace/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "history": "history"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.sessions.add({ history: 'history' });\n\nconsole.log(memoryStatus.resource_id);",
       },
       python: {
         method: 'sessions.add',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nmemory_status = client.sessions.add(\n    history="history",\n)\nprint(memory_status.resource_id)',
       },
-      typescript: {
-        method: 'client.sessions.add',
+      go: {
+        method: 'client.Sessions.Add',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst memoryStatus = await client.sessions.add({ history: 'history' });\n\nconsole.log(memoryStatus.resource_id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tmemoryStatus, err := client.Sessions.Add(context.TODO(), hyperspell.SessionAddParams{\n\t\tHistory: "history",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", memoryStatus.ResourceID)\n}\n',
+      },
+      cli: {
+        method: 'sessions add',
+        example: "hyperspell sessions add \\\n  --api-key 'My API Key' \\\n  --history history",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/trace/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "history": "history"\n        }\'',
       },
     },
   },
@@ -1151,28 +1151,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## list\n\n`client.vaults.list(cursor?: string, size?: number): { collection: string; document_count: number; }`\n\n**get** `/vault/list`\n\nThis endpoint lists all collections, and how many documents are in each collection.\nAll documents that do not have a collection assigned are in the `null` collection.\n\n### Parameters\n\n- `cursor?: string`\n\n- `size?: number`\n\n### Returns\n\n- `{ collection: string; document_count: number; }`\n\n  - `collection: string`\n  - `document_count: number`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\n// Automatically fetches more pages as needed.\nfor await (const vaultListResponse of client.vaults.list()) {\n  console.log(vaultListResponse);\n}\n```",
     perLanguage: {
-      cli: {
-        method: 'vaults list',
-        example: "hyperspell vaults list \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Vaults.List',
+      typescript: {
+        method: 'client.vaults.list',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Vaults.List(context.TODO(), hyperspell.VaultListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/vault/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const vaultListResponse of client.vaults.list()) {\n  console.log(vaultListResponse.collection);\n}",
       },
       python: {
         method: 'vaults.list',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\npage = client.vaults.list()\npage = page.items[0]\nprint(page.collection)',
       },
-      typescript: {
-        method: 'client.vaults.list',
+      go: {
+        method: 'client.Vaults.List',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\n// Automatically fetches more pages as needed.\nfor await (const vaultListResponse of client.vaults.list()) {\n  console.log(vaultListResponse.collection);\n}",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tpage, err := client.Vaults.List(context.TODO(), hyperspell.VaultListParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", page)\n}\n',
+      },
+      cli: {
+        method: 'vaults list',
+        example: "hyperspell vaults list \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/vault/list \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -1190,28 +1190,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## user_token\n\n`client.auth.userToken(user_id: string, expires_in?: string, origin?: string): { token: string; expires_at: string; }`\n\n**post** `/auth/user_token`\n\nUse this endpoint to create a user token for a specific user.\nThis token can be safely passed to your user-facing front-end.\n\n### Parameters\n\n- `user_id: string`\n\n- `expires_in?: string`\n  Token lifetime, e.g., '30m', '2h', '1d'. Defaults to 24 hours if not provided.\n\n- `origin?: string`\n  Origin of the request, used for CSRF protection. If set, the token will only be valid for requests originating from this origin.\n\n### Returns\n\n- `{ token: string; expires_at: string; }`\n\n  - `token: string`\n  - `expires_at: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst token = await client.auth.userToken({ user_id: 'user_id' });\n\nconsole.log(token);\n```",
     perLanguage: {
-      cli: {
-        method: 'auth user_token',
-        example: "hyperspell auth user-token \\\n  --api-key 'My API Key' \\\n  --user-id user_id",
-      },
-      go: {
-        method: 'client.Auth.UserToken',
+      typescript: {
+        method: 'client.auth.userToken',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttoken, err := client.Auth.UserToken(context.TODO(), hyperspell.AuthUserTokenParams{\n\t\tUserID: "user_id",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", token.Token)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/auth/user_token \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "user_id": "user_id"\n        }\'',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst token = await client.auth.userToken({ user_id: 'user_id' });\n\nconsole.log(token.token);",
       },
       python: {
         method: 'auth.user_token',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\ntoken = client.auth.user_token(\n    user_id="user_id",\n)\nprint(token.token)',
       },
-      typescript: {
-        method: 'client.auth.userToken',
+      go: {
+        method: 'client.Auth.UserToken',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst token = await client.auth.userToken({ user_id: 'user_id' });\n\nconsole.log(token.token);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\ttoken, err := client.Auth.UserToken(context.TODO(), hyperspell.AuthUserTokenParams{\n\t\tUserID: "user_id",\n\t})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", token.Token)\n}\n',
+      },
+      cli: {
+        method: 'auth user_token',
+        example: "hyperspell auth user-token \\\n  --api-key 'My API Key' \\\n  --user-id user_id",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/auth/user_token \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "user_id": "user_id"\n        }\'',
       },
     },
   },
@@ -1228,28 +1228,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## me\n\n`client.auth.me(): { id: string; app: object; available_integrations: string[]; installed_integrations: string[]; token_expiration: string; }`\n\n**get** `/auth/me`\n\nEndpoint to get basic user data.\n\n### Returns\n\n- `{ id: string; app: { id: string; icon_url: string; name: string; redirect_url: string; }; available_integrations: string[]; installed_integrations: string[]; token_expiration: string; }`\n\n  - `id: string`\n  - `app: { id: string; icon_url: string; name: string; redirect_url: string; }`\n  - `available_integrations: string[]`\n  - `installed_integrations: string[]`\n  - `token_expiration: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.auth.me();\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'auth me',
-        example: "hyperspell auth me \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Auth.Me',
+      typescript: {
+        method: 'client.auth.me',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Auth.Me(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/auth/me \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.auth.me();\n\nconsole.log(response.id);",
       },
       python: {
         method: 'auth.me',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.auth.me()\nprint(response.id)',
       },
-      typescript: {
-        method: 'client.auth.me',
+      go: {
+        method: 'client.Auth.Me',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.auth.me();\n\nconsole.log(response.id);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Auth.Me(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.ID)\n}\n',
+      },
+      cli: {
+        method: 'auth me',
+        example: "hyperspell auth me \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/auth/me \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
@@ -1265,28 +1265,28 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     markdown:
       "## delete_user\n\n`client.auth.deleteUser(): { message: string; success: boolean; }`\n\n**delete** `/auth/delete`\n\nEndpoint to delete user.\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.auth.deleteUser();\n\nconsole.log(response);\n```",
     perLanguage: {
-      cli: {
-        method: 'auth delete_user',
-        example: "hyperspell auth delete-user \\\n  --api-key 'My API Key'",
-      },
-      go: {
-        method: 'client.Auth.DeleteUser',
+      typescript: {
+        method: 'client.auth.deleteUser',
         example:
-          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Auth.DeleteUser(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
-      },
-      http: {
-        example:
-          'curl https://api.hyperspell.com/auth/delete \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.auth.deleteUser();\n\nconsole.log(response.message);",
       },
       python: {
         method: 'auth.delete_user',
         example:
           'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.auth.delete_user()\nprint(response.message)',
       },
-      typescript: {
-        method: 'client.auth.deleteUser',
+      go: {
+        method: 'client.Auth.DeleteUser',
         example:
-          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.auth.deleteUser();\n\nconsole.log(response.message);",
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Auth.DeleteUser(context.TODO())\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Message)\n}\n',
+      },
+      cli: {
+        method: 'auth delete_user',
+        example: "hyperspell auth delete-user \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/auth/delete \\\n    -X DELETE \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
       },
     },
   },
