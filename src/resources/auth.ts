@@ -86,6 +86,9 @@ export interface AuthMeResponse {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear'
   >;
 
   /**
@@ -106,6 +109,9 @@ export interface AuthMeResponse {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear'
   >;
 
   /**

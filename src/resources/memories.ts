@@ -203,7 +203,10 @@ export interface Memory {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -244,7 +247,10 @@ export interface MemoryStatus {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -270,7 +276,10 @@ export interface MemoryDeleteResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   success: boolean;
 }
@@ -316,7 +325,10 @@ export interface MemoryUpdateParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -378,6 +390,9 @@ export interface MemoryListParams extends CursorPageParams {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear'
     | null;
 
   /**
@@ -401,7 +416,10 @@ export interface MemoryDeleteParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 }
 
 export interface MemoryAddParams {
@@ -504,7 +522,10 @@ export interface MemoryGetParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 }
 
 export interface MemorySearchParams {
@@ -552,6 +573,9 @@ export interface MemorySearchParams {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear'
   >;
 }
 

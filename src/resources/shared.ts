@@ -69,7 +69,10 @@ export interface Resource {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   /**
    * Provider folder ID this resource belongs to
