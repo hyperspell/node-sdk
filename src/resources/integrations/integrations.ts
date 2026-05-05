@@ -95,7 +95,10 @@ export namespace IntegrationListResponse {
       | 'web_crawler'
       | 'trace'
       | 'microsoft_teams'
-      | 'gmail_actions';
+      | 'gmail_actions'
+      | 'granola'
+      | 'fathom'
+      | 'linear';
 
     /**
      * Whether this integration only supports write actions (no sync)

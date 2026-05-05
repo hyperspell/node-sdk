@@ -37,7 +37,10 @@ export interface WebCrawlerIndexResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'linear';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

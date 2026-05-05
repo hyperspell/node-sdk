@@ -60,7 +60,10 @@ export namespace ConnectionListResponse {
       | 'web_crawler'
       | 'trace'
       | 'microsoft_teams'
-      | 'gmail_actions';
+      | 'gmail_actions'
+      | 'granola'
+      | 'fathom'
+      | 'linear';
   }
 }
 
