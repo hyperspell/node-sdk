@@ -536,7 +536,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.hyperspell.com/memories/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "text": "..."\n        }\'',
+          'curl https://api.hyperspell.com/memories/add \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "text": "...",\n          "collection": "my-collection",\n          "metadata": {\n            "author": "John Doe",\n            "date": "2025-05-20T02:31:00Z",\n            "rating": 3\n          },\n          "title": "My Document"\n        }\'',
       },
     },
   },
@@ -838,7 +838,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.hyperspell.com/memories/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "query": "What does Hyperspell do?"\n        }\'',
+          'curl https://api.hyperspell.com/memories/query \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "query": "What does Hyperspell do?",\n          "answer": true,\n          "options": {\n            "filter": {}\n          },\n          "sources": [\n            "vault"\n          ]\n        }\'',
       },
     },
   },
@@ -1211,7 +1211,7 @@ const EMBEDDED_METHODS: MethodEntry[] = [
       },
       http: {
         example:
-          'curl https://api.hyperspell.com/auth/user_token \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "user_id": "user_id"\n        }\'',
+          'curl https://api.hyperspell.com/auth/user_token \\\n    -H \'Content-Type: application/json\' \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY" \\\n    -d \'{\n          "user_id": "user_id",\n          "expires_in": "30m"\n        }\'',
       },
     },
   },
