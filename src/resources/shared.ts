@@ -75,6 +75,14 @@ export interface Resource {
     | 'linear';
 
   /**
+   * Ordered list of provider folder IDs from immediate parent up to (but not
+   * including) provider root. Used by resolve_sync_mode to walk the actual folder
+   * tree without depending on intermediate policy records. Empty = resource lives at
+   * provider root.
+   */
+  folder_ancestors?: Array<string>;
+
+  /**
    * Provider folder ID this resource belongs to
    */
   folder_id?: string | null;
