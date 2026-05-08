@@ -104,6 +104,11 @@ export namespace IntegrationListResponse {
      * Whether this integration only supports write actions (no sync)
      */
     actions_only?: boolean;
+
+    /**
+     * Whether the user must select channels before indexing starts
+     */
+    requires_channel_selection?: boolean;
   }
 }
 
