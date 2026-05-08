@@ -64,6 +64,12 @@ export namespace ConnectionListResponse {
       | 'granola'
       | 'fathom'
       | 'linear';
+
+    /**
+     * Count of items in user_options.channels (Teams: workspaces selected; 0 means
+     * nothing is being indexed for integrations that require selection).
+     */
+    selected_count?: number;
   }
 }
 

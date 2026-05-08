@@ -98,9 +98,10 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     description: 'List all connections for the user.',
     stainlessPath: '(resource) connections > (method) list',
     qualified: 'client.connections.list',
-    response: '{ connections: { id: string; integration_id: string; label: string; provider: string; }[]; }',
+    response:
+      '{ connections: { id: string; integration_id: string; label: string; provider: string; selected_count?: number; }[]; }',
     markdown:
-      "## list\n\n`client.connections.list(): { connections: object[]; }`\n\n**get** `/connections/list`\n\nList all connections for the user.\n\n### Returns\n\n- `{ connections: { id: string; integration_id: string; label: string; provider: string; }[]; }`\n\n  - `connections: { id: string; integration_id: string; label: string; provider: string; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst connections = await client.connections.list();\n\nconsole.log(connections);\n```",
+      "## list\n\n`client.connections.list(): { connections: object[]; }`\n\n**get** `/connections/list`\n\nList all connections for the user.\n\n### Returns\n\n- `{ connections: { id: string; integration_id: string; label: string; provider: string; selected_count?: number; }[]; }`\n\n  - `connections: { id: string; integration_id: string; label: string; provider: string; selected_count?: number; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst connections = await client.connections.list();\n\nconsole.log(connections);\n```",
     perLanguage: {
       typescript: {
         method: 'client.connections.list',
@@ -303,9 +304,9 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     stainlessPath: '(resource) integrations > (method) list',
     qualified: 'client.integrations.list',
     response:
-      "{ integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; }[]; }",
+      "{ integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; requires_channel_selection?: boolean; }[]; }",
     markdown:
-      "## list\n\n`client.integrations.list(): { integrations: object[]; }`\n\n**get** `/integrations/list`\n\nList all integrations for the user.\n\n### Returns\n\n- `{ integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; }[]; }`\n\n  - `integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst integrations = await client.integrations.list();\n\nconsole.log(integrations);\n```",
+      "## list\n\n`client.integrations.list(): { integrations: object[]; }`\n\n**get** `/integrations/list`\n\nList all integrations for the user.\n\n### Returns\n\n- `{ integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; requires_channel_selection?: boolean; }[]; }`\n\n  - `integrations: { id: string; allow_multiple_connections: boolean; auth_provider: 'nango' | 'unified' | 'whitelabel'; icon: string; name: string; provider: string; actions_only?: boolean; requires_channel_selection?: boolean; }[]`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst integrations = await client.integrations.list();\n\nconsole.log(integrations);\n```",
     perLanguage: {
       typescript: {
         method: 'client.integrations.list',
