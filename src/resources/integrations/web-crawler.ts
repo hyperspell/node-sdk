@@ -40,7 +40,9 @@ export interface WebCrawlerIndexResponse {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

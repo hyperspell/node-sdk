@@ -79,7 +79,9 @@ export interface ActionAddReactionParams {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   /**
    * Message timestamp to react to
@@ -113,7 +115,9 @@ export interface ActionSendMessageParams {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   /**
    * Message text
