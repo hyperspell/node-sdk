@@ -72,7 +72,9 @@ export interface Resource {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   /**
    * Ordered list of provider folder IDs from immediate parent up to (but not

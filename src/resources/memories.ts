@@ -206,7 +206,9 @@ export interface Memory {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -250,7 +252,9 @@ export interface MemoryStatus {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -279,7 +283,9 @@ export interface MemoryDeleteResponse {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   success: boolean;
 }
@@ -328,7 +334,9 @@ export interface MemoryUpdateParams {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -393,6 +401,8 @@ export interface MemoryListParams extends CursorPageParams {
     | 'granola'
     | 'fathom'
     | 'linear'
+    | 'hubspot'
+    | 'salesforce'
     | null;
 
   /**
@@ -419,7 +429,9 @@ export interface MemoryDeleteParams {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 }
 
 export interface MemoryAddParams {
@@ -525,7 +537,9 @@ export interface MemoryGetParams {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
-    | 'linear';
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce';
 }
 
 export interface MemorySearchParams {
@@ -581,6 +595,8 @@ export interface MemorySearchParams {
     | 'granola'
     | 'fathom'
     | 'linear'
+    | 'hubspot'
+    | 'salesforce'
   >;
 }
 

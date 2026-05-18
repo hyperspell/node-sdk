@@ -89,6 +89,8 @@ export interface AuthMeResponse {
     | 'granola'
     | 'fathom'
     | 'linear'
+    | 'hubspot'
+    | 'salesforce'
   >;
 
   /**
@@ -112,6 +114,8 @@ export interface AuthMeResponse {
     | 'granola'
     | 'fathom'
     | 'linear'
+    | 'hubspot'
+    | 'salesforce'
   >;
 
   /**

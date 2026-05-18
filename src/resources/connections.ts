@@ -63,7 +63,9 @@ export namespace ConnectionListResponse {
       | 'gmail_actions'
       | 'granola'
       | 'fathom'
-      | 'linear';
+      | 'linear'
+      | 'hubspot'
+      | 'salesforce';
 
     /**
      * Count of items in user_options.channels (Teams: workspaces selected; 0 means

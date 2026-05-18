@@ -98,7 +98,9 @@ export namespace IntegrationListResponse {
       | 'gmail_actions'
       | 'granola'
       | 'fathom'
-      | 'linear';
+      | 'linear'
+      | 'hubspot'
+      | 'salesforce';
 
     /**
      * Whether this integration only supports write actions (no sync)
