@@ -1,7 +1,6 @@
 import fs from 'fs';
 import type { ResponseLike } from '@hyperspell/hyperspell/internal/to-file';
 import { toFile } from '@hyperspell/hyperspell/core/uploads';
-import { File } from 'node:buffer';
 
 class MyClass {
   name: string = 'foo';
