@@ -101,7 +101,8 @@ export namespace IntegrationListResponse {
       | 'linear'
       | 'hubspot'
       | 'salesforce'
-      | 'coda';
+      | 'coda'
+      | 'lightfield';
 
     /**
      * Whether this integration only supports write actions (no sync)

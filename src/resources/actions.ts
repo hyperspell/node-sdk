@@ -82,7 +82,8 @@ export interface ActionAddReactionParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   /**
    * Message timestamp to react to
@@ -119,7 +120,8 @@ export interface ActionSendMessageParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   /**
    * Message text

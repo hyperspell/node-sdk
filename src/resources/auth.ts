@@ -92,6 +92,7 @@ export interface AuthMeResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'lightfield'
   >;
 
   /**
@@ -118,6 +119,7 @@ export interface AuthMeResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'lightfield'
   >;
 
   /**

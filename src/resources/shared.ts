@@ -75,7 +75,8 @@ export interface Resource {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   /**
    * Ordered list of provider folder IDs from immediate parent up to (but not

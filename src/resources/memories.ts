@@ -209,7 +209,8 @@ export interface Memory {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -256,7 +257,8 @@ export interface MemoryStatus {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -288,7 +290,8 @@ export interface MemoryDeleteResponse {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   success: boolean;
 }
@@ -340,7 +343,8 @@ export interface MemoryUpdateParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -408,6 +412,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'lightfield'
     | null;
 
   /**
@@ -437,7 +442,8 @@ export interface MemoryDeleteParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 }
 
 export interface MemoryAddParams {
@@ -546,7 +552,8 @@ export interface MemoryGetParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
-    | 'coda';
+    | 'coda'
+    | 'lightfield';
 }
 
 export interface MemorySearchParams {
@@ -605,6 +612,7 @@ export interface MemorySearchParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'lightfield'
   >;
 }
 
