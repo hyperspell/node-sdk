@@ -42,7 +42,8 @@ export interface WebCrawlerIndexResponse {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

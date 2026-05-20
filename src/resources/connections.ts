@@ -65,7 +65,8 @@ export namespace ConnectionListResponse {
       | 'fathom'
       | 'linear'
       | 'hubspot'
-      | 'salesforce';
+      | 'salesforce'
+      | 'coda';
 
     /**
      * Count of items in user_options.channels (Teams: workspaces selected; 0 means

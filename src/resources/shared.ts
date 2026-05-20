@@ -74,7 +74,8 @@ export interface Resource {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   /**
    * Ordered list of provider folder IDs from immediate parent up to (but not

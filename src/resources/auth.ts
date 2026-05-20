@@ -91,6 +91,7 @@ export interface AuthMeResponse {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
+    | 'coda'
   >;
 
   /**
@@ -116,6 +117,7 @@ export interface AuthMeResponse {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
+    | 'coda'
   >;
 
   /**
