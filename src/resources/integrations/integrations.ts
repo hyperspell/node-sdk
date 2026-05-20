@@ -100,7 +100,8 @@ export namespace IntegrationListResponse {
       | 'fathom'
       | 'linear'
       | 'hubspot'
-      | 'salesforce';
+      | 'salesforce'
+      | 'coda';
 
     /**
      * Whether this integration only supports write actions (no sync)

@@ -81,7 +81,8 @@ export interface ActionAddReactionParams {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   /**
    * Message timestamp to react to
@@ -117,7 +118,8 @@ export interface ActionSendMessageParams {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   /**
    * Message text

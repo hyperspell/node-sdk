@@ -208,7 +208,8 @@ export interface Memory {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   /**
    * The type of document (e.g. Document, Website, Email)
@@ -254,7 +255,8 @@ export interface MemoryStatus {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -285,7 +287,8 @@ export interface MemoryDeleteResponse {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   success: boolean;
 }
@@ -336,7 +339,8 @@ export interface MemoryUpdateParams {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -403,6 +407,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
+    | 'coda'
     | null;
 
   /**
@@ -431,7 +436,8 @@ export interface MemoryDeleteParams {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 }
 
 export interface MemoryAddParams {
@@ -539,7 +545,8 @@ export interface MemoryGetParams {
     | 'fathom'
     | 'linear'
     | 'hubspot'
-    | 'salesforce';
+    | 'salesforce'
+    | 'coda';
 }
 
 export interface MemorySearchParams {
@@ -597,6 +604,7 @@ export interface MemorySearchParams {
     | 'linear'
     | 'hubspot'
     | 'salesforce'
+    | 'coda'
   >;
 }
 
