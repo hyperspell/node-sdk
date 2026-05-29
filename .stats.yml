@@ -1,4 +1,4 @@
 configured_endpoints: 30
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/hyperspell/hyperspell-50d9e60138e8f37a49c24401dbbaffd32d1a468030e5b791bab75bd63e5e8648.yml
-openapi_spec_hash: 52fe32c51e8ff712ad35940c928086f6
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/hyperspell/hyperspell-cec6507dd37a73b074fd57ef2cd54479cddf3d5efceab2d36b906485ed36ec86.yml
+openapi_spec_hash: 58ed64e4179f15f76c7ca0cef2e68f03
 config_hash: 597eba5e5eaec83a5f0db3d946af8db5

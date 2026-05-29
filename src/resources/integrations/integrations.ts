@@ -98,6 +98,7 @@ export namespace IntegrationListResponse {
       | 'gmail_actions'
       | 'granola'
       | 'fathom'
+      | 'fireflies'
       | 'linear'
       | 'hubspot'
       | 'salesforce'

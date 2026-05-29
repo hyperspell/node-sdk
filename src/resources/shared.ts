@@ -72,6 +72,7 @@ export interface Resource {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
+    | 'fireflies'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
