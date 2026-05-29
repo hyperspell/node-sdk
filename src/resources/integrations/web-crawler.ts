@@ -40,6 +40,7 @@ export interface WebCrawlerIndexResponse {
     | 'gmail_actions'
     | 'granola'
     | 'fathom'
+    | 'fireflies'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
