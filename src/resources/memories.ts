@@ -583,7 +583,7 @@ export interface MemorySearchParams {
    * rewrite + extended refinement (up to 6 rounds). Higher = better recall, more
    * latency, more cost.
    */
-  effort?: 'minimal' | 'low' | 'medium' | 'high';
+  effort?: 'minimal' | 'low' | 'medium' | 'high' | 'very_high';
 
   /**
    * @deprecated Maximum number of results to return.
@@ -594,6 +594,14 @@ export interface MemorySearchParams {
    * Search options for the query.
    */
   options?: MemorySearchParams.Options;
+
+  /**
+   * If true (effort='very_high' only), attach a provenance record to the response:
+   * the source documents and entities the answer was grounded in, the agent's search
+   * trajectory, and any sources that failed. Adds one indexed lookup; intended for
+   * auditability / compliance use cases.
+   */
+  provenance?: boolean;
 
   /**
    * Only query documents from these sources.

@@ -197,6 +197,7 @@ describe('resource memories', () => {
           weight: 0,
         },
       },
+      provenance: true,
       sources: ['vault'],
     });
   });
