@@ -18,12 +18,13 @@ export {
 export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
   Evaluate,
-  type EvaluateQueriesResponse,
+  type EvaluateListQueriesResponse,
   type EvaluateScoreHighlightResponse,
   type EvaluateScoreQueryResponse,
-  type EvaluateQueriesParams,
+  type EvaluateListQueriesParams,
   type EvaluateScoreHighlightParams,
   type EvaluateScoreQueryParams,
+  type EvaluateListQueriesResponsesCursorPage,
 } from './evaluate';
 export {
   Folders,

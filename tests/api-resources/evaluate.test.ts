@@ -20,8 +20,8 @@ describe('resource evaluate', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('queries', async () => {
-    const responsePromise = client.evaluate.queries();
+  test('listQueries', async () => {
+    const responsePromise = client.evaluate.listQueries();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -31,10 +31,10 @@ describe('resource evaluate', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('queries: request options and params are passed correctly', async () => {
+  test('listQueries: request options and params are passed correctly', async () => {
     // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
     await expect(
-      client.evaluate.queries(
+      client.evaluate.listQueries(
         {
           cursor: 'cursor',
           size: 0,

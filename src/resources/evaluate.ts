@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -20,11 +21,14 @@ export class Evaluate extends APIResource {
    * User tokens only see their own queries; admin tokens see every query in the app
    * and can narrow to a single user with the `user_id` filter.
    */
-  queries(
-    query: EvaluateQueriesParams | null | undefined = {},
+  listQueries(
+    query: EvaluateListQueriesParams | null | undefined = {},
     options?: RequestOptions,
-  ): APIPromise<EvaluateQueriesResponse> {
-    return this._client.get('/evaluate/queries', { query, ...options });
+  ): PagePromise<EvaluateListQueriesResponsesCursorPage, EvaluateListQueriesResponse> {
+    return this._client.getAPIList('/evaluate/queries', CursorPage<EvaluateListQueriesResponse>, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -50,34 +54,28 @@ export class Evaluate extends APIResource {
   }
 }
 
-export interface EvaluateQueriesResponse {
-  items: Array<EvaluateQueriesResponse.Item>;
+export type EvaluateListQueriesResponsesCursorPage = CursorPage<EvaluateListQueriesResponse>;
 
-  next_cursor: string | null;
-}
+export interface EvaluateListQueriesResponse {
+  /**
+   * The query string that was issued.
+   */
+  query: string;
 
-export namespace EvaluateQueriesResponse {
-  export interface Item {
-    /**
-     * The query string that was issued.
-     */
-    query: string;
+  /**
+   * The ID of the query.
+   */
+  query_id: string;
 
-    /**
-     * The ID of the query.
-     */
-    query_id: string;
+  /**
+   * When the query was issued.
+   */
+  time: string;
 
-    /**
-     * When the query was issued.
-     */
-    time: string;
-
-    /**
-     * The ID of the user that issued the query, if any.
-     */
-    user_id?: string | null;
-  }
+  /**
+   * The ID of the user that issued the query, if any.
+   */
+  user_id?: string | null;
 }
 
 export interface EvaluateScoreHighlightResponse {
@@ -104,11 +102,7 @@ export interface EvaluateScoreQueryResponse {
   success: boolean;
 }
 
-export interface EvaluateQueriesParams {
-  cursor?: string | null;
-
-  size?: number;
-
+export interface EvaluateListQueriesParams extends CursorPageParams {
   /**
    * Filter queries by the user that issued them.
    */
@@ -136,10 +130,11 @@ export interface EvaluateScoreQueryParams {
 
 export declare namespace Evaluate {
   export {
-    type EvaluateQueriesResponse as EvaluateQueriesResponse,
+    type EvaluateListQueriesResponse as EvaluateListQueriesResponse,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
-    type EvaluateQueriesParams as EvaluateQueriesParams,
+    type EvaluateListQueriesResponsesCursorPage as EvaluateListQueriesResponsesCursorPage,
+    type EvaluateListQueriesParams as EvaluateListQueriesParams,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };

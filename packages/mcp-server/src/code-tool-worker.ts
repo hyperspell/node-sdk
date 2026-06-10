@@ -129,7 +129,7 @@ const fuse = new Fuse(
     'client.memories.update',
     'client.memories.upload',
     'client.evaluate.getQuery',
-    'client.evaluate.queries',
+    'client.evaluate.listQueries',
     'client.evaluate.scoreHighlight',
     'client.evaluate.scoreQuery',
     'client.actions.addReaction',
