@@ -15,6 +15,19 @@ export class Evaluate extends APIResource {
   }
 
   /**
+   * Paginate through all prior queries for the app, newest first.
+   *
+   * User tokens only see their own queries; admin tokens see every query in the app
+   * and can narrow to a single user with the `user_id` filter.
+   */
+  queries(
+    query: EvaluateQueriesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): APIPromise<EvaluateQueriesResponse> {
+    return this._client.get('/evaluate/queries', { query, ...options });
+  }
+
+  /**
    * Score an individual highlight.
    */
   scoreHighlight(
@@ -34,6 +47,36 @@ export class Evaluate extends APIResource {
     options?: RequestOptions,
   ): APIPromise<EvaluateScoreQueryResponse> {
     return this._client.post(path`/evaluate/query/${queryID}`, { body, ...options });
+  }
+}
+
+export interface EvaluateQueriesResponse {
+  items: Array<EvaluateQueriesResponse.Item>;
+
+  next_cursor: string | null;
+}
+
+export namespace EvaluateQueriesResponse {
+  export interface Item {
+    /**
+     * The query string that was issued.
+     */
+    query: string;
+
+    /**
+     * The ID of the query.
+     */
+    query_id: string;
+
+    /**
+     * When the query was issued.
+     */
+    time: string;
+
+    /**
+     * The ID of the user that issued the query, if any.
+     */
+    user_id?: string | null;
   }
 }
 
@@ -61,6 +104,17 @@ export interface EvaluateScoreQueryResponse {
   success: boolean;
 }
 
+export interface EvaluateQueriesParams {
+  cursor?: string | null;
+
+  size?: number;
+
+  /**
+   * Filter queries by the user that issued them.
+   */
+  user_id?: string | null;
+}
+
 export interface EvaluateScoreHighlightParams {
   /**
    * Comment on the chunk
@@ -82,8 +136,10 @@ export interface EvaluateScoreQueryParams {
 
 export declare namespace Evaluate {
   export {
+    type EvaluateQueriesResponse as EvaluateQueriesResponse,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateQueriesParams as EvaluateQueriesParams,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };

@@ -886,6 +886,46 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     },
   },
   {
+    name: 'queries',
+    endpoint: '/evaluate/queries',
+    httpMethod: 'get',
+    summary: 'List prior queries',
+    description:
+      'Paginate through all prior queries for the app, newest first.\n\nUser tokens only see their own queries; admin tokens see every query in the\napp and can narrow to a single user with the `user_id` filter.',
+    stainlessPath: '(resource) evaluate > (method) queries',
+    qualified: 'client.evaluate.queries',
+    params: ['cursor?: string;', 'size?: number;', 'user_id?: string;'],
+    response:
+      '{ items: { query: string; query_id: string; time: string; user_id?: string; }[]; next_cursor: string; }',
+    markdown:
+      "## queries\n\n`client.evaluate.queries(cursor?: string, size?: number, user_id?: string): { items: object[]; next_cursor: string; }`\n\n**get** `/evaluate/queries`\n\nPaginate through all prior queries for the app, newest first.\n\nUser tokens only see their own queries; admin tokens see every query in the\napp and can narrow to a single user with the `user_id` filter.\n\n### Parameters\n\n- `cursor?: string`\n\n- `size?: number`\n\n- `user_id?: string`\n  Filter queries by the user that issued them.\n\n### Returns\n\n- `{ items: { query: string; query_id: string; time: string; user_id?: string; }[]; next_cursor: string; }`\n\n  - `items: { query: string; query_id: string; time: string; user_id?: string; }[]`\n  - `next_cursor: string`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.evaluate.queries();\n\nconsole.log(response);\n```",
+    perLanguage: {
+      typescript: {
+        method: 'client.evaluate.queries',
+        example:
+          "import Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell({\n  apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted\n});\n\nconst response = await client.evaluate.queries();\n\nconsole.log(response.items);",
+      },
+      python: {
+        method: 'evaluate.queries',
+        example:
+          'import os\nfrom hyperspell import Hyperspell\n\nclient = Hyperspell(\n    api_key=os.environ.get("HYPERSPELL_API_KEY"),  # This is the default and can be omitted\n)\nresponse = client.evaluate.queries()\nprint(response.items)',
+      },
+      go: {
+        method: 'client.Evaluate.Queries',
+        example:
+          'package main\n\nimport (\n\t"context"\n\t"fmt"\n\n\t"github.com/hyperspell/hyperspell-go"\n\t"github.com/hyperspell/hyperspell-go/option"\n)\n\nfunc main() {\n\tclient := hyperspell.NewClient(\n\t\toption.WithAPIKey("My API Key"),\n\t)\n\tresponse, err := client.Evaluate.Queries(context.TODO(), hyperspell.EvaluateQueriesParams{})\n\tif err != nil {\n\t\tpanic(err.Error())\n\t}\n\tfmt.Printf("%+v\\n", response.Items)\n}\n',
+      },
+      cli: {
+        method: 'evaluate queries',
+        example: "hyperspell evaluate queries \\\n  --api-key 'My API Key'",
+      },
+      http: {
+        example:
+          'curl https://api.hyperspell.com/evaluate/queries \\\n    -H "Authorization: Bearer $HYPERSPELL_API_KEY"',
+      },
+    },
+  },
+  {
     name: 'get_query',
     endpoint: '/evaluate/query/{query_id}',
     httpMethod: 'get',

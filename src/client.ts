@@ -30,6 +30,8 @@ import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Toke
 import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
 import {
   Evaluate,
+  EvaluateQueriesParams,
+  EvaluateQueriesResponse,
   EvaluateScoreHighlightParams,
   EvaluateScoreHighlightResponse,
   EvaluateScoreQueryParams,
@@ -894,8 +896,10 @@ export declare namespace Hyperspell {
 
   export {
     Evaluate as Evaluate,
+    type EvaluateQueriesResponse as EvaluateQueriesResponse,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateQueriesParams as EvaluateQueriesParams,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };
