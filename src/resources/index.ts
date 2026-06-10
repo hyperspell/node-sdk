@@ -18,8 +18,10 @@ export {
 export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
   Evaluate,
+  type EvaluateQueriesResponse,
   type EvaluateScoreHighlightResponse,
   type EvaluateScoreQueryResponse,
+  type EvaluateQueriesParams,
   type EvaluateScoreHighlightParams,
   type EvaluateScoreQueryParams,
 } from './evaluate';
