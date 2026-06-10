@@ -50,6 +50,11 @@ export interface QueryResult {
   provenance?: QueryResult.Provenance | null;
 
   /**
+   * The query string that was issued.
+   */
+  query?: string | null;
+
+  /**
    * The ID of the query. This can be used to retrieve the query later, or add
    * feedback to it. If the query failed, this will be None.
    */
