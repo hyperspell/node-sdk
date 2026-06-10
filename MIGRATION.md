@@ -92,7 +92,7 @@ This affects the following methods:
 - `client.integrations.connect()`
 - `client.integrations.slack.list()`
 - `client.memories.list()`
-- `client.evaluate.queries()`
+- `client.evaluate.listQueries()`
 - `client.vaults.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
