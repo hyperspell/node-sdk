@@ -57,7 +57,9 @@ export class Memories extends APIResource {
    * operation deletes:
    *
    * 1. All chunks associated with the resource (including embeddings)
-   * 2. The resource record itself
+   * 2. The documents row AND any legacy resources rows sharing the identity —
+   *    leaving either one behind would resurrect the memory through the double-read
+   *    path (ENG-2477).
    *
    * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
    * The unique identifier of the resource to delete api_token: Authentication token
