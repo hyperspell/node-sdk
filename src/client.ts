@@ -50,14 +50,16 @@ import {
 } from './resources/folders';
 import {
   Memories,
-  Memory,
   MemoryAddBulkParams,
   MemoryAddBulkResponse,
   MemoryAddParams,
   MemoryDeleteParams,
   MemoryDeleteResponse,
   MemoryGetParams,
+  MemoryGetResponse,
   MemoryListParams,
+  MemoryListResponse,
+  MemoryListResponsesCursorPage,
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
@@ -880,11 +882,13 @@ export declare namespace Hyperspell {
 
   export {
     Memories as Memories,
-    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
+    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -931,8 +935,5 @@ export declare namespace Hyperspell {
     type AuthUserTokenParams as AuthUserTokenParams,
   };
 
-  export type Metadata = API.Metadata;
-  export type Notification = API.Notification;
   export type QueryResult = API.QueryResult;
-  export type Resource = API.Resource;
 }

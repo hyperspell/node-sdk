@@ -1,38 +1,16 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-import { CursorPage } from '../core/pagination';
-
-export interface Metadata {
-  created_at?: string | null;
-
-  events?: Array<Notification>;
-
-  indexed_at?: string | null;
-
-  last_modified?: string | null;
-
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
-
-  url?: string | null;
-
-  [k: string]: unknown;
-}
-
-export interface Notification {
-  message: string;
-
-  type: 'error' | 'warning' | 'info' | 'success';
-
-  time?: string;
-}
-
 export interface QueryResult {
-  documents: Array<Resource>;
-
   /**
    * The answer to the query, if the request was set to answer.
    */
   answer?: string | null;
+
+  /**
+   * The matching documents, each carrying its hyperdoc tree plus query-path
+   * score/highlights/summary (ENG-2479 Phase 4).
+   */
+  documents?: Array<QueryResult.Document>;
 
   /**
    * Errors that occurred during the query. These are meant to help the developer
@@ -67,6 +45,19642 @@ export interface QueryResult {
 }
 
 export namespace QueryResult {
+  /**
+   * A `DocumentResponse` plus the query-path fields a `ScoredDocument` carries
+   * (ENG-2479): relevance score, matched highlights, and the concatenated summary of
+   * those highlights.
+   */
+  export interface Document {
+    /**
+     * The full hyperdoc tree. Switch on `type` for the document frame and recurse
+     * `children` for the body — see the `<Hyperdoc />` renderer.
+     */
+    document:
+      | Document.Document
+      | Document.Website
+      | Document.Task
+      | Document.Person
+      | Document.Message
+      | Document.Event
+      | Document.File
+      | Document.Conversation
+      | Document.Trace
+      | Document.Transcript
+      | Document.Company
+      | Document.Deal;
+
+    resource_id: string;
+
+    source:
+      | 'reddit'
+      | 'notion'
+      | 'slack'
+      | 'google_calendar'
+      | 'google_mail'
+      | 'box'
+      | 'dropbox'
+      | 'github'
+      | 'google_drive'
+      | 'vault'
+      | 'web_crawler'
+      | 'trace'
+      | 'microsoft_teams'
+      | 'gmail_actions'
+      | 'granola'
+      | 'fathom'
+      | 'fireflies'
+      | 'linear'
+      | 'hubspot'
+      | 'salesforce'
+      | 'coda'
+      | 'lightfield';
+
+    /**
+     * Hyperdoc document type discriminator (document, message, file, event, ...).
+     */
+    type: string;
+
+    /**
+     * The document's collection, if any.
+     */
+    collection?: string | null;
+
+    /**
+     * The document's own date (e.g. email sent date, event date).
+     */
+    document_date?: string | null;
+
+    /**
+     * The matched chunks that made this document a hit, with per-chunk scores.
+     */
+    highlights?: Array<unknown>;
+
+    /**
+     * When Hyperspell first indexed the document.
+     */
+    ingested_at?: string | null;
+
+    /**
+     * When the source document was last modified.
+     */
+    last_modified_at?: string | null;
+
+    /**
+     * Filterable custom metadata attached to the document.
+     */
+    metadata?: { [key: string]: unknown };
+
+    /**
+     * Relevance of the document to the query.
+     */
+    score?: number | null;
+
+    /**
+     * Indexing status of the document.
+     */
+    status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+
+    /**
+     * Concatenated text of the matched highlights.
+     */
+    summary?: string | null;
+
+    /**
+     * Human-readable document title.
+     */
+    title?: string | null;
+  }
+
+  export namespace Document {
+    export interface Document {
+      id?: string;
+
+      children?: Array<
+        | Document.Blob
+        | Document.Callout
+        | Document.Chunk
+        | Document.Code
+        | Document.Comment
+        | Document.Divider
+        | Document.Equation
+        | Document.Footnote
+        | Document.Heading
+        | Document.Image
+        | Document.Link
+        | Document.LineBreak
+        | Document.List
+        | Document.ListItem
+        | Document.Paragraph
+        | Document.Quote
+        | Document.Table
+        | Document.TableCell
+        | Document.TableRow
+        | Document.Text
+        | Document.ToDo
+        | Document.ToolCall
+        | Document.ToolResult
+        | Document.TraceMessage
+        | Document.Utterance
+      >;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'document';
+    }
+
+    export namespace Document {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+
+    export interface Website {
+      url: string;
+
+      id?: string;
+
+      children?: Array<
+        | Website.Blob
+        | Website.Callout
+        | Website.Chunk
+        | Website.Code
+        | Website.Comment
+        | Website.Divider
+        | Website.Equation
+        | Website.Footnote
+        | Website.Heading
+        | Website.Image
+        | Website.Link
+        | Website.LineBreak
+        | Website.List
+        | Website.ListItem
+        | Website.Paragraph
+        | Website.Quote
+        | Website.Table
+        | Website.TableCell
+        | Website.TableRow
+        | Website.Text
+        | Website.ToDo
+        | Website.ToolCall
+        | Website.ToolResult
+        | Website.TraceMessage
+        | Website.Utterance
+      >;
+
+      description?: string | null;
+
+      favicon?: string | null;
+
+      image_url?: string | null;
+
+      language?: string | null;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'website';
+    }
+
+    export namespace Website {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+
+    export interface Task {
+      id?: string;
+
+      children?: Array<
+        | Task.Blob
+        | Task.Callout
+        | Task.Chunk
+        | Task.Code
+        | Task.Comment
+        | Task.Divider
+        | Task.Equation
+        | Task.Footnote
+        | Task.Heading
+        | Task.Image
+        | Task.Link
+        | Task.LineBreak
+        | Task.List
+        | Task.ListItem
+        | Task.Paragraph
+        | Task.Quote
+        | Task.Table
+        | Task.TableCell
+        | Task.TableRow
+        | Task.Text
+        | Task.ToDo
+        | Task.ToolCall
+        | Task.ToolResult
+        | Task.TraceMessage
+        | Task.Utterance
+      >;
+
+      comments?: Array<Task.Comment> | null;
+
+      due_at?: string | null;
+
+      priority?: 'urgent' | 'high' | 'medium' | 'low' | null;
+
+      status?: 'completed' | 'not_started' | 'in_progress' | 'cancelled' | null;
+
+      text?: string | null;
+
+      type?: 'task';
+    }
+
+    export namespace Task {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+
+      export interface Comment {
+        date: string;
+
+        sender: Comment.Sender;
+
+        id?: string;
+
+        /**
+         * The channel or platform where the message was posted, if this Message is not
+         * explicitly part of a conversation
+         */
+        channel?: string | null;
+
+        children?: Array<
+          | Comment.Blob
+          | Comment.Callout
+          | Comment.Chunk
+          | Comment.Code
+          | Comment.Comment
+          | Comment.Divider
+          | Comment.Equation
+          | Comment.Footnote
+          | Comment.Heading
+          | Comment.Image
+          | Comment.Link
+          | Comment.LineBreak
+          | Comment.List
+          | Comment.ListItem
+          | Comment.Paragraph
+          | Comment.Quote
+          | Comment.Table
+          | Comment.TableCell
+          | Comment.TableRow
+          | Comment.Text
+          | Comment.ToDo
+          | Comment.ToolCall
+          | Comment.ToolResult
+          | Comment.TraceMessage
+          | Comment.Utterance
+        >;
+
+        /**
+         * Provider message id (e.g. Slack ts, Gmail message id) — merge-dedup key
+         */
+        external_id?: string | null;
+
+        is_self?: boolean | null;
+
+        mentioned_users?: Array<Comment.MentionedUser> | null;
+
+        num_replies?: number | null;
+
+        /**
+         * The replies or comments to the message
+         */
+        replies?: Array<unknown> | null;
+
+        text?: string | null;
+
+        thread_id?: string | null;
+
+        /**
+         * The subject or title of the message
+         */
+        title?: string | null;
+
+        type?: 'message';
+
+        updated_at?: string | null;
+
+        /**
+         * The number of upvotes, likes, or reactions on the message
+         */
+        upvotes?: number | null;
+      }
+
+      export namespace Comment {
+        export interface Sender {
+          id?: string;
+
+          address?: string | null;
+
+          alt_names?: Array<string> | null;
+
+          children?: Array<
+            | Sender.Blob
+            | unknown
+            | Sender.Code
+            | Sender.Comment
+            | Sender.Divider
+            | Sender.Image
+            | Sender.Link
+            | Sender.LineBreak
+            | Sender.Text
+            | Sender.ToolCall
+            | Sender.ToolResult
+            | Sender.TraceMessage
+          >;
+
+          company?: string | null;
+
+          company_ids?: Array<string> | null;
+
+          date_of_birth?: string | null;
+
+          deal_ids?: Array<string> | null;
+
+          email?: string | null;
+
+          /**
+           * All known email addresses; `email` holds the primary one
+           */
+          emails?: Array<string> | null;
+
+          image_url?: string | null;
+
+          job_title?: string | null;
+
+          link_urls?: Array<string> | null;
+
+          name?: string | null;
+
+          phone_numbers?: Array<string> | null;
+
+          tags?: Array<string> | null;
+
+          text?: string | null;
+
+          type?: 'person';
+
+          username?: string | null;
+        }
+
+        export namespace Sender {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Callout {
+          id?: string;
+
+          children?: Array<
+            | Callout.Blob
+            | unknown
+            | Callout.Code
+            | Callout.Comment
+            | Callout.Divider
+            | Callout.Image
+            | Callout.Link
+            | Callout.LineBreak
+            | Callout.Text
+            | Callout.ToolCall
+            | Callout.ToolResult
+            | Callout.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          title?: string | null;
+
+          type?: 'callout';
+        }
+
+        export namespace Callout {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Chunk {
+          id?: string;
+
+          children?: Array<
+            | Chunk.Blob
+            | unknown
+            | Chunk.Code
+            | Chunk.Comment
+            | Chunk.Divider
+            | Chunk.Image
+            | Chunk.Link
+            | Chunk.LineBreak
+            | Chunk.Text
+            | Chunk.ToolCall
+            | Chunk.ToolResult
+            | Chunk.TraceMessage
+          >;
+
+          text?: string | null;
+
+          type?: 'chunk';
+        }
+
+        export namespace Chunk {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Equation {
+          id?: string;
+
+          children?: Array<
+            | Equation.Blob
+            | unknown
+            | Equation.Code
+            | Equation.Comment
+            | Equation.Divider
+            | Equation.Image
+            | Equation.Link
+            | Equation.LineBreak
+            | Equation.Text
+            | Equation.ToolCall
+            | Equation.ToolResult
+            | Equation.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'equation';
+        }
+
+        export namespace Equation {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Footnote {
+          id?: string;
+
+          children?: Array<
+            | Footnote.Blob
+            | unknown
+            | Footnote.Code
+            | Footnote.Comment
+            | Footnote.Divider
+            | Footnote.Image
+            | Footnote.Link
+            | Footnote.LineBreak
+            | Footnote.Text
+            | Footnote.ToolCall
+            | Footnote.ToolResult
+            | Footnote.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'footnote';
+        }
+
+        export namespace Footnote {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Heading {
+          level: number;
+
+          id?: string;
+
+          children?: Array<
+            | Heading.Blob
+            | unknown
+            | Heading.Code
+            | Heading.Comment
+            | Heading.Divider
+            | Heading.Image
+            | Heading.Link
+            | Heading.LineBreak
+            | Heading.Text
+            | Heading.ToolCall
+            | Heading.ToolResult
+            | Heading.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'heading';
+        }
+
+        export namespace Heading {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface List {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          ordered?: boolean;
+
+          text?: string | null;
+
+          type?: 'list';
+        }
+
+        export interface ListItem {
+          id?: string;
+
+          children?: Array<
+            | ListItem.Blob
+            | unknown
+            | ListItem.Code
+            | ListItem.Comment
+            | ListItem.Divider
+            | ListItem.Image
+            | ListItem.Link
+            | ListItem.LineBreak
+            | ListItem.Text
+            | ListItem.ToolCall
+            | ListItem.ToolResult
+            | ListItem.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'list_item';
+        }
+
+        export namespace ListItem {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Paragraph {
+          id?: string;
+
+          children?: Array<
+            | Paragraph.Blob
+            | unknown
+            | Paragraph.Code
+            | Paragraph.Comment
+            | Paragraph.Divider
+            | Paragraph.Image
+            | Paragraph.Link
+            | Paragraph.LineBreak
+            | Paragraph.Text
+            | Paragraph.ToolCall
+            | Paragraph.ToolResult
+            | Paragraph.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'paragraph';
+        }
+
+        export namespace Paragraph {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Quote {
+          id?: string;
+
+          children?: Array<
+            | Quote.Blob
+            | unknown
+            | Quote.Code
+            | Quote.Comment
+            | Quote.Divider
+            | Quote.Image
+            | Quote.Link
+            | Quote.LineBreak
+            | Quote.Text
+            | Quote.ToolCall
+            | Quote.ToolResult
+            | Quote.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'quote';
+        }
+
+        export namespace Quote {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Table {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          /**
+           * Whether the first row should be treated as a header
+           */
+          has_header?: boolean;
+
+          text?: string | null;
+
+          type?: 'table';
+        }
+
+        export interface TableCell {
+          id?: string;
+
+          align?: 'left' | 'center' | 'right';
+
+          children?: Array<
+            | TableCell.Blob
+            | unknown
+            | TableCell.Code
+            | TableCell.Comment
+            | TableCell.Divider
+            | TableCell.Image
+            | TableCell.Link
+            | TableCell.LineBreak
+            | TableCell.Text
+            | TableCell.ToolCall
+            | TableCell.ToolResult
+            | TableCell.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'table_cell';
+        }
+
+        export namespace TableCell {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface TableRow {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          text?: string | null;
+
+          type?: 'table_row';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        export interface ToDo {
+          id?: string;
+
+          checked?: boolean;
+
+          children?: Array<
+            | ToDo.Blob
+            | unknown
+            | ToDo.Code
+            | ToDo.Comment
+            | ToDo.Divider
+            | ToDo.Image
+            | ToDo.Link
+            | ToDo.LineBreak
+            | ToDo.Text
+            | ToDo.ToolCall
+            | ToDo.ToolResult
+            | ToDo.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'todo';
+        }
+
+        export namespace ToDo {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+
+        /**
+         * A speaker-attributed segment of a transcript (ENG-2476/D10).
+         *
+         * "Utterance" is the standard name for this across transcription providers
+         * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+         * provider-native; absolute times derive from `Transcript.started_at`.
+         */
+        export interface Utterance {
+          text: string;
+
+          id?: string;
+
+          end?: number | null;
+
+          speaker?: unknown;
+
+          start?: number | null;
+
+          type?: 'utterance';
+        }
+
+        export interface MentionedUser {
+          id?: string;
+
+          address?: string | null;
+
+          alt_names?: Array<string> | null;
+
+          children?: Array<
+            | MentionedUser.Blob
+            | unknown
+            | MentionedUser.Code
+            | MentionedUser.Comment
+            | MentionedUser.Divider
+            | MentionedUser.Image
+            | MentionedUser.Link
+            | MentionedUser.LineBreak
+            | MentionedUser.Text
+            | MentionedUser.ToolCall
+            | MentionedUser.ToolResult
+            | MentionedUser.TraceMessage
+          >;
+
+          company?: string | null;
+
+          company_ids?: Array<string> | null;
+
+          date_of_birth?: string | null;
+
+          deal_ids?: Array<string> | null;
+
+          email?: string | null;
+
+          /**
+           * All known email addresses; `email` holds the primary one
+           */
+          emails?: Array<string> | null;
+
+          image_url?: string | null;
+
+          job_title?: string | null;
+
+          link_urls?: Array<string> | null;
+
+          name?: string | null;
+
+          phone_numbers?: Array<string> | null;
+
+          tags?: Array<string> | null;
+
+          text?: string | null;
+
+          type?: 'person';
+
+          username?: string | null;
+        }
+
+        export namespace MentionedUser {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+      }
+    }
+
+    export interface Person {
+      id?: string;
+
+      address?: string | null;
+
+      alt_names?: Array<string> | null;
+
+      children?: Array<
+        | Person.Blob
+        | unknown
+        | Person.Code
+        | Person.Comment
+        | Person.Divider
+        | Person.Image
+        | Person.Link
+        | Person.LineBreak
+        | Person.Text
+        | Person.ToolCall
+        | Person.ToolResult
+        | Person.TraceMessage
+      >;
+
+      company?: string | null;
+
+      company_ids?: Array<string> | null;
+
+      date_of_birth?: string | null;
+
+      deal_ids?: Array<string> | null;
+
+      email?: string | null;
+
+      /**
+       * All known email addresses; `email` holds the primary one
+       */
+      emails?: Array<string> | null;
+
+      image_url?: string | null;
+
+      job_title?: string | null;
+
+      link_urls?: Array<string> | null;
+
+      name?: string | null;
+
+      phone_numbers?: Array<string> | null;
+
+      tags?: Array<string> | null;
+
+      text?: string | null;
+
+      type?: 'person';
+
+      username?: string | null;
+    }
+
+    export namespace Person {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+    }
+
+    export interface Message {
+      date: string;
+
+      sender: Message.Sender;
+
+      id?: string;
+
+      /**
+       * The channel or platform where the message was posted, if this Message is not
+       * explicitly part of a conversation
+       */
+      channel?: string | null;
+
+      children?: Array<
+        | Message.Blob
+        | Message.Callout
+        | Message.Chunk
+        | Message.Code
+        | Message.Comment
+        | Message.Divider
+        | Message.Equation
+        | Message.Footnote
+        | Message.Heading
+        | Message.Image
+        | Message.Link
+        | Message.LineBreak
+        | Message.List
+        | Message.ListItem
+        | Message.Paragraph
+        | Message.Quote
+        | Message.Table
+        | Message.TableCell
+        | Message.TableRow
+        | Message.Text
+        | Message.ToDo
+        | Message.ToolCall
+        | Message.ToolResult
+        | Message.TraceMessage
+        | Message.Utterance
+      >;
+
+      /**
+       * Provider message id (e.g. Slack ts, Gmail message id) — merge-dedup key
+       */
+      external_id?: string | null;
+
+      is_self?: boolean | null;
+
+      mentioned_users?: Array<Message.MentionedUser> | null;
+
+      num_replies?: number | null;
+
+      /**
+       * The replies or comments to the message
+       */
+      replies?: Array<unknown> | null;
+
+      text?: string | null;
+
+      thread_id?: string | null;
+
+      /**
+       * The subject or title of the message
+       */
+      title?: string | null;
+
+      type?: 'message';
+
+      updated_at?: string | null;
+
+      /**
+       * The number of upvotes, likes, or reactions on the message
+       */
+      upvotes?: number | null;
+    }
+
+    export namespace Message {
+      export interface Sender {
+        id?: string;
+
+        address?: string | null;
+
+        alt_names?: Array<string> | null;
+
+        children?: Array<
+          | Sender.Blob
+          | unknown
+          | Sender.Code
+          | Sender.Comment
+          | Sender.Divider
+          | Sender.Image
+          | Sender.Link
+          | Sender.LineBreak
+          | Sender.Text
+          | Sender.ToolCall
+          | Sender.ToolResult
+          | Sender.TraceMessage
+        >;
+
+        company?: string | null;
+
+        company_ids?: Array<string> | null;
+
+        date_of_birth?: string | null;
+
+        deal_ids?: Array<string> | null;
+
+        email?: string | null;
+
+        /**
+         * All known email addresses; `email` holds the primary one
+         */
+        emails?: Array<string> | null;
+
+        image_url?: string | null;
+
+        job_title?: string | null;
+
+        link_urls?: Array<string> | null;
+
+        name?: string | null;
+
+        phone_numbers?: Array<string> | null;
+
+        tags?: Array<string> | null;
+
+        text?: string | null;
+
+        type?: 'person';
+
+        username?: string | null;
+      }
+
+      export namespace Sender {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+
+      export interface MentionedUser {
+        id?: string;
+
+        address?: string | null;
+
+        alt_names?: Array<string> | null;
+
+        children?: Array<
+          | MentionedUser.Blob
+          | unknown
+          | MentionedUser.Code
+          | MentionedUser.Comment
+          | MentionedUser.Divider
+          | MentionedUser.Image
+          | MentionedUser.Link
+          | MentionedUser.LineBreak
+          | MentionedUser.Text
+          | MentionedUser.ToolCall
+          | MentionedUser.ToolResult
+          | MentionedUser.TraceMessage
+        >;
+
+        company?: string | null;
+
+        company_ids?: Array<string> | null;
+
+        date_of_birth?: string | null;
+
+        deal_ids?: Array<string> | null;
+
+        email?: string | null;
+
+        /**
+         * All known email addresses; `email` holds the primary one
+         */
+        emails?: Array<string> | null;
+
+        image_url?: string | null;
+
+        job_title?: string | null;
+
+        link_urls?: Array<string> | null;
+
+        name?: string | null;
+
+        phone_numbers?: Array<string> | null;
+
+        tags?: Array<string> | null;
+
+        text?: string | null;
+
+        type?: 'person';
+
+        username?: string | null;
+      }
+
+      export namespace MentionedUser {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+    }
+
+    export interface Event {
+      id?: string;
+
+      attendees?: Array<Event.Attendee>;
+
+      children?: Array<
+        | Event.Blob
+        | Event.Callout
+        | Event.Chunk
+        | Event.Code
+        | Event.Comment
+        | Event.Divider
+        | Event.Equation
+        | Event.Footnote
+        | Event.Heading
+        | Event.Image
+        | Event.Link
+        | Event.LineBreak
+        | Event.List
+        | Event.ListItem
+        | Event.Paragraph
+        | Event.Quote
+        | Event.Table
+        | Event.TableCell
+        | Event.TableRow
+        | Event.Text
+        | Event.ToDo
+        | Event.ToolCall
+        | Event.ToolResult
+        | Event.TraceMessage
+        | Event.Utterance
+      >;
+
+      end_at?: string | null;
+
+      location?: string | null;
+
+      meeting_url?: string | null;
+
+      start_at?: string | null;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'event';
+    }
+
+    export namespace Event {
+      export interface Attendee {
+        id?: string;
+
+        address?: string | null;
+
+        alt_names?: Array<string> | null;
+
+        children?: Array<
+          | Attendee.Blob
+          | unknown
+          | Attendee.Code
+          | Attendee.Comment
+          | Attendee.Divider
+          | Attendee.Image
+          | Attendee.Link
+          | Attendee.LineBreak
+          | Attendee.Text
+          | Attendee.ToolCall
+          | Attendee.ToolResult
+          | Attendee.TraceMessage
+        >;
+
+        company?: string | null;
+
+        company_ids?: Array<string> | null;
+
+        date_of_birth?: string | null;
+
+        deal_ids?: Array<string> | null;
+
+        email?: string | null;
+
+        /**
+         * All known email addresses; `email` holds the primary one
+         */
+        emails?: Array<string> | null;
+
+        image_url?: string | null;
+
+        job_title?: string | null;
+
+        link_urls?: Array<string> | null;
+
+        name?: string | null;
+
+        phone_numbers?: Array<string> | null;
+
+        tags?: Array<string> | null;
+
+        text?: string | null;
+
+        type?: 'person';
+
+        username?: string | null;
+      }
+
+      export namespace Attendee {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+
+    export interface File {
+      content_type: string;
+
+      filename: string;
+
+      id?: string;
+
+      children?: Array<
+        | File.Blob
+        | File.Callout
+        | File.Chunk
+        | File.Code
+        | File.Comment
+        | File.Divider
+        | File.Equation
+        | File.Footnote
+        | File.Heading
+        | File.Image
+        | File.Link
+        | File.LineBreak
+        | File.List
+        | File.ListItem
+        | File.Paragraph
+        | File.Quote
+        | File.Table
+        | File.TableCell
+        | File.TableRow
+        | File.Text
+        | File.ToDo
+        | File.ToolCall
+        | File.ToolResult
+        | File.TraceMessage
+        | File.Utterance
+      >;
+
+      path?: Array<string> | null;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'file';
+    }
+
+    export namespace File {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+
+    export interface Conversation {
+      id?: string;
+
+      channel?: string | null;
+
+      children?: Array<Conversation.Child>;
+
+      text?: string | null;
+
+      type?: 'conversation';
+    }
+
+    export namespace Conversation {
+      export interface Child {
+        date: string;
+
+        sender: Child.Sender;
+
+        id?: string;
+
+        /**
+         * The channel or platform where the message was posted, if this Message is not
+         * explicitly part of a conversation
+         */
+        channel?: string | null;
+
+        children?: Array<
+          | Child.Blob
+          | Child.Callout
+          | Child.Chunk
+          | Child.Code
+          | Child.Comment
+          | Child.Divider
+          | Child.Equation
+          | Child.Footnote
+          | Child.Heading
+          | Child.Image
+          | Child.Link
+          | Child.LineBreak
+          | Child.List
+          | Child.ListItem
+          | Child.Paragraph
+          | Child.Quote
+          | Child.Table
+          | Child.TableCell
+          | Child.TableRow
+          | Child.Text
+          | Child.ToDo
+          | Child.ToolCall
+          | Child.ToolResult
+          | Child.TraceMessage
+          | Child.Utterance
+        >;
+
+        /**
+         * Provider message id (e.g. Slack ts, Gmail message id) — merge-dedup key
+         */
+        external_id?: string | null;
+
+        is_self?: boolean | null;
+
+        mentioned_users?: Array<Child.MentionedUser> | null;
+
+        num_replies?: number | null;
+
+        /**
+         * The replies or comments to the message
+         */
+        replies?: Array<unknown> | null;
+
+        text?: string | null;
+
+        thread_id?: string | null;
+
+        /**
+         * The subject or title of the message
+         */
+        title?: string | null;
+
+        type?: 'message';
+
+        updated_at?: string | null;
+
+        /**
+         * The number of upvotes, likes, or reactions on the message
+         */
+        upvotes?: number | null;
+      }
+
+      export namespace Child {
+        export interface Sender {
+          id?: string;
+
+          address?: string | null;
+
+          alt_names?: Array<string> | null;
+
+          children?: Array<
+            | Sender.Blob
+            | unknown
+            | Sender.Code
+            | Sender.Comment
+            | Sender.Divider
+            | Sender.Image
+            | Sender.Link
+            | Sender.LineBreak
+            | Sender.Text
+            | Sender.ToolCall
+            | Sender.ToolResult
+            | Sender.TraceMessage
+          >;
+
+          company?: string | null;
+
+          company_ids?: Array<string> | null;
+
+          date_of_birth?: string | null;
+
+          deal_ids?: Array<string> | null;
+
+          email?: string | null;
+
+          /**
+           * All known email addresses; `email` holds the primary one
+           */
+          emails?: Array<string> | null;
+
+          image_url?: string | null;
+
+          job_title?: string | null;
+
+          link_urls?: Array<string> | null;
+
+          name?: string | null;
+
+          phone_numbers?: Array<string> | null;
+
+          tags?: Array<string> | null;
+
+          text?: string | null;
+
+          type?: 'person';
+
+          username?: string | null;
+        }
+
+        export namespace Sender {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Callout {
+          id?: string;
+
+          children?: Array<
+            | Callout.Blob
+            | unknown
+            | Callout.Code
+            | Callout.Comment
+            | Callout.Divider
+            | Callout.Image
+            | Callout.Link
+            | Callout.LineBreak
+            | Callout.Text
+            | Callout.ToolCall
+            | Callout.ToolResult
+            | Callout.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          title?: string | null;
+
+          type?: 'callout';
+        }
+
+        export namespace Callout {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Chunk {
+          id?: string;
+
+          children?: Array<
+            | Chunk.Blob
+            | unknown
+            | Chunk.Code
+            | Chunk.Comment
+            | Chunk.Divider
+            | Chunk.Image
+            | Chunk.Link
+            | Chunk.LineBreak
+            | Chunk.Text
+            | Chunk.ToolCall
+            | Chunk.ToolResult
+            | Chunk.TraceMessage
+          >;
+
+          text?: string | null;
+
+          type?: 'chunk';
+        }
+
+        export namespace Chunk {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Equation {
+          id?: string;
+
+          children?: Array<
+            | Equation.Blob
+            | unknown
+            | Equation.Code
+            | Equation.Comment
+            | Equation.Divider
+            | Equation.Image
+            | Equation.Link
+            | Equation.LineBreak
+            | Equation.Text
+            | Equation.ToolCall
+            | Equation.ToolResult
+            | Equation.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'equation';
+        }
+
+        export namespace Equation {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Footnote {
+          id?: string;
+
+          children?: Array<
+            | Footnote.Blob
+            | unknown
+            | Footnote.Code
+            | Footnote.Comment
+            | Footnote.Divider
+            | Footnote.Image
+            | Footnote.Link
+            | Footnote.LineBreak
+            | Footnote.Text
+            | Footnote.ToolCall
+            | Footnote.ToolResult
+            | Footnote.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'footnote';
+        }
+
+        export namespace Footnote {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Heading {
+          level: number;
+
+          id?: string;
+
+          children?: Array<
+            | Heading.Blob
+            | unknown
+            | Heading.Code
+            | Heading.Comment
+            | Heading.Divider
+            | Heading.Image
+            | Heading.Link
+            | Heading.LineBreak
+            | Heading.Text
+            | Heading.ToolCall
+            | Heading.ToolResult
+            | Heading.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'heading';
+        }
+
+        export namespace Heading {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface List {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          ordered?: boolean;
+
+          text?: string | null;
+
+          type?: 'list';
+        }
+
+        export interface ListItem {
+          id?: string;
+
+          children?: Array<
+            | ListItem.Blob
+            | unknown
+            | ListItem.Code
+            | ListItem.Comment
+            | ListItem.Divider
+            | ListItem.Image
+            | ListItem.Link
+            | ListItem.LineBreak
+            | ListItem.Text
+            | ListItem.ToolCall
+            | ListItem.ToolResult
+            | ListItem.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'list_item';
+        }
+
+        export namespace ListItem {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Paragraph {
+          id?: string;
+
+          children?: Array<
+            | Paragraph.Blob
+            | unknown
+            | Paragraph.Code
+            | Paragraph.Comment
+            | Paragraph.Divider
+            | Paragraph.Image
+            | Paragraph.Link
+            | Paragraph.LineBreak
+            | Paragraph.Text
+            | Paragraph.ToolCall
+            | Paragraph.ToolResult
+            | Paragraph.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'paragraph';
+        }
+
+        export namespace Paragraph {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Quote {
+          id?: string;
+
+          children?: Array<
+            | Quote.Blob
+            | unknown
+            | Quote.Code
+            | Quote.Comment
+            | Quote.Divider
+            | Quote.Image
+            | Quote.Link
+            | Quote.LineBreak
+            | Quote.Text
+            | Quote.ToolCall
+            | Quote.ToolResult
+            | Quote.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'quote';
+        }
+
+        export namespace Quote {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface Table {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          /**
+           * Whether the first row should be treated as a header
+           */
+          has_header?: boolean;
+
+          text?: string | null;
+
+          type?: 'table';
+        }
+
+        export interface TableCell {
+          id?: string;
+
+          align?: 'left' | 'center' | 'right';
+
+          children?: Array<
+            | TableCell.Blob
+            | unknown
+            | TableCell.Code
+            | TableCell.Comment
+            | TableCell.Divider
+            | TableCell.Image
+            | TableCell.Link
+            | TableCell.LineBreak
+            | TableCell.Text
+            | TableCell.ToolCall
+            | TableCell.ToolResult
+            | TableCell.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'table_cell';
+        }
+
+        export namespace TableCell {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        export interface TableRow {
+          id?: string;
+
+          children?: Array<unknown>;
+
+          text?: string | null;
+
+          type?: 'table_row';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        export interface ToDo {
+          id?: string;
+
+          checked?: boolean;
+
+          children?: Array<
+            | ToDo.Blob
+            | unknown
+            | ToDo.Code
+            | ToDo.Comment
+            | ToDo.Divider
+            | ToDo.Image
+            | ToDo.Link
+            | ToDo.LineBreak
+            | ToDo.Text
+            | ToDo.ToolCall
+            | ToDo.ToolResult
+            | ToDo.TraceMessage
+          > | null;
+
+          text?: string | null;
+
+          type?: 'todo';
+        }
+
+        export namespace ToDo {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+
+        /**
+         * A speaker-attributed segment of a transcript (ENG-2476/D10).
+         *
+         * "Utterance" is the standard name for this across transcription providers
+         * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+         * provider-native; absolute times derive from `Transcript.started_at`.
+         */
+        export interface Utterance {
+          text: string;
+
+          id?: string;
+
+          end?: number | null;
+
+          speaker?: unknown;
+
+          start?: number | null;
+
+          type?: 'utterance';
+        }
+
+        export interface MentionedUser {
+          id?: string;
+
+          address?: string | null;
+
+          alt_names?: Array<string> | null;
+
+          children?: Array<
+            | MentionedUser.Blob
+            | unknown
+            | MentionedUser.Code
+            | MentionedUser.Comment
+            | MentionedUser.Divider
+            | MentionedUser.Image
+            | MentionedUser.Link
+            | MentionedUser.LineBreak
+            | MentionedUser.Text
+            | MentionedUser.ToolCall
+            | MentionedUser.ToolResult
+            | MentionedUser.TraceMessage
+          >;
+
+          company?: string | null;
+
+          company_ids?: Array<string> | null;
+
+          date_of_birth?: string | null;
+
+          deal_ids?: Array<string> | null;
+
+          email?: string | null;
+
+          /**
+           * All known email addresses; `email` holds the primary one
+           */
+          emails?: Array<string> | null;
+
+          image_url?: string | null;
+
+          job_title?: string | null;
+
+          link_urls?: Array<string> | null;
+
+          name?: string | null;
+
+          phone_numbers?: Array<string> | null;
+
+          tags?: Array<string> | null;
+
+          text?: string | null;
+
+          type?: 'person';
+
+          username?: string | null;
+        }
+
+        export namespace MentionedUser {
+          /**
+           * Represents embedded binary data using data URI scheme.
+           *
+           * Format: data:[<media type>][;base64],<data> Example:
+           * data:text/html;base64,PGh0bWw+...
+           */
+          export interface Blob {
+            data: string;
+
+            mimetype: string;
+
+            id?: string;
+
+            type?: 'blob';
+          }
+
+          export interface Code {
+            text: string;
+
+            id?: string;
+
+            language?: string | null;
+
+            type?: 'code';
+          }
+
+          export interface Comment {
+            text: string;
+
+            id?: string;
+
+            created_at?: string | null;
+
+            type?: 'comment';
+          }
+
+          export interface Divider {
+            id?: string;
+
+            type?: 'divider';
+          }
+
+          export interface Image {
+            src: string;
+
+            text: string;
+
+            id?: string;
+
+            type?: 'image';
+          }
+
+          export interface Link {
+            text: string;
+
+            url: string;
+
+            id?: string;
+
+            type?: 'link';
+          }
+
+          export interface LineBreak {
+            id?: string;
+
+            type?: 'line_break';
+          }
+
+          export interface Text {
+            text: string;
+
+            id?: string;
+
+            marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+            type?: 'text';
+          }
+
+          /**
+           * A tool/function call made by the assistant.
+           */
+          export interface ToolCall {
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            args?: { [key: string]: unknown };
+
+            type?: 'tool_call';
+          }
+
+          /**
+           * The result of a tool call.
+           */
+          export interface ToolResult {
+            output: string | { [key: string]: unknown } | Array<unknown>;
+
+            tool_call_id: string;
+
+            tool_name: string;
+
+            id?: string;
+
+            is_error?: boolean;
+
+            type?: 'tool_result';
+          }
+
+          /**
+           * A message in an agent trace (user message, assistant message, or thinking).
+           */
+          export interface TraceMessage {
+            text: string;
+
+            id?: string;
+
+            message_type?: 'message' | 'thinking';
+
+            role?: 'user' | 'assistant';
+
+            timestamp?: string | null;
+
+            type?: 'trace_message';
+          }
+        }
+      }
+    }
+
+    /**
+     * An agent trace/transcript containing a sequence of steps.
+     *
+     * Steps can be TraceMessage (user/assistant messages or thinking), ToolCall
+     * (function calls), or ToolResult (tool responses).
+     */
+    export interface Trace {
+      id?: string;
+
+      children?: Array<Trace.TraceMessage | Trace.ToolCall | Trace.ToolResult>;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'trace';
+    }
+
+    export namespace Trace {
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+    }
+
+    /**
+     * A time-anchored, speaker-attributed transcript — meetings, calls (ENG-2476/D10;
+     * mirrors the Trace+TraceStep precedent).
+     *
+     * Utterance timestamps are relative offsets from `started_at`, which is the
+     * absolute wall-clock anchor.
+     */
+    export interface Transcript {
+      id?: string;
+
+      children?: Array<Transcript.Child>;
+
+      ended_at?: string | null;
+
+      participants?: Array<Transcript.Participant>;
+
+      started_at?: string | null;
+
+      text?: string | null;
+
+      title?: string | null;
+
+      type?: 'transcript';
+    }
+
+    export namespace Transcript {
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Child {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+
+      export interface Participant {
+        id?: string;
+
+        address?: string | null;
+
+        alt_names?: Array<string> | null;
+
+        children?: Array<
+          | Participant.Blob
+          | unknown
+          | Participant.Code
+          | Participant.Comment
+          | Participant.Divider
+          | Participant.Image
+          | Participant.Link
+          | Participant.LineBreak
+          | Participant.Text
+          | Participant.ToolCall
+          | Participant.ToolResult
+          | Participant.TraceMessage
+        >;
+
+        company?: string | null;
+
+        company_ids?: Array<string> | null;
+
+        date_of_birth?: string | null;
+
+        deal_ids?: Array<string> | null;
+
+        email?: string | null;
+
+        /**
+         * All known email addresses; `email` holds the primary one
+         */
+        emails?: Array<string> | null;
+
+        image_url?: string | null;
+
+        job_title?: string | null;
+
+        link_urls?: Array<string> | null;
+
+        name?: string | null;
+
+        phone_numbers?: Array<string> | null;
+
+        tags?: Array<string> | null;
+
+        text?: string | null;
+
+        type?: 'person';
+
+        username?: string | null;
+      }
+
+      export namespace Participant {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+    }
+
+    /**
+     * A CRM company/account record (ENG-2476/D10).
+     */
+    export interface Company {
+      id?: string;
+
+      address?: string | null;
+
+      children?: Array<
+        | Company.Blob
+        | Company.Callout
+        | Company.Chunk
+        | Company.Code
+        | Company.Comment
+        | Company.Divider
+        | Company.Equation
+        | Company.Footnote
+        | Company.Heading
+        | Company.Image
+        | Company.Link
+        | Company.LineBreak
+        | Company.List
+        | Company.ListItem
+        | Company.Paragraph
+        | Company.Quote
+        | Company.Table
+        | Company.TableCell
+        | Company.TableRow
+        | Company.Text
+        | Company.ToDo
+        | Company.ToolCall
+        | Company.ToolResult
+        | Company.TraceMessage
+        | Company.Utterance
+      >;
+
+      contact_ids?: Array<string> | null;
+
+      deal_ids?: Array<string> | null;
+
+      description?: string | null;
+
+      emails?: Array<string> | null;
+
+      employees?: number | null;
+
+      image_url?: string | null;
+
+      industry?: string | null;
+
+      is_active?: boolean | null;
+
+      name?: string | null;
+
+      phone_numbers?: Array<string> | null;
+
+      tags?: Array<string> | null;
+
+      text?: string | null;
+
+      timezone?: string | null;
+
+      type?: 'company';
+
+      websites?: Array<string> | null;
+    }
+
+    export namespace Company {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+
+    /**
+     * A CRM deal/opportunity record (ENG-2476/D10).
+     */
+    export interface Deal {
+      id?: string;
+
+      amount?: number | null;
+
+      children?: Array<
+        | Deal.Blob
+        | Deal.Callout
+        | Deal.Chunk
+        | Deal.Code
+        | Deal.Comment
+        | Deal.Divider
+        | Deal.Equation
+        | Deal.Footnote
+        | Deal.Heading
+        | Deal.Image
+        | Deal.Link
+        | Deal.LineBreak
+        | Deal.List
+        | Deal.ListItem
+        | Deal.Paragraph
+        | Deal.Quote
+        | Deal.Table
+        | Deal.TableCell
+        | Deal.TableRow
+        | Deal.Text
+        | Deal.ToDo
+        | Deal.ToolCall
+        | Deal.ToolResult
+        | Deal.TraceMessage
+        | Deal.Utterance
+      >;
+
+      closed_at?: string | null;
+
+      company_ids?: Array<string> | null;
+
+      contact_ids?: Array<string> | null;
+
+      currency?: string | null;
+
+      deal_source?: string | null;
+
+      lost_reason?: string | null;
+
+      name?: string | null;
+
+      pipeline?: string | null;
+
+      probability?: number | null;
+
+      stage?: string | null;
+
+      tags?: Array<string> | null;
+
+      text?: string | null;
+
+      type?: 'deal';
+
+      won_reason?: string | null;
+    }
+
+    export namespace Deal {
+      /**
+       * Represents embedded binary data using data URI scheme.
+       *
+       * Format: data:[<media type>][;base64],<data> Example:
+       * data:text/html;base64,PGh0bWw+...
+       */
+      export interface Blob {
+        data: string;
+
+        mimetype: string;
+
+        id?: string;
+
+        type?: 'blob';
+      }
+
+      export interface Callout {
+        id?: string;
+
+        children?: Array<
+          | Callout.Blob
+          | unknown
+          | Callout.Code
+          | Callout.Comment
+          | Callout.Divider
+          | Callout.Image
+          | Callout.Link
+          | Callout.LineBreak
+          | Callout.Text
+          | Callout.ToolCall
+          | Callout.ToolResult
+          | Callout.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        title?: string | null;
+
+        type?: 'callout';
+      }
+
+      export namespace Callout {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Chunk {
+        id?: string;
+
+        children?: Array<
+          | Chunk.Blob
+          | unknown
+          | Chunk.Code
+          | Chunk.Comment
+          | Chunk.Divider
+          | Chunk.Image
+          | Chunk.Link
+          | Chunk.LineBreak
+          | Chunk.Text
+          | Chunk.ToolCall
+          | Chunk.ToolResult
+          | Chunk.TraceMessage
+        >;
+
+        text?: string | null;
+
+        type?: 'chunk';
+      }
+
+      export namespace Chunk {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Code {
+        text: string;
+
+        id?: string;
+
+        language?: string | null;
+
+        type?: 'code';
+      }
+
+      export interface Comment {
+        text: string;
+
+        id?: string;
+
+        created_at?: string | null;
+
+        type?: 'comment';
+      }
+
+      export interface Divider {
+        id?: string;
+
+        type?: 'divider';
+      }
+
+      export interface Equation {
+        id?: string;
+
+        children?: Array<
+          | Equation.Blob
+          | unknown
+          | Equation.Code
+          | Equation.Comment
+          | Equation.Divider
+          | Equation.Image
+          | Equation.Link
+          | Equation.LineBreak
+          | Equation.Text
+          | Equation.ToolCall
+          | Equation.ToolResult
+          | Equation.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'equation';
+      }
+
+      export namespace Equation {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Footnote {
+        id?: string;
+
+        children?: Array<
+          | Footnote.Blob
+          | unknown
+          | Footnote.Code
+          | Footnote.Comment
+          | Footnote.Divider
+          | Footnote.Image
+          | Footnote.Link
+          | Footnote.LineBreak
+          | Footnote.Text
+          | Footnote.ToolCall
+          | Footnote.ToolResult
+          | Footnote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'footnote';
+      }
+
+      export namespace Footnote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Heading {
+        level: number;
+
+        id?: string;
+
+        children?: Array<
+          | Heading.Blob
+          | unknown
+          | Heading.Code
+          | Heading.Comment
+          | Heading.Divider
+          | Heading.Image
+          | Heading.Link
+          | Heading.LineBreak
+          | Heading.Text
+          | Heading.ToolCall
+          | Heading.ToolResult
+          | Heading.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'heading';
+      }
+
+      export namespace Heading {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Image {
+        src: string;
+
+        text: string;
+
+        id?: string;
+
+        type?: 'image';
+      }
+
+      export interface Link {
+        text: string;
+
+        url: string;
+
+        id?: string;
+
+        type?: 'link';
+      }
+
+      export interface LineBreak {
+        id?: string;
+
+        type?: 'line_break';
+      }
+
+      export interface List {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        ordered?: boolean;
+
+        text?: string | null;
+
+        type?: 'list';
+      }
+
+      export interface ListItem {
+        id?: string;
+
+        children?: Array<
+          | ListItem.Blob
+          | unknown
+          | ListItem.Code
+          | ListItem.Comment
+          | ListItem.Divider
+          | ListItem.Image
+          | ListItem.Link
+          | ListItem.LineBreak
+          | ListItem.Text
+          | ListItem.ToolCall
+          | ListItem.ToolResult
+          | ListItem.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'list_item';
+      }
+
+      export namespace ListItem {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Paragraph {
+        id?: string;
+
+        children?: Array<
+          | Paragraph.Blob
+          | unknown
+          | Paragraph.Code
+          | Paragraph.Comment
+          | Paragraph.Divider
+          | Paragraph.Image
+          | Paragraph.Link
+          | Paragraph.LineBreak
+          | Paragraph.Text
+          | Paragraph.ToolCall
+          | Paragraph.ToolResult
+          | Paragraph.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'paragraph';
+      }
+
+      export namespace Paragraph {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Quote {
+        id?: string;
+
+        children?: Array<
+          | Quote.Blob
+          | unknown
+          | Quote.Code
+          | Quote.Comment
+          | Quote.Divider
+          | Quote.Image
+          | Quote.Link
+          | Quote.LineBreak
+          | Quote.Text
+          | Quote.ToolCall
+          | Quote.ToolResult
+          | Quote.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'quote';
+      }
+
+      export namespace Quote {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface Table {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        /**
+         * Whether the first row should be treated as a header
+         */
+        has_header?: boolean;
+
+        text?: string | null;
+
+        type?: 'table';
+      }
+
+      export interface TableCell {
+        id?: string;
+
+        align?: 'left' | 'center' | 'right';
+
+        children?: Array<
+          | TableCell.Blob
+          | unknown
+          | TableCell.Code
+          | TableCell.Comment
+          | TableCell.Divider
+          | TableCell.Image
+          | TableCell.Link
+          | TableCell.LineBreak
+          | TableCell.Text
+          | TableCell.ToolCall
+          | TableCell.ToolResult
+          | TableCell.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'table_cell';
+      }
+
+      export namespace TableCell {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      export interface TableRow {
+        id?: string;
+
+        children?: Array<unknown>;
+
+        text?: string | null;
+
+        type?: 'table_row';
+      }
+
+      export interface Text {
+        text: string;
+
+        id?: string;
+
+        marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+        type?: 'text';
+      }
+
+      export interface ToDo {
+        id?: string;
+
+        checked?: boolean;
+
+        children?: Array<
+          | ToDo.Blob
+          | unknown
+          | ToDo.Code
+          | ToDo.Comment
+          | ToDo.Divider
+          | ToDo.Image
+          | ToDo.Link
+          | ToDo.LineBreak
+          | ToDo.Text
+          | ToDo.ToolCall
+          | ToDo.ToolResult
+          | ToDo.TraceMessage
+        > | null;
+
+        text?: string | null;
+
+        type?: 'todo';
+      }
+
+      export namespace ToDo {
+        /**
+         * Represents embedded binary data using data URI scheme.
+         *
+         * Format: data:[<media type>][;base64],<data> Example:
+         * data:text/html;base64,PGh0bWw+...
+         */
+        export interface Blob {
+          data: string;
+
+          mimetype: string;
+
+          id?: string;
+
+          type?: 'blob';
+        }
+
+        export interface Code {
+          text: string;
+
+          id?: string;
+
+          language?: string | null;
+
+          type?: 'code';
+        }
+
+        export interface Comment {
+          text: string;
+
+          id?: string;
+
+          created_at?: string | null;
+
+          type?: 'comment';
+        }
+
+        export interface Divider {
+          id?: string;
+
+          type?: 'divider';
+        }
+
+        export interface Image {
+          src: string;
+
+          text: string;
+
+          id?: string;
+
+          type?: 'image';
+        }
+
+        export interface Link {
+          text: string;
+
+          url: string;
+
+          id?: string;
+
+          type?: 'link';
+        }
+
+        export interface LineBreak {
+          id?: string;
+
+          type?: 'line_break';
+        }
+
+        export interface Text {
+          text: string;
+
+          id?: string;
+
+          marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
+
+          type?: 'text';
+        }
+
+        /**
+         * A tool/function call made by the assistant.
+         */
+        export interface ToolCall {
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          args?: { [key: string]: unknown };
+
+          type?: 'tool_call';
+        }
+
+        /**
+         * The result of a tool call.
+         */
+        export interface ToolResult {
+          output: string | { [key: string]: unknown } | Array<unknown>;
+
+          tool_call_id: string;
+
+          tool_name: string;
+
+          id?: string;
+
+          is_error?: boolean;
+
+          type?: 'tool_result';
+        }
+
+        /**
+         * A message in an agent trace (user message, assistant message, or thinking).
+         */
+        export interface TraceMessage {
+          text: string;
+
+          id?: string;
+
+          message_type?: 'message' | 'thinking';
+
+          role?: 'user' | 'assistant';
+
+          timestamp?: string | null;
+
+          type?: 'trace_message';
+        }
+      }
+
+      /**
+       * A tool/function call made by the assistant.
+       */
+      export interface ToolCall {
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        args?: { [key: string]: unknown };
+
+        type?: 'tool_call';
+      }
+
+      /**
+       * The result of a tool call.
+       */
+      export interface ToolResult {
+        output: string | { [key: string]: unknown } | Array<unknown>;
+
+        tool_call_id: string;
+
+        tool_name: string;
+
+        id?: string;
+
+        is_error?: boolean;
+
+        type?: 'tool_result';
+      }
+
+      /**
+       * A message in an agent trace (user message, assistant message, or thinking).
+       */
+      export interface TraceMessage {
+        text: string;
+
+        id?: string;
+
+        message_type?: 'message' | 'thinking';
+
+        role?: 'user' | 'assistant';
+
+        timestamp?: string | null;
+
+        type?: 'trace_message';
+      }
+
+      /**
+       * A speaker-attributed segment of a transcript (ENG-2476/D10).
+       *
+       * "Utterance" is the standard name for this across transcription providers
+       * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
+       * provider-native; absolute times derive from `Transcript.started_at`.
+       */
+      export interface Utterance {
+        text: string;
+
+        id?: string;
+
+        end?: number | null;
+
+        speaker?: unknown;
+
+        start?: number | null;
+
+        type?: 'utterance';
+      }
+    }
+  }
+
   /**
    * Auditability record attached to an agentic answer.
    *
@@ -149,60 +19763,3 @@ export namespace QueryResult {
     }
   }
 }
-
-export interface Resource {
-  resource_id: string;
-
-  source:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions'
-    | 'granola'
-    | 'fathom'
-    | 'fireflies'
-    | 'linear'
-    | 'hubspot'
-    | 'salesforce'
-    | 'coda'
-    | 'lightfield';
-
-  /**
-   * Ordered list of provider folder IDs from immediate parent up to (but not
-   * including) provider root. Used by resolve_sync_mode to walk the actual folder
-   * tree without depending on intermediate policy records. Empty = resource lives at
-   * provider root.
-   */
-  folder_ancestors?: Array<string>;
-
-  /**
-   * Provider folder ID this resource belongs to
-   */
-  folder_id?: string | null;
-
-  metadata?: Metadata;
-
-  /**
-   * Parent folder ID for policy inheritance
-   */
-  parent_folder_id?: string | null;
-
-  /**
-   * The relevance of the resource to the query
-   */
-  score?: number | null;
-
-  title?: string | null;
-}
-
-export type ResourcesCursorPage = CursorPage<Resource>;
