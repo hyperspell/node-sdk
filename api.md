@@ -2,6 +2,7 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">Metadata</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
 
 # Connections
