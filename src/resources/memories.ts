@@ -78261,11 +78261,6 @@ export namespace MemorySearchParams {
     recency_half_life_days?: number | null;
 
     /**
-     * Search options for Reddit
-     */
-    reddit?: Options.Reddit;
-
-    /**
      * Only return results from these specific resource IDs. Useful for scoping
      * searches to specific documents (e.g., a specific email thread or uploaded file).
      */
@@ -78364,35 +78359,6 @@ export namespace MemorySearchParams {
        * will be searched.
        */
       notion_page_ids?: Array<string>;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
-     * Search options for Reddit
-     */
-    export interface Reddit {
-      /**
-       * The time period to search. Defaults to 'month'.
-       */
-      period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all';
-
-      /**
-       * The sort order of the posts. Defaults to 'relevance'.
-       */
-      sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments';
-
-      /**
-       * The subreddit to search. If not provided, the query will be searched for in all
-       * subreddits.
-       */
-      subreddit?: string | null;
 
       /**
        * Weight of results from this source. A weight greater than 1.0 means more results

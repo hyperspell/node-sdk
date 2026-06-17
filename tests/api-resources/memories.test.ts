@@ -175,12 +175,6 @@ describe('resource memories', () => {
         memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
         recency_half_life_days: 1,
-        reddit: {
-          period: 'hour',
-          sort: 'relevance',
-          subreddit: 'subreddit',
-          weight: 0,
-        },
         resource_ids: ['string'],
         slack: {
           channels: ['string'],
