@@ -45,7 +45,8 @@ export interface WebCrawlerIndexResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

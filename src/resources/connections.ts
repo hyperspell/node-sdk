@@ -68,7 +68,8 @@ export namespace ConnectionListResponse {
       | 'hubspot'
       | 'salesforce'
       | 'coda'
-      | 'lightfield';
+      | 'lightfield'
+      | 'gong';
 
     /**
      * Count of items in user_options.channels (Teams: workspaces selected; 0 means

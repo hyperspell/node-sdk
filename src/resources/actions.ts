@@ -84,7 +84,8 @@ export interface ActionAddReactionParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Message timestamp to react to
@@ -123,7 +124,8 @@ export interface ActionSendMessageParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Message text

@@ -94,6 +94,7 @@ export interface AuthMeResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
+    | 'gong'
   >;
 
   /**
@@ -122,6 +123,7 @@ export interface AuthMeResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
+    | 'gong'
   >;
 
   /**

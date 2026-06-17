@@ -134,7 +134,8 @@ export namespace QueryResult {
       | 'hubspot'
       | 'salesforce'
       | 'coda'
-      | 'lightfield';
+      | 'lightfield'
+      | 'gong';
 
     /**
      * Hyperdoc document type discriminator (document, message, file, event, ...).
@@ -38954,7 +38955,8 @@ export namespace QueryResult {
         | 'hubspot'
         | 'salesforce'
         | 'coda'
-        | 'lightfield';
+        | 'lightfield'
+        | 'gong';
 
       score?: number | null;
 
