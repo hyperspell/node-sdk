@@ -212,7 +212,8 @@ export interface MemoryStatus {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -263,7 +264,8 @@ export interface MemoryListResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
@@ -39040,7 +39042,8 @@ export interface MemoryDeleteResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   success: boolean;
 }
@@ -39108,7 +39111,8 @@ export interface MemoryGetResponse {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
@@ -77888,7 +77892,8 @@ export interface MemoryUpdateParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -77958,6 +77963,7 @@ export interface MemoryListParams extends CursorPageParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
+    | 'gong'
     | null;
 
   /**
@@ -77989,7 +77995,8 @@ export interface MemoryDeleteParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 }
 
 export interface MemoryAddParams {
@@ -78100,7 +78107,8 @@ export interface MemoryGetParams {
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield';
+    | 'lightfield'
+    | 'gong';
 }
 
 export interface MemorySearchParams {
@@ -78169,6 +78177,7 @@ export interface MemorySearchParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
+    | 'gong'
   >;
 }
 
