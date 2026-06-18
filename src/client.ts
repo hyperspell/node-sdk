@@ -943,6 +943,48 @@ export declare namespace Hyperspell {
     type AuthUserTokenParams as AuthUserTokenParams,
   };
 
+  export type Blob = API.Blob;
+  export type Callout = API.Callout;
+  export type Chunk = API.Chunk;
+  export type Code = API.Code;
+  export type Comment = API.Comment;
+  export type Company = API.Company;
+  export type Conversation = API.Conversation;
+  export type Deal = API.Deal;
+  export type Divider = API.Divider;
+  export type Document = API.Document;
+  export type Equation = API.Equation;
+  export type Event = API.Event;
+  export type File = API.File;
+  export type Footnote = API.Footnote;
+  export type Heading = API.Heading;
+  export type Image = API.Image;
+  export type LineBreak = API.LineBreak;
+  export type Link = API.Link;
+  export type List = API.List;
+  export type ListItem = API.ListItem;
+  export type Message = API.Message;
   export type Metadata = API.Metadata;
+  export type Paragraph = API.Paragraph;
+  export type Person = API.Person;
+  export type Provenance = API.Provenance;
+  export type ProvenanceEntity = API.ProvenanceEntity;
+  export type ProvenanceSource = API.ProvenanceSource;
+  export type ProvenanceStep = API.ProvenanceStep;
   export type QueryResult = API.QueryResult;
+  export type Quote = API.Quote;
+  export type ScoredDocumentResponse = API.ScoredDocumentResponse;
+  export type Table = API.Table;
+  export type TableCell = API.TableCell;
+  export type TableRow = API.TableRow;
+  export type Task = API.Task;
+  export type Text = API.Text;
+  export type ToDo = API.ToDo;
+  export type ToolCall = API.ToolCall;
+  export type ToolResult = API.ToolResult;
+  export type Trace = API.Trace;
+  export type TraceMessage = API.TraceMessage;
+  export type Transcript = API.Transcript;
+  export type Utterance = API.Utterance;
+  export type Website = API.Website;
 }
