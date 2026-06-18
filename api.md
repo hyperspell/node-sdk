@@ -2,8 +2,50 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">Blob</a></code>
+- <code><a href="./src/resources/shared.ts">Callout</a></code>
+- <code><a href="./src/resources/shared.ts">Chunk</a></code>
+- <code><a href="./src/resources/shared.ts">Code</a></code>
+- <code><a href="./src/resources/shared.ts">Comment</a></code>
+- <code><a href="./src/resources/shared.ts">Company</a></code>
+- <code><a href="./src/resources/shared.ts">Conversation</a></code>
+- <code><a href="./src/resources/shared.ts">Deal</a></code>
+- <code><a href="./src/resources/shared.ts">Divider</a></code>
+- <code><a href="./src/resources/shared.ts">Document</a></code>
+- <code><a href="./src/resources/shared.ts">Equation</a></code>
+- <code><a href="./src/resources/shared.ts">Event</a></code>
+- <code><a href="./src/resources/shared.ts">File</a></code>
+- <code><a href="./src/resources/shared.ts">Footnote</a></code>
+- <code><a href="./src/resources/shared.ts">Heading</a></code>
+- <code><a href="./src/resources/shared.ts">Image</a></code>
+- <code><a href="./src/resources/shared.ts">LineBreak</a></code>
+- <code><a href="./src/resources/shared.ts">Link</a></code>
+- <code><a href="./src/resources/shared.ts">List</a></code>
+- <code><a href="./src/resources/shared.ts">ListItem</a></code>
+- <code><a href="./src/resources/shared.ts">Message</a></code>
 - <code><a href="./src/resources/shared.ts">Metadata</a></code>
+- <code><a href="./src/resources/shared.ts">Paragraph</a></code>
+- <code><a href="./src/resources/shared.ts">Person</a></code>
+- <code><a href="./src/resources/shared.ts">Provenance</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceEntity</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceSource</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceStep</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
+- <code><a href="./src/resources/shared.ts">Quote</a></code>
+- <code><a href="./src/resources/shared.ts">ScoredDocumentResponse</a></code>
+- <code><a href="./src/resources/shared.ts">Table</a></code>
+- <code><a href="./src/resources/shared.ts">TableCell</a></code>
+- <code><a href="./src/resources/shared.ts">TableRow</a></code>
+- <code><a href="./src/resources/shared.ts">Task</a></code>
+- <code><a href="./src/resources/shared.ts">Text</a></code>
+- <code><a href="./src/resources/shared.ts">ToDo</a></code>
+- <code><a href="./src/resources/shared.ts">ToolCall</a></code>
+- <code><a href="./src/resources/shared.ts">ToolResult</a></code>
+- <code><a href="./src/resources/shared.ts">Trace</a></code>
+- <code><a href="./src/resources/shared.ts">TraceMessage</a></code>
+- <code><a href="./src/resources/shared.ts">Transcript</a></code>
+- <code><a href="./src/resources/shared.ts">Utterance</a></code>
+- <code><a href="./src/resources/shared.ts">Website</a></code>
 
 # Connections
 
