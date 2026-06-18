@@ -1,5 +1,57 @@
 # Changelog
 
+## 0.39.0 (2026-06-18)
+
+Full Changelog: [v0.38.0...v0.39.0](https://github.com/hyperspell/node-sdk/compare/v0.38.0...v0.39.0)
+
+### Features
+
+* **api:** api update ([ba43a83](https://github.com/hyperspell/node-sdk/commit/ba43a837de1e3640074c9a36ce858a2532fc6730))
+* **api:** api update ([b6634e6](https://github.com/hyperspell/node-sdk/commit/b6634e67871549fdd84b9885f857ae424d99fa12))
+* **api:** api update ([c36a0af](https://github.com/hyperspell/node-sdk/commit/c36a0af1aecace8aa86e1454f2c6ddf65db15353))
+* **api:** api update ([f4552e6](https://github.com/hyperspell/node-sdk/commit/f4552e6f292891f00394934b7b0f68b83f1fcc25))
+* **api:** api update ([ac06265](https://github.com/hyperspell/node-sdk/commit/ac062652e4c9a7e3f11b7920668f2e1d20f66f24))
+* **api:** api update ([aece11c](https://github.com/hyperspell/node-sdk/commit/aece11c89a63bb099df99e0a986438ae00e6c98e))
+* **api:** api update ([16484dc](https://github.com/hyperspell/node-sdk/commit/16484dc79e9cfe7960356b683d977295ea0ee931))
+* **api:** api update ([eb85299](https://github.com/hyperspell/node-sdk/commit/eb852994671e2c39b31ffc1f150be17974a69393))
+* **api:** api update ([7465b15](https://github.com/hyperspell/node-sdk/commit/7465b1580e02e3c06c25d7fe68c0b3a14c0b4ae2))
+* **api:** api update ([898829a](https://github.com/hyperspell/node-sdk/commit/898829a0b4b42f4bd463aa8a4cf63fe6f29e57f2))
+* **api:** api update ([c31c296](https://github.com/hyperspell/node-sdk/commit/c31c29639884d9bb39be2c1a130a188dcab36efb))
+* **api:** api update ([8958b49](https://github.com/hyperspell/node-sdk/commit/8958b49b8d8a5868432f1b932b1aec3b61c5d8c8))
+* **api:** api update ([10386a3](https://github.com/hyperspell/node-sdk/commit/10386a310df2c0c44c953e9f5ecf5e85673b9777))
+* **api:** api update ([e1f12f8](https://github.com/hyperspell/node-sdk/commit/e1f12f8169bd1fbdc92e5ae4e09ce035221ddc5f))
+* **api:** api update ([700d0af](https://github.com/hyperspell/node-sdk/commit/700d0afb46b6e0ad518900eff1bb9ed8c092adea))
+* **api:** api update ([d4b2496](https://github.com/hyperspell/node-sdk/commit/d4b24967ab4c8b0686d69bf7f0780b6b77ab7f58))
+* **api:** manual updates ([039e1e9](https://github.com/hyperspell/node-sdk/commit/039e1e9c217eb24b9ddf42f33cca5af748927288))
+* **api:** manual updates ([1085827](https://github.com/hyperspell/node-sdk/commit/1085827fba87f935ad868ee9d318364a0982e92a))
+* **api:** manual updates ([93a95b4](https://github.com/hyperspell/node-sdk/commit/93a95b40d2d6632e3cb33d7bddbb0dd40a42c02e))
+* **api:** manual updates ([dc0c039](https://github.com/hyperspell/node-sdk/commit/dc0c0391d1afbf8d809511a4f717c26d3f659cbd))
+* support setting headers via env ([0e3b514](https://github.com/hyperspell/node-sdk/commit/0e3b514c6f583a21f6e5fde7e0a458a445ac7097))
+
+
+### Bug Fixes
+
+* **client:** send content-type header for requests with an omitted optional body ([7e3d6aa](https://github.com/hyperspell/node-sdk/commit/7e3d6aa941a35e28ab93a19112e448db55357f1b))
+* **typescript:** upgrade tsc-multi so that it works with Node 26 ([bb51450](https://github.com/hyperspell/node-sdk/commit/bb5145072a47a307da3ea5f14aeda4ff9036743e))
+
+
+### Chores
+
+* avoid formatting file that gets changed during releases ([cf52108](https://github.com/hyperspell/node-sdk/commit/cf52108cf3114d0cd27cc613089e3d7f05bfa3fe))
+* **format:** run eslint and prettier separately ([43ec88d](https://github.com/hyperspell/node-sdk/commit/43ec88dc0ac5298ca91a346583c646c9e091cef7))
+* **internal:** codegen related update ([f6cdc59](https://github.com/hyperspell/node-sdk/commit/f6cdc59ea881808e4b574fd45c788e08e1c2b5bb))
+* **internal:** more robust bootstrap script ([dd48b06](https://github.com/hyperspell/node-sdk/commit/dd48b061429585dad8aad6566a46d2d2bd83fbc0))
+* **internal:** update docs ordering ([9ac7b35](https://github.com/hyperspell/node-sdk/commit/9ac7b35b68c4e663653daf544de988f2e5366558))
+* redact api-key headers in debug logs ([9ccb5ff](https://github.com/hyperspell/node-sdk/commit/9ccb5ffbecd2a069fc07153536bc8b0d28b0df7f))
+* restructure docs search code ([8a752b4](https://github.com/hyperspell/node-sdk/commit/8a752b4ab98fb186e56fa4cba6c18bf1b2d2fa9f))
+* **tests:** remove redundant File import ([1f3a018](https://github.com/hyperspell/node-sdk/commit/1f3a0189b23fc56c3986a6041e433ac81833d22f))
+* update SDK settings ([5f5049a](https://github.com/hyperspell/node-sdk/commit/5f5049a7c86a2afed361ddf31cf28df66ec4f769))
+
+
+### Documentation
+
+* update http mcp docs ([6f8f5a6](https://github.com/hyperspell/node-sdk/commit/6f8f5a61525cd0c1e1edefa6cd75c7b2577a0973))
+
 ## 0.38.0 (2026-04-22)
 
 Full Changelog: [v0.37.0...v0.38.0](https://github.com/hyperspell/node-sdk/compare/v0.37.0...v0.38.0)
