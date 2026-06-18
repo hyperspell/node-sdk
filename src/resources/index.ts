@@ -18,10 +18,13 @@ export {
 export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
   Evaluate,
+  type EvaluateListQueriesResponse,
   type EvaluateScoreHighlightResponse,
   type EvaluateScoreQueryResponse,
+  type EvaluateListQueriesParams,
   type EvaluateScoreHighlightParams,
   type EvaluateScoreQueryParams,
+  type EvaluateListQueriesResponsesCursorPage,
 } from './evaluate';
 export {
   Folders,
@@ -41,10 +44,11 @@ export {
 } from './integrations/integrations';
 export {
   Memories,
-  type Memory,
   type MemoryStatus,
+  type MemoryListResponse,
   type MemoryDeleteResponse,
   type MemoryAddBulkResponse,
+  type MemoryGetResponse,
   type MemoryStatusResponse,
   type MemoryUpdateParams,
   type MemoryListParams,
@@ -54,6 +58,7 @@ export {
   type MemoryGetParams,
   type MemorySearchParams,
   type MemoryUploadParams,
+  type MemoryListResponsesCursorPage,
 } from './memories';
 export { Sessions, type SessionAddParams } from './sessions';
 export {

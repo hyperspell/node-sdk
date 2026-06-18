@@ -3,6 +3,7 @@
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
 import { APIPromise } from '../core/api-promise';
+import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { RequestOptions } from '../internal/request-options';
 import { path } from '../internal/utils/path';
 
@@ -12,6 +13,22 @@ export class Evaluate extends APIResource {
    */
   getQuery(queryID: string, options?: RequestOptions): APIPromise<Shared.QueryResult> {
     return this._client.get(path`/evaluate/query/${queryID}`, options);
+  }
+
+  /**
+   * Paginate through all prior queries for the app, newest first.
+   *
+   * User tokens only see their own queries; admin tokens see every query in the app
+   * and can narrow to a single user with the `user_id` filter.
+   */
+  listQueries(
+    query: EvaluateListQueriesParams | null | undefined = {},
+    options?: RequestOptions,
+  ): PagePromise<EvaluateListQueriesResponsesCursorPage, EvaluateListQueriesResponse> {
+    return this._client.getAPIList('/evaluate/queries', CursorPage<EvaluateListQueriesResponse>, {
+      query,
+      ...options,
+    });
   }
 
   /**
@@ -35,6 +52,30 @@ export class Evaluate extends APIResource {
   ): APIPromise<EvaluateScoreQueryResponse> {
     return this._client.post(path`/evaluate/query/${queryID}`, { body, ...options });
   }
+}
+
+export type EvaluateListQueriesResponsesCursorPage = CursorPage<EvaluateListQueriesResponse>;
+
+export interface EvaluateListQueriesResponse {
+  /**
+   * The query string that was issued.
+   */
+  query: string;
+
+  /**
+   * The ID of the query.
+   */
+  query_id: string;
+
+  /**
+   * When the query was issued.
+   */
+  time: string;
+
+  /**
+   * The ID of the user that issued the query, if any.
+   */
+  user_id?: string | null;
 }
 
 export interface EvaluateScoreHighlightResponse {
@@ -61,6 +102,13 @@ export interface EvaluateScoreQueryResponse {
   success: boolean;
 }
 
+export interface EvaluateListQueriesParams extends CursorPageParams {
+  /**
+   * Filter queries by the user that issued them.
+   */
+  user_id?: string | null;
+}
+
 export interface EvaluateScoreHighlightParams {
   /**
    * Comment on the chunk
@@ -82,8 +130,11 @@ export interface EvaluateScoreQueryParams {
 
 export declare namespace Evaluate {
   export {
+    type EvaluateListQueriesResponse as EvaluateListQueriesResponse,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateListQueriesResponsesCursorPage as EvaluateListQueriesResponsesCursorPage,
+    type EvaluateListQueriesParams as EvaluateListQueriesParams,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };

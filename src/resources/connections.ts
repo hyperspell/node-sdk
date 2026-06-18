@@ -60,7 +60,22 @@ export namespace ConnectionListResponse {
       | 'web_crawler'
       | 'trace'
       | 'microsoft_teams'
-      | 'gmail_actions';
+      | 'gmail_actions'
+      | 'granola'
+      | 'fathom'
+      | 'fireflies'
+      | 'linear'
+      | 'hubspot'
+      | 'salesforce'
+      | 'coda'
+      | 'lightfield'
+      | 'gong';
+
+    /**
+     * Count of items in user_options.channels (Teams: workspaces selected; 0 means
+     * nothing is being indexed for integrations that require selection).
+     */
+    selected_count?: number;
   }
 }
 

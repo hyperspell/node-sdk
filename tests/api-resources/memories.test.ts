@@ -160,7 +160,7 @@ describe('resource memories', () => {
     const response = await client.memories.search({
       query: 'What does Hyperspell do?',
       answer: true,
-      effort: 0,
+      effort: 'minimal',
       max_results: 0,
       options: {
         after: '2019-12-27T18:11:19.117Z',
@@ -174,12 +174,7 @@ describe('resource memories', () => {
         max_results: 200,
         memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
-        reddit: {
-          period: 'hour',
-          sort: 'relevance',
-          subreddit: 'subreddit',
-          weight: 0,
-        },
+        recency_half_life_days: 1,
         resource_ids: ['string'],
         slack: {
           channels: ['string'],
@@ -196,6 +191,7 @@ describe('resource memories', () => {
           weight: 0,
         },
       },
+      provenance: true,
       sources: ['vault'],
     });
   });

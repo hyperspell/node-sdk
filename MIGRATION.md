@@ -92,6 +92,7 @@ This affects the following methods:
 - `client.integrations.connect()`
 - `client.integrations.slack.list()`
 - `client.memories.list()`
+- `client.evaluate.listQueries()`
 - `client.vaults.list()`
 
 ### Removed `httpAgent` in favor of `fetchOptions`
@@ -236,8 +237,8 @@ The `for await` syntax **is not affected**. This still works as-is:
 
 ```ts
 // Automatically fetches more pages as needed.
-for await (const resource of client.memories.list()) {
-  console.log(resource);
+for await (const memoryListResponse of client.memories.list()) {
+  console.log(memoryListResponse);
 }
 ```
 
@@ -259,10 +260,10 @@ Page classes for individual methods are now type aliases:
 
 ```ts
 // Before
-export class ResourcesCursorPage extends CursorPage<Resource> {}
+export class MemoryListResponsesCursorPage extends CursorPage<MemoryListResponse> {}
 
 // After
-export type ResourcesCursorPage = CursorPage<Resource>;
+export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
 ```
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.

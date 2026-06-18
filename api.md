@@ -2,10 +2,50 @@
 
 Types:
 
+- <code><a href="./src/resources/shared.ts">Blob</a></code>
+- <code><a href="./src/resources/shared.ts">Callout</a></code>
+- <code><a href="./src/resources/shared.ts">Chunk</a></code>
+- <code><a href="./src/resources/shared.ts">Code</a></code>
+- <code><a href="./src/resources/shared.ts">Comment</a></code>
+- <code><a href="./src/resources/shared.ts">Company</a></code>
+- <code><a href="./src/resources/shared.ts">Conversation</a></code>
+- <code><a href="./src/resources/shared.ts">Deal</a></code>
+- <code><a href="./src/resources/shared.ts">Divider</a></code>
+- <code><a href="./src/resources/shared.ts">Document</a></code>
+- <code><a href="./src/resources/shared.ts">Equation</a></code>
+- <code><a href="./src/resources/shared.ts">Event</a></code>
+- <code><a href="./src/resources/shared.ts">File</a></code>
+- <code><a href="./src/resources/shared.ts">Footnote</a></code>
+- <code><a href="./src/resources/shared.ts">Heading</a></code>
+- <code><a href="./src/resources/shared.ts">Image</a></code>
+- <code><a href="./src/resources/shared.ts">LineBreak</a></code>
+- <code><a href="./src/resources/shared.ts">Link</a></code>
+- <code><a href="./src/resources/shared.ts">List</a></code>
+- <code><a href="./src/resources/shared.ts">ListItem</a></code>
+- <code><a href="./src/resources/shared.ts">Message</a></code>
 - <code><a href="./src/resources/shared.ts">Metadata</a></code>
-- <code><a href="./src/resources/shared.ts">Notification</a></code>
+- <code><a href="./src/resources/shared.ts">Paragraph</a></code>
+- <code><a href="./src/resources/shared.ts">Person</a></code>
+- <code><a href="./src/resources/shared.ts">Provenance</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceEntity</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceSource</a></code>
+- <code><a href="./src/resources/shared.ts">ProvenanceStep</a></code>
 - <code><a href="./src/resources/shared.ts">QueryResult</a></code>
-- <code><a href="./src/resources/shared.ts">Resource</a></code>
+- <code><a href="./src/resources/shared.ts">Quote</a></code>
+- <code><a href="./src/resources/shared.ts">ScoredDocumentResponse</a></code>
+- <code><a href="./src/resources/shared.ts">Table</a></code>
+- <code><a href="./src/resources/shared.ts">TableCell</a></code>
+- <code><a href="./src/resources/shared.ts">TableRow</a></code>
+- <code><a href="./src/resources/shared.ts">Task</a></code>
+- <code><a href="./src/resources/shared.ts">Text</a></code>
+- <code><a href="./src/resources/shared.ts">ToDo</a></code>
+- <code><a href="./src/resources/shared.ts">ToolCall</a></code>
+- <code><a href="./src/resources/shared.ts">ToolResult</a></code>
+- <code><a href="./src/resources/shared.ts">Trace</a></code>
+- <code><a href="./src/resources/shared.ts">TraceMessage</a></code>
+- <code><a href="./src/resources/shared.ts">Transcript</a></code>
+- <code><a href="./src/resources/shared.ts">Utterance</a></code>
+- <code><a href="./src/resources/shared.ts">Website</a></code>
 
 # Connections
 
@@ -81,20 +121,21 @@ Methods:
 
 Types:
 
-- <code><a href="./src/resources/memories.ts">Memory</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatus</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryListResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryDeleteResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryAddBulkResponse</a></code>
+- <code><a href="./src/resources/memories.ts">MemoryGetResponse</a></code>
 - <code><a href="./src/resources/memories.ts">MemoryStatusResponse</a></code>
 
 Methods:
 
 - <code title="post /memories/update/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">update</a>(resourceID, { ...params }) -> MemoryStatus</code>
-- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> ResourcesCursorPage</code>
+- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoryListResponsesCursorPage</code>
 - <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
 - <code title="post /memories/add/bulk">client.memories.<a href="./src/resources/memories.ts">addBulk</a>({ ...params }) -> MemoryAddBulkResponse</code>
-- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> Memory</code>
+- <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> MemoryGetResponse</code>
 - <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> QueryResult</code>
 - <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
@@ -103,12 +144,14 @@ Methods:
 
 Types:
 
+- <code><a href="./src/resources/evaluate.ts">EvaluateListQueriesResponse</a></code>
 - <code><a href="./src/resources/evaluate.ts">EvaluateScoreHighlightResponse</a></code>
 - <code><a href="./src/resources/evaluate.ts">EvaluateScoreQueryResponse</a></code>
 
 Methods:
 
 - <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> QueryResult</code>
+- <code title="get /evaluate/queries">client.evaluate.<a href="./src/resources/evaluate.ts">listQueries</a>({ ...params }) -> EvaluateListQueriesResponsesCursorPage</code>
 - <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
 - <code title="post /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>(queryID, { ...params }) -> EvaluateScoreQueryResponse</code>
 

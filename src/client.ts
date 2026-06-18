@@ -30,6 +30,9 @@ import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Toke
 import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
 import {
   Evaluate,
+  EvaluateListQueriesParams,
+  EvaluateListQueriesResponse,
+  EvaluateListQueriesResponsesCursorPage,
   EvaluateScoreHighlightParams,
   EvaluateScoreHighlightResponse,
   EvaluateScoreQueryParams,
@@ -47,14 +50,16 @@ import {
 } from './resources/folders';
 import {
   Memories,
-  Memory,
   MemoryAddBulkParams,
   MemoryAddBulkResponse,
   MemoryAddParams,
   MemoryDeleteParams,
   MemoryDeleteResponse,
   MemoryGetParams,
+  MemoryGetResponse,
   MemoryListParams,
+  MemoryListResponse,
+  MemoryListResponsesCursorPage,
   MemorySearchParams,
   MemoryStatus,
   MemoryStatusResponse,
@@ -227,6 +232,18 @@ export class Hyperspell {
     this.maxRetries = options.maxRetries ?? 2;
     this.fetch = options.fetch ?? Shims.getDefaultFetch();
     this.#encoder = Opts.FallbackEncoder;
+
+    const customHeadersEnv = readEnv('HYPERSPELL_CUSTOM_HEADERS');
+    if (customHeadersEnv) {
+      const parsed: Record<string, string> = {};
+      for (const line of customHeadersEnv.split('\n')) {
+        const colon = line.indexOf(':');
+        if (colon >= 0) {
+          parsed[line.substring(0, colon).trim()] = line.substring(colon + 1).trim();
+        }
+      }
+      options.defaultHeaders = { ...parsed, ...options.defaultHeaders };
+    }
 
     this._options = options;
 
@@ -748,11 +765,19 @@ export class Hyperspell {
     return () => controller.abort();
   }
 
-  private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
+  private buildBody({ options }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
   } {
+    const { body, headers: rawHeaders } = options;
     if (!body) {
+      // A resource method always passes a `body` key when its operation defines a
+      // request body, even if the caller omitted an optional body param. Keep the
+      // content-type for those, and only elide it for operations with no body at
+      // all (e.g. GET/DELETE).
+      if (body == null && 'body' in options) {
+        return this.#encoder({ body, headers: buildHeaders([rawHeaders]) });
+      }
       return { bodyHeaders: undefined, body: undefined };
     }
     const headers = buildHeaders([rawHeaders]);
@@ -865,11 +890,13 @@ export declare namespace Hyperspell {
 
   export {
     Memories as Memories,
-    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
+    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -882,8 +909,11 @@ export declare namespace Hyperspell {
 
   export {
     Evaluate as Evaluate,
+    type EvaluateListQueriesResponse as EvaluateListQueriesResponse,
     type EvaluateScoreHighlightResponse as EvaluateScoreHighlightResponse,
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
+    type EvaluateListQueriesResponsesCursorPage as EvaluateListQueriesResponsesCursorPage,
+    type EvaluateListQueriesParams as EvaluateListQueriesParams,
     type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
   };
@@ -913,8 +943,48 @@ export declare namespace Hyperspell {
     type AuthUserTokenParams as AuthUserTokenParams,
   };
 
+  export type Blob = API.Blob;
+  export type Callout = API.Callout;
+  export type Chunk = API.Chunk;
+  export type Code = API.Code;
+  export type Comment = API.Comment;
+  export type Company = API.Company;
+  export type Conversation = API.Conversation;
+  export type Deal = API.Deal;
+  export type Divider = API.Divider;
+  export type Document = API.Document;
+  export type Equation = API.Equation;
+  export type Event = API.Event;
+  export type File = API.File;
+  export type Footnote = API.Footnote;
+  export type Heading = API.Heading;
+  export type Image = API.Image;
+  export type LineBreak = API.LineBreak;
+  export type Link = API.Link;
+  export type List = API.List;
+  export type ListItem = API.ListItem;
+  export type Message = API.Message;
   export type Metadata = API.Metadata;
-  export type Notification = API.Notification;
+  export type Paragraph = API.Paragraph;
+  export type Person = API.Person;
+  export type Provenance = API.Provenance;
+  export type ProvenanceEntity = API.ProvenanceEntity;
+  export type ProvenanceSource = API.ProvenanceSource;
+  export type ProvenanceStep = API.ProvenanceStep;
   export type QueryResult = API.QueryResult;
-  export type Resource = API.Resource;
+  export type Quote = API.Quote;
+  export type ScoredDocumentResponse = API.ScoredDocumentResponse;
+  export type Table = API.Table;
+  export type TableCell = API.TableCell;
+  export type TableRow = API.TableRow;
+  export type Task = API.Task;
+  export type Text = API.Text;
+  export type ToDo = API.ToDo;
+  export type ToolCall = API.ToolCall;
+  export type ToolResult = API.ToolResult;
+  export type Trace = API.Trace;
+  export type TraceMessage = API.TraceMessage;
+  export type Transcript = API.Transcript;
+  export type Utterance = API.Utterance;
+  export type Website = API.Website;
 }

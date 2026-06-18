@@ -76,7 +76,16 @@ export interface ActionAddReactionParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Message timestamp to react to
@@ -107,7 +116,16 @@ export interface ActionSendMessageParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   /**
    * Message text

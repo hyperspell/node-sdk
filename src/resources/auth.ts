@@ -86,6 +86,15 @@ export interface AuthMeResponse {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong'
   >;
 
   /**
@@ -106,6 +115,15 @@ export interface AuthMeResponse {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong'
   >;
 
   /**

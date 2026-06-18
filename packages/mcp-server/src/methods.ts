@@ -137,6 +137,12 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/evaluate/query/{query_id}',
   },
   {
+    clientCallName: 'client.evaluate.listQueries',
+    fullyQualifiedName: 'evaluate.listQueries',
+    httpMethod: 'get',
+    httpPath: '/evaluate/queries',
+  },
+  {
     clientCallName: 'client.evaluate.scoreHighlight',
     fullyQualifiedName: 'evaluate.scoreHighlight',
     httpMethod: 'post',

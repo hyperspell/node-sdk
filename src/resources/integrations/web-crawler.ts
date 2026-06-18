@@ -37,7 +37,16 @@ export interface WebCrawlerIndexResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }

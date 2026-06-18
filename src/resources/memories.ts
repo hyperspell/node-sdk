@@ -2,7 +2,6 @@
 
 import { APIResource } from '../core/resource';
 import * as Shared from './shared';
-import { ResourcesCursorPage } from './shared';
 import { APIPromise } from '../core/api-promise';
 import { CursorPage, type CursorPageParams, PagePromise } from '../core/pagination';
 import { type Uploadable } from '../core/uploads';
@@ -38,7 +37,7 @@ export class Memories extends APIResource {
    * @example
    * ```ts
    * // Automatically fetches more pages as needed.
-   * for await (const resource of client.memories.list()) {
+   * for await (const memoryListResponse of client.memories.list()) {
    *   // ...
    * }
    * ```
@@ -46,8 +45,8 @@ export class Memories extends APIResource {
   list(
     query: MemoryListParams | null | undefined = {},
     options?: RequestOptions,
-  ): PagePromise<ResourcesCursorPage, Shared.Resource> {
-    return this._client.getAPIList('/memories/list', CursorPage<Shared.Resource>, { query, ...options });
+  ): PagePromise<MemoryListResponsesCursorPage, MemoryListResponse> {
+    return this._client.getAPIList('/memories/list', CursorPage<MemoryListResponse>, { query, ...options });
   }
 
   /**
@@ -57,7 +56,9 @@ export class Memories extends APIResource {
    * operation deletes:
    *
    * 1. All chunks associated with the resource (including embeddings)
-   * 2. The resource record itself
+   * 2. The documents row AND any legacy resources rows sharing the identity —
+   *    leaving either one behind would resurrect the memory through the double-read
+   *    path (ENG-2477).
    *
    * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
    * The unique identifier of the resource to delete api_token: Authentication token
@@ -121,7 +122,8 @@ export class Memories extends APIResource {
   }
 
   /**
-   * Retrieves a document by provider and resource_id.
+   * Retrieves a document by provider and resource_id, as a document-shaped response
+   * carrying the full hyperdoc tree (ENG-2479 Phase 4).
    *
    * @example
    * ```ts
@@ -130,7 +132,7 @@ export class Memories extends APIResource {
    * });
    * ```
    */
-  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<Memory> {
+  get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<MemoryGetResponse> {
     const { source } = params;
     return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
   }
@@ -183,49 +185,7 @@ export class Memories extends APIResource {
   }
 }
 
-/**
- * Response model for the GET /memories/get endpoint.
- */
-export interface Memory {
-  resource_id: string;
-
-  source:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions';
-
-  /**
-   * The type of document (e.g. Document, Website, Email)
-   */
-  type: string;
-
-  /**
-   * The structured content of the document
-   */
-  data?: Array<unknown> | null;
-
-  /**
-   * Summaries of all memories extracted from this document
-   */
-  memories?: Array<string>;
-
-  metadata?: Shared.Metadata;
-
-  title?: string | null;
-
-  [k: string]: unknown;
-}
+export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
 
 export interface MemoryStatus {
   resource_id: string;
@@ -244,9 +204,108 @@ export interface MemoryStatus {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
+}
+
+/**
+ * A document-shaped API response carrying the hyperdoc tree (ENG-2479/D12).
+ */
+export interface MemoryListResponse {
+  /**
+   * The full hyperdoc tree. Switch on `type` for the document frame and recurse
+   * `children` for the body — see the `<Hyperdoc />` renderer.
+   */
+  document:
+    | Shared.Document
+    | Shared.Website
+    | Shared.Task
+    | Shared.Person
+    | Shared.Message
+    | Shared.Event
+    | Shared.File
+    | Shared.Conversation
+    | Shared.Trace
+    | Shared.Transcript
+    | Shared.Company
+    | Shared.Deal;
+
+  resource_id: string;
+
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'github'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler'
+    | 'trace'
+    | 'microsoft_teams'
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
+
+  /**
+   * Hyperdoc document type discriminator (document, message, file, event, ...).
+   */
+  type: string;
+
+  /**
+   * The document's collection, if any.
+   */
+  collection?: string | null;
+
+  /**
+   * The document's own date (e.g. email sent date, event date).
+   */
+  document_date?: string | null;
+
+  /**
+   * When Hyperspell first indexed the document.
+   */
+  ingested_at?: string | null;
+
+  /**
+   * When the source document was last modified.
+   */
+  last_modified_at?: string | null;
+
+  /**
+   * Filterable custom metadata attached to the document.
+   */
+  metadata?: { [key: string]: unknown };
+
+  /**
+   * Indexing status of the document.
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+
+  /**
+   * Human-readable document title.
+   */
+  title?: string | null;
 }
 
 export interface MemoryDeleteResponse {
@@ -270,7 +329,16 @@ export interface MemoryDeleteResponse {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   success: boolean;
 }
@@ -290,6 +358,96 @@ export interface MemoryAddBulkResponse {
   items: Array<MemoryStatus>;
 
   success?: boolean;
+}
+
+/**
+ * A document-shaped API response carrying the hyperdoc tree (ENG-2479/D12).
+ */
+export interface MemoryGetResponse {
+  /**
+   * The full hyperdoc tree. Switch on `type` for the document frame and recurse
+   * `children` for the body — see the `<Hyperdoc />` renderer.
+   */
+  document:
+    | Shared.Document
+    | Shared.Website
+    | Shared.Task
+    | Shared.Person
+    | Shared.Message
+    | Shared.Event
+    | Shared.File
+    | Shared.Conversation
+    | Shared.Trace
+    | Shared.Transcript
+    | Shared.Company
+    | Shared.Deal;
+
+  resource_id: string;
+
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'github'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler'
+    | 'trace'
+    | 'microsoft_teams'
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
+
+  /**
+   * Hyperdoc document type discriminator (document, message, file, event, ...).
+   */
+  type: string;
+
+  /**
+   * The document's collection, if any.
+   */
+  collection?: string | null;
+
+  /**
+   * The document's own date (e.g. email sent date, event date).
+   */
+  document_date?: string | null;
+
+  /**
+   * When Hyperspell first indexed the document.
+   */
+  ingested_at?: string | null;
+
+  /**
+   * When the source document was last modified.
+   */
+  last_modified_at?: string | null;
+
+  /**
+   * Filterable custom metadata attached to the document.
+   */
+  metadata?: { [key: string]: unknown };
+
+  /**
+   * Indexing status of the document.
+   */
+  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+
+  /**
+   * Human-readable document title.
+   */
+  title?: string | null;
 }
 
 export interface MemoryStatusResponse {
@@ -316,7 +474,16 @@ export interface MemoryUpdateParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -378,6 +545,15 @@ export interface MemoryListParams extends CursorPageParams {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong'
     | null;
 
   /**
@@ -401,7 +577,16 @@ export interface MemoryDeleteParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 }
 
 export interface MemoryAddParams {
@@ -504,7 +689,16 @@ export interface MemoryGetParams {
     | 'web_crawler'
     | 'trace'
     | 'microsoft_teams'
-    | 'gmail_actions';
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 }
 
 export interface MemorySearchParams {
@@ -519,10 +713,15 @@ export interface MemorySearchParams {
   answer?: boolean;
 
   /**
-   * Effort level. 0 = pass query through verbatim. 1 = LLM rewrites the query for
-   * better retrieval and extracts date filters.
+   * How much compute to spend on retrieval. Mirrors the dial popularized by
+   * frontier-model APIs (OpenAI reasoning_effort, etc.). 'minimal' = verbatim
+   * single-shot retrieval (fastest). 'low' = LLM rewrites the query for better
+   * retrieval and extracts date filters. 'medium' = rewrite + agentic refinement
+   * loop (the answer LLM may request additional retrieval rounds, up to 3). 'high' =
+   * rewrite + extended refinement (up to 6 rounds). Higher = better recall, more
+   * latency, more cost.
    */
-  effort?: number;
+  effort?: 'minimal' | 'low' | 'medium' | 'high' | 'very_high';
 
   /**
    * @deprecated Maximum number of results to return.
@@ -533,6 +732,14 @@ export interface MemorySearchParams {
    * Search options for the query.
    */
   options?: MemorySearchParams.Options;
+
+  /**
+   * If true (effort='very_high' only), attach a provenance record to the response:
+   * the source documents and entities the answer was grounded in, the agent's search
+   * trajectory, and any sources that failed. Adds one indexed lookup; intended for
+   * auditability / compliance use cases.
+   */
+  provenance?: boolean;
 
   /**
    * Only query documents from these sources.
@@ -552,6 +759,15 @@ export interface MemorySearchParams {
     | 'trace'
     | 'microsoft_teams'
     | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong'
   >;
 }
 
@@ -626,9 +842,13 @@ export namespace MemorySearchParams {
     notion?: Options.Notion;
 
     /**
-     * Search options for Reddit
+     * When set, multiplies each result's score by an exponential-decay factor based on
+     * the document's most recent activity timestamp (source-reported last_modified,
+     * falling back to document_date). A document one half-life old gets its score
+     * halved. Resources with no recency timestamp are passed through unchanged. Leave
+     * unset to disable.
      */
-    reddit?: Options.Reddit;
+    recency_half_life_days?: number | null;
 
     /**
      * Only return results from these specific resource IDs. Useful for scoping
@@ -740,35 +960,6 @@ export namespace MemorySearchParams {
     }
 
     /**
-     * Search options for Reddit
-     */
-    export interface Reddit {
-      /**
-       * The time period to search. Defaults to 'month'.
-       */
-      period?: 'hour' | 'day' | 'week' | 'month' | 'year' | 'all';
-
-      /**
-       * The sort order of the posts. Defaults to 'relevance'.
-       */
-      sort?: 'relevance' | 'new' | 'hot' | 'top' | 'comments';
-
-      /**
-       * The subreddit to search. If not provided, the query will be searched for in all
-       * subreddits.
-       */
-      subreddit?: string | null;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
      * Search options for Slack
      */
     export interface Slack {
@@ -866,11 +1057,13 @@ export interface MemoryUploadParams {
 
 export declare namespace Memories {
   export {
-    type Memory as Memory,
     type MemoryStatus as MemoryStatus,
+    type MemoryListResponse as MemoryListResponse,
     type MemoryDeleteResponse as MemoryDeleteResponse,
     type MemoryAddBulkResponse as MemoryAddBulkResponse,
+    type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
+    type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
     type MemoryUpdateParams as MemoryUpdateParams,
     type MemoryListParams as MemoryListParams,
     type MemoryDeleteParams as MemoryDeleteParams,
@@ -881,5 +1074,3 @@ export declare namespace Memories {
     type MemoryUploadParams as MemoryUploadParams,
   };
 }
-
-export { type ResourcesCursorPage };

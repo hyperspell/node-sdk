@@ -95,12 +95,26 @@ export namespace IntegrationListResponse {
       | 'web_crawler'
       | 'trace'
       | 'microsoft_teams'
-      | 'gmail_actions';
+      | 'gmail_actions'
+      | 'granola'
+      | 'fathom'
+      | 'fireflies'
+      | 'linear'
+      | 'hubspot'
+      | 'salesforce'
+      | 'coda'
+      | 'lightfield'
+      | 'gong';
 
     /**
      * Whether this integration only supports write actions (no sync)
      */
     actions_only?: boolean;
+
+    /**
+     * Whether the user must select channels before indexing starts
+     */
+    requires_channel_selection?: boolean;
   }
 }
 
