@@ -161,7 +161,7 @@ describe('resource memories', () => {
       query: 'What does Hyperspell do?',
       answer: true,
       effort: 'minimal',
-      max_results: 0,
+      max_results: 1,
       options: {
         after: '2019-12-27T18:11:19.117Z',
         answer_model: 'llama-3.1',
@@ -171,7 +171,7 @@ describe('resource memories', () => {
         google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
-        max_results: 200,
+        max_results: 1,
         memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
         recency_half_life_days: 1,
