@@ -56,13 +56,13 @@ const EMBEDDED_METHODS: MethodEntry[] = [
     httpMethod: 'delete',
     summary: 'Revoke connection',
     description:
-      "Revokes Hyperspell's access the given provider and deletes all stored credentials and indexed data.",
+      'Revoke Hyperspell\'s access to a provider and delete this user\'s stored data.\n\nThe external OAuth/Unified revoke and the (potentially large) data purge run in\na background Temporal workflow; this returns ``202 Accepted`` immediately. A\nheavy provider — a Gmail account can carry hundreds of thousands of chunks —\nplus a slow third-party revoke would otherwise outrun the request timeout: the\nold synchronous path "timed out" for the caller while still finishing\nserver-side, making the outcome invisible. Idempotent per (app, user, provider).',
     stainlessPath: '(resource) connections > (method) revoke',
     qualified: 'client.connections.revoke',
     params: ['connection_id: string;'],
     response: '{ message: string; success: boolean; }',
     markdown:
-      "## revoke\n\n`client.connections.revoke(connection_id: string): { message: string; success: boolean; }`\n\n**delete** `/connections/{connection_id}/revoke`\n\nRevokes Hyperspell's access the given provider and deletes all stored credentials and indexed data.\n\n### Parameters\n\n- `connection_id: string`\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.connections.revoke('connection_id');\n\nconsole.log(response);\n```",
+      "## revoke\n\n`client.connections.revoke(connection_id: string): { message: string; success: boolean; }`\n\n**delete** `/connections/{connection_id}/revoke`\n\nRevoke Hyperspell's access to a provider and delete this user's stored data.\n\nThe external OAuth/Unified revoke and the (potentially large) data purge run in\na background Temporal workflow; this returns ``202 Accepted`` immediately. A\nheavy provider — a Gmail account can carry hundreds of thousands of chunks —\nplus a slow third-party revoke would otherwise outrun the request timeout: the\nold synchronous path \"timed out\" for the caller while still finishing\nserver-side, making the outcome invisible. Idempotent per (app, user, provider).\n\n### Parameters\n\n- `connection_id: string`\n\n### Returns\n\n- `{ message: string; success: boolean; }`\n\n  - `message: string`\n  - `success: boolean`\n\n### Example\n\n```typescript\nimport Hyperspell from '@hyperspell/hyperspell';\n\nconst client = new Hyperspell();\n\nconst response = await client.connections.revoke('connection_id');\n\nconsole.log(response);\n```",
     perLanguage: {
       typescript: {
         method: 'client.connections.revoke',
