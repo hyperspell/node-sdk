@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.40.0](https://github.com/hyperspell/node-sdk/compare/v0.39.0...v0.40.0) (2026-06-26)
+
+
+### Features
+
+* migrate SDK release automation to release-please (off Stainless) ([#97](https://github.com/hyperspell/node-sdk/issues/97)) ([4220668](https://github.com/hyperspell/node-sdk/commit/42206682fd8a63ce018816b5d2e019b816a537a1))
+
 ## 0.39.0 (2026-06-18)
 
 Full Changelog: [v0.38.0...v0.39.0](https://github.com/hyperspell/node-sdk/compare/v0.38.0...v0.39.0)
