@@ -56,8 +56,8 @@ This affects the following methods:
 
 - `client.folders.deletePolicy()`
 - `client.memories.update()`
-- `client.memories.delete()`
 - `client.memories.get()`
+- `client.memories.delete()`
 
 ### URI encoded path parameters
 

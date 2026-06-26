@@ -11,28 +11,22 @@ export type SdkMethod = {
 
 export const sdkMethods: SdkMethod[] = [
   {
-    clientCallName: 'client.connections.list',
-    fullyQualifiedName: 'connections.list',
-    httpMethod: 'get',
-    httpPath: '/connections/list',
-  },
-  {
     clientCallName: 'client.connections.revoke',
     fullyQualifiedName: 'connections.revoke',
     httpMethod: 'delete',
     httpPath: '/connections/{connection_id}/revoke',
   },
   {
+    clientCallName: 'client.connections.list',
+    fullyQualifiedName: 'connections.list',
+    httpMethod: 'get',
+    httpPath: '/connections/list',
+  },
+  {
     clientCallName: 'client.folders.list',
     fullyQualifiedName: 'folders.list',
     httpMethod: 'get',
     httpPath: '/connections/{connection_id}/folders',
-  },
-  {
-    clientCallName: 'client.folders.deletePolicy',
-    fullyQualifiedName: 'folders.deletePolicy',
-    httpMethod: 'delete',
-    httpPath: '/connections/{connection_id}/folder-policies/{policy_id}',
   },
   {
     clientCallName: 'client.folders.listPolicies',
@@ -45,6 +39,12 @@ export const sdkMethods: SdkMethod[] = [
     fullyQualifiedName: 'folders.setPolicies',
     httpMethod: 'post',
     httpPath: '/connections/{connection_id}/folder-policies',
+  },
+  {
+    clientCallName: 'client.folders.deletePolicy',
+    fullyQualifiedName: 'folders.deletePolicy',
+    httpMethod: 'delete',
+    httpPath: '/connections/{connection_id}/folder-policies/{policy_id}',
   },
   {
     clientCallName: 'client.integrations.list',
@@ -77,6 +77,24 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/integrations/slack/list',
   },
   {
+    clientCallName: 'client.memories.add',
+    fullyQualifiedName: 'memories.add',
+    httpMethod: 'post',
+    httpPath: '/memories/add',
+  },
+  {
+    clientCallName: 'client.memories.addBulk',
+    fullyQualifiedName: 'memories.addBulk',
+    httpMethod: 'post',
+    httpPath: '/memories/add/bulk',
+  },
+  {
+    clientCallName: 'client.memories.upload',
+    fullyQualifiedName: 'memories.upload',
+    httpMethod: 'post',
+    httpPath: '/memories/upload',
+  },
+  {
     clientCallName: 'client.memories.update',
     fullyQualifiedName: 'memories.update',
     httpMethod: 'post',
@@ -89,22 +107,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/memories/list',
   },
   {
-    clientCallName: 'client.memories.delete',
-    fullyQualifiedName: 'memories.delete',
-    httpMethod: 'delete',
-    httpPath: '/memories/delete/{source}/{resource_id}',
-  },
-  {
-    clientCallName: 'client.memories.add',
-    fullyQualifiedName: 'memories.add',
-    httpMethod: 'post',
-    httpPath: '/memories/add',
-  },
-  {
-    clientCallName: 'client.memories.addBulk',
-    fullyQualifiedName: 'memories.addBulk',
-    httpMethod: 'post',
-    httpPath: '/memories/add/bulk',
+    clientCallName: 'client.memories.status',
+    fullyQualifiedName: 'memories.status',
+    httpMethod: 'get',
+    httpPath: '/memories/status',
   },
   {
     clientCallName: 'client.memories.get',
@@ -119,22 +125,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/memories/query',
   },
   {
-    clientCallName: 'client.memories.status',
-    fullyQualifiedName: 'memories.status',
-    httpMethod: 'get',
-    httpPath: '/memories/status',
-  },
-  {
-    clientCallName: 'client.memories.upload',
-    fullyQualifiedName: 'memories.upload',
-    httpMethod: 'post',
-    httpPath: '/memories/upload',
-  },
-  {
-    clientCallName: 'client.evaluate.getQuery',
-    fullyQualifiedName: 'evaluate.getQuery',
-    httpMethod: 'get',
-    httpPath: '/evaluate/query/{query_id}',
+    clientCallName: 'client.memories.delete',
+    fullyQualifiedName: 'memories.delete',
+    httpMethod: 'delete',
+    httpPath: '/memories/delete/{source}/{resource_id}',
   },
   {
     clientCallName: 'client.evaluate.listQueries',
@@ -143,10 +137,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/evaluate/queries',
   },
   {
-    clientCallName: 'client.evaluate.scoreHighlight',
-    fullyQualifiedName: 'evaluate.scoreHighlight',
-    httpMethod: 'post',
-    httpPath: '/evaluate/highlight/{highlight_id}',
+    clientCallName: 'client.evaluate.getQuery',
+    fullyQualifiedName: 'evaluate.getQuery',
+    httpMethod: 'get',
+    httpPath: '/evaluate/query/{query_id}',
   },
   {
     clientCallName: 'client.evaluate.scoreQuery',
@@ -155,16 +149,22 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/evaluate/query/{query_id}',
   },
   {
-    clientCallName: 'client.actions.addReaction',
-    fullyQualifiedName: 'actions.addReaction',
+    clientCallName: 'client.evaluate.scoreHighlight',
+    fullyQualifiedName: 'evaluate.scoreHighlight',
     httpMethod: 'post',
-    httpPath: '/actions/add_reaction',
+    httpPath: '/evaluate/highlight/{highlight_id}',
   },
   {
     clientCallName: 'client.actions.sendMessage',
     fullyQualifiedName: 'actions.sendMessage',
     httpMethod: 'post',
     httpPath: '/actions/send_message',
+  },
+  {
+    clientCallName: 'client.actions.addReaction',
+    fullyQualifiedName: 'actions.addReaction',
+    httpMethod: 'post',
+    httpPath: '/actions/add_reaction',
   },
   {
     clientCallName: 'client.sessions.add',
@@ -179,10 +179,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/vault/list',
   },
   {
-    clientCallName: 'client.auth.deleteUser',
-    fullyQualifiedName: 'auth.deleteUser',
-    httpMethod: 'delete',
-    httpPath: '/auth/delete',
+    clientCallName: 'client.auth.userToken',
+    fullyQualifiedName: 'auth.userToken',
+    httpMethod: 'post',
+    httpPath: '/auth/user_token',
   },
   {
     clientCallName: 'client.auth.me',
@@ -191,10 +191,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/auth/me',
   },
   {
-    clientCallName: 'client.auth.userToken',
-    fullyQualifiedName: 'auth.userToken',
-    httpMethod: 'post',
-    httpPath: '/auth/user_token',
+    clientCallName: 'client.auth.deleteUser',
+    fullyQualifiedName: 'auth.deleteUser',
+    httpMethod: 'delete',
+    httpPath: '/auth/delete',
   },
 ];
 

@@ -75,7 +75,7 @@
     },
     {
       "base": "memories",
-      "name": "delete",
+      "name": "get",
       "params": [
         {
           "type": "param",
@@ -108,7 +108,7 @@
     },
     {
       "base": "memories",
-      "name": "get",
+      "name": "delete",
       "params": [
         {
           "type": "param",

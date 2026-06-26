@@ -9,6 +9,27 @@ const client = new Hyperspell({
 });
 
 describe('resource actions', () => {
+  test('sendMessage: only required params', async () => {
+    const responsePromise = client.actions.sendMessage({ provider: 'reddit', text: 'text' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('sendMessage: required and optional params', async () => {
+    const response = await client.actions.sendMessage({
+      provider: 'reddit',
+      text: 'text',
+      channel: 'channel',
+      connection: 'connection',
+      parent: 'parent',
+    });
+  });
+
   test('addReaction: only required params', async () => {
     const responsePromise = client.actions.addReaction({
       channel: 'channel',
@@ -32,27 +53,6 @@ describe('resource actions', () => {
       provider: 'reddit',
       timestamp: 'timestamp',
       connection: 'connection',
-    });
-  });
-
-  test('sendMessage: only required params', async () => {
-    const responsePromise = client.actions.sendMessage({ provider: 'reddit', text: 'text' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('sendMessage: required and optional params', async () => {
-    const response = await client.actions.sendMessage({
-      provider: 'reddit',
-      text: 'text',
-      channel: 'channel',
-      connection: 'connection',
-      parent: 'parent',
     });
   });
 });

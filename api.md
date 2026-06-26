@@ -56,8 +56,8 @@ Types:
 
 Methods:
 
-- <code title="get /connections/list">client.connections.<a href="./src/resources/connections.ts">list</a>() -> ConnectionListResponse</code>
 - <code title="delete /connections/{connection_id}/revoke">client.connections.<a href="./src/resources/connections.ts">revoke</a>(connectionID) -> ConnectionRevokeResponse</code>
+- <code title="get /connections/list">client.connections.<a href="./src/resources/connections.ts">list</a>() -> ConnectionListResponse</code>
 
 # Folders
 
@@ -71,9 +71,9 @@ Types:
 Methods:
 
 - <code title="get /connections/{connection_id}/folders">client.folders.<a href="./src/resources/folders.ts">list</a>(connectionID, { ...params }) -> FolderListResponse</code>
-- <code title="delete /connections/{connection_id}/folder-policies/{policy_id}">client.folders.<a href="./src/resources/folders.ts">deletePolicy</a>(policyID, { ...params }) -> FolderDeletePolicyResponse</code>
 - <code title="get /connections/{connection_id}/folder-policies">client.folders.<a href="./src/resources/folders.ts">listPolicies</a>(connectionID) -> FolderListPoliciesResponse</code>
 - <code title="post /connections/{connection_id}/folder-policies">client.folders.<a href="./src/resources/folders.ts">setPolicies</a>(connectionID, { ...params }) -> FolderSetPoliciesResponse</code>
+- <code title="delete /connections/{connection_id}/folder-policies/{policy_id}">client.folders.<a href="./src/resources/folders.ts">deletePolicy</a>(policyID, { ...params }) -> FolderDeletePolicyResponse</code>
 
 # Integrations
 
@@ -130,15 +130,15 @@ Types:
 
 Methods:
 
-- <code title="post /memories/update/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">update</a>(resourceID, { ...params }) -> MemoryStatus</code>
-- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoryListResponsesCursorPage</code>
-- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 - <code title="post /memories/add">client.memories.<a href="./src/resources/memories.ts">add</a>({ ...params }) -> MemoryStatus</code>
 - <code title="post /memories/add/bulk">client.memories.<a href="./src/resources/memories.ts">addBulk</a>({ ...params }) -> MemoryAddBulkResponse</code>
+- <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
+- <code title="post /memories/update/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">update</a>(resourceID, { ...params }) -> MemoryStatus</code>
+- <code title="get /memories/list">client.memories.<a href="./src/resources/memories.ts">list</a>({ ...params }) -> MemoryListResponsesCursorPage</code>
+- <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
 - <code title="get /memories/get/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">get</a>(resourceID, { ...params }) -> MemoryGetResponse</code>
 - <code title="post /memories/query">client.memories.<a href="./src/resources/memories.ts">search</a>({ ...params }) -> QueryResult</code>
-- <code title="get /memories/status">client.memories.<a href="./src/resources/memories.ts">status</a>() -> MemoryStatusResponse</code>
-- <code title="post /memories/upload">client.memories.<a href="./src/resources/memories.ts">upload</a>({ ...params }) -> MemoryStatus</code>
+- <code title="delete /memories/delete/{source}/{resource_id}">client.memories.<a href="./src/resources/memories.ts">delete</a>(resourceID, { ...params }) -> MemoryDeleteResponse</code>
 
 # Evaluate
 
@@ -150,10 +150,10 @@ Types:
 
 Methods:
 
-- <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> QueryResult</code>
 - <code title="get /evaluate/queries">client.evaluate.<a href="./src/resources/evaluate.ts">listQueries</a>({ ...params }) -> EvaluateListQueriesResponsesCursorPage</code>
-- <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
+- <code title="get /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">getQuery</a>(queryID) -> QueryResult</code>
 - <code title="post /evaluate/query/{query_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreQuery</a>(queryID, { ...params }) -> EvaluateScoreQueryResponse</code>
+- <code title="post /evaluate/highlight/{highlight_id}">client.evaluate.<a href="./src/resources/evaluate.ts">scoreHighlight</a>(highlightID, { ...params }) -> EvaluateScoreHighlightResponse</code>
 
 # Actions
 
@@ -164,8 +164,8 @@ Types:
 
 Methods:
 
-- <code title="post /actions/add_reaction">client.actions.<a href="./src/resources/actions.ts">addReaction</a>({ ...params }) -> ActionAddReactionResponse</code>
 - <code title="post /actions/send_message">client.actions.<a href="./src/resources/actions.ts">sendMessage</a>({ ...params }) -> ActionSendMessageResponse</code>
+- <code title="post /actions/add_reaction">client.actions.<a href="./src/resources/actions.ts">addReaction</a>({ ...params }) -> ActionAddReactionResponse</code>
 
 # Sessions
 
@@ -193,6 +193,6 @@ Types:
 
 Methods:
 
-- <code title="delete /auth/delete">client.auth.<a href="./src/resources/auth.ts">deleteUser</a>() -> AuthDeleteUserResponse</code>
-- <code title="get /auth/me">client.auth.<a href="./src/resources/auth.ts">me</a>() -> AuthMeResponse</code>
 - <code title="post /auth/user_token">client.auth.<a href="./src/resources/auth.ts">userToken</a>({ ...params }) -> Token</code>
+- <code title="get /auth/me">client.auth.<a href="./src/resources/auth.ts">me</a>() -> AuthMeResponse</code>
+- <code title="delete /auth/delete">client.auth.<a href="./src/resources/auth.ts">deleteUser</a>() -> AuthDeleteUserResponse</code>

@@ -9,13 +9,6 @@ import { path } from '../internal/utils/path';
 
 export class Evaluate extends APIResource {
   /**
-   * Retrieve the result of a previous query.
-   */
-  getQuery(queryID: string, options?: RequestOptions): APIPromise<Shared.QueryResult> {
-    return this._client.get(path`/evaluate/query/${queryID}`, options);
-  }
-
-  /**
    * Paginate through all prior queries for the app, newest first.
    *
    * User tokens only see their own queries; admin tokens see every query in the app
@@ -32,14 +25,10 @@ export class Evaluate extends APIResource {
   }
 
   /**
-   * Score an individual highlight.
+   * Retrieve the result of a previous query.
    */
-  scoreHighlight(
-    highlightID: string,
-    body: EvaluateScoreHighlightParams,
-    options?: RequestOptions,
-  ): APIPromise<EvaluateScoreHighlightResponse> {
-    return this._client.post(path`/evaluate/highlight/${highlightID}`, { body, ...options });
+  getQuery(queryID: string, options?: RequestOptions): APIPromise<Shared.QueryResult> {
+    return this._client.get(path`/evaluate/query/${queryID}`, options);
   }
 
   /**
@@ -51,6 +40,17 @@ export class Evaluate extends APIResource {
     options?: RequestOptions,
   ): APIPromise<EvaluateScoreQueryResponse> {
     return this._client.post(path`/evaluate/query/${queryID}`, { body, ...options });
+  }
+
+  /**
+   * Score an individual highlight.
+   */
+  scoreHighlight(
+    highlightID: string,
+    body: EvaluateScoreHighlightParams,
+    options?: RequestOptions,
+  ): APIPromise<EvaluateScoreHighlightResponse> {
+    return this._client.post(path`/evaluate/highlight/${highlightID}`, { body, ...options });
   }
 }
 
@@ -109,6 +109,13 @@ export interface EvaluateListQueriesParams extends CursorPageParams {
   user_id?: string | null;
 }
 
+export interface EvaluateScoreQueryParams {
+  /**
+   * Rating of the query result from -1 (bad) to +1 (good).
+   */
+  score?: number;
+}
+
 export interface EvaluateScoreHighlightParams {
   /**
    * Comment on the chunk
@@ -121,13 +128,6 @@ export interface EvaluateScoreHighlightParams {
   score?: number;
 }
 
-export interface EvaluateScoreQueryParams {
-  /**
-   * Rating of the query result from -1 (bad) to +1 (good).
-   */
-  score?: number;
-}
-
 export declare namespace Evaluate {
   export {
     type EvaluateListQueriesResponse as EvaluateListQueriesResponse,
@@ -135,7 +135,7 @@ export declare namespace Evaluate {
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
     type EvaluateListQueriesResponsesCursorPage as EvaluateListQueriesResponsesCursorPage,
     type EvaluateListQueriesParams as EvaluateListQueriesParams,
-    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
+    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
   };
 }

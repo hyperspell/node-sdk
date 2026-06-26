@@ -9,8 +9,8 @@ const client = new Hyperspell({
 });
 
 describe('resource connections', () => {
-  test('list', async () => {
-    const responsePromise = client.connections.list();
+  test('revoke', async () => {
+    const responsePromise = client.connections.revoke('connection_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -20,8 +20,8 @@ describe('resource connections', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('revoke', async () => {
-    const responsePromise = client.connections.revoke('connection_id');
+  test('list', async () => {
+    const responsePromise = client.connections.list();
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

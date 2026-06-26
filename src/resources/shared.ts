@@ -277,6 +277,8 @@ export interface Conversation {
 
   text?: string | null;
 
+  title?: string | null;
+
   type?: 'conversation';
 }
 

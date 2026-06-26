@@ -21,18 +21,6 @@ export class Folders extends APIResource {
   }
 
   /**
-   * Delete a folder policy for a specific connection.
-   */
-  deletePolicy(
-    policyID: string,
-    params: FolderDeletePolicyParams,
-    options?: RequestOptions,
-  ): APIPromise<FolderDeletePolicyResponse> {
-    const { connection_id } = params;
-    return this._client.delete(path`/connections/${connection_id}/folder-policies/${policyID}`, options);
-  }
-
-  /**
    * List all folder policies for a specific connection.
    */
   listPolicies(connectionID: string, options?: RequestOptions): APIPromise<FolderListPoliciesResponse> {
@@ -48,6 +36,18 @@ export class Folders extends APIResource {
     options?: RequestOptions,
   ): APIPromise<FolderSetPoliciesResponse> {
     return this._client.post(path`/connections/${connectionID}/folder-policies`, { body, ...options });
+  }
+
+  /**
+   * Delete a folder policy for a specific connection.
+   */
+  deletePolicy(
+    policyID: string,
+    params: FolderDeletePolicyParams,
+    options?: RequestOptions,
+  ): APIPromise<FolderDeletePolicyResponse> {
+    const { connection_id } = params;
+    return this._client.delete(path`/connections/${connection_id}/folder-policies/${policyID}`, options);
   }
 }
 
@@ -201,10 +201,6 @@ export interface FolderListParams {
   parent_id?: string | null;
 }
 
-export interface FolderDeletePolicyParams {
-  connection_id: string;
-}
-
 export interface FolderSetPoliciesParams {
   /**
    * Folder ID from the source provider
@@ -232,6 +228,10 @@ export interface FolderSetPoliciesParams {
   parent_folder_id?: string | null;
 }
 
+export interface FolderDeletePolicyParams {
+  connection_id: string;
+}
+
 export declare namespace Folders {
   export {
     type FolderListResponse as FolderListResponse,
@@ -239,7 +239,7 @@ export declare namespace Folders {
     type FolderListPoliciesResponse as FolderListPoliciesResponse,
     type FolderSetPoliciesResponse as FolderSetPoliciesResponse,
     type FolderListParams as FolderListParams,
-    type FolderDeletePolicyParams as FolderDeletePolicyParams,
     type FolderSetPoliciesParams as FolderSetPoliciesParams,
+    type FolderDeletePolicyParams as FolderDeletePolicyParams,
   };
 }
