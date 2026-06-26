@@ -6,16 +6,6 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Actions extends APIResource {
   /**
-   * Add an emoji reaction to a message on a connected integration.
-   */
-  addReaction(
-    body: ActionAddReactionParams,
-    options?: RequestOptions,
-  ): APIPromise<ActionAddReactionResponse> {
-    return this._client.post('/actions/add_reaction', { body, ...options });
-  }
-
-  /**
    * Send a message to a channel or conversation on a connected integration.
    */
   sendMessage(
@@ -23,6 +13,16 @@ export class Actions extends APIResource {
     options?: RequestOptions,
   ): APIPromise<ActionSendMessageResponse> {
     return this._client.post('/actions/send_message', { body, ...options });
+  }
+
+  /**
+   * Add an emoji reaction to a message on a connected integration.
+   */
+  addReaction(
+    body: ActionAddReactionParams,
+    options?: RequestOptions,
+  ): APIPromise<ActionAddReactionResponse> {
+    return this._client.post('/actions/add_reaction', { body, ...options });
   }
 }
 
@@ -46,56 +46,6 @@ export interface ActionSendMessageResponse {
   error?: string | null;
 
   provider_response?: { [key: string]: unknown } | null;
-}
-
-export interface ActionAddReactionParams {
-  /**
-   * Channel ID containing the message
-   */
-  channel: string;
-
-  /**
-   * Emoji name without colons (e.g., thumbsup)
-   */
-  name: string;
-
-  /**
-   * Integration provider (e.g., slack)
-   */
-  provider:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions'
-    | 'granola'
-    | 'fathom'
-    | 'fireflies'
-    | 'linear'
-    | 'hubspot'
-    | 'salesforce'
-    | 'coda'
-    | 'lightfield'
-    | 'gong';
-
-  /**
-   * Message timestamp to react to
-   */
-  timestamp: string;
-
-  /**
-   * Connection ID. If omitted, auto-resolved from provider + user.
-   */
-  connection?: string | null;
 }
 
 export interface ActionSendMessageParams {
@@ -148,11 +98,61 @@ export interface ActionSendMessageParams {
   parent?: string | null;
 }
 
+export interface ActionAddReactionParams {
+  /**
+   * Channel ID containing the message
+   */
+  channel: string;
+
+  /**
+   * Emoji name without colons (e.g., thumbsup)
+   */
+  name: string;
+
+  /**
+   * Integration provider (e.g., slack)
+   */
+  provider:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'github'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler'
+    | 'trace'
+    | 'microsoft_teams'
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
+
+  /**
+   * Message timestamp to react to
+   */
+  timestamp: string;
+
+  /**
+   * Connection ID. If omitted, auto-resolved from provider + user.
+   */
+  connection?: string | null;
+}
+
 export declare namespace Actions {
   export {
     type ActionAddReactionResponse as ActionAddReactionResponse,
     type ActionSendMessageResponse as ActionSendMessageResponse,
-    type ActionAddReactionParams as ActionAddReactionParams,
     type ActionSendMessageParams as ActionSendMessageParams,
+    type ActionAddReactionParams as ActionAddReactionParams,
   };
 }

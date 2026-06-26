@@ -31,25 +31,6 @@ describe('resource folders', () => {
     ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
-  test('deletePolicy: only required params', async () => {
-    const responsePromise = client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('deletePolicy: required and optional params', async () => {
-    const response = await client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
-      connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
-    });
-  });
-
   test('listPolicies', async () => {
     const responsePromise = client.folders.listPolicies('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e');
     const rawResponse = await responsePromise.asResponse();
@@ -82,6 +63,25 @@ describe('resource folders', () => {
       folder_name: 'folder_name',
       folder_path: 'folder_path',
       parent_folder_id: 'parent_folder_id',
+    });
+  });
+
+  test('deletePolicy: only required params', async () => {
+    const responsePromise = client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('deletePolicy: required and optional params', async () => {
+    const response = await client.folders.deletePolicy('182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e', {
+      connection_id: '182bd5e5-6e1a-4fe4-a799-aa6d9a6ab26e',
     });
   });
 });

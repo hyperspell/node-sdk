@@ -6,15 +6,18 @@ import { RequestOptions } from '../internal/request-options';
 
 export class Auth extends APIResource {
   /**
-   * Endpoint to delete user.
+   * Use this endpoint to create a user token for a specific user. This token can be
+   * safely passed to your user-facing front-end.
    *
    * @example
    * ```ts
-   * const response = await client.auth.deleteUser();
+   * const token = await client.auth.userToken({
+   *   user_id: 'user_id',
+   * });
    * ```
    */
-  deleteUser(options?: RequestOptions): APIPromise<AuthDeleteUserResponse> {
-    return this._client.delete('/auth/delete', options);
+  userToken(body: AuthUserTokenParams, options?: RequestOptions): APIPromise<Token> {
+    return this._client.post('/auth/user_token', { body, ...options });
   }
 
   /**
@@ -30,18 +33,15 @@ export class Auth extends APIResource {
   }
 
   /**
-   * Use this endpoint to create a user token for a specific user. This token can be
-   * safely passed to your user-facing front-end.
+   * Endpoint to delete user.
    *
    * @example
    * ```ts
-   * const token = await client.auth.userToken({
-   *   user_id: 'user_id',
-   * });
+   * const response = await client.auth.deleteUser();
    * ```
    */
-  userToken(body: AuthUserTokenParams, options?: RequestOptions): APIPromise<Token> {
-    return this._client.post('/auth/user_token', { body, ...options });
+  deleteUser(options?: RequestOptions): APIPromise<AuthDeleteUserResponse> {
+    return this._client.delete('/auth/delete', options);
   }
 }
 

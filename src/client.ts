@@ -765,19 +765,11 @@ export class Hyperspell {
     return () => controller.abort();
   }
 
-  private buildBody({ options }: { options: FinalRequestOptions }): {
+  private buildBody({ options: { body, headers: rawHeaders } }: { options: FinalRequestOptions }): {
     bodyHeaders: HeadersLike;
     body: BodyInit | undefined;
   } {
-    const { body, headers: rawHeaders } = options;
     if (!body) {
-      // A resource method always passes a `body` key when its operation defines a
-      // request body, even if the caller omitted an optional body param. Keep the
-      // content-type for those, and only elide it for operations with no body at
-      // all (e.g. GET/DELETE).
-      if (body == null && 'body' in options) {
-        return this.#encoder({ body, headers: buildHeaders([rawHeaders]) });
-      }
       return { bodyHeaders: undefined, body: undefined };
     }
     const headers = buildHeaders([rawHeaders]);
@@ -877,8 +869,8 @@ export declare namespace Hyperspell {
     type FolderListPoliciesResponse as FolderListPoliciesResponse,
     type FolderSetPoliciesResponse as FolderSetPoliciesResponse,
     type FolderListParams as FolderListParams,
-    type FolderDeletePolicyParams as FolderDeletePolicyParams,
     type FolderSetPoliciesParams as FolderSetPoliciesParams,
+    type FolderDeletePolicyParams as FolderDeletePolicyParams,
   };
 
   export {
@@ -897,14 +889,14 @@ export declare namespace Hyperspell {
     type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
-    type MemoryUpdateParams as MemoryUpdateParams,
-    type MemoryListParams as MemoryListParams,
-    type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,
     type MemoryAddBulkParams as MemoryAddBulkParams,
+    type MemoryUploadParams as MemoryUploadParams,
+    type MemoryUpdateParams as MemoryUpdateParams,
+    type MemoryListParams as MemoryListParams,
     type MemoryGetParams as MemoryGetParams,
     type MemorySearchParams as MemorySearchParams,
-    type MemoryUploadParams as MemoryUploadParams,
+    type MemoryDeleteParams as MemoryDeleteParams,
   };
 
   export {
@@ -914,16 +906,16 @@ export declare namespace Hyperspell {
     type EvaluateScoreQueryResponse as EvaluateScoreQueryResponse,
     type EvaluateListQueriesResponsesCursorPage as EvaluateListQueriesResponsesCursorPage,
     type EvaluateListQueriesParams as EvaluateListQueriesParams,
-    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
     type EvaluateScoreQueryParams as EvaluateScoreQueryParams,
+    type EvaluateScoreHighlightParams as EvaluateScoreHighlightParams,
   };
 
   export {
     Actions as Actions,
     type ActionAddReactionResponse as ActionAddReactionResponse,
     type ActionSendMessageResponse as ActionSendMessageResponse,
-    type ActionAddReactionParams as ActionAddReactionParams,
     type ActionSendMessageParams as ActionSendMessageParams,
+    type ActionAddReactionParams as ActionAddReactionParams,
   };
 
   export { Sessions as Sessions, type SessionAddParams as SessionAddParams };

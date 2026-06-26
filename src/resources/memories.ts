@@ -11,6 +11,63 @@ import { path } from '../internal/utils/path';
 
 export class Memories extends APIResource {
   /**
+   * Adds an arbitrary document to the index. This can be any text, email, call
+   * transcript, etc. The document will be processed and made available for querying
+   * once the processing is complete.
+   *
+   * @example
+   * ```ts
+   * const memoryStatus = await client.memories.add({
+   *   text: '...',
+   * });
+   * ```
+   */
+  add(body: MemoryAddParams, options?: RequestOptions): APIPromise<MemoryStatus> {
+    return this._client.post('/memories/add', { body, ...options });
+  }
+
+  /**
+   * Adds multiple documents to the index in a single request.
+   *
+   * All items are validated before any database operations occur. If any item fails
+   * validation, the entire batch is rejected with a 422 error detailing which items
+   * failed and why.
+   *
+   * Maximum 100 items per request. Each item follows the same schema as the
+   * single-item /memories/add endpoint.
+   *
+   * @example
+   * ```ts
+   * const response = await client.memories.addBulk({
+   *   items: [{ text: '...' }],
+   * });
+   * ```
+   */
+  addBulk(body: MemoryAddBulkParams, options?: RequestOptions): APIPromise<MemoryAddBulkResponse> {
+    return this._client.post('/memories/add/bulk', { body, ...options });
+  }
+
+  /**
+   * This endpoint will upload a file to the index and return a resource_id. The file
+   * will be processed in the background and the memory will be available for
+   * querying once the processing is complete. You can use the `resource_id` to query
+   * the memory later, and check the status of the memory.
+   *
+   * @example
+   * ```ts
+   * const memoryStatus = await client.memories.upload({
+   *   file: fs.createReadStream('path/to/file'),
+   * });
+   * ```
+   */
+  upload(body: MemoryUploadParams, options?: RequestOptions): APIPromise<MemoryStatus> {
+    return this._client.post(
+      '/memories/upload',
+      multipartFormRequestOptions({ body, ...options }, this._client),
+    );
+  }
+
+  /**
    * Updates an existing document in the index. You can update the text, collection,
    * title, and metadata. The document must already exist or a 404 will be returned.
    * This works for documents from any source (vault, slack, gmail, etc.).
@@ -50,75 +107,16 @@ export class Memories extends APIResource {
   }
 
   /**
-   * Delete a memory and its associated chunks from the index.
-   *
-   * This removes the memory completely from the vector index and database. The
-   * operation deletes:
-   *
-   * 1. All chunks associated with the resource (including embeddings)
-   * 2. The documents row AND any legacy resources rows sharing the identity —
-   *    leaving either one behind would resurrect the memory through the double-read
-   *    path (ENG-2477).
-   *
-   * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
-   * The unique identifier of the resource to delete api_token: Authentication token
-   *
-   * Returns: MemoryDeletionResponse with deletion details
-   *
-   * Raises: DocumentNotFound: If the resource doesn't exist or user doesn't have
-   * access
+   * This endpoint shows the indexing progress of documents, both by provider and
+   * total.
    *
    * @example
    * ```ts
-   * const memory = await client.memories.delete('resource_id', {
-   *   source: 'reddit',
-   * });
+   * const response = await client.memories.status();
    * ```
    */
-  delete(
-    resourceID: string,
-    params: MemoryDeleteParams,
-    options?: RequestOptions,
-  ): APIPromise<MemoryDeleteResponse> {
-    const { source } = params;
-    return this._client.delete(path`/memories/delete/${source}/${resourceID}`, options);
-  }
-
-  /**
-   * Adds an arbitrary document to the index. This can be any text, email, call
-   * transcript, etc. The document will be processed and made available for querying
-   * once the processing is complete.
-   *
-   * @example
-   * ```ts
-   * const memoryStatus = await client.memories.add({
-   *   text: '...',
-   * });
-   * ```
-   */
-  add(body: MemoryAddParams, options?: RequestOptions): APIPromise<MemoryStatus> {
-    return this._client.post('/memories/add', { body, ...options });
-  }
-
-  /**
-   * Adds multiple documents to the index in a single request.
-   *
-   * All items are validated before any database operations occur. If any item fails
-   * validation, the entire batch is rejected with a 422 error detailing which items
-   * failed and why.
-   *
-   * Maximum 100 items per request. Each item follows the same schema as the
-   * single-item /memories/add endpoint.
-   *
-   * @example
-   * ```ts
-   * const response = await client.memories.addBulk({
-   *   items: [{ text: '...' }],
-   * });
-   * ```
-   */
-  addBulk(body: MemoryAddBulkParams, options?: RequestOptions): APIPromise<MemoryAddBulkResponse> {
-    return this._client.post('/memories/add/bulk', { body, ...options });
+  status(options?: RequestOptions): APIPromise<MemoryStatusResponse> {
+    return this._client.get('/memories/status', options);
   }
 
   /**
@@ -152,36 +150,38 @@ export class Memories extends APIResource {
   }
 
   /**
-   * This endpoint shows the indexing progress of documents, both by provider and
-   * total.
+   * Delete a memory and its associated chunks from the index.
+   *
+   * This removes the memory completely from the vector index and database. The
+   * operation deletes:
+   *
+   * 1. All chunks associated with the resource (including embeddings)
+   * 2. The documents row AND any legacy resources rows sharing the identity —
+   *    leaving either one behind would resurrect the memory through the double-read
+   *    path (ENG-2477).
+   *
+   * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
+   * The unique identifier of the resource to delete api_token: Authentication token
+   *
+   * Returns: MemoryDeletionResponse with deletion details
+   *
+   * Raises: DocumentNotFound: If the resource doesn't exist or user doesn't have
+   * access
    *
    * @example
    * ```ts
-   * const response = await client.memories.status();
-   * ```
-   */
-  status(options?: RequestOptions): APIPromise<MemoryStatusResponse> {
-    return this._client.get('/memories/status', options);
-  }
-
-  /**
-   * This endpoint will upload a file to the index and return a resource_id. The file
-   * will be processed in the background and the memory will be available for
-   * querying once the processing is complete. You can use the `resource_id` to query
-   * the memory later, and check the status of the memory.
-   *
-   * @example
-   * ```ts
-   * const memoryStatus = await client.memories.upload({
-   *   file: fs.createReadStream('path/to/file'),
+   * const memory = await client.memories.delete('resource_id', {
+   *   source: 'reddit',
    * });
    * ```
    */
-  upload(body: MemoryUploadParams, options?: RequestOptions): APIPromise<MemoryStatus> {
-    return this._client.post(
-      '/memories/upload',
-      multipartFormRequestOptions({ body, ...options }, this._client),
-    );
+  delete(
+    resourceID: string,
+    params: MemoryDeleteParams,
+    options?: RequestOptions,
+  ): APIPromise<MemoryDeleteResponse> {
+    const { source } = params;
+    return this._client.delete(path`/memories/delete/${source}/${resourceID}`, options);
   }
 }
 
@@ -456,6 +456,110 @@ export interface MemoryStatusResponse {
   total: { [key: string]: number };
 }
 
+export interface MemoryAddParams {
+  /**
+   * Full text of the document.
+   */
+  text: string;
+
+  /**
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
+   */
+  collection?: string | null;
+
+  /**
+   * Date of the document. Depending on the document, this could be the creation date
+   * or date the document was last updated (eg. for a chat transcript, this would be
+   * the date of the last message). This helps the ranking algorithm and allows you
+   * to filter by date range.
+   */
+  date?: string;
+
+  /**
+   * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
+   * 64 chars. Values must be string, number, boolean, or null.
+   */
+  metadata?: { [key: string]: string | number | boolean | null } | null;
+
+  /**
+   * The resource ID to add the document to. If not provided, a new resource ID will
+   * be generated. If provided, the document will be updated if it already exists.
+   */
+  resource_id?: string;
+
+  /**
+   * Title of the document.
+   */
+  title?: string | null;
+}
+
+export interface MemoryAddBulkParams {
+  /**
+   * List of memories to ingest. Maximum 100 items.
+   */
+  items: Array<MemoryAddBulkParams.Item>;
+}
+
+export namespace MemoryAddBulkParams {
+  export interface Item {
+    /**
+     * Full text of the document.
+     */
+    text: string;
+
+    /**
+     * @deprecated The collection to add the document to — deprecated, set the
+     * collection using metadata instead.
+     */
+    collection?: string | null;
+
+    /**
+     * Date of the document. Depending on the document, this could be the creation date
+     * or date the document was last updated (eg. for a chat transcript, this would be
+     * the date of the last message). This helps the ranking algorithm and allows you
+     * to filter by date range.
+     */
+    date?: string;
+
+    /**
+     * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
+     * 64 chars. Values must be string, number, boolean, or null.
+     */
+    metadata?: { [key: string]: string | number | boolean | null } | null;
+
+    /**
+     * The resource ID to add the document to. If not provided, a new resource ID will
+     * be generated. If provided, the document will be updated if it already exists.
+     */
+    resource_id?: string;
+
+    /**
+     * Title of the document.
+     */
+    title?: string | null;
+  }
+}
+
+export interface MemoryUploadParams {
+  /**
+   * The file to ingest.
+   */
+  file: Uploadable;
+
+  /**
+   * @deprecated The collection to add the document to — deprecated, set the
+   * collection using metadata instead.
+   */
+  collection?: string | null;
+
+  /**
+   * Custom metadata as JSON string for filtering. Keys must be alphanumeric with
+   * underscores, max 64 chars. Values must be string, number, or boolean.
+   */
+  metadata?: string | null;
+}
+
 export interface MemoryUpdateParams {
   /**
    * Path param
@@ -560,118 +664,6 @@ export interface MemoryListParams extends CursorPageParams {
    * Filter documents by status.
    */
   status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
-}
-
-export interface MemoryDeleteParams {
-  source:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions'
-    | 'granola'
-    | 'fathom'
-    | 'fireflies'
-    | 'linear'
-    | 'hubspot'
-    | 'salesforce'
-    | 'coda'
-    | 'lightfield'
-    | 'gong';
-}
-
-export interface MemoryAddParams {
-  /**
-   * Full text of the document.
-   */
-  text: string;
-
-  /**
-   * @deprecated The collection to add the document to — deprecated, set the
-   * collection using metadata instead.
-   */
-  collection?: string | null;
-
-  /**
-   * Date of the document. Depending on the document, this could be the creation date
-   * or date the document was last updated (eg. for a chat transcript, this would be
-   * the date of the last message). This helps the ranking algorithm and allows you
-   * to filter by date range.
-   */
-  date?: string;
-
-  /**
-   * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-   * 64 chars. Values must be string, number, boolean, or null.
-   */
-  metadata?: { [key: string]: string | number | boolean | null } | null;
-
-  /**
-   * The resource ID to add the document to. If not provided, a new resource ID will
-   * be generated. If provided, the document will be updated if it already exists.
-   */
-  resource_id?: string;
-
-  /**
-   * Title of the document.
-   */
-  title?: string | null;
-}
-
-export interface MemoryAddBulkParams {
-  /**
-   * List of memories to ingest. Maximum 100 items.
-   */
-  items: Array<MemoryAddBulkParams.Item>;
-}
-
-export namespace MemoryAddBulkParams {
-  export interface Item {
-    /**
-     * Full text of the document.
-     */
-    text: string;
-
-    /**
-     * @deprecated The collection to add the document to — deprecated, set the
-     * collection using metadata instead.
-     */
-    collection?: string | null;
-
-    /**
-     * Date of the document. Depending on the document, this could be the creation date
-     * or date the document was last updated (eg. for a chat transcript, this would be
-     * the date of the last message). This helps the ranking algorithm and allows you
-     * to filter by date range.
-     */
-    date?: string;
-
-    /**
-     * Custom metadata for filtering. Keys must be alphanumeric with underscores, max
-     * 64 chars. Values must be string, number, boolean, or null.
-     */
-    metadata?: { [key: string]: string | number | boolean | null } | null;
-
-    /**
-     * The resource ID to add the document to. If not provided, a new resource ID will
-     * be generated. If provided, the document will be updated if it already exists.
-     */
-    resource_id?: string;
-
-    /**
-     * Title of the document.
-     */
-    title?: string | null;
-  }
 }
 
 export interface MemoryGetParams {
@@ -1036,23 +1028,31 @@ export namespace MemorySearchParams {
   }
 }
 
-export interface MemoryUploadParams {
-  /**
-   * The file to ingest.
-   */
-  file: Uploadable;
-
-  /**
-   * @deprecated The collection to add the document to — deprecated, set the
-   * collection using metadata instead.
-   */
-  collection?: string | null;
-
-  /**
-   * Custom metadata as JSON string for filtering. Keys must be alphanumeric with
-   * underscores, max 64 chars. Values must be string, number, or boolean.
-   */
-  metadata?: string | null;
+export interface MemoryDeleteParams {
+  source:
+    | 'reddit'
+    | 'notion'
+    | 'slack'
+    | 'google_calendar'
+    | 'google_mail'
+    | 'box'
+    | 'dropbox'
+    | 'github'
+    | 'google_drive'
+    | 'vault'
+    | 'web_crawler'
+    | 'trace'
+    | 'microsoft_teams'
+    | 'gmail_actions'
+    | 'granola'
+    | 'fathom'
+    | 'fireflies'
+    | 'linear'
+    | 'hubspot'
+    | 'salesforce'
+    | 'coda'
+    | 'lightfield'
+    | 'gong';
 }
 
 export declare namespace Memories {
@@ -1064,13 +1064,13 @@ export declare namespace Memories {
     type MemoryGetResponse as MemoryGetResponse,
     type MemoryStatusResponse as MemoryStatusResponse,
     type MemoryListResponsesCursorPage as MemoryListResponsesCursorPage,
-    type MemoryUpdateParams as MemoryUpdateParams,
-    type MemoryListParams as MemoryListParams,
-    type MemoryDeleteParams as MemoryDeleteParams,
     type MemoryAddParams as MemoryAddParams,
     type MemoryAddBulkParams as MemoryAddBulkParams,
+    type MemoryUploadParams as MemoryUploadParams,
+    type MemoryUpdateParams as MemoryUpdateParams,
+    type MemoryListParams as MemoryListParams,
     type MemoryGetParams as MemoryGetParams,
     type MemorySearchParams as MemorySearchParams,
-    type MemoryUploadParams as MemoryUploadParams,
+    type MemoryDeleteParams as MemoryDeleteParams,
   };
 }

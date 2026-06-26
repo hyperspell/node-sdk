@@ -9,17 +9,6 @@ const client = new Hyperspell({
 });
 
 describe('resource evaluate', () => {
-  test('getQuery', async () => {
-    const responsePromise = client.evaluate.getQuery('query_id');
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
   test('listQueries', async () => {
     const responsePromise = client.evaluate.listQueries();
     const rawResponse = await responsePromise.asResponse();
@@ -45,8 +34,8 @@ describe('resource evaluate', () => {
     ).rejects.toThrow(Hyperspell.NotFoundError);
   });
 
-  test('scoreHighlight', async () => {
-    const responsePromise = client.evaluate.scoreHighlight('highlight_id', {});
+  test('getQuery', async () => {
+    const responsePromise = client.evaluate.getQuery('query_id');
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -58,6 +47,17 @@ describe('resource evaluate', () => {
 
   test('scoreQuery', async () => {
     const responsePromise = client.evaluate.scoreQuery('query_id', {});
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('scoreHighlight', async () => {
+    const responsePromise = client.evaluate.scoreHighlight('highlight_id', {});
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;

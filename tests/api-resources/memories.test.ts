@@ -9,71 +9,6 @@ const client = new Hyperspell({
 });
 
 describe('resource memories', () => {
-  test('update: only required params', async () => {
-    const responsePromise = client.memories.update('resource_id', { source: 'reddit' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('update: required and optional params', async () => {
-    const response = await client.memories.update('resource_id', {
-      source: 'reddit',
-      collection: 'string',
-      date: '2019-12-27T18:11:19.117Z',
-      metadata: { foo: 'string' },
-      text: 'string',
-      title: 'string',
-    });
-  });
-
-  test('list', async () => {
-    const responsePromise = client.memories.list();
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('list: request options and params are passed correctly', async () => {
-    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
-    await expect(
-      client.memories.list(
-        {
-          collection: 'collection',
-          cursor: 'cursor',
-          filter: 'filter',
-          size: 0,
-          source: 'reddit',
-          status: 'pending',
-        },
-        { path: '/_stainless_unknown_path' },
-      ),
-    ).rejects.toThrow(Hyperspell.NotFoundError);
-  });
-
-  test('delete: only required params', async () => {
-    const responsePromise = client.memories.delete('resource_id', { source: 'reddit' });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('delete: required and optional params', async () => {
-    const response = await client.memories.delete('resource_id', { source: 'reddit' });
-  });
-
   test('add: only required params', async () => {
     const responsePromise = client.memories.add({ text: '...' });
     const rawResponse = await responsePromise.asResponse();
@@ -130,6 +65,88 @@ describe('resource memories', () => {
     });
   });
 
+  test('upload: only required params', async () => {
+    const responsePromise = client.memories.upload({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+    });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('upload: required and optional params', async () => {
+    const response = await client.memories.upload({
+      file: await toFile(Buffer.from('Example data'), 'README.md'),
+      collection: 'collection',
+      metadata: 'metadata',
+    });
+  });
+
+  test('update: only required params', async () => {
+    const responsePromise = client.memories.update('resource_id', { source: 'reddit' });
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('update: required and optional params', async () => {
+    const response = await client.memories.update('resource_id', {
+      source: 'reddit',
+      collection: 'string',
+      date: '2019-12-27T18:11:19.117Z',
+      metadata: { foo: 'string' },
+      text: 'string',
+      title: 'string',
+    });
+  });
+
+  test('list', async () => {
+    const responsePromise = client.memories.list();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
+  test('list: request options and params are passed correctly', async () => {
+    // ensure the request options are being passed correctly by passing an invalid HTTP method in order to cause an error
+    await expect(
+      client.memories.list(
+        {
+          collection: 'collection',
+          cursor: 'cursor',
+          filter: 'filter',
+          size: 0,
+          source: 'reddit',
+          status: 'pending',
+        },
+        { path: '/_stainless_unknown_path' },
+      ),
+    ).rejects.toThrow(Hyperspell.NotFoundError);
+  });
+
+  test('status', async () => {
+    const responsePromise = client.memories.status();
+    const rawResponse = await responsePromise.asResponse();
+    expect(rawResponse).toBeInstanceOf(Response);
+    const response = await responsePromise;
+    expect(response).not.toBeInstanceOf(Response);
+    const dataAndResponse = await responsePromise.withResponse();
+    expect(dataAndResponse.data).toBe(response);
+    expect(dataAndResponse.response).toBe(rawResponse);
+  });
+
   test('get: only required params', async () => {
     const responsePromise = client.memories.get('resource_id', { source: 'reddit' });
     const rawResponse = await responsePromise.asResponse();
@@ -161,7 +178,7 @@ describe('resource memories', () => {
       query: 'What does Hyperspell do?',
       answer: true,
       effort: 'minimal',
-      max_results: 0,
+      max_results: 1,
       options: {
         after: '2019-12-27T18:11:19.117Z',
         answer_model: 'llama-3.1',
@@ -171,7 +188,7 @@ describe('resource memories', () => {
         google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
-        max_results: 200,
+        max_results: 1,
         memory_types: ['procedure'],
         notion: { notion_page_ids: ['string'], weight: 0 },
         recency_half_life_days: 1,
@@ -196,8 +213,8 @@ describe('resource memories', () => {
     });
   });
 
-  test('status', async () => {
-    const responsePromise = client.memories.status();
+  test('delete: only required params', async () => {
+    const responsePromise = client.memories.delete('resource_id', { source: 'reddit' });
     const rawResponse = await responsePromise.asResponse();
     expect(rawResponse).toBeInstanceOf(Response);
     const response = await responsePromise;
@@ -207,24 +224,7 @@ describe('resource memories', () => {
     expect(dataAndResponse.response).toBe(rawResponse);
   });
 
-  test('upload: only required params', async () => {
-    const responsePromise = client.memories.upload({
-      file: await toFile(Buffer.from('Example data'), 'README.md'),
-    });
-    const rawResponse = await responsePromise.asResponse();
-    expect(rawResponse).toBeInstanceOf(Response);
-    const response = await responsePromise;
-    expect(response).not.toBeInstanceOf(Response);
-    const dataAndResponse = await responsePromise.withResponse();
-    expect(dataAndResponse.data).toBe(response);
-    expect(dataAndResponse.response).toBe(rawResponse);
-  });
-
-  test('upload: required and optional params', async () => {
-    const response = await client.memories.upload({
-      file: await toFile(Buffer.from('Example data'), 'README.md'),
-      collection: 'collection',
-      metadata: 'metadata',
-    });
+  test('delete: required and optional params', async () => {
+    const response = await client.memories.delete('resource_id', { source: 'reddit' });
   });
 });
