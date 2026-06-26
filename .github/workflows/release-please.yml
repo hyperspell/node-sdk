@@ -1,0 +1,23 @@
+name: release-please
+
+# Opens/maintains the "release: x.y.z" PR (version bump + CHANGELOG) and, on its
+# merge, tags the release. Replaces the release-please that Stainless ran externally
+# via the stainless-app GitHub App (which is being retired). Config + manifest already
+# live in the repo (release-please-config.json / .release-please-manifest.json).
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    steps:
+      # PAT (not GITHUB_TOKEN) so the release tag/event can trigger downstream
+      # publish workflows; GITHUB_TOKEN-created tags don't.
+      - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
+        with:
+          token: ${{ secrets.PRODUCTION_REPO_TOKEN }}
