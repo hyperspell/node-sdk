@@ -75,7 +75,9 @@ export interface ActionSendMessageParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * Message text
@@ -135,7 +137,9 @@ export interface ActionAddReactionParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * Message timestamp to react to

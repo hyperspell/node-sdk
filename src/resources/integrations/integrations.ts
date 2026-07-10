@@ -1,10 +1,8 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
 import { APIResource } from '../../core/resource';
-import * as GoogleCalendarAPI from './google-calendar';
-import { Calendar, GoogleCalendar } from './google-calendar';
 import * as SlackAPI from './slack';
-import { Slack, SlackListParams, SlackListResponse } from './slack';
+import { Slack } from './slack';
 import * as WebCrawlerAPI from './web-crawler';
 import { WebCrawler, WebCrawlerIndexParams, WebCrawlerIndexResponse } from './web-crawler';
 import { APIPromise } from '../../core/api-promise';
@@ -12,17 +10,11 @@ import { RequestOptions } from '../../internal/request-options';
 import { path } from '../../internal/utils/path';
 
 export class Integrations extends APIResource {
-  googleCalendar: GoogleCalendarAPI.GoogleCalendar = new GoogleCalendarAPI.GoogleCalendar(this._client);
   webCrawler: WebCrawlerAPI.WebCrawler = new WebCrawlerAPI.WebCrawler(this._client);
   slack: SlackAPI.Slack = new SlackAPI.Slack(this._client);
 
   /**
    * List all integrations for the user.
-   *
-   * @example
-   * ```ts
-   * const integrations = await client.integrations.list();
-   * ```
    */
   list(options?: RequestOptions): APIPromise<IntegrationListResponse> {
     return this._client.get('/integrations/list', options);
@@ -30,13 +22,6 @@ export class Integrations extends APIResource {
 
   /**
    * Redirects to the connect URL to link an integration.
-   *
-   * @example
-   * ```ts
-   * const response = await client.integrations.connect(
-   *   'integration_id',
-   * );
-   * ```
    */
   connect(
     integrationID: string,
@@ -104,7 +89,9 @@ export namespace IntegrationListResponse {
       | 'salesforce'
       | 'coda'
       | 'lightfield'
-      | 'gong';
+      | 'gong'
+      | 'pylon'
+      | 'clickup';
 
     /**
      * Whether this integration only supports write actions (no sync)
@@ -112,9 +99,36 @@ export namespace IntegrationListResponse {
     actions_only?: boolean;
 
     /**
+     * Effective per-app requirement: True when an empty selection indexes NOTHING (the
+     * user must pick channels). Combines the integration's requires_channel_selection
+     * with the app's index_all_by_default config.
+     */
+    channel_selection_required?: boolean;
+
+    /**
+     * Effective per-app requirement: True when the integration's
+     * require_folder_selection index option is on, i.e. new connections sync NOTHING
+     * until the user picks folders.
+     */
+    folder_selection_required?: boolean;
+
+    /**
      * Whether the user must select channels before indexing starts
      */
     requires_channel_selection?: boolean;
+
+    /**
+     * Whether the integration offers an optional channel picker to narrow indexing.
+     * Empty selection indexes everything (opt-in narrowing).
+     */
+    supports_channel_selection?: boolean;
+
+    /**
+     * Whether the integration supports listing folders and per-folder sync policies
+     * (GET /connections/{id}/folders + folder-policies). Drives the folder picker in
+     * the connect flow.
+     */
+    supports_folder_selection?: boolean;
   }
 }
 
@@ -128,7 +142,6 @@ export interface IntegrationConnectParams {
   redirect_url?: string | null;
 }
 
-Integrations.GoogleCalendar = GoogleCalendar;
 Integrations.WebCrawler = WebCrawler;
 Integrations.Slack = Slack;
 
@@ -139,17 +152,11 @@ export declare namespace Integrations {
     type IntegrationConnectParams as IntegrationConnectParams,
   };
 
-  export { GoogleCalendar as GoogleCalendar, type Calendar as Calendar };
-
   export {
     WebCrawler as WebCrawler,
     type WebCrawlerIndexResponse as WebCrawlerIndexResponse,
     type WebCrawlerIndexParams as WebCrawlerIndexParams,
   };
 
-  export {
-    Slack as Slack,
-    type SlackListResponse as SlackListResponse,
-    type SlackListParams as SlackListParams,
-  };
+  export { Slack as Slack };
 }

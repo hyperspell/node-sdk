@@ -87,16 +87,6 @@ Methods:
 - <code title="get /integrations/list">client.integrations.<a href="./src/resources/integrations/integrations.ts">list</a>() -> IntegrationListResponse</code>
 - <code title="get /integrations/{integration_id}/connect">client.integrations.<a href="./src/resources/integrations/integrations.ts">connect</a>(integrationID, { ...params }) -> IntegrationConnectResponse</code>
 
-## GoogleCalendar
-
-Types:
-
-- <code><a href="./src/resources/integrations/google-calendar.ts">Calendar</a></code>
-
-Methods:
-
-- <code title="get /integrations/google_calendar/list">client.integrations.googleCalendar.<a href="./src/resources/integrations/google-calendar.ts">list</a>() -> Calendar</code>
-
 ## WebCrawler
 
 Types:
@@ -108,14 +98,6 @@ Methods:
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
 ## Slack
-
-Types:
-
-- <code><a href="./src/resources/integrations/slack.ts">SlackListResponse</a></code>
-
-Methods:
-
-- <code title="get /integrations/slack/list">client.integrations.slack.<a href="./src/resources/integrations/slack.ts">list</a>({ ...params }) -> unknown</code>
 
 # Memories
 

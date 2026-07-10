@@ -33,7 +33,12 @@ export class Auth extends APIResource {
   }
 
   /**
-   * Endpoint to delete user.
+   * Delete the calling user's data (GDPR erasure).
+   *
+   * The purge — external connection revokes plus the multi-table cascade delete —
+   * runs in a background Temporal workflow; this returns `202 Accepted` + the
+   * workflow id immediately, so a large account can't outrun the request timeout or
+   * stall the API event loop.
    *
    * @example
    * ```ts
@@ -55,6 +60,8 @@ export interface AuthDeleteUserResponse {
   message: string;
 
   success: boolean;
+
+  workflow_id: string;
 }
 
 export interface AuthMeResponse {
@@ -95,6 +102,8 @@ export interface AuthMeResponse {
     | 'coda'
     | 'lightfield'
     | 'gong'
+    | 'pylon'
+    | 'clickup'
   >;
 
   /**
@@ -124,6 +133,8 @@ export interface AuthMeResponse {
     | 'coda'
     | 'lightfield'
     | 'gong'
+    | 'pylon'
+    | 'clickup'
   >;
 
   /**
@@ -164,6 +175,7 @@ export interface AuthUserTokenParams {
 
   /**
    * Token lifetime, e.g., '30m', '2h', '1d'. Defaults to 24 hours if not provided.
+   * Maximum 30 days.
    */
   expires_in?: string | null;
 

@@ -59,22 +59,10 @@ export const sdkMethods: SdkMethod[] = [
     httpPath: '/integrations/{integration_id}/connect',
   },
   {
-    clientCallName: 'client.integrations.googleCalendar.list',
-    fullyQualifiedName: 'integrations.googleCalendar.list',
-    httpMethod: 'get',
-    httpPath: '/integrations/google_calendar/list',
-  },
-  {
     clientCallName: 'client.integrations.webCrawler.index',
     fullyQualifiedName: 'integrations.webCrawler.index',
     httpMethod: 'get',
     httpPath: '/integrations/web_crawler/index',
-  },
-  {
-    clientCallName: 'client.integrations.slack.list',
-    fullyQualifiedName: 'integrations.slack.list',
-    httpMethod: 'get',
-    httpPath: '/integrations/slack/list',
   },
   {
     clientCallName: 'client.memories.add',

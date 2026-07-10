@@ -1152,7 +1152,9 @@ export interface ProvenanceSource {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   score?: number | null;
 
@@ -1318,7 +1320,9 @@ export interface ScoredDocumentResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).

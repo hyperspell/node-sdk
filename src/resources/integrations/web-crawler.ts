@@ -7,13 +7,6 @@ import { RequestOptions } from '../../internal/request-options';
 export class WebCrawler extends APIResource {
   /**
    * Recursively crawl a website to make it available for indexed search.
-   *
-   * @example
-   * ```ts
-   * const response = await client.integrations.webCrawler.index(
-   *   { url: 'url' },
-   * );
-   * ```
    */
   index(query: WebCrawlerIndexParams, options?: RequestOptions): APIPromise<WebCrawlerIndexResponse> {
     return this._client.get('/integrations/web_crawler/index', { query, ...options });
@@ -46,7 +39,9 @@ export interface WebCrawlerIndexResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
