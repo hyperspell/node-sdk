@@ -90,7 +90,6 @@ This affects the following methods:
 
 - `client.folders.list()`
 - `client.integrations.connect()`
-- `client.integrations.slack.list()`
 - `client.memories.list()`
 - `client.evaluate.listQueries()`
 - `client.vaults.list()`

@@ -213,7 +213,9 @@ export interface MemoryStatus {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
 }
@@ -265,7 +267,9 @@ export interface MemoryListResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
@@ -338,7 +342,9 @@ export interface MemoryDeleteResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   success: boolean;
 }
@@ -407,7 +413,9 @@ export interface MemoryGetResponse {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
@@ -587,7 +595,9 @@ export interface MemoryUpdateParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -658,6 +668,8 @@ export interface MemoryListParams extends CursorPageParams {
     | 'coda'
     | 'lightfield'
     | 'gong'
+    | 'pylon'
+    | 'clickup'
     | null;
 
   /**
@@ -690,7 +702,9 @@ export interface MemoryGetParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 }
 
 export interface MemorySearchParams {
@@ -760,6 +774,8 @@ export interface MemorySearchParams {
     | 'coda'
     | 'lightfield'
     | 'gong'
+    | 'pylon'
+    | 'clickup'
   >;
 }
 
@@ -792,20 +808,10 @@ export namespace MemorySearchParams {
     before?: string | null;
 
     /**
-     * Search options for Box
-     */
-    box?: Options.Box;
-
-    /**
      * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
      * 'priority': {'$gt': 3}}
      */
     filter?: { [key: string]: unknown } | null;
-
-    /**
-     * Search options for Google Calendar
-     */
-    google_calendar?: Options.GoogleCalendar;
 
     /**
      * Search options for Google Drive
@@ -826,7 +832,7 @@ export namespace MemorySearchParams {
      * Filter by memory type. Defaults to generic memories only. Pass multiple types to
      * include procedures, etc.
      */
-    memory_types?: Array<'procedure' | 'memory'>;
+    memory_types?: Array<'procedure' | 'memory' | 'mood'>;
 
     /**
      * Search options for Notion
@@ -865,39 +871,6 @@ export namespace MemorySearchParams {
   }
 
   export namespace Options {
-    /**
-     * Search options for Box
-     */
-    export interface Box {
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
-     * Search options for Google Calendar
-     */
-    export interface GoogleCalendar {
-      /**
-       * The ID of the calendar to search. If not provided, it will use the ID of the
-       * default calendar. You can get the list of calendars with the
-       * `/integrations/google_calendar/list` endpoint.
-       */
-      calendar_id?: string | null;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
     /**
      * Search options for Google Drive
      */
@@ -1052,7 +1025,9 @@ export interface MemoryDeleteParams {
     | 'salesforce'
     | 'coda'
     | 'lightfield'
-    | 'gong';
+    | 'gong'
+    | 'pylon'
+    | 'clickup';
 }
 
 export declare namespace Memories {

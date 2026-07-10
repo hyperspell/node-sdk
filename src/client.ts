@@ -301,6 +301,9 @@ export class Hyperspell {
     return buildHeaders([{ 'X-As-User': this.userID }]);
   }
 
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
