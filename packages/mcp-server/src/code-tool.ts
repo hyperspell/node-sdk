@@ -159,14 +159,21 @@ const localDenoHandler = async ({
     }
   }
 
-  // Deno >= 2 gates unix sockets behind --allow-net=unix:<path>, while Deno 1.x panics on a
-  // `unix:` token in --allow-net — so the socket grant below must be gated on the major version.
-  let denoMajor = 2;
+  // Deno 2.9.0 moved unix sockets behind the net permission (--allow-net=unix:<path>), part of
+  // the 2.8.2–2.9.1 socket-hardening series (denoland/deno#34395, #35835). Older Denos must NOT
+  // receive the token: 2.0–2.8 reject it at startup ("invalid port") and 1.x panics — and their
+  // legacy read/write grant still works. So gate the grant on exactly >= 2.9.
+  let denoNeedsUnixNetGrant = true;
   try {
     const versionOutput = execSync(`"${denoPath}" --version`, { encoding: 'utf8' });
-    denoMajor = Number(/deno (\d+)\./.exec(versionOutput)?.[1] ?? denoMajor);
+    const versionMatch = /deno (\d+)\.(\d+)\./.exec(versionOutput);
+    if (versionMatch) {
+      const major = Number(versionMatch[1]);
+      const minor = Number(versionMatch[2]);
+      denoNeedsUnixNetGrant = major > 2 || (major === 2 && minor >= 9);
+    }
   } catch {
-    // Version detection failed; assume a current (2.x) Deno.
+    // Version detection failed; assume a current Deno.
   }
 
   const allowReadPaths = [
@@ -201,11 +208,14 @@ const localDenoHandler = async ({
     ],
     printOutput: true,
     // deno-http-worker grants its internal unix socket via --allow-read/--allow-write (the
-    // Deno 1.x permission model), but Deno >= 2 requires --allow-net=unix:<path> or the worker
-    // dies on startup ("Deno exited before being ready"). The socket path is generated inside
-    // newDenoHTTPWorker, so pluck it out of the --allow-write flag the library injects and graft
-    // it onto the --allow-net scope (Deno rejects repeated --allow-net flags, hence the comma).
-    ...(denoMajor >= 2 && {
+    // pre-2.9 permission model — unchanged upstream as of 2.0.3, so a version bump is not a fix),
+    // which on Deno >= 2.9 kills the worker at startup ("Deno exited before being ready").
+    // The socket path is generated inside newDenoHTTPWorker, so no flag can be scoped up front
+    // (Deno accepts only exact socket paths — no globs/prefixes — and rejects repeated
+    // --allow-net flags). Instead, intercept the spawn, pluck the socket path out of the
+    // --allow-write flag the library injects, and comma-merge unix:<sock> onto the existing
+    // --allow-net scope.
+    ...(denoNeedsUnixNetGrant && {
       spawnFunc: (
         command: string,
         spawnArgs: string[],
