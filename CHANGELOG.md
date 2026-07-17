@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.40.1](https://github.com/hyperspell/node-sdk/compare/v0.40.0...v0.40.1) (2026-07-17)
+
+
+### Bug Fixes
+
+* **mcp:** execute tool dies on Deno &gt;= 2 (unix socket needs net permission) ([#100](https://github.com/hyperspell/node-sdk/issues/100)) ([9604f1b](https://github.com/hyperspell/node-sdk/commit/9604f1b621b96f9e4024ce9e0bb3c458bda055f1))
+* **mcp:** execute tool dies on Deno &gt;= 2.9 (unix sockets moved behind net permission) ([#101](https://github.com/hyperspell/node-sdk/issues/101)) ([6b11b2f](https://github.com/hyperspell/node-sdk/commit/6b11b2fe18e4450e33739b8c9911378220b7d128))
+
 ## [0.40.0](https://github.com/hyperspell/node-sdk/compare/v0.39.0...v0.40.0) (2026-06-26)
 
 
