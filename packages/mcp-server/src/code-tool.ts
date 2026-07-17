@@ -141,7 +141,7 @@ const localDenoHandler = async ({
   const packageNodeModulesPath = path.resolve(packageRoot, 'node_modules');
 
   // Check if deno is in PATH
-  const { execSync } = await import('node:child_process');
+  const { execSync, spawn } = await import('node:child_process');
   try {
     execSync('command -v deno', { stdio: 'ignore' });
     denoPath = 'deno';
@@ -157,6 +157,16 @@ const localDenoHandler = async ({
           'Install it from https://deno.land or run: npm install deno',
       );
     }
+  }
+
+  // Deno >= 2 gates unix sockets behind --allow-net=unix:<path>, while Deno 1.x panics on a
+  // `unix:` token in --allow-net — so the socket grant below must be gated on the major version.
+  let denoMajor = 2;
+  try {
+    const versionOutput = execSync(`"${denoPath}" --version`, { encoding: 'utf8' });
+    denoMajor = Number(/deno (\d+)\./.exec(versionOutput)?.[1] ?? denoMajor);
+  } catch {
+    // Version detection failed; assume a current (2.x) Deno.
   }
 
   const allowReadPaths = [
@@ -190,6 +200,29 @@ const localDenoHandler = async ({
       '--allow-env',
     ],
     printOutput: true,
+    // deno-http-worker grants its internal unix socket via --allow-read/--allow-write (the
+    // Deno 1.x permission model), but Deno >= 2 requires --allow-net=unix:<path> or the worker
+    // dies on startup ("Deno exited before being ready"). The socket path is generated inside
+    // newDenoHTTPWorker, so pluck it out of the --allow-write flag the library injects and graft
+    // it onto the --allow-net scope (Deno rejects repeated --allow-net flags, hence the comma).
+    ...(denoMajor >= 2 && {
+      spawnFunc: (
+        command: string,
+        spawnArgs: string[],
+        options: import('node:child_process').SpawnOptions,
+      ) => {
+        const socketPath = spawnArgs
+          .find((flag) => flag.startsWith('--allow-write='))
+          ?.slice('--allow-write='.length)
+          .split(',')
+          .find((segment) => segment.endsWith('-deno-http.sock'));
+        const patchedArgs =
+          socketPath ?
+            spawnArgs.map((flag) => (flag.startsWith('--allow-net=') ? `${flag},unix:${socketPath}` : flag))
+          : spawnArgs;
+        return spawn(command, patchedArgs, options);
+      },
+    }),
     spawnOptions: {
       cwd: path.dirname(workerPath),
       // Merge any upstream client envs into the Deno subprocess environment,
