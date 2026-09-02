@@ -1,5 +1,7 @@
 // File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
+import * as Shared from './shared';
+
 /**
  * Represents embedded binary data using data URI scheme.
  *
@@ -14,15 +16,10 @@ export interface Blob {
   id?: string;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -47,6 +44,7 @@ export interface Callout {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -61,15 +59,10 @@ export interface Callout {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -98,6 +91,7 @@ export interface Chunk {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -112,15 +106,10 @@ export interface Chunk {
   >;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -137,15 +126,10 @@ export interface Code {
   language?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -160,15 +144,10 @@ export interface Comment {
   created_at?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -176,7 +155,7 @@ export interface Comment {
 }
 
 /**
- * A CRM company/account record (ENG-2476/D10).
+ * A CRM company or account record.
  */
 export interface Company {
   id?: string;
@@ -198,6 +177,7 @@ export interface Company {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -228,15 +208,10 @@ export interface Company {
   is_active?: boolean | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -263,17 +238,14 @@ export interface Conversation {
   children?: Array<Message>;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
+
+  participants?: Array<Person> | null;
 
   text?: string | null;
 
@@ -283,7 +255,7 @@ export interface Conversation {
 }
 
 /**
- * A CRM deal/opportunity record (ENG-2476/D10).
+ * A CRM deal or opportunity record.
  */
 export interface Deal {
   id?: string;
@@ -305,6 +277,7 @@ export interface Deal {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -331,15 +304,10 @@ export interface Deal {
   lost_reason?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -364,15 +332,10 @@ export interface Divider {
   id?: string;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -397,6 +360,7 @@ export interface Document {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -411,15 +375,10 @@ export interface Document {
   >;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -448,6 +407,7 @@ export interface Equation {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -462,15 +422,10 @@ export interface Equation {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -499,6 +454,7 @@ export interface Event {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -519,15 +475,10 @@ export interface Event {
   meeting_url?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -562,6 +513,7 @@ export interface File {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -576,15 +528,15 @@ export interface File {
   >;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Whether the stored readable body is a capped preview of the full file.
+   */
+  content_truncated?: boolean | null;
+
+  /**
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -615,6 +567,7 @@ export interface Footnote {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -629,15 +582,10 @@ export interface Footnote {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -666,6 +614,7 @@ export interface Heading {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -680,15 +629,10 @@ export interface Heading {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -705,15 +649,10 @@ export interface Image {
   id?: string;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -724,15 +663,10 @@ export interface LineBreak {
   id?: string;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -747,15 +681,10 @@ export interface Link {
   id?: string;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -768,15 +697,10 @@ export interface List {
   children?: Array<ListItem | ToDo>;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -805,6 +729,7 @@ export interface ListItem {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -819,15 +744,10 @@ export interface ListItem {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -864,6 +784,7 @@ export interface Message {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -887,15 +808,10 @@ export interface Message {
   mentioned_users?: Array<Person> | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -926,15 +842,10 @@ export interface Message {
 }
 
 /**
- * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+ * Optional annotations carried by a hyperdoc node.
  *
- * Out-of-band annotations that travel with a block but aren't part of its content:
- * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
- * types get added here as typed fields as the need arises.
- *
- * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
- * `metadata` (None) is dropped from serialization entirely, and within a populated
- * `Metadata` only the set keys survive.
+ * Includes source provenance and human edit attribution. Unset metadata is omitted
+ * from serialized responses.
  */
 export interface Metadata {
   edited_by?: string | null;
@@ -944,14 +855,10 @@ export interface Metadata {
 
 export namespace Metadata {
   /**
-   * A reference to a memory/chunk that a block's content is grounded in (ENG-1390).
+   * A reference to source content that supports a block.
    *
-   * Chunks are the unit persisted to the DB — extracted memories become chunks when
-   * indexed — so `chunk_id` is the stable pointer back to the source. `resource_id`
-   * and `source` locate the originating document; `score` carries optional retrieval
-   * relevance. Kept deliberately self-contained (plain `str` for `source` rather
-   * than the `DocumentProviders` enum) so the hyperdoc format stays free of
-   * app-layer imports.
+   * `chunk_id` identifies the supporting content. `resource_id` and `source`
+   * identify its document, and `score` optionally records relevance.
    */
   export interface Source {
     chunk_id: string;
@@ -962,6 +869,55 @@ export namespace Metadata {
 
     source?: string | null;
   }
+}
+
+export interface Page {
+  id?: string;
+
+  children?: Array<
+    | Blob
+    | Callout
+    | Chunk
+    | Code
+    | Comment
+    | Divider
+    | Equation
+    | Footnote
+    | Heading
+    | Image
+    | Link
+    | LineBreak
+    | List
+    | ListItem
+    | Page
+    | Paragraph
+    | Quote
+    | Table
+    | TableCell
+    | TableRow
+    | Text
+    | ToDo
+    | ToolCall
+    | ToolResult
+    | TraceMessage
+    | Utterance
+  > | null;
+
+  /**
+   * Optional annotations carried by a hyperdoc node.
+   *
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
+   */
+  metadata?: Metadata | null;
+
+  page_number?: number | null;
+
+  preview_url?: string | null;
+
+  text?: string | null;
+
+  type?: 'page';
 }
 
 export interface Paragraph {
@@ -982,6 +938,7 @@ export interface Paragraph {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -996,15 +953,10 @@ export interface Paragraph {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1019,6 +971,8 @@ export interface Person {
   address?: string | null;
 
   alt_names?: Array<string> | null;
+
+  buying_roles?: Array<string> | null;
 
   children?: Array<
     | Blob
@@ -1035,6 +989,7 @@ export interface Person {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1063,26 +1018,49 @@ export interface Person {
    */
   emails?: Array<string> | null;
 
+  employment_role?: string | null;
+
+  employment_seniority?: string | null;
+
+  employment_sub_role?: string | null;
+
   image_url?: string | null;
+
+  industry?: string | null;
+
+  is_app_user?: boolean | null;
+
+  is_bot?: boolean | null;
 
   job_title?: string | null;
 
+  last_sales_activity_at?: string | null;
+
+  last_sales_activity_type?: string | null;
+
+  lead_status?: string | null;
+
+  lifecycle_stage?: string | null;
+
   link_urls?: Array<string> | null;
 
+  linkedin_url?: string | null;
+
+  marketing_contact_status?: string | null;
+
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
   name?: string | null;
+
+  original_source?: string | null;
+
+  persona?: string | null;
 
   phone_numbers?: Array<string> | null;
 
@@ -1090,17 +1068,17 @@ export interface Person {
 
   text?: string | null;
 
+  timezone?: string | null;
+
   type?: 'person';
 
   username?: string | null;
+
+  website?: string | null;
 }
 
 /**
- * Auditability record attached to an agentic answer.
- *
- * Gated behind `provenance=true` on the request: the cheap parts (sources, steps,
- * failed_sources) are derived from in-memory loop state, but `entities` costs one
- * indexed DB lookup, so the whole record is only built on request.
+ * Auditability record returned when requested for a supported query.
  */
 export interface Provenance {
   entities?: Array<ProvenanceEntity>;
@@ -1124,7 +1102,9 @@ export interface ProvenanceEntity {
 }
 
 /**
- * A source document that informed the final answer (the post-rank result set).
+ * A source document that informed the final answer.
+ *
+ * Includes available retrieval details such as title and relevance score.
  */
 export interface ProvenanceSource {
   resource_id: string;
@@ -1135,26 +1115,46 @@ export interface ProvenanceSource {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
+
+  chunk_id?: string | null;
+
+  content_sha256?: string | null;
+
+  owner?: string | null;
 
   score?: number | null;
+
+  span?: Array<unknown> | null;
 
   title?: string | null;
 }
@@ -1183,8 +1183,14 @@ export interface QueryResult {
   answer?: string | null;
 
   /**
-   * The matching documents, each carrying its hyperdoc tree plus query-path
-   * score/highlights/summary (ENG-2479 Phase 4).
+   * Privacy notice set when cross-user alpha mode ran. Callers must display it
+   * alongside the synthesized answer.
+   */
+  disclaimer?: string | null;
+
+  /**
+   * The matching documents, each carrying its hyperdoc tree plus query-path score,
+   * highlights, and summary.
    */
   documents?: Array<ScoredDocumentResponse>;
 
@@ -1195,11 +1201,7 @@ export interface QueryResult {
   errors?: Array<{ [key: string]: string }> | null;
 
   /**
-   * Auditability record attached to an agentic answer.
-   *
-   * Gated behind `provenance=true` on the request: the cheap parts (sources, steps,
-   * failed_sources) are derived from in-memory loop state, but `entities` costs one
-   * indexed DB lookup, so the whole record is only built on request.
+   * Auditability record returned when requested for a supported query.
    */
   provenance?: Provenance | null;
 
@@ -1238,6 +1240,7 @@ export interface Quote {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1252,15 +1255,10 @@ export interface Quote {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1270,14 +1268,13 @@ export interface Quote {
 }
 
 /**
- * A `DocumentResponse` plus the query-path fields a `ScoredDocument` carries
- * (ENG-2479): relevance score, matched highlights, and the concatenated summary of
- * those highlights.
+ * A document response with its relevance score, matched highlights, and a summary
+ * of those highlights.
  */
 export interface ScoredDocumentResponse {
   /**
    * The full hyperdoc tree. Switch on `type` for the document frame and recurse
-   * `children` for the body — see the `<Hyperdoc />` renderer.
+   * through `children` for the body.
    */
   document:
     | Document
@@ -1291,7 +1288,8 @@ export interface ScoredDocumentResponse {
     | Trace
     | Transcript
     | Company
-    | Deal;
+    | Deal
+    | ScoredDocumentResponse.Invoice;
 
   resource_id: string;
 
@@ -1301,29 +1299,47 @@ export interface ScoredDocumentResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
    */
   type: string;
+
+  /**
+   * Extracted memories (chunks with summaries) for this document, in document order.
+   * Present only when explicitly requested via `include_chunks`; omitted otherwise.
+   */
+  chunks?: Array<ScoredDocumentResponse.Chunk> | null;
 
   /**
    * The document's collection, if any.
@@ -1346,7 +1362,7 @@ export interface ScoredDocumentResponse {
   ingested_at?: string | null;
 
   /**
-   * When the source document was last modified.
+   * When the source document was last modified, if supplied by the source.
    */
   last_modified_at?: string | null;
 
@@ -1363,7 +1379,16 @@ export interface ScoredDocumentResponse {
   /**
    * Indexing status of the document.
    */
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+  status?:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled'
+    | null;
 
   /**
    * Concatenated text of the matched highlights.
@@ -1374,6 +1399,117 @@ export interface ScoredDocumentResponse {
    * Human-readable document title.
    */
   title?: string | null;
+}
+
+export namespace ScoredDocumentResponse {
+  /**
+   * A customer invoice, vendor bill, or credit memo.
+   *
+   * Line items are included in `children`.
+   */
+  export interface Invoice {
+    id?: string;
+
+    attachment_names?: Array<string> | null;
+
+    balance_amount?: number | null;
+
+    cancelled_at?: string | null;
+
+    children?: Array<
+      | Shared.Blob
+      | Shared.Callout
+      | Shared.Chunk
+      | Shared.Code
+      | Shared.Comment
+      | Shared.Divider
+      | Shared.Equation
+      | Shared.Footnote
+      | Shared.Heading
+      | Shared.Image
+      | Shared.Link
+      | Shared.LineBreak
+      | Shared.List
+      | Shared.ListItem
+      | Shared.Page
+      | Shared.Paragraph
+      | Shared.Quote
+      | Shared.Table
+      | Shared.TableCell
+      | Shared.TableRow
+      | Shared.Text
+      | Shared.ToDo
+      | Shared.ToolCall
+      | Shared.ToolResult
+      | Shared.TraceMessage
+      | Shared.Utterance
+    >;
+
+    contact_id?: string | null;
+
+    contact_name?: string | null;
+
+    currency?: string | null;
+
+    due_at?: string | null;
+
+    invoice_type?: string | null;
+
+    /**
+     * Optional annotations carried by a hyperdoc node.
+     *
+     * Includes source provenance and human edit attribution. Unset metadata is omitted
+     * from serialized responses.
+     */
+    metadata?: Shared.Metadata | null;
+
+    notes?: string | null;
+
+    number?: string | null;
+
+    organization_id?: string | null;
+
+    paid_amount?: number | null;
+
+    paid_at?: string | null;
+
+    posted_at?: string | null;
+
+    reference?: string | null;
+
+    refund_amount?: number | null;
+
+    refund_reason?: string | null;
+
+    refunded_at?: string | null;
+
+    status?: string | null;
+
+    tax_amount?: number | null;
+
+    text?: string | null;
+
+    total_amount?: number | null;
+
+    type?: 'invoice';
+  }
+
+  /**
+   * A searchable chunk extracted from a document during ingestion.
+   *
+   * `summary` is null when no summary was generated for the chunk.
+   */
+  export interface Chunk {
+    /**
+     * Stable identifier of the chunk.
+     */
+    chunk_id: string;
+
+    /**
+     * LLM-generated summary of the chunk, if one was produced.
+     */
+    summary?: string | null;
+  }
 }
 
 export interface Table {
@@ -1387,15 +1523,10 @@ export interface Table {
   has_header?: boolean;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1424,6 +1555,7 @@ export interface TableCell {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1438,15 +1570,10 @@ export interface TableCell {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1461,15 +1588,10 @@ export interface TableRow {
   children?: Array<TableCell>;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1496,6 +1618,7 @@ export interface Task {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1514,15 +1637,10 @@ export interface Task {
   due_at?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1543,15 +1661,10 @@ export interface Text {
   marks?: Array<'bold' | 'italic' | 'underline' | 'strikethrough' | 'code' | 'math'> | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1578,6 +1691,7 @@ export interface ToDo {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1592,15 +1706,10 @@ export interface ToDo {
   > | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1622,15 +1731,10 @@ export interface ToolCall {
   args?: { [key: string]: unknown };
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1652,15 +1756,10 @@ export interface ToolResult {
   is_error?: boolean;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1679,15 +1778,10 @@ export interface Trace {
   children?: Array<TraceMessage | ToolCall | ToolResult>;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1709,15 +1803,10 @@ export interface TraceMessage {
   message_type?: 'message' | 'thinking';
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1729,8 +1818,7 @@ export interface TraceMessage {
 }
 
 /**
- * A time-anchored, speaker-attributed transcript — meetings, calls (ENG-2476/D10;
- * mirrors the Trace+TraceStep precedent).
+ * A time-anchored, speaker-attributed transcript for a meeting or call.
  *
  * Utterance timestamps are relative offsets from `started_at`, which is the
  * absolute wall-clock anchor.
@@ -1743,15 +1831,10 @@ export interface Transcript {
   ended_at?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1767,11 +1850,9 @@ export interface Transcript {
 }
 
 /**
- * A speaker-attributed segment of a transcript (ENG-2476/D10).
+ * A speaker-attributed segment of a transcript.
  *
- * "Utterance" is the standard name for this across transcription providers
- * (AssemblyAI, Deepgram, Rev). Timestamps are relative offsets in seconds —
- * provider-native; absolute times derive from `Transcript.started_at`.
+ * Start and end times are offsets in seconds from the beginning of the transcript.
  */
 export interface Utterance {
   text: string;
@@ -1781,15 +1862,10 @@ export interface Utterance {
   end?: number | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 
@@ -1820,6 +1896,7 @@ export interface Website {
     | LineBreak
     | List
     | ListItem
+    | Page
     | Paragraph
     | Quote
     | Table
@@ -1842,15 +1919,10 @@ export interface Website {
   language?: string | null;
 
   /**
-   * Per-block annotations carried by any Hyperdoc node (ENG-1390).
+   * Optional annotations carried by a hyperdoc node.
    *
-   * Out-of-band annotations that travel with a block but aren't part of its content:
-   * provenance (`sources`) and human edit attribution (`edited_by`). New annotation
-   * types get added here as typed fields as the need arises.
-   *
-   * Empty by default. Because `Node.model_dump` forces `exclude_none=True`, an unset
-   * `metadata` (None) is dropped from serialization entirely, and within a populated
-   * `Metadata` only the set keys survive.
+   * Includes source provenance and human edit attribution. Unset metadata is omitted
+   * from serialized responses.
    */
   metadata?: Metadata | null;
 

@@ -90,7 +90,10 @@ This affects the following methods:
 
 - `client.folders.list()`
 - `client.integrations.connect()`
-- `client.integrations.slack.list()`
+- `client.contextDocuments.list()`
+- `client.contextDocuments.trees.generate()`
+- `client.contextDocuments.trees.getLatest()`
+- `client.contextDocuments.digests.list()`
 - `client.memories.list()`
 - `client.evaluate.listQueries()`
 - `client.vaults.list()`
@@ -111,6 +114,7 @@ import { HttpsProxyAgent } from 'https-proxy-agent';
 
 // Configure the default for all requests:
 const client = new Hyperspell({
+  userID: 'My User ID',
   httpAgent: new HttpsProxyAgent(process.env.PROXY_URL),
 });
 ```
@@ -123,6 +127,7 @@ import * as undici from 'undici';
 
 const proxyAgent = new undici.ProxyAgent(process.env.PROXY_URL);
 const client = new Hyperspell({
+  userID: 'My User ID',
   fetchOptions: {
     dispatcher: proxyAgent,
   },
@@ -237,8 +242,8 @@ The `for await` syntax **is not affected**. This still works as-is:
 
 ```ts
 // Automatically fetches more pages as needed.
-for await (const memoryListResponse of client.memories.list()) {
-  console.log(memoryListResponse);
+for await (const contextDocumentListResponse of client.contextDocuments.list()) {
+  console.log(contextDocumentListResponse);
 }
 ```
 
@@ -260,10 +265,11 @@ Page classes for individual methods are now type aliases:
 
 ```ts
 // Before
-export class MemoryListResponsesCursorPage extends CursorPage<MemoryListResponse> {}
+export class ContextDocumentListResponsesContextDocumentsCursorPage extends ContextDocumentsCursorPage<ContextDocumentListResponse> {}
 
 // After
-export type MemoryListResponsesCursorPage = CursorPage<MemoryListResponse>;
+export type ContextDocumentListResponsesContextDocumentsCursorPage =
+  ContextDocumentsCursorPage<ContextDocumentListResponse>;
 ```
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.

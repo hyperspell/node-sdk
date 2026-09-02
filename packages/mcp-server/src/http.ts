@@ -127,9 +127,17 @@ const del = async (req: express.Request, res: express.Response) => {
 
 const redactHeaders = (headers: Record<string, any>) => {
   const hiddenHeaders = /auth|cookie|key|token|x-stainless-mcp-client-envs/i;
+  const sensitiveHeaders = new Set([
+    'authorization',
+    'api-key',
+    'x-api-key',
+    'cookie',
+    'set-cookie',
+    'x-as-user',
+  ]);
   const filtered = { ...headers };
   Object.keys(filtered).forEach((key) => {
-    if (hiddenHeaders.test(key)) {
+    if (hiddenHeaders.test(key) || sensitiveHeaders.has(key.toLowerCase())) {
       filtered[key] = '[REDACTED]';
     }
   });

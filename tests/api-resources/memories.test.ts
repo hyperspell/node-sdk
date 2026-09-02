@@ -127,6 +127,7 @@ describe('resource memories', () => {
           collection: 'collection',
           cursor: 'cursor',
           filter: 'filter',
+          include_chunks: 0,
           size: 0,
           source: 'reddit',
           status: 'pending',
@@ -159,7 +160,7 @@ describe('resource memories', () => {
   });
 
   test('get: required and optional params', async () => {
-    const response = await client.memories.get('resource_id', { source: 'reddit' });
+    const response = await client.memories.get('resource_id', { source: 'reddit', include_chunks: true });
   });
 
   test('search: only required params', async () => {
@@ -183,9 +184,7 @@ describe('resource memories', () => {
         after: '2019-12-27T18:11:19.117Z',
         answer_model: 'llama-3.1',
         before: '2019-12-27T18:11:19.117Z',
-        box: { weight: 0 },
         filter: {},
-        google_calendar: { calendar_id: 'calendar_id', weight: 0 },
         google_drive: { weight: 0 },
         google_mail: { label_ids: ['string'], weight: 0 },
         max_results: 1,
@@ -201,6 +200,7 @@ describe('resource memories', () => {
           include_private: true,
           weight: 0,
         },
+        timezone: 'timezone',
         vault: { weight: 0 },
         web_crawler: {
           max_depth: 0,

@@ -50,32 +50,9 @@ export interface ActionSendMessageResponse {
 
 export interface ActionSendMessageParams {
   /**
-   * Integration provider (e.g., slack)
+   * Integration provider.
    */
-  provider:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions'
-    | 'granola'
-    | 'fathom'
-    | 'fireflies'
-    | 'linear'
-    | 'hubspot'
-    | 'salesforce'
-    | 'coda'
-    | 'lightfield'
-    | 'gong';
+  provider: 'slack';
 
   /**
    * Message text
@@ -110,32 +87,9 @@ export interface ActionAddReactionParams {
   name: string;
 
   /**
-   * Integration provider (e.g., slack)
+   * Integration provider.
    */
-  provider:
-    | 'reddit'
-    | 'notion'
-    | 'slack'
-    | 'google_calendar'
-    | 'google_mail'
-    | 'box'
-    | 'dropbox'
-    | 'github'
-    | 'google_drive'
-    | 'vault'
-    | 'web_crawler'
-    | 'trace'
-    | 'microsoft_teams'
-    | 'gmail_actions'
-    | 'granola'
-    | 'fathom'
-    | 'fireflies'
-    | 'linear'
-    | 'hubspot'
-    | 'salesforce'
-    | 'coda'
-    | 'lightfield'
-    | 'gong';
+  provider: 'slack';
 
   /**
    * Message timestamp to react to
