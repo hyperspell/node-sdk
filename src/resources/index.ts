@@ -17,6 +17,15 @@ export {
 } from './auth';
 export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
+  ContextDocuments,
+  type ContextDocumentListResponse,
+  type ContextDocumentGenerateResponse,
+  type ContextDocumentGetResponse,
+  type ContextDocumentGenerateParams,
+  type ContextDocumentListParams,
+  type ContextDocumentListResponsesContextDocumentsCursorPage,
+} from './context-documents/context-documents';
+export {
   Evaluate,
   type EvaluateListQueriesResponse,
   type EvaluateScoreHighlightResponse,

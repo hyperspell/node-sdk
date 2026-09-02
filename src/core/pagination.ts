@@ -155,3 +155,55 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
     };
   }
 }
+
+export interface ContextDocumentsCursorPageResponse<Item> {
+  documents: Array<Item>;
+
+  next_cursor: string;
+}
+
+export interface ContextDocumentsCursorPageParams {
+  cursor?: string;
+
+  limit?: number;
+}
+
+export class ContextDocumentsCursorPage<Item>
+  extends AbstractPage<Item>
+  implements ContextDocumentsCursorPageResponse<Item>
+{
+  documents: Array<Item>;
+
+  next_cursor: string;
+
+  constructor(
+    client: Hyperspell,
+    response: Response,
+    body: ContextDocumentsCursorPageResponse<Item>,
+    options: FinalRequestOptions,
+  ) {
+    super(client, response, body, options);
+
+    this.documents = body.documents || [];
+    this.next_cursor = body.next_cursor || '';
+  }
+
+  getPaginatedItems(): Item[] {
+    return this.documents ?? [];
+  }
+
+  nextPageRequestOptions(): PageRequestOptions | null {
+    const cursor = this.next_cursor;
+    if (!cursor) {
+      return null;
+    }
+
+    return {
+      ...this.options,
+      query: {
+        ...maybeObj(this.options.query),
+        cursor,
+      },
+    };
+  }
+}

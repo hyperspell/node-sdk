@@ -15,7 +15,13 @@ import { stringifyQuery } from './internal/utils/query';
 import { VERSION } from './version';
 import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
-import { AbstractPage, type CursorPageParams, CursorPageResponse } from './core/pagination';
+import {
+  AbstractPage,
+  type ContextDocumentsCursorPageParams,
+  ContextDocumentsCursorPageResponse,
+  type CursorPageParams,
+  CursorPageResponse,
+} from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
 import { APIPromise } from './core/api-promise';
@@ -68,6 +74,15 @@ import {
 } from './resources/memories';
 import { SessionAddParams, Sessions } from './resources/sessions';
 import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
+import {
+  ContextDocumentGenerateParams,
+  ContextDocumentGenerateResponse,
+  ContextDocumentGetResponse,
+  ContextDocumentListParams,
+  ContextDocumentListResponse,
+  ContextDocumentListResponsesContextDocumentsCursorPage,
+  ContextDocuments,
+} from './resources/context-documents/context-documents';
 import {
   IntegrationConnectParams,
   IntegrationConnectResponse,
@@ -287,20 +302,12 @@ export class Hyperspell {
   }
 
   protected async authHeaders(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    return buildHeaders([await this.apiKeyAuth(opts), await this.asUserAuth(opts)]);
-  }
-
-  protected async apiKeyAuth(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
     return buildHeaders([{ Authorization: `Bearer ${this.apiKey}` }]);
   }
 
-  protected async asUserAuth(opts: FinalRequestOptions): Promise<NullableHeaders | undefined> {
-    if (this.userID == null) {
-      return undefined;
-    }
-    return buildHeaders([{ 'X-As-User': this.userID }]);
-  }
-
+  /**
+   * Basic re-implementation of `qs.stringify` for primitive types.
+   */
   protected stringifyQuery(query: object | Record<string, unknown>): string {
     return stringifyQuery(query);
   }
@@ -747,6 +754,7 @@ export class Hyperspell {
         'X-Stainless-Retry-Count': String(retryCount),
         ...(options.timeout ? { 'X-Stainless-Timeout': String(Math.trunc(options.timeout / 1000)) } : {}),
         ...getPlatformHeaders(),
+        'X-As-User': this.userID,
       },
       await this.authHeaders(options),
       this._options.defaultHeaders,
@@ -832,6 +840,7 @@ export class Hyperspell {
   connections: API.Connections = new API.Connections(this);
   folders: API.Folders = new API.Folders(this);
   integrations: API.Integrations = new API.Integrations(this);
+  contextDocuments: API.ContextDocuments = new API.ContextDocuments(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
   actions: API.Actions = new API.Actions(this);
@@ -843,6 +852,7 @@ export class Hyperspell {
 Hyperspell.Connections = Connections;
 Hyperspell.Folders = Folders;
 Hyperspell.Integrations = Integrations;
+Hyperspell.ContextDocuments = ContextDocuments;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
 Hyperspell.Actions = Actions;
@@ -855,6 +865,12 @@ export declare namespace Hyperspell {
 
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
+
+  export import ContextDocumentsCursorPage = Pagination.ContextDocumentsCursorPage;
+  export {
+    type ContextDocumentsCursorPageParams as ContextDocumentsCursorPageParams,
+    type ContextDocumentsCursorPageResponse as ContextDocumentsCursorPageResponse,
+  };
 
   export {
     Connections as Connections,
@@ -878,6 +894,16 @@ export declare namespace Hyperspell {
     type IntegrationListResponse as IntegrationListResponse,
     type IntegrationConnectResponse as IntegrationConnectResponse,
     type IntegrationConnectParams as IntegrationConnectParams,
+  };
+
+  export {
+    ContextDocuments as ContextDocuments,
+    type ContextDocumentListResponse as ContextDocumentListResponse,
+    type ContextDocumentGenerateResponse as ContextDocumentGenerateResponse,
+    type ContextDocumentGetResponse as ContextDocumentGetResponse,
+    type ContextDocumentListResponsesContextDocumentsCursorPage as ContextDocumentListResponsesContextDocumentsCursorPage,
+    type ContextDocumentGenerateParams as ContextDocumentGenerateParams,
+    type ContextDocumentListParams as ContextDocumentListParams,
   };
 
   export {
@@ -957,6 +983,7 @@ export declare namespace Hyperspell {
   export type ListItem = API.ListItem;
   export type Message = API.Message;
   export type Metadata = API.Metadata;
+  export type Page = API.Page;
   export type Paragraph = API.Paragraph;
   export type Person = API.Person;
   export type Provenance = API.Provenance;

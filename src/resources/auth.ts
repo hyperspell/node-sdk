@@ -33,7 +33,10 @@ export class Auth extends APIResource {
   }
 
   /**
-   * Endpoint to delete user.
+   * Delete the calling user's data (GDPR erasure).
+   *
+   * Deletion is processed asynchronously. The endpoint returns `202 Accepted` with
+   * an identifier for the deletion request.
    *
    * @example
    * ```ts
@@ -55,6 +58,8 @@ export interface AuthDeleteUserResponse {
   message: string;
 
   success: boolean;
+
+  workflow_id: string;
 }
 
 export interface AuthMeResponse {
@@ -77,24 +82,36 @@ export interface AuthMeResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
     | 'gong'
+    | 'clickup'
+    | 'lightfield'
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp'
   >;
 
   /**
@@ -106,24 +123,36 @@ export interface AuthMeResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
     | 'gong'
+    | 'clickup'
+    | 'lightfield'
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp'
   >;
 
   /**
@@ -164,6 +193,7 @@ export interface AuthUserTokenParams {
 
   /**
    * Token lifetime, e.g., '30m', '2h', '1d'. Defaults to 24 hours if not provided.
+   * Maximum 30 days.
    */
   expires_in?: string | null;
 

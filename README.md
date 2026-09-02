@@ -32,6 +32,7 @@ The full API of this library can be found in [api.md](api.md).
 import Hyperspell from '@hyperspell/hyperspell';
 
 const client = new Hyperspell({
+  userID: 'My User ID',
   apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
@@ -49,6 +50,7 @@ This library includes TypeScript definitions for all request params and response
 import Hyperspell from '@hyperspell/hyperspell';
 
 const client = new Hyperspell({
+  userID: 'My User ID',
   apiKey: process.env['HYPERSPELL_API_KEY'], // This is the default and can be omitted
 });
 
@@ -131,6 +133,7 @@ You can use the `maxRetries` option to configure or disable this:
 ```js
 // Configure the default for all requests:
 const client = new Hyperspell({
+  userID: 'My User ID',
   maxRetries: 0, // default is 2
 });
 
@@ -148,6 +151,7 @@ Requests time out after 1 minute by default. You can configure this with a `time
 ```ts
 // Configure the default for all requests:
 const client = new Hyperspell({
+  userID: 'My User ID',
   timeout: 20 * 1000, // 20 seconds (default is 1 minute)
 });
 
@@ -167,22 +171,22 @@ List methods in the Hyperspell API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllMemoryListResponses(params) {
-  const allMemoryListResponses = [];
+async function fetchAllContextDocumentListResponses(params) {
+  const allContextDocumentListResponses = [];
   // Automatically fetches more pages as needed.
-  for await (const memoryListResponse of client.memories.list()) {
-    allMemoryListResponses.push(memoryListResponse);
+  for await (const contextDocumentListResponse of client.contextDocuments.list()) {
+    allContextDocumentListResponses.push(contextDocumentListResponse);
   }
-  return allMemoryListResponses;
+  return allContextDocumentListResponses;
 }
 ```
 
 Alternatively, you can request a single page at a time:
 
 ```ts
-let page = await client.memories.list();
-for (const memoryListResponse of page.items) {
-  console.log(memoryListResponse);
+let page = await client.contextDocuments.list();
+for (const contextDocumentListResponse of page.documents) {
+  console.log(contextDocumentListResponse);
 }
 
 // Convenience methods are provided for manually paginating:

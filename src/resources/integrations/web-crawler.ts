@@ -7,13 +7,6 @@ import { RequestOptions } from '../../internal/request-options';
 export class WebCrawler extends APIResource {
   /**
    * Recursively crawl a website to make it available for indexed search.
-   *
-   * @example
-   * ```ts
-   * const response = await client.integrations.webCrawler.index(
-   *   { url: 'url' },
-   * );
-   * ```
    */
   index(query: WebCrawlerIndexParams, options?: RequestOptions): APIPromise<WebCrawlerIndexResponse> {
     return this._client.get('/integrations/web_crawler/index', { query, ...options });
@@ -29,26 +22,46 @@ export interface WebCrawlerIndexResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
+  status:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled';
 }
 
 export interface WebCrawlerIndexParams {

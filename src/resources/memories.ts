@@ -29,9 +29,9 @@ export class Memories extends APIResource {
   /**
    * Adds multiple documents to the index in a single request.
    *
-   * All items are validated before any database operations occur. If any item fails
-   * validation, the entire batch is rejected with a 422 error detailing which items
-   * failed and why.
+   * All items are validated before processing begins. If any item fails validation,
+   * the entire batch is rejected with a 422 error detailing which items failed and
+   * why.
    *
    * Maximum 100 items per request. Each item follows the same schema as the
    * single-item /memories/add endpoint.
@@ -120,8 +120,8 @@ export class Memories extends APIResource {
   }
 
   /**
-   * Retrieves a document by provider and resource_id, as a document-shaped response
-   * carrying the full hyperdoc tree (ENG-2479 Phase 4).
+   * Retrieve a document by provider and resource ID, including its full hyperdoc
+   * tree.
    *
    * @example
    * ```ts
@@ -131,8 +131,8 @@ export class Memories extends APIResource {
    * ```
    */
   get(resourceID: string, params: MemoryGetParams, options?: RequestOptions): APIPromise<MemoryGetResponse> {
-    const { source } = params;
-    return this._client.get(path`/memories/get/${source}/${resourceID}`, options);
+    const { source, ...query } = params;
+    return this._client.get(path`/memories/get/${source}/${resourceID}`, { query, ...options });
   }
 
   /**
@@ -150,23 +150,7 @@ export class Memories extends APIResource {
   }
 
   /**
-   * Delete a memory and its associated chunks from the index.
-   *
-   * This removes the memory completely from the vector index and database. The
-   * operation deletes:
-   *
-   * 1. All chunks associated with the resource (including embeddings)
-   * 2. The documents row AND any legacy resources rows sharing the identity —
-   *    leaving either one behind would resurrect the memory through the double-read
-   *    path (ENG-2477).
-   *
-   * Args: source: The document provider (e.g., gmail, notion, vault) resource_id:
-   * The unique identifier of the resource to delete api_token: Authentication token
-   *
-   * Returns: MemoryDeletionResponse with deletion details
-   *
-   * Raises: DocumentNotFound: If the resource doesn't exist or user doesn't have
-   * access
+   * Delete a memory accessible to the authenticated credential.
    *
    * @example
    * ```ts
@@ -196,35 +180,55 @@ export interface MemoryStatus {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
-  status: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped';
+  status:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled';
 }
 
 /**
- * A document-shaped API response carrying the hyperdoc tree (ENG-2479/D12).
+ * A document-shaped API response containing the hyperdoc tree.
  */
 export interface MemoryListResponse {
   /**
    * The full hyperdoc tree. Switch on `type` for the document frame and recurse
-   * `children` for the body — see the `<Hyperdoc />` renderer.
+   * through `children` for the body.
    */
   document:
     | Shared.Document
@@ -238,7 +242,8 @@ export interface MemoryListResponse {
     | Shared.Trace
     | Shared.Transcript
     | Shared.Company
-    | Shared.Deal;
+    | Shared.Deal
+    | MemoryListResponse.Invoice;
 
   resource_id: string;
 
@@ -248,29 +253,47 @@ export interface MemoryListResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
    */
   type: string;
+
+  /**
+   * Extracted memories (chunks with summaries) for this document, in document order.
+   * Present only when explicitly requested via `include_chunks`; omitted otherwise.
+   */
+  chunks?: Array<MemoryListResponse.Chunk> | null;
 
   /**
    * The document's collection, if any.
@@ -288,7 +311,7 @@ export interface MemoryListResponse {
   ingested_at?: string | null;
 
   /**
-   * When the source document was last modified.
+   * When the source document was last modified, if supplied by the source.
    */
   last_modified_at?: string | null;
 
@@ -300,12 +323,132 @@ export interface MemoryListResponse {
   /**
    * Indexing status of the document.
    */
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+  status?:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled'
+    | null;
 
   /**
    * Human-readable document title.
    */
   title?: string | null;
+}
+
+export namespace MemoryListResponse {
+  /**
+   * A customer invoice, vendor bill, or credit memo.
+   *
+   * Line items are included in `children`.
+   */
+  export interface Invoice {
+    id?: string;
+
+    attachment_names?: Array<string> | null;
+
+    balance_amount?: number | null;
+
+    cancelled_at?: string | null;
+
+    children?: Array<
+      | Shared.Blob
+      | Shared.Callout
+      | Shared.Chunk
+      | Shared.Code
+      | Shared.Comment
+      | Shared.Divider
+      | Shared.Equation
+      | Shared.Footnote
+      | Shared.Heading
+      | Shared.Image
+      | Shared.Link
+      | Shared.LineBreak
+      | Shared.List
+      | Shared.ListItem
+      | Shared.Page
+      | Shared.Paragraph
+      | Shared.Quote
+      | Shared.Table
+      | Shared.TableCell
+      | Shared.TableRow
+      | Shared.Text
+      | Shared.ToDo
+      | Shared.ToolCall
+      | Shared.ToolResult
+      | Shared.TraceMessage
+      | Shared.Utterance
+    >;
+
+    contact_id?: string | null;
+
+    contact_name?: string | null;
+
+    currency?: string | null;
+
+    due_at?: string | null;
+
+    invoice_type?: string | null;
+
+    /**
+     * Optional annotations carried by a hyperdoc node.
+     *
+     * Includes source provenance and human edit attribution. Unset metadata is omitted
+     * from serialized responses.
+     */
+    metadata?: Shared.Metadata | null;
+
+    notes?: string | null;
+
+    number?: string | null;
+
+    organization_id?: string | null;
+
+    paid_amount?: number | null;
+
+    paid_at?: string | null;
+
+    posted_at?: string | null;
+
+    reference?: string | null;
+
+    refund_amount?: number | null;
+
+    refund_reason?: string | null;
+
+    refunded_at?: string | null;
+
+    status?: string | null;
+
+    tax_amount?: number | null;
+
+    text?: string | null;
+
+    total_amount?: number | null;
+
+    type?: 'invoice';
+  }
+
+  /**
+   * A searchable chunk extracted from a document during ingestion.
+   *
+   * `summary` is null when no summary was generated for the chunk.
+   */
+  export interface Chunk {
+    /**
+     * Stable identifier of the chunk.
+     */
+    chunk_id: string;
+
+    /**
+     * LLM-generated summary of the chunk, if one was produced.
+     */
+    summary?: string | null;
+  }
 }
 
 export interface MemoryDeleteResponse {
@@ -321,24 +464,36 @@ export interface MemoryDeleteResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
   success: boolean;
 }
@@ -357,16 +512,44 @@ export interface MemoryAddBulkResponse {
    */
   items: Array<MemoryStatus>;
 
+  /**
+   * Items not ingested because their resource_id is already owned by another user on
+   * this app. Empty in the common case; a non-empty list is a partial success, not
+   * an error.
+   */
+  skipped?: Array<MemoryAddBulkResponse.Skipped>;
+
   success?: boolean;
 }
 
+export namespace MemoryAddBulkResponse {
+  /**
+   * A bulk item that was neither written nor indexed, with the reason.
+   *
+   * `owned_by_another_user` means the resource ID already belongs to another user in
+   * the app. The bulk endpoint skips that item without modifying the existing
+   * document. Single-item `/memories/add` returns 409 instead.
+   */
+  export interface Skipped {
+    /**
+     * Why the item was skipped (e.g. 'owned_by_another_user')
+     */
+    reason: string;
+
+    /**
+     * Resource ID of the skipped item
+     */
+    resource_id: string;
+  }
+}
+
 /**
- * A document-shaped API response carrying the hyperdoc tree (ENG-2479/D12).
+ * A document-shaped API response containing the hyperdoc tree.
  */
 export interface MemoryGetResponse {
   /**
    * The full hyperdoc tree. Switch on `type` for the document frame and recurse
-   * `children` for the body — see the `<Hyperdoc />` renderer.
+   * through `children` for the body.
    */
   document:
     | Shared.Document
@@ -380,7 +563,8 @@ export interface MemoryGetResponse {
     | Shared.Trace
     | Shared.Transcript
     | Shared.Company
-    | Shared.Deal;
+    | Shared.Deal
+    | MemoryGetResponse.Invoice;
 
   resource_id: string;
 
@@ -390,29 +574,47 @@ export interface MemoryGetResponse {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
   /**
    * Hyperdoc document type discriminator (document, message, file, event, ...).
    */
   type: string;
+
+  /**
+   * Extracted memories (chunks with summaries) for this document, in document order.
+   * Present only when explicitly requested via `include_chunks`; omitted otherwise.
+   */
+  chunks?: Array<MemoryGetResponse.Chunk> | null;
 
   /**
    * The document's collection, if any.
@@ -430,7 +632,7 @@ export interface MemoryGetResponse {
   ingested_at?: string | null;
 
   /**
-   * When the source document was last modified.
+   * When the source document was last modified, if supplied by the source.
    */
   last_modified_at?: string | null;
 
@@ -442,7 +644,16 @@ export interface MemoryGetResponse {
   /**
    * Indexing status of the document.
    */
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+  status?:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled'
+    | null;
 
   /**
    * Human-readable document title.
@@ -450,10 +661,239 @@ export interface MemoryGetResponse {
   title?: string | null;
 }
 
+export namespace MemoryGetResponse {
+  /**
+   * A customer invoice, vendor bill, or credit memo.
+   *
+   * Line items are included in `children`.
+   */
+  export interface Invoice {
+    id?: string;
+
+    attachment_names?: Array<string> | null;
+
+    balance_amount?: number | null;
+
+    cancelled_at?: string | null;
+
+    children?: Array<
+      | Shared.Blob
+      | Shared.Callout
+      | Shared.Chunk
+      | Shared.Code
+      | Shared.Comment
+      | Shared.Divider
+      | Shared.Equation
+      | Shared.Footnote
+      | Shared.Heading
+      | Shared.Image
+      | Shared.Link
+      | Shared.LineBreak
+      | Shared.List
+      | Shared.ListItem
+      | Shared.Page
+      | Shared.Paragraph
+      | Shared.Quote
+      | Shared.Table
+      | Shared.TableCell
+      | Shared.TableRow
+      | Shared.Text
+      | Shared.ToDo
+      | Shared.ToolCall
+      | Shared.ToolResult
+      | Shared.TraceMessage
+      | Shared.Utterance
+    >;
+
+    contact_id?: string | null;
+
+    contact_name?: string | null;
+
+    currency?: string | null;
+
+    due_at?: string | null;
+
+    invoice_type?: string | null;
+
+    /**
+     * Optional annotations carried by a hyperdoc node.
+     *
+     * Includes source provenance and human edit attribution. Unset metadata is omitted
+     * from serialized responses.
+     */
+    metadata?: Shared.Metadata | null;
+
+    notes?: string | null;
+
+    number?: string | null;
+
+    organization_id?: string | null;
+
+    paid_amount?: number | null;
+
+    paid_at?: string | null;
+
+    posted_at?: string | null;
+
+    reference?: string | null;
+
+    refund_amount?: number | null;
+
+    refund_reason?: string | null;
+
+    refunded_at?: string | null;
+
+    status?: string | null;
+
+    tax_amount?: number | null;
+
+    text?: string | null;
+
+    total_amount?: number | null;
+
+    type?: 'invoice';
+  }
+
+  /**
+   * A searchable chunk extracted from a document during ingestion.
+   *
+   * `summary` is null when no summary was generated for the chunk.
+   */
+  export interface Chunk {
+    /**
+     * Stable identifier of the chunk.
+     */
+    chunk_id: string;
+
+    /**
+     * LLM-generated summary of the chunk, if one was produced.
+     */
+    summary?: string | null;
+  }
+}
+
 export interface MemoryStatusResponse {
   providers: { [key: string]: { [key: string]: number } };
 
   total: { [key: string]: number };
+
+  integrations?: Array<MemoryStatusResponse.Integration>;
+}
+
+export namespace MemoryStatusResponse {
+  /**
+   * Health summary for a configured integration.
+   *
+   * `provider` uses lowercase snake_case naming (e.g. `google_drive`).
+   */
+  export interface Integration {
+    connections: Array<Integration.Connection>;
+
+    /**
+     * The current error for a connection.
+     *
+     * `detail` contains a sanitized summary suitable for display.
+     */
+    error: Integration.Error | null;
+
+    integration_id: string;
+
+    last_synced_at: string | null;
+
+    provider: string;
+
+    /**
+     * Current health status of a connection or integration.
+     */
+    status:
+      | 'broken'
+      | 'stalled'
+      | 'error'
+      | 'rate_limited'
+      | 'syncing'
+      | 'connected'
+      | 'live'
+      | 'never_synced'
+      | 'not_connected';
+  }
+
+  export namespace Integration {
+    /**
+     * The current health of one connection.
+     */
+    export interface Connection {
+      id: string;
+
+      /**
+       * The current error for a connection.
+       *
+       * `detail` contains a sanitized summary suitable for display.
+       */
+      error: Connection.Error | null;
+
+      label: string | null;
+
+      last_activity_at: string | null;
+
+      last_synced_at: string | null;
+
+      /**
+       * Current health status of a connection or integration.
+       */
+      status:
+        | 'broken'
+        | 'stalled'
+        | 'error'
+        | 'rate_limited'
+        | 'syncing'
+        | 'connected'
+        | 'live'
+        | 'never_synced'
+        | 'not_connected';
+    }
+
+    export namespace Connection {
+      /**
+       * The current error for a connection.
+       *
+       * `detail` contains a sanitized summary suitable for display.
+       */
+      export interface Error {
+        at: string;
+
+        detail: string | null;
+
+        /**
+         * Classification of the most recent synchronization or indexing failure.
+         */
+        kind: 'auth' | 'rate_limited' | 'provider' | 'internal';
+
+        origin?: string | null;
+
+        retry_at?: string | null;
+      }
+    }
+
+    /**
+     * The current error for a connection.
+     *
+     * `detail` contains a sanitized summary suitable for display.
+     */
+    export interface Error {
+      at: string;
+
+      detail: string | null;
+
+      /**
+       * Classification of the most recent synchronization or indexing failure.
+       */
+      kind: 'auth' | 'rate_limited' | 'provider' | 'internal';
+
+      origin?: string | null;
+
+      retry_at?: string | null;
+    }
+  }
 }
 
 export interface MemoryAddParams {
@@ -570,24 +1010,36 @@ export interface MemoryUpdateParams {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 
   /**
    * @deprecated Body param: The collection to move the document to — deprecated, set
@@ -632,6 +1084,13 @@ export interface MemoryListParams extends CursorPageParams {
   filter?: string | null;
 
   /**
+   * When > 0, include up to this many extracted memories (chunks with summaries) per
+   * document in each item's `chunks` field, in document order. 0 (default) omits
+   * them.
+   */
+  include_chunks?: number;
+
+  /**
    * Filter documents by source.
    */
   source?:
@@ -640,57 +1099,99 @@ export interface MemoryListParams extends CursorPageParams {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
     | 'gong'
+    | 'clickup'
+    | 'lightfield'
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp'
     | null;
 
   /**
    * Filter documents by status.
    */
-  status?: 'pending' | 'processing' | 'completed' | 'failed' | 'pending_review' | 'skipped' | null;
+  status?:
+    | 'pending'
+    | 'processing'
+    | 'completed'
+    | 'failed'
+    | 'pending_review'
+    | 'skipped'
+    | 'filtered'
+    | 'cancelled'
+    | null;
 }
 
 export interface MemoryGetParams {
+  /**
+   * Path param
+   */
   source:
     | 'reddit'
     | 'notion'
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
+
+  /**
+   * Query param: When true, include the document's extracted memories (chunks with
+   * summaries) in the `chunks` field, in document order.
+   */
+  include_chunks?: boolean;
 }
 
 export interface MemorySearchParams {
@@ -705,13 +1206,10 @@ export interface MemorySearchParams {
   answer?: boolean;
 
   /**
-   * How much compute to spend on retrieval. Mirrors the dial popularized by
-   * frontier-model APIs (OpenAI reasoning_effort, etc.). 'minimal' = verbatim
-   * single-shot retrieval (fastest). 'low' = LLM rewrites the query for better
-   * retrieval and extracts date filters. 'medium' = rewrite + agentic refinement
-   * loop (the answer LLM may request additional retrieval rounds, up to 3). 'high' =
-   * rewrite + extended refinement (up to 6 rounds). Higher = better recall, more
-   * latency, more cost.
+   * Controls retrieval thoroughness. 'minimal' performs direct retrieval. 'low'
+   * improves the query and extracts date filters. 'medium' adds up to 3 refinement
+   * rounds; 'high' allows up to 6. Higher levels can improve recall but add latency
+   * and cost.
    */
   effort?: 'minimal' | 'low' | 'medium' | 'high' | 'very_high';
 
@@ -728,13 +1226,15 @@ export interface MemorySearchParams {
   /**
    * If true (effort='very_high' only), attach a provenance record to the response:
    * the source documents and entities the answer was grounded in, the agent's search
-   * trajectory, and any sources that failed. Adds one indexed lookup; intended for
-   * auditability / compliance use cases.
+   * trajectory, and any sources that failed. Intended for auditability and
+   * compliance use cases.
    */
   provenance?: boolean;
 
   /**
-   * Only query documents from these sources.
+   * Only query documents from these sources. Names are case-insensitive and accept
+   * either separator, so `Google Drive`'s provider may be given as `google_drive`,
+   * `google-drive`, or `GOOGLE_DRIVE`.
    */
   sources?: Array<
     | 'reddit'
@@ -742,24 +1242,36 @@ export interface MemorySearchParams {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
-    | 'lightfield'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
     | 'gong'
+    | 'clickup'
+    | 'lightfield'
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp'
   >;
 }
 
@@ -784,7 +1296,11 @@ export namespace MemorySearchParams {
       | 'llama-4-scout'
       | 'deepseek-r1'
       | 'gpt-oss-20b'
-      | 'gpt-oss-120b';
+      | 'gpt-oss-120b'
+      | 'claude-sonnet-4-6'
+      | 'claude-sonnet-5'
+      | 'claude-opus-4-7'
+      | 'claude-opus-4-8';
 
     /**
      * Only query documents created before this date.
@@ -792,20 +1308,10 @@ export namespace MemorySearchParams {
     before?: string | null;
 
     /**
-     * Search options for Box
-     */
-    box?: Options.Box;
-
-    /**
      * Metadata filters using MongoDB-style operators. Example: {'status': 'published',
      * 'priority': {'$gt': 3}}
      */
     filter?: { [key: string]: unknown } | null;
-
-    /**
-     * Search options for Google Calendar
-     */
-    google_calendar?: Options.GoogleCalendar;
 
     /**
      * Search options for Google Drive
@@ -826,7 +1332,7 @@ export namespace MemorySearchParams {
      * Filter by memory type. Defaults to generic memories only. Pass multiple types to
      * include procedures, etc.
      */
-    memory_types?: Array<'procedure' | 'memory'>;
+    memory_types?: Array<'procedure' | 'memory' | 'mood'>;
 
     /**
      * Search options for Notion
@@ -854,6 +1360,12 @@ export namespace MemorySearchParams {
     slack?: Options.Slack;
 
     /**
+     * IANA timezone used to interpret date-only bounds and relative calendar phrases.
+     * Defaults to UTC.
+     */
+    timezone?: string;
+
+    /**
      * Search options for vault
      */
     vault?: Options.Vault;
@@ -865,39 +1377,6 @@ export namespace MemorySearchParams {
   }
 
   export namespace Options {
-    /**
-     * Search options for Box
-     */
-    export interface Box {
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
-    /**
-     * Search options for Google Calendar
-     */
-    export interface GoogleCalendar {
-      /**
-       * The ID of the calendar to search. If not provided, it will use the ID of the
-       * default calendar. You can get the list of calendars with the
-       * `/integrations/google_calendar/list` endpoint.
-       */
-      calendar_id?: string | null;
-
-      /**
-       * Weight of results from this source. A weight greater than 1.0 means more results
-       * from this source will be returned, a weight less than 1.0 means fewer results
-       * will be returned. This will only affect results if multiple sources are queried
-       * at the same time.
-       */
-      weight?: number;
-    }
-
     /**
      * Search options for Google Drive
      */
@@ -1035,24 +1514,36 @@ export interface MemoryDeleteParams {
     | 'slack'
     | 'google_calendar'
     | 'google_mail'
+    | 'imap'
+    | 'google_meet'
     | 'box'
     | 'dropbox'
     | 'github'
+    | 'gitlab'
     | 'google_drive'
     | 'vault'
     | 'web_crawler'
     | 'trace'
+    | 'microsoft_outlook'
     | 'microsoft_teams'
-    | 'gmail_actions'
     | 'granola'
     | 'fathom'
     | 'fireflies'
+    | 'figma'
     | 'linear'
     | 'hubspot'
     | 'salesforce'
     | 'coda'
+    | 'confluence'
+    | 'jira'
+    | 'metabase'
+    | 'gong'
+    | 'clickup'
     | 'lightfield'
-    | 'gong';
+    | 'pylon'
+    | 'fellow'
+    | 'odoo'
+    | 'external_mcp';
 }
 
 export declare namespace Memories {

@@ -9,12 +9,9 @@ export class Connections extends APIResource {
   /**
    * Revoke Hyperspell's access to a provider and delete this user's stored data.
    *
-   * The external OAuth/Unified revoke and the (potentially large) data purge run in
-   * a background Temporal workflow; this returns `202 Accepted` immediately. A heavy
-   * provider — a Gmail account can carry hundreds of thousands of chunks — plus a
-   * slow third-party revoke would otherwise outrun the request timeout: the old
-   * synchronous path "timed out" for the caller while still finishing server-side,
-   * making the outcome invisible. Idempotent per (app, user, provider).
+   * Revocation and deletion are processed asynchronously, so the endpoint returns
+   * `202 Accepted` immediately. Repeated requests for the same app, user, and
+   * provider are safe.
    */
   revoke(connectionID: string, options?: RequestOptions): APIPromise<ConnectionRevokeResponse> {
     return this._client.delete(path`/connections/${connectionID}/revoke`, options);
@@ -58,28 +55,55 @@ export namespace ConnectionListResponse {
       | 'slack'
       | 'google_calendar'
       | 'google_mail'
+      | 'imap'
+      | 'google_meet'
       | 'box'
       | 'dropbox'
       | 'github'
+      | 'gitlab'
       | 'google_drive'
       | 'vault'
       | 'web_crawler'
       | 'trace'
+      | 'microsoft_outlook'
       | 'microsoft_teams'
-      | 'gmail_actions'
       | 'granola'
       | 'fathom'
       | 'fireflies'
+      | 'figma'
       | 'linear'
       | 'hubspot'
       | 'salesforce'
       | 'coda'
+      | 'confluence'
+      | 'jira'
+      | 'metabase'
+      | 'gong'
+      | 'clickup'
       | 'lightfield'
-      | 'gong';
+      | 'pylon'
+      | 'fellow'
+      | 'odoo'
+      | 'external_mcp';
 
     /**
-     * Count of items in user_options.channels (Teams: workspaces selected; 0 means
-     * nothing is being indexed for integrations that require selection).
+     * State of the historical backfill for providers that deliver history
+     * asynchronously: 'backfilling' while history is still streaming in, 'quiesced'
+     * once no backfill batch has arrived for a while (drained or stalled), 'completed'
+     * if the provider confirmed completion, and 'unknown' when the provider has not
+     * reported a backfill state.
+     */
+    backfill_state?: 'backfilling' | 'quiesced' | 'completed' | 'unknown';
+
+    /**
+     * 'user' for a personal connection; 'app' for an org-wide (app-level) connection
+     * installed once by an app admin and shared with every user of the app.
+     */
+    scope?: 'user' | 'app';
+
+    /**
+     * Number of items selected for this connection. For integrations that require
+     * selection, 0 means nothing is being indexed.
      */
     selected_count?: number;
   }

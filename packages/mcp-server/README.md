@@ -86,7 +86,6 @@ Additionally, authorization can be provided via the following headers:
 | Header | Equivalent client option | Security scheme |
 | ---------------------- | ------------------------ | --------------- |
 | `x-hyperspell-api-key` | `apiKey` | APIKey |
-| `X-As-User` | `userID` | AsUser |
 
 A configuration JSON for this server might look like this, assuming the server is hosted at `http://localhost:3000`:
 

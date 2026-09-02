@@ -24,6 +24,7 @@ Types:
 - <code><a href="./src/resources/shared.ts">ListItem</a></code>
 - <code><a href="./src/resources/shared.ts">Message</a></code>
 - <code><a href="./src/resources/shared.ts">Metadata</a></code>
+- <code><a href="./src/resources/shared.ts">Page</a></code>
 - <code><a href="./src/resources/shared.ts">Paragraph</a></code>
 - <code><a href="./src/resources/shared.ts">Person</a></code>
 - <code><a href="./src/resources/shared.ts">Provenance</a></code>
@@ -87,16 +88,6 @@ Methods:
 - <code title="get /integrations/list">client.integrations.<a href="./src/resources/integrations/integrations.ts">list</a>() -> IntegrationListResponse</code>
 - <code title="get /integrations/{integration_id}/connect">client.integrations.<a href="./src/resources/integrations/integrations.ts">connect</a>(integrationID, { ...params }) -> IntegrationConnectResponse</code>
 
-## GoogleCalendar
-
-Types:
-
-- <code><a href="./src/resources/integrations/google-calendar.ts">Calendar</a></code>
-
-Methods:
-
-- <code title="get /integrations/google_calendar/list">client.integrations.googleCalendar.<a href="./src/resources/integrations/google-calendar.ts">list</a>() -> Calendar</code>
-
 ## WebCrawler
 
 Types:
@@ -107,15 +98,61 @@ Methods:
 
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
-## Slack
+# ContextDocuments
 
 Types:
 
-- <code><a href="./src/resources/integrations/slack.ts">SlackListResponse</a></code>
+- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentListResponse</a></code>
+- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentGenerateResponse</a></code>
+- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentGetResponse</a></code>
 
 Methods:
 
-- <code title="get /integrations/slack/list">client.integrations.slack.<a href="./src/resources/integrations/slack.ts">list</a>({ ...params }) -> unknown</code>
+- <code title="post /context-documents/generate">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">generate</a>({ ...params }) -> ContextDocumentGenerateResponse</code>
+- <code title="get /context-documents">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">list</a>({ ...params }) -> ContextDocumentListResponsesContextDocumentsCursorPage</code>
+- <code title="get /context-documents/{document_id}">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">get</a>(documentID) -> ContextDocumentGetResponse</code>
+
+## Trees
+
+Types:
+
+- <code><a href="./src/resources/context-documents/trees.ts">TreeGenerateResponse</a></code>
+- <code><a href="./src/resources/context-documents/trees.ts">TreeGetResponse</a></code>
+- <code><a href="./src/resources/context-documents/trees.ts">TreeGetLatestResponse</a></code>
+- <code><a href="./src/resources/context-documents/trees.ts">TreeProgressResponse</a></code>
+
+Methods:
+
+- <code title="post /context-documents/tree">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">generate</a>({ ...params }) -> TreeGenerateResponse</code>
+- <code title="get /context-documents/tree/latest">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">getLatest</a>({ ...params }) -> TreeGetLatestResponse</code>
+- <code title="get /context-documents/tree/by-id/{tree_id}">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">get</a>(treeID) -> TreeGetResponse</code>
+- <code title="get /context-documents/tree/{tree_id}/progress">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">progress</a>(treeID) -> TreeProgressResponse</code>
+
+## Digests
+
+Types:
+
+- <code><a href="./src/resources/context-documents/digests.ts">DigestListResponse</a></code>
+- <code><a href="./src/resources/context-documents/digests.ts">DigestGenerateResponse</a></code>
+
+Methods:
+
+- <code title="post /context-documents/digest">client.contextDocuments.digests.<a href="./src/resources/context-documents/digests.ts">generate</a>({ ...params }) -> DigestGenerateResponse</code>
+- <code title="get /context-documents/digest/list">client.contextDocuments.digests.<a href="./src/resources/context-documents/digests.ts">list</a>({ ...params }) -> DigestListResponse</code>
+
+## Config
+
+Types:
+
+- <code><a href="./src/resources/context-documents/config.ts">ConfigUpdateResponse</a></code>
+- <code><a href="./src/resources/context-documents/config.ts">ConfigGetResponse</a></code>
+- <code><a href="./src/resources/context-documents/config.ts">ConfigResetResponse</a></code>
+
+Methods:
+
+- <code title="get /context-documents/config">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">get</a>() -> ConfigGetResponse</code>
+- <code title="patch /context-documents/config">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">update</a>({ ...params }) -> ConfigUpdateResponse</code>
+- <code title="post /context-documents/config/reset">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">reset</a>() -> ConfigResetResponse</code>
 
 # Memories
 

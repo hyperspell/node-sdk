@@ -102,6 +102,10 @@
           "location": "path"
         },
         {
+          "type": "params",
+          "maybeOverload": true
+        },
+        {
           "type": "options"
         }
       ]
