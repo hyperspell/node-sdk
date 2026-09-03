@@ -17,14 +17,14 @@ export {
 } from './auth';
 export { Connections, type ConnectionListResponse, type ConnectionRevokeResponse } from './connections';
 export {
-  ContextDocuments,
-  type ContextDocumentListResponse,
-  type ContextDocumentGenerateResponse,
-  type ContextDocumentGetResponse,
-  type ContextDocumentGenerateParams,
-  type ContextDocumentListParams,
-  type ContextDocumentListResponsesContextDocumentsCursorPage,
-} from './context-documents/context-documents';
+  Entities,
+  type EntityListResponse,
+  type EntityGetResponse,
+  type EntitySearchResponse,
+  type EntityListParams,
+  type EntitySearchParams,
+  type EntityListResponsesEntityCursorPage,
+} from './entities';
 export {
   Evaluate,
   type EvaluateListQueriesResponse,
@@ -51,6 +51,17 @@ export {
   type IntegrationConnectResponse,
   type IntegrationConnectParams,
 } from './integrations/integrations';
+export {
+  Live,
+  type LiveGetResourceResponse,
+  type LiveListResourcesResponse,
+  type LiveListSourcesResponse,
+  type LiveSearchResponse,
+  type LiveListResourcesParams,
+  type LiveGetResourceParams,
+  type LiveSearchParams,
+  type LiveListResourcesResponsesCursorPage,
+} from './live';
 export {
   Memories,
   type MemoryStatus,

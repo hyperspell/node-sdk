@@ -17,10 +17,10 @@ import * as Errors from './core/error';
 import * as Pagination from './core/pagination';
 import {
   AbstractPage,
-  type ContextDocumentsCursorPageParams,
-  ContextDocumentsCursorPageResponse,
   type CursorPageParams,
   CursorPageResponse,
+  type EntityCursorPageParams,
+  EntityCursorPageResponse,
 } from './core/pagination';
 import * as Uploads from './core/uploads';
 import * as API from './resources/index';
@@ -34,6 +34,15 @@ import {
 } from './resources/actions';
 import { Auth, AuthDeleteUserResponse, AuthMeResponse, AuthUserTokenParams, Token } from './resources/auth';
 import { ConnectionListResponse, ConnectionRevokeResponse, Connections } from './resources/connections';
+import {
+  Entities,
+  EntityGetResponse,
+  EntityListParams,
+  EntityListResponse,
+  EntityListResponsesEntityCursorPage,
+  EntitySearchParams,
+  EntitySearchResponse,
+} from './resources/entities';
 import {
   Evaluate,
   EvaluateListQueriesParams,
@@ -55,6 +64,17 @@ import {
   Folders,
 } from './resources/folders';
 import {
+  Live,
+  LiveGetResourceParams,
+  LiveGetResourceResponse,
+  LiveListResourcesParams,
+  LiveListResourcesResponse,
+  LiveListResourcesResponsesCursorPage,
+  LiveListSourcesResponse,
+  LiveSearchParams,
+  LiveSearchResponse,
+} from './resources/live';
+import {
   Memories,
   MemoryAddBulkParams,
   MemoryAddBulkResponse,
@@ -74,15 +94,6 @@ import {
 } from './resources/memories';
 import { SessionAddParams, Sessions } from './resources/sessions';
 import { VaultListParams, VaultListResponse, VaultListResponsesCursorPage, Vaults } from './resources/vaults';
-import {
-  ContextDocumentGenerateParams,
-  ContextDocumentGenerateResponse,
-  ContextDocumentGetResponse,
-  ContextDocumentListParams,
-  ContextDocumentListResponse,
-  ContextDocumentListResponsesContextDocumentsCursorPage,
-  ContextDocuments,
-} from './resources/context-documents/context-documents';
 import {
   IntegrationConnectParams,
   IntegrationConnectResponse,
@@ -840,7 +851,8 @@ export class Hyperspell {
   connections: API.Connections = new API.Connections(this);
   folders: API.Folders = new API.Folders(this);
   integrations: API.Integrations = new API.Integrations(this);
-  contextDocuments: API.ContextDocuments = new API.ContextDocuments(this);
+  entities: API.Entities = new API.Entities(this);
+  live: API.Live = new API.Live(this);
   memories: API.Memories = new API.Memories(this);
   evaluate: API.Evaluate = new API.Evaluate(this);
   actions: API.Actions = new API.Actions(this);
@@ -852,7 +864,8 @@ export class Hyperspell {
 Hyperspell.Connections = Connections;
 Hyperspell.Folders = Folders;
 Hyperspell.Integrations = Integrations;
-Hyperspell.ContextDocuments = ContextDocuments;
+Hyperspell.Entities = Entities;
+Hyperspell.Live = Live;
 Hyperspell.Memories = Memories;
 Hyperspell.Evaluate = Evaluate;
 Hyperspell.Actions = Actions;
@@ -866,10 +879,10 @@ export declare namespace Hyperspell {
   export import CursorPage = Pagination.CursorPage;
   export { type CursorPageParams as CursorPageParams, type CursorPageResponse as CursorPageResponse };
 
-  export import ContextDocumentsCursorPage = Pagination.ContextDocumentsCursorPage;
+  export import EntityCursorPage = Pagination.EntityCursorPage;
   export {
-    type ContextDocumentsCursorPageParams as ContextDocumentsCursorPageParams,
-    type ContextDocumentsCursorPageResponse as ContextDocumentsCursorPageResponse,
+    type EntityCursorPageParams as EntityCursorPageParams,
+    type EntityCursorPageResponse as EntityCursorPageResponse,
   };
 
   export {
@@ -897,13 +910,25 @@ export declare namespace Hyperspell {
   };
 
   export {
-    ContextDocuments as ContextDocuments,
-    type ContextDocumentListResponse as ContextDocumentListResponse,
-    type ContextDocumentGenerateResponse as ContextDocumentGenerateResponse,
-    type ContextDocumentGetResponse as ContextDocumentGetResponse,
-    type ContextDocumentListResponsesContextDocumentsCursorPage as ContextDocumentListResponsesContextDocumentsCursorPage,
-    type ContextDocumentGenerateParams as ContextDocumentGenerateParams,
-    type ContextDocumentListParams as ContextDocumentListParams,
+    Entities as Entities,
+    type EntityListResponse as EntityListResponse,
+    type EntityGetResponse as EntityGetResponse,
+    type EntitySearchResponse as EntitySearchResponse,
+    type EntityListResponsesEntityCursorPage as EntityListResponsesEntityCursorPage,
+    type EntityListParams as EntityListParams,
+    type EntitySearchParams as EntitySearchParams,
+  };
+
+  export {
+    Live as Live,
+    type LiveGetResourceResponse as LiveGetResourceResponse,
+    type LiveListResourcesResponse as LiveListResourcesResponse,
+    type LiveListSourcesResponse as LiveListSourcesResponse,
+    type LiveSearchResponse as LiveSearchResponse,
+    type LiveListResourcesResponsesCursorPage as LiveListResourcesResponsesCursorPage,
+    type LiveListResourcesParams as LiveListResourcesParams,
+    type LiveGetResourceParams as LiveGetResourceParams,
+    type LiveSearchParams as LiveSearchParams,
   };
 
   export {
