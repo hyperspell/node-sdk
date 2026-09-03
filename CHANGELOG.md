@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.41.0](https://github.com/hyperspell/node-sdk/compare/v0.40.1...v0.41.0) (2026-09-03)
+
+
+### Features
+
+* **api:** sync generated SDK from staging 04f7d8caa3e36c6d7534b410c7f894dc16f5a578 ([#105](https://github.com/hyperspell/node-sdk/issues/105)) ([efeb272](https://github.com/hyperspell/node-sdk/commit/efeb272512aa1ad9203d6d573b575e8bcb9a04ec))
+* **api:** sync generated SDK from staging fcad07eba532bc7c351278e444f93d56caa24bb0 ([#99](https://github.com/hyperspell/node-sdk/issues/99)) ([86a38a4](https://github.com/hyperspell/node-sdk/commit/86a38a4e1f3d0b3dabd69db505da2bd0441b6f9b))
+
+
+### Bug Fixes
+
+* **mcp:** keep reported version in sync ([#103](https://github.com/hyperspell/node-sdk/issues/103)) ([b40caca](https://github.com/hyperspell/node-sdk/commit/b40caca16880e20d05a0a744577f2a6c7ed1a070))
+* validate the production release token ([#106](https://github.com/hyperspell/node-sdk/issues/106)) ([d00b014](https://github.com/hyperspell/node-sdk/commit/d00b014c8786b99105b790b8f2f0f8ee9778b259))
+
 ## [0.40.1](https://github.com/hyperspell/node-sdk/compare/v0.40.0...v0.40.1) (2026-07-17)
 
 

@@ -29,7 +29,7 @@ export const newMcpServer = async ({
   new McpServer(
     {
       name: 'hyperspell_hyperspell_api',
-      version: '0.40.1', // x-release-please-version
+      version: '0.41.0', // x-release-please-version
     },
     {
       instructions: await getInstructions({ stainlessApiKey, customInstructionsPath }),
