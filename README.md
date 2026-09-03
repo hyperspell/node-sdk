@@ -171,22 +171,22 @@ List methods in the Hyperspell API are paginated.
 You can use the `for await … of` syntax to iterate through items across all pages:
 
 ```ts
-async function fetchAllContextDocumentListResponses(params) {
-  const allContextDocumentListResponses = [];
+async function fetchAllEntityListResponses(params) {
+  const allEntityListResponses = [];
   // Automatically fetches more pages as needed.
-  for await (const contextDocumentListResponse of client.contextDocuments.list()) {
-    allContextDocumentListResponses.push(contextDocumentListResponse);
+  for await (const entityListResponse of client.entities.list()) {
+    allEntityListResponses.push(entityListResponse);
   }
-  return allContextDocumentListResponses;
+  return allEntityListResponses;
 }
 ```
 
 Alternatively, you can request a single page at a time:
 
 ```ts
-let page = await client.contextDocuments.list();
-for (const contextDocumentListResponse of page.documents) {
-  console.log(contextDocumentListResponse);
+let page = await client.entities.list();
+for (const entityListResponse of page.items) {
+  console.log(entityListResponse);
 }
 
 // Convenience methods are provided for manually paginating:

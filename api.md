@@ -98,61 +98,35 @@ Methods:
 
 - <code title="get /integrations/web_crawler/index">client.integrations.webCrawler.<a href="./src/resources/integrations/web-crawler.ts">index</a>({ ...params }) -> WebCrawlerIndexResponse</code>
 
-# ContextDocuments
+# Entities
 
 Types:
 
-- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentListResponse</a></code>
-- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentGenerateResponse</a></code>
-- <code><a href="./src/resources/context-documents/context-documents.ts">ContextDocumentGetResponse</a></code>
+- <code><a href="./src/resources/entities.ts">EntityListResponse</a></code>
+- <code><a href="./src/resources/entities.ts">EntityGetResponse</a></code>
+- <code><a href="./src/resources/entities.ts">EntitySearchResponse</a></code>
 
 Methods:
 
-- <code title="post /context-documents/generate">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">generate</a>({ ...params }) -> ContextDocumentGenerateResponse</code>
-- <code title="get /context-documents">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">list</a>({ ...params }) -> ContextDocumentListResponsesContextDocumentsCursorPage</code>
-- <code title="get /context-documents/{document_id}">client.contextDocuments.<a href="./src/resources/context-documents/context-documents.ts">get</a>(documentID) -> ContextDocumentGetResponse</code>
+- <code title="get /entities">client.entities.<a href="./src/resources/entities.ts">list</a>({ ...params }) -> EntityListResponsesEntityCursorPage</code>
+- <code title="get /entities/{entity_id}">client.entities.<a href="./src/resources/entities.ts">get</a>(entityID) -> EntityGetResponse</code>
+- <code title="post /entities/search">client.entities.<a href="./src/resources/entities.ts">search</a>({ ...params }) -> EntitySearchResponse</code>
 
-## Trees
+# Live
 
 Types:
 
-- <code><a href="./src/resources/context-documents/trees.ts">TreeGenerateResponse</a></code>
-- <code><a href="./src/resources/context-documents/trees.ts">TreeGetResponse</a></code>
-- <code><a href="./src/resources/context-documents/trees.ts">TreeGetLatestResponse</a></code>
-- <code><a href="./src/resources/context-documents/trees.ts">TreeProgressResponse</a></code>
+- <code><a href="./src/resources/live.ts">LiveGetResourceResponse</a></code>
+- <code><a href="./src/resources/live.ts">LiveListResourcesResponse</a></code>
+- <code><a href="./src/resources/live.ts">LiveListSourcesResponse</a></code>
+- <code><a href="./src/resources/live.ts">LiveSearchResponse</a></code>
 
 Methods:
 
-- <code title="post /context-documents/tree">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">generate</a>({ ...params }) -> TreeGenerateResponse</code>
-- <code title="get /context-documents/tree/latest">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">getLatest</a>({ ...params }) -> TreeGetLatestResponse</code>
-- <code title="get /context-documents/tree/by-id/{tree_id}">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">get</a>(treeID) -> TreeGetResponse</code>
-- <code title="get /context-documents/tree/{tree_id}/progress">client.contextDocuments.trees.<a href="./src/resources/context-documents/trees.ts">progress</a>(treeID) -> TreeProgressResponse</code>
-
-## Digests
-
-Types:
-
-- <code><a href="./src/resources/context-documents/digests.ts">DigestListResponse</a></code>
-- <code><a href="./src/resources/context-documents/digests.ts">DigestGenerateResponse</a></code>
-
-Methods:
-
-- <code title="post /context-documents/digest">client.contextDocuments.digests.<a href="./src/resources/context-documents/digests.ts">generate</a>({ ...params }) -> DigestGenerateResponse</code>
-- <code title="get /context-documents/digest/list">client.contextDocuments.digests.<a href="./src/resources/context-documents/digests.ts">list</a>({ ...params }) -> DigestListResponse</code>
-
-## Config
-
-Types:
-
-- <code><a href="./src/resources/context-documents/config.ts">ConfigUpdateResponse</a></code>
-- <code><a href="./src/resources/context-documents/config.ts">ConfigGetResponse</a></code>
-- <code><a href="./src/resources/context-documents/config.ts">ConfigResetResponse</a></code>
-
-Methods:
-
-- <code title="get /context-documents/config">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">get</a>() -> ConfigGetResponse</code>
-- <code title="patch /context-documents/config">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">update</a>({ ...params }) -> ConfigUpdateResponse</code>
-- <code title="post /context-documents/config/reset">client.contextDocuments.config.<a href="./src/resources/context-documents/config.ts">reset</a>() -> ConfigResetResponse</code>
+- <code title="get /live/sources">client.live.<a href="./src/resources/live.ts">listSources</a>() -> LiveListSourcesResponse</code>
+- <code title="get /live/{source}/resources">client.live.<a href="./src/resources/live.ts">listResources</a>(source, { ...params }) -> LiveListResourcesResponsesCursorPage</code>
+- <code title="get /live/{source}/resources/{resource_id}">client.live.<a href="./src/resources/live.ts">getResource</a>(resourceID, { ...params }) -> LiveGetResourceResponse</code>
+- <code title="post /live/{source}/search">client.live.<a href="./src/resources/live.ts">search</a>(source, { ...params }) -> LiveSearchResponse</code>
 
 # Memories
 

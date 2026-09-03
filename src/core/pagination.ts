@@ -156,40 +156,37 @@ export class CursorPage<Item> extends AbstractPage<Item> implements CursorPageRe
   }
 }
 
-export interface ContextDocumentsCursorPageResponse<Item> {
-  documents: Array<Item>;
+export interface EntityCursorPageResponse<Item> {
+  items: Array<Item>;
 
   next_cursor: string;
 }
 
-export interface ContextDocumentsCursorPageParams {
+export interface EntityCursorPageParams {
   cursor?: string;
 
   limit?: number;
 }
 
-export class ContextDocumentsCursorPage<Item>
-  extends AbstractPage<Item>
-  implements ContextDocumentsCursorPageResponse<Item>
-{
-  documents: Array<Item>;
+export class EntityCursorPage<Item> extends AbstractPage<Item> implements EntityCursorPageResponse<Item> {
+  items: Array<Item>;
 
   next_cursor: string;
 
   constructor(
     client: Hyperspell,
     response: Response,
-    body: ContextDocumentsCursorPageResponse<Item>,
+    body: EntityCursorPageResponse<Item>,
     options: FinalRequestOptions,
   ) {
     super(client, response, body, options);
 
-    this.documents = body.documents || [];
+    this.items = body.items || [];
     this.next_cursor = body.next_cursor || '';
   }
 
   getPaginatedItems(): Item[] {
-    return this.documents ?? [];
+    return this.items ?? [];
   }
 
   nextPageRequestOptions(): PageRequestOptions | null {

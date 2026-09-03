@@ -55,6 +55,7 @@ client.parents.children.retrieve('c_456', { parent_id: 'p_123' });
 This affects the following methods:
 
 - `client.folders.deletePolicy()`
+- `client.live.getResource()`
 - `client.memories.update()`
 - `client.memories.get()`
 - `client.memories.delete()`
@@ -90,10 +91,8 @@ This affects the following methods:
 
 - `client.folders.list()`
 - `client.integrations.connect()`
-- `client.contextDocuments.list()`
-- `client.contextDocuments.trees.generate()`
-- `client.contextDocuments.trees.getLatest()`
-- `client.contextDocuments.digests.list()`
+- `client.entities.list()`
+- `client.live.listResources()`
 - `client.memories.list()`
 - `client.evaluate.listQueries()`
 - `client.vaults.list()`
@@ -242,8 +241,8 @@ The `for await` syntax **is not affected**. This still works as-is:
 
 ```ts
 // Automatically fetches more pages as needed.
-for await (const contextDocumentListResponse of client.contextDocuments.list()) {
-  console.log(contextDocumentListResponse);
+for await (const entityListResponse of client.entities.list()) {
+  console.log(entityListResponse);
 }
 ```
 
@@ -265,11 +264,10 @@ Page classes for individual methods are now type aliases:
 
 ```ts
 // Before
-export class ContextDocumentListResponsesContextDocumentsCursorPage extends ContextDocumentsCursorPage<ContextDocumentListResponse> {}
+export class EntityListResponsesEntityCursorPage extends EntityCursorPage<EntityListResponse> {}
 
 // After
-export type ContextDocumentListResponsesContextDocumentsCursorPage =
-  ContextDocumentsCursorPage<ContextDocumentListResponse>;
+export type EntityListResponsesEntityCursorPage = EntityCursorPage<EntityListResponse>;
 ```
 
 If you were importing these classes at runtime, you'll need to switch to importing the base class or only import them at the type-level.
